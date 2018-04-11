@@ -57,6 +57,66 @@ University of Antwerp
 
 \maketitle
 
-TODO write thesis
+Algorithm for recognizing a collection of episodes $ \mathcal{C} $ in a sequence.
+
+\begin{algorithmic}[1]
+
+\FORALL{$ \alpha \in \mathcal{C} $}
+    \FOR{$ i \leftarrow 1 $ \TO $ | \alpha | $}
+        \STATE{$ \alpha \text{.initialized} \leftarrow 0 $}
+        \STATE{$ \text{waits}(\alpha[i]) \leftarrow 0 $}
+    \ENDFOR
+\ENDFOR
+
+\FORALL{$ \alpha \in \mathcal{C} $}
+    \STATE{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $}
+    \STATE{$ \alpha \text{.freq\_count} \leftarrow 0 $}
+\ENDFOR
+
+\FOR{$ t \leftarrow T_s - \text{win} $ \TO $ T_s - 1 $}
+    \STATE{$ \text{begins\_at}(t) \leftarrow \emptyset $}
+\ENDFOR
+
+\FOR{$ \text{start} \leftarrow T_s - \text{win} + 1 $ \TO $ T_e $}
+    \STATE{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+    \STATE{$ \text{transitions} \leftarrow \emptyset $}
+    \FORALL{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+        \FORALL{$ ( \alpha, j) \in \text{waits}(A) $}
+            \IF{$ j = | \alpha | $ and $ \alpha \text{.initialized}[j] = 0 $}
+                \STATE{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
+            \ENDIF
+            \IF{$ j = 1 $}
+                \STATE{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+            \ELSE
+                \STATE{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
+                \STATE{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
+                \STATE{$ \alpha \text{.initialized} [j - 1] \leftarrow 0 $}
+                \STATE{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
+            \ENDIF
+        \ENDFOR
+    \ENDFOR
+    \FORALL{$ ( \alpha, j, t ) \in \text{transitions} $}
+        \STATE{$ \alpha \text{.initialized} [j] \leftarrow t $}
+        \STATE{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
+        \IF{$ j < | \alpha | $}
+            \STATE{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $}
+        \ENDIF
+    \ENDFOR
+    \FORALL{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $}
+        \IF{$ l = | \alpha | $}
+            \STATE{$ \alpha \text{.freq\_count} \leftarrow \alpha \text{.freq\_count} - \alpha \text{.in\_window} + \text{start} $}
+        \ELSE
+            \STATE{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
+        \ENDIF
+        \STATE{$ \alpha \text{.initialized}[l] \leftarrow 0 $}
+    \ENDFOR
+\ENDFOR
+\FORALL{episodes $ \alpha $ in $ \mathcal{C} $}
+    \IF{$ \frac{\alpha \text{.freq\_count}}{T_e - T_s + \text{win} - 1} \geq \text{min\_fr} $}
+        \STATE{output $ \alpha $}
+    \ENDIF
+\ENDFOR
+
+\end{algorithmic}
 
 \end{document}
