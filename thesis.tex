@@ -6,15 +6,18 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{caption} % to remove colon from figures with no caption
 % \usepackage[top=3cm, left=2cm, right=2cm, bottom=3cm]{geometry}
 
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{algorithm}
 \usepackage[noend]{algorithmic}
 \usepackage{listings}
 \usepackage{courier}
+\usepackage{amsthm}
 
 \usepackage[gen]{eurosym}
 
@@ -25,6 +28,9 @@
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{0.5em}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
 
 % \renewcommand{\baselinestretch}{1.25}
 
@@ -57,7 +63,72 @@ University of Antwerp
 
 \maketitle
 
-Algorithm for recognizing a collection of episodes $ \mathcal{C} $ in a sequence.
+\section{Introduction}
+
+
+\section{Problem Statement}
+
+\subsection{Event sequences}
+
+\begin{definition}
+A \emph{sequence event} is defined as a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
+\end{definition}
+
+\begin{definition}
+An \emph{event sequence} $ \boldsymbol{s} $ is an ordered sequence of events
+\begin{align*}
+s = \langle (A_1, t_1), (A_2, t_2), \ldots, (A_n, t_n) \rangle
+\end{align*}
+such that $ t_i \leq t_{i + 1} $ for all $ i = 1, \ldots, n - 1 $.
+\end{definition}
+
+If event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in the sequence at timestamp $ t $. Note that multiple events can occur at the same timestamp.
+
+Given a sequence $ \boldsymbol{s} $ and two integers $ i $ and $ j $ we define a \emph{subsequence} $ s[i, j] = s_i, \ldots, s_j $ containing all events occurring between $ i $ and $ j $.
+
+For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the sequence $ \langle (s_1, 1), \ldots, (s_N, N) \rangle $.
+
+\begin{definition}
+An \emph{episode} $ G $ is represented by a directed acyclic graph with labelled nodes, that is, $ G = (V, E, lab) $, where $ V = (v_1, \ldots, v_K) $ is the set of nodes, $ E $ is the set of directed edges, and lab is the function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to its event type.
+\end{definition}
+
+\begin{definition}
+A node $ n $ in an episode graph is a \emph{descendant} of a node $ m $ if there is a path from $ m $ to $ n $. Conversely $ m $ is an \emph{ancestor} of $ n $ in that case.
+\end{definition}
+
+\begin{definition}
+Given a sequence $ s $ and an episode $ G $ we say that $ s $ \emph{covers} G, or $ G $ \emph{occurs} in $ s $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that the node $ v_i $ in $ G $ and the corresponding sequence element $ s_{f(v_i)} $ have the same label: $ s_{f(v_i)} = lab(v_i) $; and that if there is an edge $ (v_i, v_j) $ in $ G $, then we must have $ f(v_i) < f(v_j) $. In other words, the parents of $ v_j $ must occur in $ s $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ s $ are used, we will say that $ s $ is an \emph{instance} of G.
+\end{definition}
+
+\begin{definition}
+Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of $ H $, denoted $ G \subseteq H $, if the graph describing episode $ G $ is a subgraph of the graph describing episode $ H $.
+\end{definition}
+
+In this thesis, we'll be limiting ourselves to two subcategories of episodes:
+\begin{itemize}
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, event types can appear in any order in a sequence.
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of an episode in a sequence, the event types appear in the same order.
+\end{itemize}
+
+\subsection{Association Rules}
+\begin{definition}
+Given two episodes $ G $ and $ H $ such that $ G \subset H $, we can express an \emph{association rule} $ G \Rightarrow H $. We call $ G $ the \emph{head} of the rule, and $ H $ the \emph{tail} of the rule.
+\end{definition}
+
+\subsection{Algorithms}
+
+Algorithm~\ref{alg:recognize-serial-fixed-win-episodes} for recognizing a collection of episodes $ \mathcal{C} $ in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered.
+
+Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. A state can be represented by the index of the node in the episode it corresponds to. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j $ and upon encountering an event of which the type corresponds to the $ (j + 1) $-th node of the episode, the instance will transition to state $ j + 1 $.
+
+When an instance of $ \alpha $ reaches state $ | \alpha | $, the episode has been successfully recognized.
+
+\begin{algorithm}
+
+\caption{Recognizing serial episodes. \\
+Input: A collection $ \mathcal{C} $ of serial episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+}
 
 \begin{algorithmic}[1]
 
@@ -112,11 +183,24 @@ Algorithm for recognizing a collection of episodes $ \mathcal{C} $ in a sequence
     \ENDFOR
 \ENDFOR
 \FORALL{episodes $ \alpha $ in $ \mathcal{C} $}
-    \IF{$ \frac{\alpha \text{.freq\_count}}{T_e - T_s + \text{win} - 1} \geq \text{min\_fr} $}
+    \IF{$ \alpha \text{.freq\_count} / T_e - T_s + \text{win} - 1 \geq \text{min\_fr} $}
         \STATE{output $ \alpha $}
     \ENDIF
 \ENDFOR
 
 \end{algorithmic}
+
+\label{alg:recognize-serial-fixed-win-episodes}
+\end{algorithm}
+
+
+\section{Implementation}
+
+
+\section{Experiments}
+
+
+
+\section{Conclusion}
 
 \end{document}
