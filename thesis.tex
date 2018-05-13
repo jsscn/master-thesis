@@ -15,7 +15,11 @@
 
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
 \usepackage{algorithm}
-\usepackage[noend]{algorithmic}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+
+\algnewcommand{\LineComment}[1]{\State \(/*\) #1 \(*/\)}
+
 \usepackage{listings}
 \usepackage{courier}
 \usepackage{amsthm}
@@ -43,7 +47,7 @@
 \subtitle{}
 
 %***********************************************************************
-% AUTHORS INFORMATION AREA
+% AUTHORS INForMATION AREA
 %***********************************************************************
 \author{Josse Coen
 \vspace{.3cm}\\
@@ -57,7 +61,7 @@ University of Antwerp
 % Address of Second Author's school - Country of Second Author's school\\
 }
 %***********************************************************************
-% END OF AUTHORS INFORMATION AREA
+% END OF AUTHORS INForMATION AREA
 %***********************************************************************
 
 \date{1 January 1970}
@@ -187,7 +191,7 @@ fr_w(G) = \text{max} \{ tw(W) | W \subseteq mw(G), dis(W) = 1 \}
 
 \subsection{Algorithms}
 
-Algorithm~\ref{alg:recognize-serial-fixed-win-episodes} is for recognizing a collection of episodes $ \mathcal{C} $ in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered. The algorithm iterates over the sequence once.
+Algorithm~\ref{alg:rec-ser-fwi} is for recognizing a collection of episodes $ \mathcal{C} $ in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered. The algorithm iterates over the sequence once.
 
 Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. A state can be represented by the array index in the episode it corresponds to; 1 referring to the first node in the topological ordering of the episode graph, and so on. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j $ and upon encountering an event of which the type corresponds to the type of the $ (j + 1) $-th node of the episode, the instance will transition to state $ j + 1 $.
 
@@ -209,61 +213,62 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 \begin{algorithmic}[1]
 
-\FORALL{$ \alpha \in \mathcal{C} $}
-    \FOR{$ i \leftarrow 1 $ \TO $ | \alpha | $}
-        \STATE{$ \alpha \text{.initialized} \leftarrow 0 $}
-        \STATE{$ \text{waits}(\alpha[i]) \leftarrow 0 $}
-    \ENDFOR
-\ENDFOR
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \For{$ i \leftarrow 1 $ to $ | \alpha | $}
+        \State{$ \alpha \text{.initialized} \leftarrow 0 $}
+        \State{$ \text{waits}(\alpha[i]) \leftarrow 0 $}
+    \EndFor
+\EndFor
 
-\FORALL{$ \alpha \in \mathcal{C} $}
-    \STATE{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $}
-    \STATE{$ \alpha \text{.freq\_count} \leftarrow 0 $}
-\ENDFOR
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \State{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $}
+    \State{$ \alpha \text{.freq\_count} \leftarrow 0 $}
+\EndFor
 
-\FOR{$ t \leftarrow T_s - \text{win} $ \TO $ T_s - 1 $}
-    \STATE{$ \text{begins\_at}(t) \leftarrow \emptyset $}
-\ENDFOR
+\For{$ t \leftarrow T_s - \text{win} $ to $ T_s - 1 $}
+    \State{$ \text{begins\_at}(t) \leftarrow \emptyset $}
+\EndFor
 
-\FOR{$ \text{start} \leftarrow T_s - \text{win} + 1 $ \TO $ T_e $}
-    \STATE{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
-    \STATE{$ \text{transitions} \leftarrow \emptyset $}
-    \FORALL{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
-        \FORALL{$ ( \alpha, j) \in \text{waits}(A) $}
-            \IF{$ j = | \alpha | $ and $ \alpha \text{.initialized}[j] = 0 $}
-                \STATE{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
-            \ENDIF
-            \IF{$ j = 1 $}
-                \STATE{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
-            \ELSE
-                \STATE{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
-                \STATE{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
-                \STATE{$ \alpha \text{.initialized} [j - 1] \leftarrow 0 $}
-                \STATE{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
-            \ENDIF
-        \ENDFOR
-    \ENDFOR
-    \FORALL{$ ( \alpha, j, t ) \in \text{transitions} $}
-        \STATE{$ \alpha \text{.initialized} [j] \leftarrow t $}
-        \STATE{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
-        \IF{$ j < | \alpha | $}
-            \STATE{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $}
-        \ENDIF
-    \ENDFOR
-    \FORALL{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $}
-        \IF{$ l = | \alpha | $}
-            \STATE{$ \alpha \text{.freq\_count} \leftarrow \alpha \text{.freq\_count} - \alpha \text{.in\_window} + \text{start} $}
-        \ELSE
-            \STATE{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
-        \ENDIF
-        \STATE{$ \alpha \text{.initialized}[l] \leftarrow 0 $}
-    \ENDFOR
-\ENDFOR
-\FORALL{episodes $ \alpha $ in $ \mathcal{C} $}
-    \IF{$ \alpha \text{.freq\_count} / T_e - T_s + \text{win} - 1 \geq \text{min\_fr} $}
-        \STATE{output $ \alpha $}
-    \ENDIF
-\ENDFOR
+\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $}
+    \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+    \State{$ \text{transitions} \leftarrow \emptyset $}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+        \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
+            \If{$ j = | \alpha | $ and $ \alpha \text{.initialized}[j] = 0 $}
+                \State{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
+            \EndIf
+            \If{$ j = 1 $}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+            \Else
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
+                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $
+                \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
+                \State{$ \alpha \text{.initialized} [j - 1] \leftarrow 0 $}
+                \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
+            \EndIf
+        \EndFor
+    \EndFor
+    \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $}
+        \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
+        \If{$ j < | \alpha | $}
+            \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $}
+        \EndIf
+    \EndFor
+    \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $}
+        \If{$ l = | \alpha | $}
+            \State{$ \alpha \text{.freq\_count} \leftarrow \alpha \text{.freq\_count} - \alpha \text{.in\_window} + \text{start} $}
+        \Else
+            \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
+        \EndIf
+        \State{$ \alpha \text{.initialized}[l] \leftarrow 0 $}
+    \EndFor
+\EndFor
+\ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
+    \If{$ \alpha \text{.freq\_count} / T_e - T_s + \text{win} - 1 \geq \text{min\_fr} $}
+        \State{output $ \alpha $}
+    \EndIf
+\EndFor
 
 \end{algorithmic}
 
