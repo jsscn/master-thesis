@@ -1,0 +1,117 @@
+\section{Problem Statement}
+
+\subsection{Event sequences}
+
+\begin{definition}
+A \emph{sequence event} is defined as a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
+\end{definition}
+
+\begin{definition}
+An \emph{event sequence} $ \boldsymbol{s} $ is an ordered sequence of events
+\begin{align*}
+s = \langle (A_1, t_1), (A_2, t_2), \ldots, (A_n, t_n) \rangle
+\end{align*}
+such that $ t_i \leq t_{i + 1} $ for all $ i = 1, \ldots, n - 1 $.
+\end{definition}
+
+If event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in the sequence at timestamp $ t $. Note that multiple events can occur at the same timestamp.
+
+Given a sequence $ \boldsymbol{s} $ and two integers $ i $ and $ j $ we define a \emph{subsequence} $ s[i, j] = s_i, \ldots, s_j $ containing all events occurring between $ i $ and $ j $.
+
+For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the sequence $ \langle (s_1, 1), \ldots, (s_N, N) \rangle $.
+
+\begin{definition}
+An \emph{episode} $ G $ is represented by a directed acyclic graph with labelled nodes, that is, $ G = (V, E, lab) $, where $ V = (v_1, \ldots, v_K) $ is the set of nodes, $ E $ is the set of directed edges, and lab is the function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to its event type.
+\end{definition}
+
+We write $ | \alpha | $ to mean the number of nodes in an episode's graph.
+
+\begin{definition}
+A node $ n $ in an episode graph is a \emph{descendant} of a node $ m $ if there is a path from $ m $ to $ n $. Conversely $ m $ is an \emph{ancestor} of $ n $ in that case.
+\end{definition}
+
+\begin{definition}
+Given a sequence $ s $ and an episode $ G $ we say that $ s $ \emph{covers} G, or $ G $ \emph{occurs} in $ s $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that the node $ v_i $ in $ G $ and the corresponding sequence element $ s_{f(v_i)} $ have the same label: $ s_{f(v_i)} = lab(v_i) $; and that if there is an edge $ (v_i, v_j) $ in $ G $, then we must have $ f(v_i) < f(v_j) $. In other words, the parents of $ v_j $ must occur in $ s $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ s $ are used, we will say that $ s $ is an \emph{instance} of G.
+\end{definition}
+
+\begin{definition}
+Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of $ H $, denoted $ G \subseteq H $, if the graph describing episode $ G $ is a subgraph of the graph describing episode $ H $.
+\end{definition}
+
+In this thesis, we'll be limiting ourselves to two subcategories of episodes:
+\begin{itemize}
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, event types can appear in any order in a sequence.
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of an episode in a sequence, the event types appear in the same order.
+\end{itemize}
+
+Due to the aforementioned, it is easy to represent an episode in a data structure---we don't need to store a graph with nodes and edges:
+\begin{itemize}
+\item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array don't matter, but in the implementation they will usually follow some order on the set of event types. In that way certain assumptions can be made.
+\item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode, i.e. the elements are ordered according to a topological sort of the nodes.
+\end{itemize}
+
+\subsection{Association Rules}
+\begin{definition}
+Given two episodes $ G $ and $ H $ such that $ G \subset H $, we can express an \emph{association rule} $ G \Rightarrow H $. We call $ G $ the \emph{head} of the rule, and $ H $ the \emph{tail} of the rule.
+\end{definition}
+
+We present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
+
+\subsubsection{Fixed Windows}
+
+The first frequency measure is based on windows of fixed length.
+
+\begin{definition}
+Given a window size $ \rho $ and a sequence $ s $, we define the \emph{fixed-window frequency} of an episode $ G $ in $ s $, denoted $ fr_f(G; s) $, to be the number of windows of size $ \rho $ in $ s $ covering the episode:
+\begin{align*}
+fr_f(G; s) = | \{ s[i, i + \rho - 1] | s[i, i + \rho - 1] \text{ covers } G \} |
+\end{align*}
+\end{definition}
+
+\begin{definition}
+Given a window size $ \rho $ and episodes $ X $ and $ Y $, such that $ X \subset Y $, we define the \emph{fixed-window confidence} of the association rule $ X \Rightarrow Y $, denoted $ c_f(X \Rightarrow Y) $, to be the ratio of their respective frequencies:
+\begin{align*}
+c_f(X \Rightarrow Y) = \frac{ fr_f(Y) }{ fr_f(X) }
+\end{align*}
+\end{definition}
+
+\subsubsection{Minimal Windows}
+
+\begin{definition}
+Given a sequence $ s $ and an episode $ G $, a window $ s[a, b] $, is called a \emph{minimal window} of $ G $ in $ s $, if:
+\begin{itemize}
+\item $ len(s[a, b]) \leq \rho $, $ s[a, b] $, and
+\item no proper subwindow of of $ s[a, b] $ covers $ G $.
+\end{itemize}
+We define beginning, end ... % TODO figure out definitions (inclusive-exclusive end-timestamp)
+
+We denote the set of all minimal windows of $ G $ in $ s $ with $ mw(G; s) $, or simply $ mw(G) $ if $ s $ is known from the context. Given a set of minimal windows $ W $, we define a function $ dis(W) $ to be equal to 1 if all windows in $ W $ are pairwise disjoint, and 0 otherwise.
+\end{definition}
+
+\begin{definition}
+The \emph{disjoint-window frequency} of an episode $ G $ in a sequence $ s $, denoted $ fr_m(G) $, is defined as the maximal number of non-overlapping minimal windows within $ s $ that contain episode $ G $. Formally:
+\begin{align*}
+fr_m(G) = \text{max} \{ | W | \mid W \subseteq mw(G) \wedge dis(W) = 1 \}
+\end{align*}
+\end{definition}
+
+\begin{definition}
+Given episodes $ X $ and $ Y $, such that $ X \subset Y $, and a minimal window $ s[a, b] $ of episode $ X $. Assume there exists a minimal window $ s[c, d] $ of $ Y $ such that $ c \leq a $ and $ b \leq d $, then we define the \emph{minimal-extensibility} of occurrence $ s[a, b] $ of $ X $ into an occurrence of $ Y $ as
+\begin{align*}
+ext_m(s[a, b], X, Y) = 1
+\end{align*}
+If there exists no such minimal window of $ Y $, we define $ ext_m(s[a, b], X, Y) = 0 $.
+\end{definition}
+
+\subsubsection{Weighted Minimal Windows}
+
+\begin{definition}
+The \emph{total weight} of a set of windows $ W $ in a sequence $ s $, denoted $ tw(W) $, is defined as
+\begin{align*}
+tw(W) = \sum_{w \in W}{\frac{1}{len(w)}}
+\end{align*}
+The \emph{weighted-window frequency} of an episode $ G $ in a sequence $ s $, denoted $ fr_w(G) $, is defined as
+\begin{align*}
+fr_w(G) = \text{max} \{ tw(W) | W \subseteq mw(G), dis(W) = 1 \}
+\end{align*}
+\end{definition}

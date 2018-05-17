@@ -1,0 +1,100 @@
+\section{Algorithms}
+
+\begin{algorithm}
+
+\caption{Recognizing serial episodes using the fixed-window frequency measure. \\
+Input: A collection $ \mathcal{C} $ of serial episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+}
+
+\begin{algorithmic}[1]
+
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \For{$ i \leftarrow 1 $ to $ | \alpha | $}
+        \State{$ \alpha \text{.initialized} \leftarrow 0 $}
+        \State{$ \text{waits}(\alpha[i]) \leftarrow 0 $}
+    \EndFor
+\EndFor
+
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \State{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $}
+    \State{$ \alpha \text{.freq\_count} \leftarrow 0 $}
+\EndFor
+
+\For{$ t \leftarrow T_s - \text{win} $ to $ T_s - 1 $}
+    \State{$ \text{begins\_at}(t) \leftarrow \emptyset $}
+\EndFor
+
+\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $}
+    \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+    \State{$ \text{transitions} \leftarrow \emptyset $}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+        \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
+            \If{$ j = | \alpha | $ and $ \alpha \text{.initialized}[j] = 0 $}
+                \State{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
+            \EndIf
+            \If{$ j = 1 $}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+            \Else
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
+                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $
+                \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
+                \State{$ \alpha \text{.initialized} [j - 1] \leftarrow 0 $}
+                \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
+            \EndIf
+        \EndFor
+    \EndFor
+    \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $} \label{alglin:rec-ser-fwi:transition-begin}
+        \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
+        \If{$ j < | \alpha | $}
+            \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-fwi:transition-end}
+        \EndIf
+    \EndFor
+    \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $}
+        \If{$ l = | \alpha | $} \label{alglin:rec-ser-fwi:cleanup-begin}
+            \State{$ \alpha \text{.freq\_count} \leftarrow \alpha \text{.freq\_count} - \alpha \text{.in\_window} + \text{start} $}
+        \Else
+            \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
+        \EndIf
+        \State{$ \alpha \text{.initialized}[l] \leftarrow 0 $} \label{alglin:rec-ser-fwi:cleanup-end}
+    \EndFor
+\EndFor
+\ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
+    \If{$ \alpha \text{.freq\_count} / T_e - T_s + \text{win} - 1 \geq \text{min\_fr} $}
+        \State{output $ \alpha $}
+    \EndIf
+\EndFor
+
+\end{algorithmic}
+
+\label{alg:rec-ser-fwi}
+\end{algorithm}
+
+Algorithm~\ref{alg:rec-ser-fwi} is for recognizing a collection of episodes $ \mathcal{C} $ in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered. The algorithm iterates over the sequence once.
+
+Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. A state can be represented by the array index in the episode it corresponds to; 1 referring to the first node in the topological ordering of the episode graph, and so on. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j $ and upon encountering an event of which the type corresponds to the type of the $ (j + 1) $-th node of the episode, the instance will transition to state $ j + 1 $.
+
+When an instance of $ \alpha $ reaches state $ | \alpha | $, the episode has been successfully recognized, and as the iteration over the sequence continues, the number of windows which cover the instance of the episode get counted.
+
+If the timestamp at which the automaton instance was initialized falls out of the window before reaching state $ | \alpha | $, the instance is removed.
+
+The algorithm uses some bookkeeping data structures, which get updated as the sequence gets read. We'll discuss the most important ones.
+\begin{itemize}
+\item \textbf{waits} maps an event type to a set of pairs of the form $ (\alpha, j) $, where $ \alpha $ is an episode and $ j $ represents a state in the episode's automaton. If a pair $ (\alpha, j) $ is in $ waits(A) $, then $ \alpha $ has an instance of its automaton currently in state $ (j - 1) $ and is waiting for an event of type $ A $ to advance to the next state. Throughout the iteration over the sequence, $ \text{waits}(A) $ will always contain $ (\alpha, 1) $ for each episode $ \alpha $ that starts with $ A $, since it's always waiting to start a new instance of its automaton.
+\item \textbf{begins\_at} maps a timestamp to a set of pairs $ (\alpha, j) $. If $ (\alpha, j) $ is in $ \text{begins}\_at(t) $, then $ \alpha $ has an instance of its automaton in state $ j $, and the automaton first entered this state at timestamp $ t $.
+\item Each episode $ \alpha $ has an $ | \alpha | $-element array called \textbf{initialized}, which maps each of its automaton's states to the timestamp in the sequence at which the instance currently in that state was initialized. If for a certain state there is currently no active instance, its corresponding element in the initialized array will be some special value---[Winepi] chose 0, which we changed to UNINITIALIZED for clarity and such that 0 can be a valid timestamp if necessary.
+
+This approach works because there never needs to be more than one automaton instance per state. If one automaton instance reaches the current state of another instance, they will simply make transitions simultaneously until the earlier instance gets removed. It suffices to maintain the instance which was reached the common state last, since it was initialized at a later timestamp, and thus will be the last to be removed.
+\end{itemize}
+
+While implementing this algorithm we found an error in the pseudocode, related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
+
+Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: C \cdots $. (This sequence of events appears in figure 2 in [Winepi].) Say that the first $ E $ has timestamp $ t_1 $. Consider the recognition of the serial episode $ \alpha = E \to C $. Obviously the subsequence contains the episode, and a window width of 2 suffices to recognize an instance of the episode in the subsequence. Upon encountering the first $ E $, an automaton instance gets initialized for $ \alpha $, as shown in lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}. This includes:
+\begin{itemize}
+\item setting the timestamp in the \emph{initialized} array;
+\item adding $ (\alpha, 2) $ to the $ \text{waits}(C) $ set (so that if $ C $ is encountered, the automaton can transition to the next state);
+\item adding $ (\alpha, 1) $ to $ \text{begins\_at}(t_1) $ (to facilitate the removal of the the automaton instance once $ t $ falls out of the window).
+\end{itemize}
+
+When the second $ E $ is read (at $ t = t_1 + 2 $ and when $ \text{start} = t_1 + 1 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ C $ has been encountered---the previous instance must be removed. However, $ (\alpha, 1) $ remains in $ \text{begins\_at}(t_1) $. Just after, this newly created automaton is wrongly removed (lines \ref{alglin:rec-ser-fwi:cleanup-begin} through \ref{alglin:rec-ser-fwi:cleanup-end}) and $ \alpha $ fails to get recognized.
