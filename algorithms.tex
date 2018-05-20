@@ -1,5 +1,38 @@
 \section{Algorithms}
 
+\subsection{Finding frequent episodes}
+
+\begin{algorithm}
+
+\begin{algorithmic}[1]
+
+\caption{High-level algorithm for finding frequent episodes. \\
+Input: A set $ \Sigma $ of event types, an event sequence $ s $ over $ \Sigma $, a window width \emph{win}, and a frequency threshold \emph{min\_fr}. \\
+Output: The collection of episodes that are frequent in the sequence in terms of the input parameters.
+}
+
+\State $ \mathcal{C} \gets \{ \alpha \mid | \alpha | = 1 \} $
+\State $ l \gets 1 $
+\While{$ \mathcal{C}_l \neq \emptyset $}
+    \LineComment{Database pass (algorithms \ref{alg:rec-par-fwi}, \ref{alg:rec-ser-fwi}, ...)}
+    \State compute $ \mathcal{F} \gets \{ \alpha \in \mathcal{C}_l | fr(\alpha, s, \text{win}) \geq \text{min\_fr} \} $
+    \State $ l \gets l + 1 $
+    \LineComment{Candidate generation (algorithm \ref{alg:cand-gen})}
+    \State compute $ C_l = \{ \alpha \mid | \alpha | = l \wedge \forall \beta \mid \beta \subset \alpha : \beta \text{ is frequent } \} $
+\EndWhile
+\State output all $ \mathcal{F}_i $
+
+\end{algorithmic}
+
+\label{alg:episodes-top-level}
+\end{algorithm}
+
+% TODO Read this future me, probably needs improvement. Also why question marks??
+
+Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes that are frequent in an event sequence $ s $, for a certain class of episodes (parallel or serial) and given window width \emph{win} and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, i.e. all frequent episodes of size $ l $ are computed before those of size $ l + 1 $.
+
+The first set of candidates $ \mathcal{C}_1 $ consists of all episodes of size $ 1 $. After constructing $ \mathcal{C}_1 $ a loop is entered where for each $ l $, it is determined which episodes are frequent ($ \mathcal{F}_1 $), by a pass over the sequence, and subsequently, based on those, candidates of size $ 2 $ are generated. The loop continues with ever-increasing episode size $ l $, and stops when no more candidates were generated. Then all frequent episodes have been found.
+
 \subsection{Candidate generation}
 
 \begin{algorithm}
@@ -61,7 +94,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \ForAll{$ \alpha $ in $ \mathcal{C} $}
     \ForAll{$ A $ in $ \alpha $}
         \State $ A \text{.count} \gets 0 $
-        \For{$ i \gets 1 $ to $ \alpha $} $ \text{contains}(A, i) \gets \emptyset $ \EndFor
+        \For{$ i \gets 1 $ to $ | \alpha | $} $ \text{contains}(A, i) \gets \emptyset $ \EndFor
     \EndFor
 \EndFor
 
@@ -77,7 +110,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \LineComment{Recognition}
 \For{$ \text{start} \gets T_s - \text{win} + 1 $ to $ T_e $}
     \LineComment{Bring new events to the window}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-par-fwi:new-events}
         \State $ A \text{.event\_count} \gets A \text{.event\_count} + 1 $
         \ForAll{$ \alpha \in \text{contains}(A, A \text{.count}) $}
             \State $ \alpha \text{.event\_count} \gets \alpha \text{.event\_count} + A \text{.count} $
@@ -86,7 +119,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \EndFor
     \EndFor
     \LineComment{Drop out old events from the window}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $} \label{alglin:rec-par-fwi:old-events}
         \ForAll{$ \alpha \in \text{contains}(A, A \text{.count}) $}
             \If{$ \alpha \text{.event\_count} = | \alpha | $}
                 \State $ \alpha \text{.freq\_count} \gets \alpha \text{.freq\_count} - \alpha \text{.in\_window} + \text{start} $
@@ -107,9 +140,11 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \label{alg:rec-par-fwi}
 \end{algorithm}
 
-Algorithm~\ref{alg:rec-par-fwi} recognizes parallel episodes in an event sequence. As stated before, parallel episodes impose no order on the occurrence of events in the window. Therefore, to recognize an episode in the sequence, it suffices to know that there are enough events of each type currently in the window. More formally: an episode $ \alpha $ occurs in a window if for each event type $ A $, the window contains at least as many events of type $ A $ as there are nodes of type $ A $ in $ \alpha $'s graph.
+Algorithm~\ref{alg:rec-par-fwi} recognizes parallel episodes in an event sequence. As stated before, parallel episodes impose no order on the occurrence of events in the window. Therefore, to recognize an episode in the sequence, it suffices to know that there are enough events of each type currently in the window. More formally, an episode $ \alpha $ occurs in a window if for each event type $ A $, the window contains at least as many events of type $ A $ as there are nodes of type $ A $ in $ \alpha $'s graph. The algorithm makes one pass over the sequence.
 
-This is accomplished as follows. For each event type $ A $, a counter $ A \text{.count} $ is maintained. This counter denotes how many events of type $ A $ are currently in the window. When a new event of type $ A $ enters the window, this counter is increased by 1. Then, for all episodes $ \alpha $ containing $ A \text{.count} $ nodes of type $ A $, a per-episode counter $ \alpha \text{.event\_count} $ is increased by $ A \text{.count} $, indicating that there are currently enough events of type $ A $ in the window to satisfy an occurrence. If this is the case for all event types in $ \alpha $, then $ \alpha \text{.event\_count} = | \alpha | $, and so the window contains $ \alpha $.
+Recognition is accomplished as follows. For each event type $ A $, a counter $ A \text{.count} $ is maintained. This counter denotes how many events of type $ A $ are currently in the window. When a new event of type $ A $ enters the window (line~\ref{alglin:rec-par-fwi:new-events} and further), this counter is increased by $ 1 $. Then, for all episodes $ \alpha $ containing $ A \text{.count} $ nodes of type $ A $, a per-episode counter $ \alpha \text{.event\_count} $ is increased by $ A \text{.count} $, indicating that there are currently enough events of type $ A $ in the window to satisfy an occurrence. If this is the case for all event types in $ \alpha $, then $ \alpha \text{.event\_count} = | \alpha | $, and so the window contains $ \alpha $. To mark the point in time at which the episode entered the sliding window, variable $ \alpha \text{.in\_window} $ gets set to \emph{start}.
+
+When an event of type $ A $ leaves the window (line~\ref{alglin:rec-par-fwi:old-events} and further), for all episodes $ \alpha $ with $ A \text{.count} $ nodes of event type $ A $, if $ \alpha \text{.event\_count} = | \alpha | $, $ \alpha $ has been contained in a number of windows, but is now no longer. The episode was in $ (\text{start} - \alpha \text{.in\_window}) $ windows, and so $ \alpha \text{.freq\_count} $ gets updated accordingly. Next, $ A \text{.count} $ gets decreased by $ 1 $ to reflect the fact that an even of type $ A $ has left the sliding window.
 
 \subsection{Recognizing serial episodes with fixed windows}
 
@@ -185,7 +220,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \label{alg:rec-ser-fwi}
 \end{algorithm}
 
-Algorithm~\ref{alg:rec-ser-fwi} is for recognizing a collection of episodes $ \mathcal{C} $ in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered. The algorithm iterates over the sequence once.
+Algorithm~\ref{alg:rec-ser-fwi} is for recognizing serial episodes in a sequence. By the definition of serial episodes, all nodes must appear in the sequence in a strict order. Serial episodes are therefore recognized using automata, instances of which advance as events are encountered. The algorithm iterates over the sequence once.
 
 Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. A state can be represented by the array index in the episode it corresponds to; 1 referring to the first node in the topological ordering of the episode graph, and so on. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j $ and upon encountering an event of which the type corresponds to the type of the $ (j + 1) $-th node of the episode, the instance will transition to state $ j + 1 $.
 
@@ -196,7 +231,7 @@ If the timestamp at which the automaton instance was initialized falls out of th
 The algorithm uses some bookkeeping data structures, which get updated as the sequence gets read. We'll discuss the most important ones.
 \begin{itemize}
 \item \textbf{waits} maps an event type to a set of pairs of the form $ (\alpha, j) $, where $ \alpha $ is an episode and $ j $ represents a state in the episode's automaton. If a pair $ (\alpha, j) $ is in $ waits(A) $, then $ \alpha $ has an instance of its automaton currently in state $ (j - 1) $ and is waiting for an event of type $ A $ to advance to the next state. Throughout the iteration over the sequence, $ \text{waits}(A) $ will always contain $ (\alpha, 1) $ for each episode $ \alpha $ that starts with $ A $, since it's always waiting to start a new instance of its automaton.
-\item \textbf{begins\_at} maps a timestamp to a set of pairs $ (\alpha, j) $. If $ (\alpha, j) $ is in $ \text{begins}\_at(t) $, then $ \alpha $ has an instance of its automaton in state $ j $, and the automaton first entered this state at timestamp $ t $.
+\item \textbf{begins\_at} maps a timestamp to a set of pairs $ (\alpha, j) $. If $ (\alpha, j) $ is in $ \text{begins\_at}(t) $, then $ \alpha $ has an instance of its automaton in state $ j $, and the automaton first entered this state at timestamp $ t $.
 \item Each episode $ \alpha $ has an $ | \alpha | $-element array called \textbf{initialized}, which maps each of its automaton's states to the timestamp in the sequence at which the instance currently in that state was initialized. If for a certain state there is currently no active instance, its corresponding element in the initialized array will be some special value---[Winepi] chose 0, which we changed to \emph{uninitialized} for clarity and such that 0 can be a valid timestamp if necessary.
 
 This approach works because there never needs to be more than one automaton instance per state. If one automaton instance reaches the current state of another instance, they will simply make transitions simultaneously until the earlier instance gets removed. It suffices to maintain the instance which was reached the common state last, since it was initialized at a later timestamp, and thus will be the last to be removed.
@@ -206,7 +241,7 @@ This approach works because there never needs to be more than one automaton inst
 
 While implementing this algorithm we found an error in the pseudocode, related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
 
-Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: C \cdots $. (This sequence of events appears in figure 2 in [Winepi].) Say that the first $ E $ has timestamp $ t_1 $. Consider the recognition of the serial episode $ \alpha = E \to C $. Obviously the subsequence contains the episode, and a window width of 2 suffices to recognize an instance of the episode in the subsequence. Upon encountering the first $ E $, an automaton instance gets initialized for $ \alpha $, as shown in lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}. This includes:
+Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: C \cdots $. (This sequence of events appears in figure 2 in [Winepi].) Say that the first $ E $ has timestamp $ t_1 $. Consider the recognition of the serial episode $ \alpha = E \to C $. Obviously the subsequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the subsequence. Upon encountering the first $ E $, an automaton instance gets initialized for $ \alpha $, as shown in lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}. This includes:
 \begin{itemize}
 \item setting the timestamp in the \emph{initialized} array;
 \item adding $ (\alpha, 2) $ to the $ \text{waits}(C) $ set (so that if $ C $ is encountered, the automaton can transition to the next state);
