@@ -29,11 +29,12 @@ Output: The collection of episodes that are frequent in the sequence in terms of
 
 % TODO Read this future me, probably needs improvement. Also why question marks??
 
-Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes that are frequent in an event sequence $ s $, for a certain class of episodes (parallel or serial) and given window width \emph{win} and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, i.e. all frequent episodes of size $ l $ are computed before those of size $ l + 1 $.
+Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes that are frequent in an event sequence $ s $, for a certain class of episodes (parallel or serial) and given window width \emph{win} and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $.
 
 The first set of candidates $ \mathcal{C}_1 $ consists of all episodes of size $ 1 $. After constructing $ \mathcal{C}_1 $ a loop is entered where for each $ l $, it is determined which episodes are frequent ($ \mathcal{F}_1 $), by a pass over the sequence, and subsequently, based on those, candidates of size $ 2 $ are generated. The loop continues with ever-increasing episode size $ l $, and stops when no more candidates were generated. Then all frequent episodes have been found.
 
 \subsection{Candidate generation}
+\label{sec:cand-gen}
 
 \begin{algorithm}
 
@@ -251,3 +252,97 @@ Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: 
 When the second $ E $ is read (at $ t = t_1 + 2 $ and when $ \text{start} = t_1 + 1 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ C $ has been encountered---the previous instance must be removed. However, $ (\alpha, 1) $ remains in $ \text{begins\_at}(t_1) $. Just after, the newly created automaton is wrongly removed by an iteration of the loop on line~\ref{alglin:rec-ser-fwi:cleanup-for}. Then $ (\alpha, 2) $ is no longer in $ \text{waits}(C) $, and $ \alpha $ will fail to be recognized.
 
 This is a problem any time an older instance of an episode's automaton gets overwritten. In some cases, as illustrated above, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early. Consequently, this may cause the episode to be considered infrequent while it actually is frequent.
+
+\subsection{Recognizing parallel episodes with minimal windows}
+
+\begin{algorithm}
+
+\caption{Recognize a collection $ \mathcal{C} $ of parallel episodes in a sequence $ s $ using the minimal window frequency measure. \\
+Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
+Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.}
+
+\begin{algorithmic}[1]
+
+\LineComment{Initialization}
+\ForAll{event types $ A $}
+    \State $ \text{events\_in\_window}(A) \gets \text{empty queue} $
+\EndFor
+\ForAll{$ \alpha $ in $ \mathcal{C} $}
+    \ForAll{$ A $ in $ \alpha $}
+        \State $ \text{consider\_max}(\alpha, A) \gets 0 $
+        \State $ \text{num\_needed}(\alpha, A) \gets \text{number of elements of type $ A $ in $ \alpha $} $
+        \State $ \text{contains}(A) \gets \text{contains}(A) \cup \{ \alpha \} $
+    \EndFor
+\EndFor
+
+\LineComment{Recognition}
+\For{$ \text{start} \gets T_s - \text{win} + 1 $ to $ T_e - 1 $} % TODO check if starting at correct position
+    \LineComment{Drop out old events from the window}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $}
+        \While{$ | \text{events\_in\_window}(A) | > 0 \wedge \text{events\_in\_window}(A) \text{.front}() < \text{start} $}
+            \State $ \text{events\_in\_window}(A) \text{.pop}() $
+        \EndWhile
+    \EndFor
+
+    \LineComment{Bring in new events to the window}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+        \State $ \text{events\_in\_window}[A] \text{.push}(t + \text{win} - 1) $
+        \ForAll{$ \alpha $ in $ \text{contains}(A) $}
+            \If{$ \forall A $ in $ \alpha : min(| \text{events\_in\_window}(A) |, \text{consider\_max}(\alpha, A)) \geq \text{num\_needed}(\alpha, A) $}
+                \LineComment{Occurrence detected; determine start of minimal window}
+                \State $ Q \gets \text{events\_in\_window}(A) $
+                \State $ \text{window\_start} \gets min\{ t | \forall A $ in $ \alpha : t = Q[| Q | - \text{num\_needed}(\alpha, A) + 1] \} $
+                \ForAll{$ A $ in $ \alpha $}
+                    $ Q \gets \text{events\_in\_window}(A) $
+                    \If{$ \text{window\_start} = Q[| Q | - \text{num\_needed}(\alpha, A)) + 1] $}
+                        \State $ \text{consider\_max}(\alpha, A) \gets \text{num\_needed}(\alpha, A) - 1 $
+                    \EndIf
+                    \State append $ [\text{window\_start}, \text{start} + \text{win}) $ to $ \alpha \text{.minimal\_windows} $
+                \EndFor
+            \EndIf
+        \EndFor
+    \EndFor
+\EndFor
+
+\end{algorithmic}
+
+\end{algorithm}
+
+With minimal windows, the frequency of an episode isn't expressed in terms of a number of windows anymore, but in the number of actual occurrences of the episode.
+
+\subsection{Removing episodes which have been found infrequent}
+
+\begin{algorithm}
+
+\caption{Remove infrequent episodes from a collection of candidates $ \mathcal{C} $ for which \emph{freq\_count} is known. \\
+Input: A list of candidates $ \mathcal{C} $, including their \emph{block\_start} values, and their \emph{freq\_count} values with respect to some sequence, and a minimum frequency threshold \emph{min\_fr}. \\
+Output: Those episodes in $ \mathcal{C} $ which are frequent, along with consistent \emph{block\_start} values.
+}
+
+\begin{algorithmic}[1]
+
+\State $ \text{new\_block\_start} \gets 1 $
+\State $ \mathcal{F} \gets \text{empty array} $
+\State $ \mathcal{F} \text{.block\_start} \gets \text{empty array} $
+\For{$ i = 1 $; $ i \leq | \mathcal{C} | $; $ i \gets i + 1 $}
+    \If{$ \alpha \text{.freq\_count} < \text{min\_fr} $}
+        \LineComment{Episode infrequent; discard}
+        \State continue with next i
+    \EndIf
+    \If{$ \mathcal{C} \text{.block\_start}[i] = i $} \label{alglin:remove-infrequent-episodes:different-block-test}
+        \LineComment{Encountered new block in candidates}
+        \State $ \text{new\_block\_start} \gets | \mathcal{F} | $
+    \EndIf
+    \State append $ \alpha $ to $ \mathcal{F} $
+    \State $ \mathcal{F} \text{.block\_start}[ | \mathcal{F} | ] \gets \text{new\_block\_start} $
+\EndFor
+\State output $ \mathcal{F} $
+
+\end{algorithmic}
+
+\label{alg:remove-infrequent-episodes}
+\end{algorithm}
+
+At first sight, it seems a trivial task to discard episodes from a list of candidates which have turned out to be infrequent. But one thing needs to be taken into consideration, namely the auxiliary \emph{block\_start} variables, used in the candidate generation algorithm (section~\ref{sec:cand-gen}). Each episode $ \alpha $ has such a \emph{block\_start} value, which denotes the array index to the first episode in the list for which it shares the first $ \alpha - 1 $ elements in the episode's array representation. If we remove episodes without further consideration, these indices will be invalidated. They should not be invalidated since the next round of the candidate generation step relies on their correctness. Hence we need to keep track of the blocks while constructing the list of frequent episodes. Algorithm~\ref{alg:remove-infrequent-episodes} achieves this.
+
+The algorithm stores the frequent episodes in a new data structure $ \mathcal{F} $. While iterating over the episodes in order, the array index of the new block start is kept. If for a given $ i $, $ \mathcal{C}. \text{block\_start} = i $, we know that a new block started at $ i $ in $ \mathcal{C} $, and so \emph{new\_block\_start} gets updated in order to start a new block in $ \mathcal{F} $.
