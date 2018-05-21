@@ -44,7 +44,7 @@ In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of an episode in a sequence, the event types appear in the same order.
 \end{itemize}
 
-Due to the aforementioned, it is easy to represent an episode in a data structure---we don't need to store a graph with nodes and edges:
+Due to the aforementioned, it is easy to represent an episode in a data structure---we don't need to explicitly store a graph with nodes and edges:
 \begin{itemize}
 \item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array don't matter, but in the implementation they will usually follow some order on the set of event types. In that way certain assumptions can be made.
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode, i.e. the elements are ordered according to a topological sort of the nodes.
