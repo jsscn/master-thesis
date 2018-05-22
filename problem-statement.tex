@@ -46,7 +46,88 @@ In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 
 Due to the aforementioned, it is easy to represent an episode in a data structure---we don't need to explicitly store a graph with nodes and edges:
 \begin{itemize}
-\item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array don't matter, but in the implementation they will usually follow some order on the set of event types. In that way certain assumptions can be made.
+\item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array don't matter, but in the implementation they will usually follow some order on the set of event types. In that way each parallel episode has a unique representation.
+
+\iffalse
+
+\begin{tikzpicture}[scale=3]
+
+% \clip (-0.1,-0.2) rectangle (1.1,0.75);
+
+\draw[step=.5cm,help lines] (-1.4,-1.4) grid (1.4,1.4);
+
+\draw[->] (-1.5,0) -- (1.5,0);
+\draw[->] (0,-1.5) -- (0,1.5);
+
+\foreach \x in {-1,-0.5,...,1}
+    \draw[xshift=\x cm] (0,-1pt) -- (0,1pt);
+
+\foreach \y in {-1,-0.5,...,1}
+    \draw[yshift=\y cm] (-1pt,0) -- (1pt,0);
+
+\draw (0,0) circle [radius=1];
+\fill[fill=green!20!white,draw=green!50!black] (0,0) -- (3mm,0mm) arc [start angle=0,end angle=30,radius=3mm] -- cycle;
+\draw[red,very thick] (30:1cm) -- node[left=10pt,fill=white] {$ \sin \alpha $} (30:1cm |- 0,0);
+
+\foreach \x/\xtext in {-1,-0.5/-\frac{1}{2},0.5/\frac{1}{2},1}
+    \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north,fill=white] {$ \xtext $};
+\foreach \y/\ytext in {-1,-0.5/-\frac{1}{2},0.5/\frac{1}{2},1}
+    \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east,fill=white] {$ \ytext $};
+
+% \foreach \x in {1,2,...,5,7,8,...,12}
+%     \foreach \y in {1,...,5}
+%     {
+%         \draw (\x,\y) +(-.5,-.5) rectangle +(.5,.5);
+%         \draw (\x,\y) node{\x,\y};
+%     }
+
+\end{tikzpicture}
+
+\begin{tikzpicture}[place/.style={minimum size=2cm,shape=circle,draw=blue!50,fill=blue!20,thick,inner sep=0pt},
+ transition/.style={rectangle,minimum size=2cm,draw=black!50,fill=black!20,thick}]
+
+\foreach \x in {0,1}
+    \node (blue circle \x) at (\x*3,0) [place,minimum size=2cm] {};
+
+\node (rectangle with some text in it) [transition,node distance=3cm] [right=of blue circle 1] {$ v_{\text{really really don't care fuck u}} $};
+\node [red,above] at (rectangle with some text in it.north) {hi};
+\node [green,below] at (rectangle with some text in it.south) {there};
+
+\draw[->] (blue circle 1) to [bend right=100] (rectangle with some text in it);
+
+\end{tikzpicture}
+
+\fi
+
+\begin{figure}[h]
+\centering
+
+\begin{tikzpicture}[
+    circly/.style={draw,circle,minimum size=1cm},
+    arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}]
+
+\node (n 1) [circly,label=above:$ C $] at (-3,-3pt) {$ v_1 $};
+\node (n 2) [circly,label=above:$ A $] at (-1, 3pt) {$ v_2 $};
+\node (n 3) [circly,label=above:$ B $] at ( 1,-3pt) {$ v_3 $};
+\node (n 4) [circly,label=above:$ A $] at ( 3, 3pt) {$ v_4 $};
+
+\node [left=of n 1] {$ \alpha $'s graph};
+
+\draw [->] (0,-1) -- node [left=0.5cm] {sort the event types into an array} +(0, -1.5);
+
+\node (a 1) [arraycell] at (-2,-3.5) {$ A $};
+\node (a 2) [arraycell,right=of a 1] {$ A $};
+\node (a 3) [arraycell,right=of a 2] {$ B $};
+\node (a 4) [arraycell,right=of a 3] {$ C $};
+
+
+\end{tikzpicture}
+
+\caption{An episode's graph representation, with the label of each node shown above, and its array representation.}
+
+\label{fig:parallel-representation}
+\end{figure}
+
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode, i.e. the elements are ordered according to a topological sort of the nodes.
 \end{itemize}
 
