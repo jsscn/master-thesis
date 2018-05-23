@@ -100,6 +100,60 @@ Each episode $ \alpha $ includes a value \emph{block\_start}, which is the array
 
 % TODO explain blocks in more detail and illustrate
 
+\begin{figure}[h]
+\centering
+
+\begin{tikzpicture}[accolade/.style={decorate,decoration={brace,amplitude=10pt}}]
+
+\newcommand\blockspicvalue[2]{
+    \ifcase#2
+        \ifcase#1 A
+            \or A
+            \or B
+        \fi
+        \or \ifcase#1 A
+            \or A
+            \or C
+        \fi
+        \or \ifcase#1 A
+            \or C
+            \or C
+        \fi
+        \or \ifcase#1 A
+            \or C
+            \or D
+        \fi
+        \or B
+        \or \ifcase#1 B
+            \or B
+            \or C
+        \fi
+        \or \ifcase#1 B
+            \or B
+            \or D
+        \fi
+        \or C
+    \fi
+}
+
+\foreach \x in {0,...,2}
+\foreach \y in {0,...,7}
+{
+    \node (n\x\y) [draw,minimum size=1cm] at (\x,-\y*1.1) {$ \blockspicvalue{\x}{\y} $};
+}
+
+\
+
+\draw [accolade] ([xshift=2pt]n20.north east) -- ([xshift=2pt]n21.south east) node [midway,right=12pt] {combine};
+\draw [accolade] ([xshift=2pt]n22.north east) -- ([xshift=2pt]n23.south east) node [midway,right=12pt] {combine};
+\draw [accolade] ([xshift=2pt]n24.north east) -- ([xshift=2pt]n26.south east) node [midway,right=12pt] {combine};
+
+\end{tikzpicture}
+
+\caption{Example of blocks in candidate generation algorithm.}
+
+\end{figure}
+
 Constructing all $ (| \alpha | - 1) $-sized subepisodes of an episode $ \alpha $ is straightforward. For each subepisode, one node from $ \alpha $'s graph is left out, until all nodes have been left out. For serial episodes, the edges of the subepisode are constructed such that the order of the toplogical sort is preserved. For the array representation of both classes of episodes, this means that one element of the array is left out.
 
 % TODO illustrate construction of subepisodes
