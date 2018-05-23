@@ -20,6 +20,42 @@ Given a sequence $ \boldsymbol{s} $ and two integers $ i $ and $ j $ we define a
 
 For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the sequence $ \langle (s_1, 1), \ldots, (s_N, N) \rangle $.
 
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\draw (-5.5,0) -- (5.5,0);
+
+\foreach \x in {-5.5,-5,...,5.5}
+    \draw (\x,0) -- (\x,3pt);
+
+\foreach \x [evaluate=\x with as \timestamp using int((\x*2)+41)] in {-5.5,-3,...,5.5}
+    \node at (\x,-1em) {$ \timestamp $};
+
+
+\foreach \x/\eventtype in {
+  -5/C,
+  -4.5/F,
+  -4/B,
+  -3.5/B,
+  -2/C,
+  -1.5/E,
+  -1/D,
+  -0.5/A,
+  1/B,
+  2.5/E,
+  3/A,
+  3.5/E,
+  4/C}
+    \node at (\x,1em) {$ \eventtype $};
+
+\end{tikzpicture}
+
+\caption{A visual example of a sequence.}
+
+\end{figure}
+
 \begin{definition}
 An \emph{episode} $ G $ is represented by a directed acyclic graph with labelled nodes, that is, $ G = (V, E, lab) $, where $ V = (v_1, \ldots, v_K) $ is the set of nodes, $ E $ is the set of directed edges, and lab is the function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to its event type.
 \end{definition}
@@ -40,64 +76,66 @@ Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of 
 
 In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \begin{itemize}
-\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, event types can appear in any order in a sequence.
-\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of an episode in a sequence, the event types appear in the same order.
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur a sequence. An example:
+
+\tikzset{circly/.style={draw,circle,minimum size=1cm},
+    arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}}
+
+\begin{center}
+\begin{tikzpicture}
+\node (n 1) [circly] at (-3,-3pt) {$ v_1 $};
+\node (n 2) [circly] at (-1, 3pt) {$ v_2 $};
+\node (n 3) [circly] at ( 1,-3pt) {$ v_3 $};
+\node (n 4) [circly] at ( 3, 3pt) {$ v_4 $};
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of a serial episode in a sequence, the event types appear in the same order. An example:
+
+\begin{center}
+\begin{tikzpicture}
+
+\node (n 1) [circly] at (-3,0) {$ v_1 $};
+\node (n 2) [circly] at (-1,0) {$ v_2 $};
+\node (n 3) [circly] at ( 1,0) {$ v_3 $};
+\node (n 4) [circly] at ( 3,0) {$ v_4 $};
+
+\draw [->] (n 1) -- (n 2);
+\draw [->] (n 2) -- (n 3);
+\draw [->] (n 3) -- (n 4);
+
+\end{tikzpicture}
+\end{center}
+
+Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes:
+
+\begin{center}
+\begin{tikzpicture}
+
+\node (n 1) [circly] at (-3,0) {$ v_1 $};
+\node (n 2) [circly] at (-1,0) {$ v_2 $};
+\node (n 3) [circly] at ( 1,0) {$ v_3 $};
+\node (n 4) [circly] at ( 3,0) {$ v_4 $};
+
+\draw [->] (n 1) -- (n 2);
+\draw [->] (n 2) -- (n 3);
+\draw [->] (n 3) -- (n 4);
+
+\draw [->] (n 1) to [bend left=30] (n 3);
+\draw [->] (n 2) to [bend left=30] (n 4);
+\draw [->] (n 1) to [bend left=30] (n 4);
+
+\end{tikzpicture}
+\end{center}
+
+While serial episodes have a different graph in this form, their meaning is the same.
+
 \end{itemize}
 
-Due to the aforementioned, it is easy to represent an episode in a data structure---we don't need to explicitly store a graph with nodes and edges:
+Because we only consider parallel and serial episodes, it is easy to represent an episode in a data structure---we don't need to explicitly store a graph with nodes and edges:
 \begin{itemize}
-\item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array don't matter, but in the implementation they will usually follow some order on the set of event types. In that way each parallel episode has a unique representation.
-
-\iffalse
-
-\begin{tikzpicture}[scale=3]
-
-% \clip (-0.1,-0.2) rectangle (1.1,0.75);
-
-\draw[step=.5cm,help lines] (-1.4,-1.4) grid (1.4,1.4);
-
-\draw[->] (-1.5,0) -- (1.5,0);
-\draw[->] (0,-1.5) -- (0,1.5);
-
-\foreach \x in {-1,-0.5,...,1}
-    \draw[xshift=\x cm] (0,-1pt) -- (0,1pt);
-
-\foreach \y in {-1,-0.5,...,1}
-    \draw[yshift=\y cm] (-1pt,0) -- (1pt,0);
-
-\draw (0,0) circle [radius=1];
-\fill[fill=green!20!white,draw=green!50!black] (0,0) -- (3mm,0mm) arc [start angle=0,end angle=30,radius=3mm] -- cycle;
-\draw[red,very thick] (30:1cm) -- node[left=10pt,fill=white] {$ \sin \alpha $} (30:1cm |- 0,0);
-
-\foreach \x/\xtext in {-1,-0.5/-\frac{1}{2},0.5/\frac{1}{2},1}
-    \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north,fill=white] {$ \xtext $};
-\foreach \y/\ytext in {-1,-0.5/-\frac{1}{2},0.5/\frac{1}{2},1}
-    \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east,fill=white] {$ \ytext $};
-
-% \foreach \x in {1,2,...,5,7,8,...,12}
-%     \foreach \y in {1,...,5}
-%     {
-%         \draw (\x,\y) +(-.5,-.5) rectangle +(.5,.5);
-%         \draw (\x,\y) node{\x,\y};
-%     }
-
-\end{tikzpicture}
-
-\begin{tikzpicture}[place/.style={minimum size=2cm,shape=circle,draw=blue!50,fill=blue!20,thick,inner sep=0pt},
- transition/.style={rectangle,minimum size=2cm,draw=black!50,fill=black!20,thick}]
-
-\foreach \x in {0,1}
-    \node (blue circle \x) at (\x*3,0) [place,minimum size=2cm] {};
-
-\node (rectangle with some text in it) [transition,node distance=3cm] [right=of blue circle 1] {$ v_{\text{really really don't care fuck u}} $};
-\node [red,above] at (rectangle with some text in it.north) {hi};
-\node [green,below] at (rectangle with some text in it.south) {there};
-
-\draw[->] (blue circle 1) to [bend right=100] (rectangle with some text in it);
-
-\end{tikzpicture}
-
-\fi
+\item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array doesn't matter, but in the implementation they will follow some order on the set of event types. In that way each parallel episode has a unique array representation.
 
 \tikzset{circly/.style={draw,circle,minimum size=1cm},
     arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}}
@@ -128,7 +166,7 @@ Due to the aforementioned, it is easy to represent an episode in a data structur
 \label{fig:parallel-representation}
 \end{figure}
 
-\item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode, i.e. the elements are ordered according to a topological sort of the nodes.
+\item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode. That is, the event types are ordered according to a topological sort of the nodes.
 
 \begin{figure}
 \centering
