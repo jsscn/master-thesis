@@ -99,36 +99,65 @@ Due to the aforementioned, it is easy to represent an episode in a data structur
 
 \fi
 
+\tikzset{circly/.style={draw,circle,minimum size=1cm},
+    arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}}
+
 \begin{figure}[h]
 \centering
 
-\begin{tikzpicture}[
-    circly/.style={draw,circle,minimum size=1cm},
-    arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}]
+\begin{tikzpicture}
 
 \node (n 1) [circly,label=above:$ C $] at (-3,-3pt) {$ v_1 $};
 \node (n 2) [circly,label=above:$ A $] at (-1, 3pt) {$ v_2 $};
 \node (n 3) [circly,label=above:$ B $] at ( 1,-3pt) {$ v_3 $};
 \node (n 4) [circly,label=above:$ A $] at ( 3, 3pt) {$ v_4 $};
 
-\node [left=of n 1] {$ \alpha $'s graph};
+\node [left=of n 1] {episode graph};
 
-\draw [->] (0,-1) -- node [left=0.5cm] {sort the event types into an array} +(0, -1.5);
+\draw [->] (0,-1) -- node [left=0.5cm] {sort the event types into an array} +(0,-1.5);
 
 \node (a 1) [arraycell] at (-2,-3.5) {$ A $};
 \node (a 2) [arraycell,right=of a 1] {$ A $};
 \node (a 3) [arraycell,right=of a 2] {$ B $};
 \node (a 4) [arraycell,right=of a 3] {$ C $};
 
-
 \end{tikzpicture}
 
-\caption{An episode's graph representation, with the label of each node shown above, and its array representation.}
+\caption{A parallel episode's graph representation, with the label of each node shown above, and its array representation.}
 
 \label{fig:parallel-representation}
 \end{figure}
 
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode, i.e. the elements are ordered according to a topological sort of the nodes.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\node (n 1) [circly,label=above:$ A $] at (-3,0) {$ v_1 $};
+\node (n 2) [circly,label=above:$ C $] at (-1,0) {$ v_2 $}
+    edge [pre] (n 1);
+\node (n 3) [circly,label=above:$ B $] at (1, 0) {$ v_3 $}
+    edge [pre] (n 2);
+\node (n 4) [circly,label=above:$ A $] at (3, 0) {$ v_4 $}
+    edge [pre] (n 3);
+
+\node [left=of n 1] {episode graph};
+
+\draw [->] (0,-1) -- node [left=0.5cm,align=right] {store event types into array,\\preserving toplogical ordering} +(0,-1.5);
+
+\node (a 1) [arraycell] at (-2, -3.5) {$ A $};
+\node (a 2) [arraycell,right=of a 1] {$ C $};
+\node (a 3) [arraycell,right=of a 2] {$ B $};
+\node (a 4) [arraycell,right=of a 3] {$ A $};
+
+\end{tikzpicture}
+
+\caption{A serial episode's graph representation, with the label of each node shown above, and its array representation.}
+
+\end{figure}
+
 \end{itemize}
 
 \subsection{Association Rules}
