@@ -12,11 +12,15 @@
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,decorations.pathreplacing}
+\tikzset{circly/.style={draw,circle,minimum size=1cm},
+    arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0},
+    accolade/.style={decorate,decoration={brace,amplitude=10pt}}}
 
+\usepackage{subcaption}
 \usepackage{caption} % to remove colon from figures with no caption
 % \usepackage[top=3cm, left=2cm, right=2cm, bottom=3cm]{geometry}
 
-\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage[colorlinks=false,hidelinks,urlcolor=blue]{hyperref}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
@@ -72,11 +76,13 @@ University of Antwerp
 \maketitle
 
 \section{Introduction}
-
+\newpage
 
 \input{problem-statement.tex}
+\newpage
 
 \input{algorithms}
+\newpage
 
 
 % \begin{tikzpicture}
@@ -88,5 +94,11 @@ University of Antwerp
 
 
 \section{Conclusion}
+
+\begin{thebibliography}{99}
+
+\bibitem{cule16} Cule B., Feremans L., Goethals B. (2016) \textit{Efficient Discovery of Sets of Co-occurring Items in Event Sequences}. In: Frasconi P., Landwehr N., Manco G., Vreeken J. (eds) Machine Learning and Knowledge Discovery in Databases. ECML PKDD 2016. Lecture Notes in Computer Science, vol 9851. Springer, Cham
+
+\end{thebibliography}
 
 \end{document}
