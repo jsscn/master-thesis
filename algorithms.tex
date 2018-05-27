@@ -262,7 +262,7 @@ As mentioned previously, a potential candidate is generated from two episodes th
 \end{figure}
 
 This block structure is represented as follows.
-Each episode $ \alpha $ includes a value \emph{block\_start}, which is the array index of the first episode in the block which contains $ \alpha $, so it points ``back'' to the beginning of the block. (The first episode in each block points to itself.) In this way, it can be easily tested whether two episodes belong to the same block.
+Each episode $ \alpha $ includes a value \emph{block\_start}, which is the array index of the first episode in the block which contains $ \alpha $, so it points ``back'' to the beginning of the block. (The first episode in each block points to itself.) In this way, it can be easily tested whether two episodes belong to the same block. Figure~\ref{fig:block-values} shows this representation for the episodes in figure~\ref{fig:blocks}.
 
 \begin{figure}
 \centering
@@ -298,7 +298,7 @@ Each episode $ \alpha $ includes a value \emph{block\_start}, which is the array
 
 The algorithm constructs this block structure while generating candidates of size $ l + 1 $, but it also uses the blocks of the $ l $-sized episodes given as input. So it is important that they are preserved and maintained in between different runs of algorithm~\ref{alg:cand-gen}. Section~\ref{sec:maintain-blocks} goes into more detail about this.
 
-Constructing all $ (| \alpha | - 1) $-sized subepisodes of an episode $ \alpha $ is straightforward. For each subepisode, one node from $ \alpha $'s graph is left out, until all nodes have been left out. For serial episodes, the edges of the subepisode are constructed such that the order of the toplogical sort is preserved. (If we consider the strict form of a serial candidate, a subepisode can be obtained by leaving one node $ v $ and all edges that contain $ v $.) For the array representation of both classes of episodes, this means that one element of the array is left out.
+Constructing all $ (| \alpha | - 1) $-sized subepisodes of an episode $ \alpha $ is straightforward. For each subepisode, one node from $ \alpha $'s graph is left out, until all nodes have been left out. For serial episodes, the edges of the subepisode are constructed such that the order of the toplogical sort is preserved. If we consider the strict form of a serial candidate, a subepisode can be obtained by leaving one node $ v $ and all edges that contain $ v $. For the array representation of both classes of episodes, this means that one element of the array is left out.
 
 % TODO illustrate construction of subepisodes
 
@@ -367,7 +367,7 @@ Algorithm~\ref{alg:rec-par-fwi} recognizes parallel episodes in an event sequenc
 
 The algorithm makes one pass over the sequence, timestamp by timestamp. Variable \emph{start} refers to the smallest timestamp of the current window at any point. It is the timestamp that will be dropped from the window the following iteration; at that timestamp we find the ``oldest'' events still in the window. The ``newest'' events in the window are found at the largest timestamp of the window, at $ (\text{start} + \text{win} - 1) $. We'll call the former the \emph{back} of the sliding window, and the latter the \emph{front}.
 
-In order to prevent having to consider a special case for the beginning and the end of the iteration over the sequence, the algorithm starts with just the first valid timestamp $ T_s $ at the front of the sliding window. All other timestamps within the window are outside of the sequence at this point. In terms of subwindows, this first window can be written as $ s[T_s - \text{win} + 1, T_s + 1] $. Strictly speaking, this isn't a valid subwindow, since its time range lies outside the range of the sequence itself, but we can imagine extending the sequence on both sides to allow for this. At the end of the sequence, the same thing happens; the last subwindow of the iteration is $ s[T_e, T_e + win] $. Figure~\ref{fig:sliding-window} shows this visually.
+In order to prevent having to consider a special case for the beginning and the end of the iteration over the sequence, the algorithm starts with just the first valid timestamp $ T_s $ at the front of the sliding window. All other timestamps within the window are outside of the sequence at this point. In terms of subwindows, this first window can be written as $ s[T_s - \text{win} + 1, T_s + 1] $. Strictly speaking, this isn't a valid subwindow, since its time range lies outside the range of the sequence itself, but we can imagine extending the sequence on both sides to allow for this. At the end of the sequence, the same thing happens; the last subwindow of the iteration is $ s[T_e, T_e + \text{win}] $. Figure~\ref{fig:sliding-window} shows this way of iterating visually.
 
 \begin{figure}
 \centering
@@ -400,10 +400,12 @@ In order to prevent having to consider a special case for the beginning and the 
 \slidingwindowthingy{-4}{4}{1}
 \slidingwindowthingy{-5}{5}{1}
 \slidingwindowthingy{-6}{6}{1}
-\slidingwindowthingy{-7}{7}{1}
+
+\node [above=10pt of n00] {$ T_s $};
+\node [below=10pt of n-66] {$ T_e $};
 
 \end{tikzpicture}
-\caption{How algorithm~\ref{alg:rec-par-fwi} and further algorithms, iterate the sequence. Black dots represent timestamps that belong to the sequence.}
+\caption{Visualization of the way algorithm~\ref{alg:rec-par-fwi} and further algorithms pass a sliding window overwritten the sequence. Black dots represent timestamps that belong to the sequence, regardless of whether events occur at that timestamp.}
 \label{fig:sliding-window}
 \end{figure}
 
@@ -439,19 +441,19 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $}
+\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $} \label{alglin:rec-ser-fwi:iterate-sequence}
     \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
     \State{$ \text{transitions} \leftarrow \emptyset $}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-ser-fwi:iterate-new-events}
         \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
-            \If{$ j = | \alpha | \wedge \alpha \text{.initialized}[j] = \text{\textit{uninitialized}} $}
+            \If{$ j = | \alpha | \wedge \alpha \text{.initialized}[j] = \text{\textit{uninitialized}} $} \label{alglin:rec-ser-fwi:mark-enter}
                 \State{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
             \EndIf
-            \If{$ j = 1 $}
+            \If{$ j = 1 $} \label{alglin:rec-ser-fwi:add-to-transitions}
                 \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
             \Else
                 \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
-                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $
+                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-fwi:cleanup-old-states}
                 \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
                 \State{$ \alpha \text{.initialized} [j - 1] \leftarrow \text{\textit{uninitialized}} $}
                 \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
@@ -471,7 +473,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \Else
             \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
         \EndIf
-        \State{$ \alpha \text{.initialized}[l] \leftarrow 0 $} \label{alglin:rec-ser-fwi:cleanup-iteration-end}
+        \State{$ \alpha \text{.initialized}[l] \leftarrow \text{\textit{uninitialized}} $} \label{alglin:rec-ser-fwi:cleanup-iteration-end}
     \EndFor
 \EndFor
 \ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
@@ -493,6 +495,8 @@ When an instance of $ \alpha $ reaches state $ | \alpha | $, the episode has bee
 
 If the timestamp at which the automaton instance was initialized falls out of the window before reaching state $ | \alpha | $, the instance is removed.
 
+\subsubsection{Data structures}
+
 The algorithm uses some bookkeeping data structures, which get updated as the sequence gets read. We'll discuss the most important ones.
 \begin{itemize}
 \item \textbf{waits} maps an event type to a set of pairs of the form $ (\alpha, j) $, where $ \alpha $ is an episode and $ j $ represents a state in the episode's automaton. If a pair $ (\alpha, j) $ is in $ \text{waits}(A) $, then $ \alpha $ has an instance of its automaton currently in state $ (j - 1) $ and is waiting for an event of type $ A $ to advance to the next state. Throughout the iteration over the sequence, $ \text{waits}(A) $ will always contain $ (\alpha, 1) $ for each episode $ \alpha $ that starts with $ A $, since it's always waiting to start a new instance of its automaton.
@@ -503,11 +507,31 @@ This approach works because there never needs to be more than one automaton inst
 \item All of the state transitions to be performed for a given timestamp are collected in a list, \textbf{transitions}, before they actually get executed. If they were executed immediately, an automaton could be incorrectly overwritten if there there are multiple events in a single timestamp. We will come back to this later.
 \end{itemize}
 
+\subsubsection{Operation}
+
 With the data structures just described in mind, we will through the algorithm in detail to see how it operates.
 
-The initialization is rather straightforward. One thing to note is that the permanent pairs of the \emph{waits} sets are constructed. As stated before, for each episode $ \alpha $, $ \text{waits}(\alpha[1]) $ contains $ (\alpha, 1) $ from the start, and throughout the algorithm, to initialize a new automaton instance for $ \alpha $ any time an event of type $ \alpha[1] $ occurs. This happens at line~\ref{alglin:rec-ser-fwi:fill-waits-init}.
+The initialization is rather straightforward. One thing to note is that the permanent pairs of the \emph{waits} sets are constructed (line~\ref{alglin:rec-ser-fwi:fill-waits-init}). As stated before, for each episode $ \alpha $, $ \text{waits}(\alpha[1]) $ contains $ (\alpha, 1) $ from the start, and throughout the algorithm, to initialize a new automaton instance for $ \alpha $ any time an event of type $ \alpha[1] $ occurs.
 
-Then the sequence is iterated, timestamp by timestamp. The iteration starts with a window that contains only the first timestamp of the sequence. That is, the window being considered is $ s[T_s - win + 1] $.
+Then a sliding window is passed over the sequence, in the same manner algorithm~\ref{alg:rec-par-fwi} does (line~\ref{alglin:rec-ser-fwi:iterate-sequence}). Each time the sliding window is advanced, first the events that just came into the window are processed (line~\ref{alglin:rec-ser-fwi:iterate-new-events}), at time $ (\text{start} + \text{win} - 1) $. The \emph{waits} data structure allows us to efficiently find all of the automata that can advance their state thanks to encountering an event of a certain type, say $ A $, or to initialize a new automaton instance. For each of the elements in $ \text{waits}(A) $, the following steps are evaluated:
+
+\begin{enumerate}
+\item (Lines~\ref{alglin:rec-ser-fwi:mark-enter} and further) If an automaton instance has reached state $ | \alpha | $, that is, the episode now occurs within the sliding window\footnote{This is not entirely correct. Note that new events coming into the window are processed before old events are removed. After processing new events, the oldest possible automata were therefore initialized at timestamp $ \text{start} - 1 $, which may cause an episode to be recognized without being in the current window $ s[\text{start}, \text{start} + \text{win}] $. However, for such a falsely recognized episode, $ \text{start} - \alpha \text{.in\_window} $ will be zero, thus not affecting $ \alpha $'s frequency count.}, then $ \alpha \text{.in\_window} $ gets set to \emph{start} to mark the time at which the episode entered the sliding window.
+\item (Lines~\ref{alglin:rec-ser-fwi:add-to-transitions} and further) Then the transition to be made is captured in the list of transitions.
+\item (Lines~\ref{alglin:rec-ser-fwi:cleanup-old-states} and further) The old state information is removed from data structures \emph{begins\_at}, \emph{initialized}, and \emph{waits}, if we're not initializing a new automaton instance.
+\end{enumerate}
+
+When all new events have been processed, the transitions are finalized: the new state information is written to \emph{initialized}, \emph{begins\_at}, and \emph{waits}.
+
+After processing the state transitions, the events which are no longer in the window, are dropped. This entails looking up all automata which were instantiated at timestamp $ (\text{start} - 1) $ using the \emph{begins\_at} data structure (line~\ref{alglin:rec-ser-fwi:cleanup-iteration-begin} and further):
+
+\begin{enumerate}
+\item If the automaton instance was in state $ | \alpha | $, the episode occurred within the window until now. When this automaton instance first came into the sliding window, the timestamp was stored in $ \alpha \text{.in\_window} $, and so the frequency count of the episode can be updated by adding $ (\text{start} - \alpha \text{.in\_window}) $.
+\item If the automaton instance was not in state $ | \alpha | $, the \emph{waits} data structure is updated to reflect the removal of the instance.
+\item The \emph{initialized} array of the episode is updated to reflect the removal of the automaton instance.
+\end{enumerate}
+
+\subsubsection{Correcting the original algorithm pseudocode}
 
 While implementing this algorithm we found an error in the pseudocode, related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
 
@@ -522,7 +546,9 @@ When the second $ E $ is read (at $ t = t_1 + 2 $ and when $ \text{start} = t_1 
 
 This is a problem any time an older instance of an episode's automaton gets overwritten. In some cases, as illustrated above, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early. Consequently, this may cause the episode to be considered infrequent while it actually is frequent.
 
-Earlier we mentioned that the \emph{transitions} variable, which captures all transitions to execute, exists for good reason. To see why it is necessary, consider the following example. Say $ \alpha = A \to B \to C $ is in the collection of candidates, and consider the event sequence $ \langle (A, 1), (B, 2), (A, 3), (B, 4), (C, 4) \rangle $. Assume the window width is at least 4 so that it is sufficiently large to recognize $ \alpha $.
+\subsubsection{The necessity of the \emph{transitions} data structure}
+
+Earlier we mentioned that the \emph{transitions} data structure, which captures all transitions to execute in a timestamp before finalizing them, exists for good reason. To see why it is necessary, consider the following example. Say $ \alpha = A \to B \to C $ is in the collection of candidates, and consider the event sequence $ \langle (A, 1), (B, 2), (A, 3), (B, 4), (C, 4) \rangle $. Assume the window width is at least 4 so that it is sufficiently large to recognize $ \alpha $.
 
 % TODO finish the example
 
