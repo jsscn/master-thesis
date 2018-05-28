@@ -79,17 +79,23 @@ Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of 
 
 In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \begin{itemize}
-\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur a sequence. An example is shown in figure~\ref{fig:episode-graphs-parallel}. In text we'll write parallel episodes by their event types using the following notation:
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur in a sequence. An example is shown in figure~\ref{fig:episode-graphs-parallel}. In text we'll write parallel episodes by their event types using the following notation:
 \begin{align*}
-    \{ A, B, C \}
+    \{ A_1, A_2, \ldots, A_n \}
 \end{align*}
-by which we mean a parallel episode with three nodes, and the event types are A, B, and C. Note that though the notation reminds strongly of a mathematical set, it is not: a parallel episode $ \{ A, A, B, C \} $ is not equivalent to $ \{ A, B, C \} $.
+by which we mean a parallel episode with $ n $ nodes, and the event types are $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not represent a set: a parallel episode $ \{ A, A, B, C \} $ is not equivalent to an episode $ \{ A, B, C \} $.
 
-\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a strict order. That is, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
 
 Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in figure~\ref{fig:episode-graphs-serial}.
 
-While serial episodes have a different graph in this form, their meaning is the same since they enforce the same order.
+While serial episodes have a different graph in this form, their meaning is the same, since they enforce the same order on the occurrence of events in the sequence to satisfy an occurrence of a serial episode.
+
+For serial episodes we will use the notation
+\begin{align*}
+A_1 \to A_2 \to \cdots \to A_n
+\end{align*}
+where $ A_i $ is the event type of the $ i $-th node
 
 \end{itemize}
 
@@ -195,7 +201,11 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode. That is, the event types are ordered according to a topological sort of the nodes. Figure~\ref{fig:serial-representation} shows this visually.
 \end{itemize}
 
-When discussing the algorithms we will mostly consider their array representation, and address their elements by array index by suffixing the episode identifier with the index in square brackets. For instance, $ \alpha [i] $ refers to the $ i $-th element of the array.
+When discussing the algorithms we will mostly consider their array representation, and address their elements by array index using the following notation:
+\begin{align*}
+\alpha [i]
+\end{align*}
+which refers to the $ i $-th element of the array representing the episode.
 
 \begin{figure}
 \centering
