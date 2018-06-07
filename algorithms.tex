@@ -308,18 +308,18 @@ Now, if we always construct a new candidate $ \alpha $ as $ \langle \mathcal{C}[
 
 With serial episodes on the other hand, the order of elements in the array is not bound by an order on the event types.
 Serial candidate generation can be accomplished by a small change to the algorithm. Line~\ref{alglin:cand-gen:j-loop} needs to be changed to:
-
 \begin{algorithmic}[0]
 \For{$ j \gets \mathcal{F}_l. \text{block\_start}[i] $; $ \mathcal{F}_l \text{.block\_start}[j] = \mathcal{F}_l \text{.block\_start}[i] $; $ j \gets j + 1 $}
 \EndFor
 \end{algorithmic}
+By initializing $ j $ to $ \mathcal{F}_l \text{.block\_start}[i] $, now $ j $ can be less than $ i $, alleviating the constraint on parallel episodes.
 
 After constructing a potential candidate (lines~\ref{alglin:cand-gen:construct-candidate-1} and \ref{alglin:cand-gen:construct-candidate-2}), it needs to be checked whether all of its subepisodes are frequent.
 Constructing all $ l $-sized subepisodes of an $ (l + 1) $-sized candidate $ \alpha $ is straightforward. For each subepisode, one node from $ \alpha $'s graph is left out, until all nodes have been left out. For serial episodes, the edges of the subepisode are constructed such that the order of the toplogical sort is preserved. If we consider the strict form of a serial candidate, an $ l $-sized subepisode can be obtained by leaving one node $ v $ and all edges that contain $ v $. For the array representation of both classes of episodes, this means that one element of the array is left out. See figure~\ref{fig:cand-subepisodes} for an example. In the algorithm, this happens at lines~\ref{alglin:cand-gen:test-subepisodes-loop} and further. The variable $ y $ denotes the array index of the array element that will be left out.
 
 For any potential candidate, two of subepisodes in particular are already known to be frequent, namely the episodes it was built from. Those subepisodes are obtained by leaving out the last and the second to last array elements. That's why the largest value $ y $ takes in the algorithm is $ l - 1 $.
 
-We should note that in the subepisode construction procedure described above, some of the subepisodes may be equivalent to each other, when an event type occurs multiple times in a parallel episode. For $ \{ A, A, B \} $, subepisode $ \{ A, B \} $ will be constructed twice.
+We should note that in the subepisode construction procedure described above, some of the subepisodes may be equivalent to each other, when an event type occurs multiple times in a candidate. For $ \{ A, A, B \} $, subepisode $ \{ A, B \} $ will be constructed twice.
 
 \begin{figure}
 \centering
@@ -372,7 +372,7 @@ We should note that in the subepisode construction procedure described above, so
 
 \begin{algorithm}
 
-\caption{Recognizing parallel episodes using the fixed-window frequency measure. \\
+\caption{Recognizing parallel episodes using the fixed window frequency measure. \\
 Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
 Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
 }
@@ -566,8 +566,8 @@ Figure~\ref{fig:parallel-recognition} illustrates this.
 
 \begin{algorithm}
 
-\caption{Recognizing serial episodes using the fixed-window frequency measure. \\
-Input: A collection $ \mathcal{C} $ of serial episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
+\caption{Recognizing serial episodes using the fixed window frequency measure. \\
+Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
 Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
 }
 
@@ -738,7 +738,7 @@ After applying the state transitions, the events no longer in the window are dro
 
 \subsubsection{Correcting the original algorithm pseudocode}
 
-While implementing this algorithm we found an error in the pseudocode, related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
+While implementing this algorithm we found an oversight in~\cite{winepi97} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\cite{winepi97}), related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
 
 Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: C \cdots $. Say that the first $ E $ has timestamp $ t_1 $. Consider the recognition of the serial episode $ \alpha = E \to C $. Obviously the subsequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the subsequence. Upon encountering the first $ E $, an automaton instance gets initialized for $ \alpha $ (lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}). This includes, as discussed before:
 \begin{itemize}
@@ -753,9 +753,26 @@ This is a problem any time an older instance of an episode's automaton instance 
 
 \subsubsection{The necessity of the \emph{transitions} data structure}
 
-Earlier we mentioned that the \emph{transitions} data structure, which captures all transitions to execute at a timestamp before finalizing them, exists for good reason. In short, an automaton instance in state $ j $ could incorrectly overwrite an instance in state $ j + 1 $ if both automata are to transition. Consider the following example. Say $ \alpha = A \to B \to C $ is in the collection of candidates, and consider the event sequence $ \langle (A, 1),\allowbreak(B, 2),\allowbreak(A, 3),\allowbreak(B, 4),\allowbreak(C, 4) \rangle $. Note that the last two events occur at the same timestamp. Assume the window width is at least 4 so that it is sufficiently large to recognize $ \alpha $. When $ \text{start} + \text{win} - 1 = 1 $, a new automaton for $ \alpha $ gets instantiated.
+Earlier we mentioned that the \emph{transitions} data structure, which captures all transitions to execute at a timestamp before finalizing them, exists for good reason. In short, an automaton instance in state $ j $ could incorrectly overwrite an instance in state $ j + 1 $ if both instances are to transition. Consider the following example. Say $ \alpha = A \to B \to C $ is in the collection of candidates, and consider the event sequence $ \langle (A, 1),\allowbreak(B, 2),\allowbreak(A, 3),\allowbreak(B, 4),\allowbreak(C, 4) \rangle $. Note that the last two events occur at the same timestamp. Assume the window width is at least 4 so that it is sufficiently large to recognize $ \alpha $.
 
-% TODO finish the example
+\begin{enumerate}
+\item When $ (A, 1) $ enters the window, a new automaton for $ \alpha $ gets initialized.
+\item When $ (B, 2) $ comes in, the automaton transitions to state~$ 2 $.
+\item When $ (A, 3) $ comes in, a new automaton instance for $ \alpha $ is initialized. Now $ \alpha $'s \emph{initialized} array contains:
+\begin{align*}
+\langle 1, 3, \text{\textit{uninitialized}} \rangle
+\end{align*}
+\item Next, $ (B, 4) $ comes in. The most recently initialized instance will transition to state $ 2 $. \label{B4-comes-in}
+\item Finally, $ (C, 4) $ enters the window. The oldest automaton instance should transition to state $ 3 $.
+\end{enumerate}
+
+Now, if at step~\ref{B4-comes-in} the transition was performed immediately, then the \emph{initialized} entry of the older automaton instance would have be incorrectly overwritten:
+\begin{align*}
+\langle \text{\textit{uninitialized}}, 1, \text{\textit{uninitialized}} \rangle
+\end{align*}
+Now the data structures are in an inconsistent state.
+
+Collecting all transitions to be peformed at a given timestamp before executing them, will prevent \emph{initialized} entries being incorrectly overwritten.
 
 \subsection{Recognizing parallel episodes with minimal windows}
 
@@ -810,9 +827,179 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 \end{algorithmic}
 
+\label{alg:rec-par-mwi}
 \end{algorithm}
 
 With minimal windows, the frequency of an episode isn't expressed in terms of a number of windows anymore, but in the number of actual occurrences of the episode. For the fixed window frequency measure, % TODO finish sentence (and by extension, thesis)
+
+\subsection{Recognizing serial episodes with minimal windows}
+
+\begin{algorithm}
+
+\caption{Recognizing serial episodes using the minimal window frequency measure. \\
+Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+}
+
+\begin{algorithmic}[1]
+
+\LineComment{Initialization}
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \For{$ i \leftarrow 1 $ to $ | \alpha | $}
+        \State{$ \alpha \text{.initialized}[i] \leftarrow \text{\textit{uninitialized}} $}
+        \State{$ \text{waits}(\alpha[i]) \leftarrow \emptyset $}
+    \EndFor
+\EndFor
+
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \State{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $} \label{alglin:rec-ser-mwi:fill-waits-init}
+    \State{$ \alpha \text{.minimal\_windows} \gets \emptyset $}
+\EndFor
+
+\For{$ t \leftarrow T_s - \text{win} $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
+\EndFor
+
+\LineComment{Recognition}
+\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence}
+    \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+    \State{$ \text{transitions} \leftarrow \emptyset $}
+    \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $} \label{alglin:rec-ser-mwi:cleanup-for}
+        \If{$ l < | \alpha | $} \label{alglin:rec-ser-mwi:cleanup-iteration-begin}
+            \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
+        \EndIf
+        \State{$ \alpha \text{.initialized}[l] \leftarrow \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:cleanup-iteration-end}
+    \EndFor
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-ser-mwi:iterate-new-events}
+        \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
+            \If{$ j = 1 $} \label{alglin:rec-ser-mwi:add-to-transitions}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+            \Else
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
+                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-mwi:cleanup-old-states}
+                \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
+                \State{$ \alpha \text{.initialized} [j - 1] \leftarrow \text{\textit{uninitialized}} $}
+                \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
+            \EndIf
+        \EndFor
+    \EndFor
+    \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $} \label{alglin:rec-ser-mwi:transition-begin}
+        \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
+        \If{$ j = | \alpha | $}
+            \State $ \alpha \text{.minimal\_windows} \gets $
+            \State \hspace{\algorithmicindent} $ \alpha \text{.minimal\_windows} \cup \{ [\alpha \text{.initialized}[j], \text{start} + \text{win}) \} $
+        \Else
+            \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-mwi:transition-end}
+        \EndIf
+    \EndFor
+\EndFor
+
+\ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
+    \LineComment{See algorithm~\ref{alg:disjoint-window-frequency} in section~\ref{sec:disjoint-window-frequency}}
+    \If{$ fr_m(\alpha) \geq \text{min\_fr} $}
+        \State{output $ \alpha $}
+    \EndIf
+\EndFor
+
+\end{algorithmic}
+
+\label{alg:rec-ser-mwi}
+\end{algorithm}
+
+While recognizing parallel episodes with minimal windows was slightly more complicated than with fixed windows, recognizing serial episodes with minimal windows is actuallly simpler than with fixed windows, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
+
+\subsection{Determining the disjoint-window frequency for the minimal windows frequency measure}
+\label{sec:disjoint-window-frequency}
+
+The disjoint-window frequency of an episode $ \alpha $ was previously defined as
+\begin{align*}
+fr_m(\alpha) = \max \{ | W | \mid W \subseteq mw(\alpha), dis(W) = 1 \}
+\end{align*}
+
+\begin{algorithm}
+
+\caption{Determining the disjoint-window frequency of an episode.\\
+Input: List $ W $ of minimal windows of the episode in a sequence $ s $, ordered by time in the sequence.\\
+Output: The episode's disjoint-window frequency in $ s $.
+}
+
+\begin{algorithmic}[1]
+
+\State $ u \gets 0 $
+\State $ b_l \gets -\infty $
+\ForAll {$ [a, b) \in W $}
+    \If {$ b_l \leq a $}
+        \State $ u \gets u + 1 $
+        \State $ b_l \gets b $
+    \EndIf
+\EndFor
+\State output $ u $
+
+\end{algorithmic}
+
+\label{alg:disjoint-window-frequency}
+\end{algorithm}
+
+In words, the disjoint-window frequency of an episode is the largest possible number of non-overlapping minimal windows that cover the episode.
+
+Given a list of all of the minimal windows that cover an episode, the disjoint window frequency can be calculated as follows. Count the first window, if the list is not empty. Then, while iterating the list, count a window if it does not overlap with the window that was counted last. % TODO continue writing this
+
+\iffalse
+\begin{figure}
+
+\tikzset{counted/.style={green!80!black},
+    skipped/.style={red,dashed}}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\draw [*-*] (0,0) -- (2,0);
+\draw [*-*] (0.5,-4pt) -- (2.5,-4pt);
+\draw [*-*] (3.0,-8pt) -- (4.5,-8pt);
+% \draw (0,-2pt) rectangle (3,12pt);
+% \draw (2.5,-4pt) rectangle (6,14pt);
+% \draw (4,-2pt) rectangle (7,12pt);
+% \draw (5,0pt) rectangle (10,10pt);
+
+\end{tikzpicture}
+
+\caption{A possible chain of overlapping minimal windows.}
+\end{subfigure}
+\par\bigskip
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\draw [*-*,counted] (0,0) -- (3,0);
+\draw [*-*,skipped] (2.5,-4pt) -- (6,-4pt);
+\draw [*-*,counted] (4,-8pt) -- (7,-8pt);
+\draw [*-*,skipped] (5,-12pt) -- (10,-12pt);
+
+\end{tikzpicture}
+
+\caption{Selecting the largest number of disjoint windows. Dashed line means not selected.}
+\end{subfigure}
+\par\bigskip
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\draw (0,-2pt) rectangle (5,12pt);
+\draw (1,0pt) rectangle (3.5,10pt);
+
+\end{tikzpicture}
+
+\caption{An impossible set of minimal windows: one window cannot be contained in another.}
+\end{subfigure}
+
+\caption{Visualizing the minimal windows of an episode.}
+\label{fig:minimal-windows-chains}
+\end{figure}
+\fi
 
 \subsection{Removing episodes which have been found infrequent}
 \label{sec:maintain-blocks}
