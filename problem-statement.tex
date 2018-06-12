@@ -3,22 +3,34 @@
 \subsection{Event sequences}
 
 \begin{definition}
-A \emph{sequence event} is defined as a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
+A \emph{sequence event}, or \emph{event} for short, is defined as a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
 \end{definition}
 
 \begin{definition}
-An \emph{event sequence} $ \boldsymbol{s} $ is an ordered sequence of events
+An \emph{event sequence} $ \boldsymbol{s} $ is a triple $ (s, T_s, T_e) $, where $ s $ is an ordered sequence of events
 \begin{align*}
-s = \langle (A_1, t_1), (A_2, t_2), \ldots, (A_n, t_n) \rangle
+s = \langle (A_1, t_1), (A_2, t_2), \, \ldots, \, (A_n, t_n) \rangle
 \end{align*}
-such that $ t_i \leq t_{i + 1} $ for all $ i = 1, \ldots, n - 1 $.
+such that $ t_i \leq t_{i + 1} $ for all $ i = 1, \, \ldots, \, n - 1 $, and any given pair $ (A, t) $ appears at most once.
+
+With $ \boldsymbol{s}_i $ we refer to the pair $ (A_i, t_i) $ in $ s $.
+
+$ T_s $ and $ T_e $ are timestamps such that $ T_s \leq t_1 $ and $ t_n < T_e $. They mark the beginning and the end of the sequence, respectively.
+
+If a sequence event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
 \end{definition}
 
-If event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in the sequence at timestamp $ t $. Note that multiple events can occur at the same timestamp. Some implementations do not allow multiple events to occur at the same timestamp.
+Note that multiple events can occur at the same timestamp, if they have different event types. Some implementations do not allow this, however.
 
-Given a sequence $ \boldsymbol{s} $ and two integers $ i $ and $ j $ we define a \emph{subsequence} $ s[i, j] = s_i, \ldots, s_j $ containing all events occurring between $ i $ and $ j $.
+\begin{definition}
+Given a sequence $ \boldsymbol{s} = (s, T_s, T_e) $ and two timestamps $ t_s $ and $ t_e $,
+% such that $ t_s < T_e $ and $ T_s < t_e $
+we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ (w, t_s, t_e) $ where $ w $ contains all events $ (A, t) $ in $ s $ where $ t_s \leq t < t_e $.
+\end{definition}
 
-For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the sequence $ \langle (s_1, 1), \ldots,\allowbreak(s_N, N) \rangle $.
+Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence.
+
+For the sake of simplicity, we use the notation $ s_1 \cdots s_n $ to mean the sequence $ (\langle (s_1, 1), \ldots,\allowbreak(s_n, n) \rangle, 1, n + 1) $.
 
 \begin{figure}
 \centering
@@ -35,15 +47,14 @@ For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the s
 
 
 \foreach \x/\eventtype in {
-  -5/C,
-  -4.5/F,
-  -4/B,
+  -4.5/C,
+  -4/F,
   -3.5/B,
-  -2/C,
-  -1.5/E,
-  -1/D,
-  -0.5/A,
-  1/B,
+  -3/B,
+  -1.5/C,
+  -0.5/D,
+  -0/A,
+  1.5/B,
   2.5/E,
   3/A,
   3.5/E,
@@ -60,21 +71,25 @@ For the sake of simplicity, we use the notation $ s_1 \cdots s_N $ to mean the s
 Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
 
 \begin{definition}
-An \emph{episode} $ G $ is represented by a directed acyclic graph with labelled nodes, that is, $ G = (V, E, lab) $, where $ V = (v_1, \ldots, v_K) $ is the set of nodes, $ E $ is the set of directed edges, and lab is the function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to its event type.
+An \emph{episode} $ \alpha $ is a directed acyclic graph with labelled nodes, that is, $ \alpha = (V, E, lab) $, where $ V = (v_1, \ldots, v_k) $ is the set of nodes, $ E $ is the set of directed edges, and \emph{lab} is a function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to an event type. If $ lab(v) = A $, then we say that node $ v $ is of (event) type $ A $.
 \end{definition}
 
-We write $ | \alpha | $ to mean the number of nodes in an episode's graph.
+We write $ | \alpha | $ to mean the number of nodes in an episode's graph. We call $ | \alpha | $ the \emph{size} of $ \alpha $.
 
 \begin{definition}
 A node $ n $ in an episode graph is a \emph{descendant} of a node $ m $ if there is a path from $ m $ to $ n $. Conversely $ m $ is an \emph{ancestor} of $ n $ in that case.
 \end{definition}
 
 \begin{definition}
-Given a sequence $ s $ and an episode $ G $ we say that $ s $ \emph{covers} G, or $ G $ \emph{occurs} in $ s $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that the node $ v_i $ in $ G $ and the corresponding sequence element $ s_{f(v_i)} $ have the same label: $ s_{f(v_i)} = lab(v_i) $; and that if there is an edge $ (v_i, v_j) $ in $ G $, then we must have $ f(v_i) < f(v_j) $. In other words, the parents of $ v_j $ must occur in $ s $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ s $ are used, we will say that $ s $ is an \emph{instance} of G.
+Given a sequence $ s $ and an episode $ G $ we say that $ s $ \emph{covers} G, or $ G $ \emph{occurs} in $ s $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that:
+\begin{enumerate}
+\item the node $ v_i $ in $ G $ and the corresponding sequence element $ s_{f(v_i)} $ have the same label: $ s_{f(v_i)} = lab(v_i) $, and
+\item if there is an edge $ (v_i, v_j) $ in $ G $, then we must have $ f(v_i) < f(v_j) $. In other words, the parents of $ v_j $ must occur in $ s $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ s $ are used, we will say that $ s $ is an \emph{instance} of G.
+\end{enumerate}
 \end{definition}
 
 \begin{definition}
-Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of $ H $, denoted $ G \subseteq H $, if the graph describing episode $ G $ is a subgraph of the graph describing episode $ H $.
+Given two episodes $ G $ and $ H $, we say that $ G $ is a \emph{subepisode} of $ H $, denoted $ G \subseteq H $, if the set of all sequences that cover $ H $ is a subset of the set of all sequences that cover $ G $. If $ G $ and $ H $ are strict episodes, $ G \subseteq H $ if the graph describing episode $ G $ is a subgraph of the graph describing episode $ H $.
 \end{definition}
 
 In this thesis, we'll be limiting ourselves to two subcategories of episodes:
@@ -87,7 +102,7 @@ by which we mean a parallel episode with $ n $ nodes, and the event types are $ 
 
 \item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
 
-Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in figure~\ref{fig:episode-graphs-serial}.
+% Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in figure~\ref{fig:episode-graphs-serial}.
 
 While serial episodes have a different graph in this form, their meaning is the same, since they enforce the same order on the occurrence of events in the sequence to satisfy an occurrence of a serial episode.
 
@@ -95,9 +110,71 @@ For serial episodes we will use the notation
 \begin{align*}
 A_1 \to A_2 \to \cdots \to A_n
 \end{align*}
-where $ A_i $ is the event type of the $ i $-th node
+where $ A_i $ is the event type of the $ i $-th node.
 
 \end{itemize}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}[smallnode/.style={circle,fill,inner sep=0,minimum size=5pt}]
+
+\draw (-5.5,0) -- (5.5,0);
+
+\foreach \x in {-5.5,-5,...,5.5}
+    \draw (\x,0) -- (\x,3pt);
+
+\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-3,...,5.5}
+    \node at (\x,-1em) {$ \timestamp $};
+
+\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,5.5}
+    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+\foreach \x/\eventtype in {
+  -4.5/C,
+  -4/F,
+  -3.5/B,
+  -3/B,
+  -1.5/C,
+  -0.5/D,
+  -0/A,
+  1.5/B,
+  2.5/E,
+  3/A,
+  3.5/E,
+  4/C}
+    \node at (\x,1em) {$ \eventtype $};
+
+% serial episode
+
+\node (serC) at (-5,2.5) [smallnode,label={$ C $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ F $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ B $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ B $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ E $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ E $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ C $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+\end{tikzpicture}
+
+\caption{Showing an occurrence of a serial episode $ C \to F \to B $ and an occurrence of a parallel episode $ \{ B, C, E, E \} $ in the sequence of figure~\ref{fig:event-sequence}.}
+\label{fig:occurrences}
+\end{figure}
 
 \begin{figure}
 
@@ -137,6 +214,7 @@ where $ A_i $ is the event type of the $ i $-th node
 
 \par\bigskip
 
+\iffalse
 \begin{subfigure}[b]{\textwidth}
 \centering
 \begin{tikzpicture}
@@ -159,6 +237,7 @@ where $ A_i $ is the event type of the $ i $-th node
 \caption{serial, strict}
 \label{fig:episode-graphs-serial-strict}
 \end{subfigure}
+\fi
 
 \caption{Episode graphs.}
 
@@ -201,11 +280,7 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode. That is, the event types are ordered according to a topological sort of the nodes. Figure~\ref{fig:serial-representation} shows this visually.
 \end{itemize}
 
-When discussing the algorithms we will mostly consider their array representation, and address their elements by array index using the following notation:
-\begin{align*}
-\alpha [i]
-\end{align*}
-which refers to the $ i $-th element of the array representing the episode.
+When discussing the algorithms we will mostly consider their array representation, and address the $ i $-th element of an episode array $ \alpha $ with $ \alpha [i] $.
 
 \begin{figure}
 \centering
@@ -235,14 +310,15 @@ which refers to the $ i $-th element of the array representing the episode.
 \label{fig:serial-representation}
 \end{figure}
 
-\subsection{Association Rules}
 \begin{definition}
 Given two episodes $ G $ and $ H $ such that $ G \subset H $, we can express an \emph{association rule} $ G \Rightarrow H $. We call $ G $ the \emph{head} of the rule, and $ H $ the \emph{tail} of the rule.
 \end{definition}
 
+\subsection{Frequency measures}
+
 We present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
 
-\subsubsection{Fixed Windows}
+\subsubsection{Fixed windows}
 
 The first frequency measure is based on windows of fixed length.
 
@@ -260,7 +336,7 @@ c_f(X \Rightarrow Y) = \frac{ fr_f(Y) }{ fr_f(X) }
 \end{align*}
 \end{definition}
 
-\subsubsection{Minimal Windows}
+\subsubsection{Minimal windows}
 
 \begin{definition}
 Given a sequence $ s $ and an episode $ G $, a window $ s[a, b] $, is called a \emph{minimal window} of $ G $ in $ s $, if:
@@ -288,7 +364,7 @@ ext_m(s[a, b], X, Y) = 1
 If there exists no such minimal window of $ Y $, we define $ ext_m(s[a, b], X, Y) = 0 $.
 \end{definition}
 
-\subsubsection{Weighted Minimal Windows}
+\subsubsection{Weighted minimal windows}
 
 \begin{definition}
 The \emph{total weight} of a set of windows $ W $ in a sequence $ s $, denoted $ tw(W) $, is defined as
@@ -300,3 +376,5 @@ The \emph{weighted-window frequency} of an episode $ G $ in a sequence $ s $, de
 fr_w(G) = \text{max} \{ tw(W) | W \subseteq mw(G), dis(W) = 1 \}
 \end{align*}
 \end{definition}
+
+\subsection{Other interestingness measures}
