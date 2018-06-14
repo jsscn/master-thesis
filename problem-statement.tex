@@ -20,55 +20,97 @@ $ T_s $ and $ T_e $ are timestamps such that $ T_s \leq t_1 $ and $ t_n < T_e $.
 If a sequence event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
 \end{definition}
 
-Note that multiple events can occur at the same timestamp, if they have different event types. Some implementations do not allow this, however.
+Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
 
-\begin{definition}
-Given a sequence $ \boldsymbol{s} = (s, T_s, T_e) $ and two timestamps $ t_s $ and $ t_e $,
-% such that $ t_s < T_e $ and $ T_s < t_e $
-we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ (w, t_s, t_e) $ where $ w $ contains all events $ (A, t) $ in $ s $ where $ t_s \leq t < t_e $.
-\end{definition}
+\newcommand{\examplesequence}
+{
+    \draw (-5.5,0) -- (5.5,0);
 
-Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence.
+    \foreach \x in {-5.5,-5,...,5.5}
+        \draw (\x,0) -- (\x,3pt);
 
-For the sake of simplicity, we use the notation $ s_1 \cdots s_n $ to mean the sequence $ (\langle (s_1, 1), \ldots,\allowbreak(s_n, n) \rangle, 1, n + 1) $.
+    \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-3,...,5.5}
+        \node at (\x,-1em) {$ \timestamp $};
+
+    \foreach \x/\eventtype in {
+      -4.5/c,
+      -4/f,
+      -3.5/b,
+      -3/b,
+      -1.5/c,
+      -0.5/d,
+      -0/a,
+      1.5/b,
+      2.5/e,
+      3/a,
+      3.5/e,
+      4/c}
+        \node [font=\vphantom{$ fbd $}] at (\x,1em) {$ \eventtype $};
+}
 
 \begin{figure}
 \centering
 
 \begin{tikzpicture}
 
-\draw (-5.5,0) -- (5.5,0);
-
-\foreach \x in {-5.5,-5,...,5.5}
-    \draw (\x,0) -- (\x,3pt);
-
-\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-3,...,5.5}
-    \node at (\x,-1em) {$ \timestamp $};
-
-
-\foreach \x/\eventtype in {
-  -4.5/C,
-  -4/F,
-  -3.5/B,
-  -3/B,
-  -1.5/C,
-  -0.5/D,
-  -0/A,
-  1.5/B,
-  2.5/E,
-  3/A,
-  3.5/E,
-  4/C}
-    \node at (\x,1em) {$ \eventtype $};
+\examplesequence
 
 \end{tikzpicture}
 
 \caption{A visual example of a sequence.}
-
 \label{fig:event-sequence}
 \end{figure}
 
-Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
+Note that multiple events can occur at the same timestamp, if they have different event types. Some implementations do not allow this, however.
+
+For the sake of simplicity, we use the notation $ s_1 \cdots s_n $ to mean the sequence $ (\langle (s_1, 1), \ldots,\allowbreak(s_n, n) \rangle, 1, n + 1) $.
+
+Since sequences are allowed to be very long, and we are mostly looking for events occurring relatively close to each other, we would like to be able to consider parts of a sequence while ignoring the rest of it. Therefore we use the concept of a window on a sequence.
+
+\begin{definition}
+Given a sequence $ \boldsymbol{s} = (s, T_s, T_e) $ and two timestamps $ t_s $ and $ t_e $,
+% such that $ t_s < T_e $ and $ T_s < t_e $
+we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ \boldsymbol{s}[t_s, t_e) = (w, t_s, t_e) $ where $ w $ contains all events $ (A, t) $ in $ s $ where $ t_s \leq t < t_e $. We call $ \rho = t_s - t_e $ the \emph{width} of the window.
+\end{definition}
+
+Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence. This will be important for some of the algorithms.
+
+Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig:event-sequence}.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\examplesequence
+
+\draw [very thick] (1.5,-0.6) -- ++(0,-3pt) -- ++(2.4,0) -- ++(0,3pt);
+
+\draw [->,very thick] (2.75,-0.8) -- ++(0,-0.5);
+
+\draw (1.5,-2) -- ++(2.4,0);
+
+\foreach \x in {1.5,2,...,3.5}
+    \draw (\x,-2) -- ++(0,3pt);
+
+\foreach \x/\label in {
+    1.5/b,
+    2.5/e,
+    3/a,
+    3.5/e}
+    \path (\x,-2) ++(0,1em) node [enoughdamnvspace] {$ \label $};
+
+\path (1.5,-2) ++(0,-1em) node {$ 44 $};
+
+\node [anchor=east] at (1,-2) {Contents of window $ \boldsymbol{s}[44,49) $:};
+
+\end{tikzpicture}
+
+\caption{A window of width 5 on a sequence $ \boldsymbol{s} $.}
+\label{fig:windows}
+\end{figure}
+
+Now we formally define patterns.
 
 \begin{definition}
 An \emph{episode} $ \alpha $ is a directed acyclic graph with labelled nodes, that is, $ \alpha = (V, E, lab) $, where $ V = (v_1, \ldots, v_k) $ is the set of nodes, $ E $ is the set of directed edges, and \emph{lab} is a function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to an event type. If $ lab(v) = A $, then we say that node $ v $ is of (event) type $ A $.
@@ -98,7 +140,7 @@ In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \begin{align*}
     \{ A_1, A_2, \ldots, A_n \}
 \end{align*}
-by which we mean a parallel episode with $ n $ nodes, and the event types are $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not represent a set: a parallel episode $ \{ A, A, B, C \} $ is not equivalent to an episode $ \{ A, B, C \} $.
+by which we mean a parallel episode with $ n $ nodes, and the event types are $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not actually represent a set: a parallel episode $ \{ a, a, b, c \} $ is not equivalent to an episode $ \{ a, b, c \} $.
 
 \item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
 
@@ -119,37 +161,16 @@ where $ A_i $ is the event type of the $ i $-th node.
 
 \begin{tikzpicture}[smallnode/.style={circle,fill,inner sep=0,minimum size=5pt}]
 
-\draw (-5.5,0) -- (5.5,0);
-
-\foreach \x in {-5.5,-5,...,5.5}
-    \draw (\x,0) -- (\x,3pt);
-
-\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-3,...,5.5}
-    \node at (\x,-1em) {$ \timestamp $};
+\examplesequence
 
 \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,5.5}
     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
 
-\foreach \x/\eventtype in {
-  -4.5/C,
-  -4/F,
-  -3.5/B,
-  -3/B,
-  -1.5/C,
-  -0.5/D,
-  -0/A,
-  1.5/B,
-  2.5/E,
-  3/A,
-  3.5/E,
-  4/C}
-    \node at (\x,1em) {$ \eventtype $};
-
 % serial episode
 
-\node (serC) at (-5,2.5) [smallnode,label={$ C $}] {};
-\node (serF) at (-4,2.5) [smallnode,label={$ F $}] {};
-\node (serB) at (-3,2.5) [smallnode,label={$ B $}] {};
+\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
 
 \draw [->,very thick] (serC) -- (serF);
 \draw [->,very thick] (serF) -- (serB);
@@ -160,10 +181,10 @@ where $ A_i $ is the event type of the $ i $-th node.
 
 % parallel episode
 
-\node (parB) at (3,2.6) [smallnode,label={$ B $}] {};
-\node (parE1) at (2,1.8) [smallnode,label={$ E $}] {};
-\node (parE2) at (4.5,2.4) [smallnode,label={$ E $}] {};
-\node (parC) at (3.5,2) [smallnode,label={$ C $}] {};
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
 
 \draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
 \draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
@@ -172,7 +193,7 @@ where $ A_i $ is the event type of the $ i $-th node.
 
 \end{tikzpicture}
 
-\caption{Showing an occurrence of a serial episode $ C \to F \to B $ and an occurrence of a parallel episode $ \{ B, C, E, E \} $ in the sequence of figure~\ref{fig:event-sequence}.}
+\caption{Showing an occurrence of a serial episode $ c \to f \to b $ and an occurrence of a parallel episode $ \{ b, c, e, e \} $ in the sequence of figure~\ref{fig:event-sequence}.}
 \label{fig:occurrences}
 \end{figure}
 
@@ -256,19 +277,19 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 
 \begin{tikzpicture}
 
-\node (n 1) [circly,label=above:$ C $] at (-3,-3pt) {$ v_1 $};
-\node (n 2) [circly,label=above:$ A $] at (-1, 3pt) {$ v_2 $};
-\node (n 3) [circly,label=above:$ B $] at ( 1,-3pt) {$ v_3 $};
-\node (n 4) [circly,label=above:$ A $] at ( 3, 3pt) {$ v_4 $};
+\node (n 1) [circly,label=above:$ c $] at (-3,-3pt) {$ v_1 $};
+\node (n 2) [circly,label=above:$ a $] at (-1, 3pt) {$ v_2 $};
+\node (n 3) [circly,label=above:$ b $] at ( 1,-3pt) {$ v_3 $};
+\node (n 4) [circly,label=above:$ a $] at ( 3, 3pt) {$ v_4 $};
 
 \node [left=of n 1] {episode graph};
 
 \draw [->] (0,-1) -- node [left=0.5cm] {sort the event types into an array} +(0,-1.5);
 
-\node (a 1) [arraycell] at (-2,-3.5) {$ A $};
-\node (a 2) [arraycell,right=of a 1] {$ A $};
-\node (a 3) [arraycell,right=of a 2] {$ B $};
-\node (a 4) [arraycell,right=of a 3] {$ C $};
+\node (a 1) [arraycell,enoughdamnvspace] at (-2,-3.5) {$ a $};
+\node (a 2) [arraycell,right=of a 1,enoughdamnvspace] {$ a $};
+\node (a 3) [arraycell,right=of a 2,enoughdamnvspace] {$ b $};
+\node (a 4) [arraycell,right=of a 3,enoughdamnvspace] {$ c $};
 
 \end{tikzpicture}
 
@@ -287,22 +308,22 @@ When discussing the algorithms we will mostly consider their array representatio
 
 \begin{tikzpicture}
 
-\node (n 1) [circly,label=above:$ A $] at (-3,0) {$ v_1 $};
-\node (n 2) [circly,label=above:$ C $] at (-1,0) {$ v_2 $}
+\node (n 1) [circly,label=above:$ a $] at (-3,0) {$ v_1 $};
+\node (n 2) [circly,label=above:$ c $] at (-1,0) {$ v_2 $}
     edge [pre] (n 1);
-\node (n 3) [circly,label=above:$ B $] at (1, 0) {$ v_3 $}
+\node (n 3) [circly,label=above:$ b $] at (1, 0) {$ v_3 $}
     edge [pre] (n 2);
-\node (n 4) [circly,label=above:$ A $] at (3, 0) {$ v_4 $}
+\node (n 4) [circly,label=above:$ a $] at (3, 0) {$ v_4 $}
     edge [pre] (n 3);
 
 \node [left=of n 1] {episode graph};
 
 \draw [->] (0,-1) -- node [left=0.5cm,align=right] {store event types into array,\\preserving toplogical ordering} +(0,-1.5);
 
-\node (a 1) [arraycell] at (-2, -3.5) {$ A $};
-\node (a 2) [arraycell,right=of a 1] {$ C $};
-\node (a 3) [arraycell,right=of a 2] {$ B $};
-\node (a 4) [arraycell,right=of a 3] {$ A $};
+\node (a 1) [arraycell,enoughdamnvspace] at (-2, -3.5) {$ a $};
+\node (a 2) [arraycell,right=of a 1,enoughdamnvspace] {$ c $};
+\node (a 3) [arraycell,right=of a 2,enoughdamnvspace] {$ b $};
+\node (a 4) [arraycell,right=of a 3,enoughdamnvspace] {$ a $};
 
 \end{tikzpicture}
 
@@ -314,7 +335,7 @@ When discussing the algorithms we will mostly consider their array representatio
 Given two episodes $ G $ and $ H $ such that $ G \subset H $, we can express an \emph{association rule} $ G \Rightarrow H $. We call $ G $ the \emph{head} of the rule, and $ H $ the \emph{tail} of the rule.
 \end{definition}
 
-\subsection{Frequency measures}
+\subsection{Interestingness measures}
 
 We present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
 

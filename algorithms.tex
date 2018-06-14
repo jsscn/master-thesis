@@ -5,7 +5,7 @@
 \begin{algorithm}
 
 \caption{High-level algorithm for finding frequent episodes. \\
-Input: A set $ \Sigma $ of event types, an event sequence $ s $ over $ \Sigma $, a window width \emph{win}, and a frequency threshold \emph{min\_fr}. \\
+Input: A set $ \Sigma $ of event types, an event sequence $ s $ over $ \Sigma $, a window width $ \rho $, and a frequency threshold \emph{min\_fr}. \\
 Output: The collection of episodes that are frequent in the sequence in terms of the input parameters.
 }
 
@@ -15,7 +15,7 @@ Output: The collection of episodes that are frequent in the sequence in terms of
 \State $ l \gets 1 $
 \While{$ \mathcal{C}_l \neq \emptyset $}
     \LineComment{Database pass (algorithms \ref{alg:rec-par-fwi}, \ref{alg:rec-ser-fwi}, ...)}
-    \State compute $ \mathcal{F}_l \gets \{ \alpha \in \mathcal{C}_l \mid fr(\alpha, s, \text{win}) \geq \text{min\_fr} \} $
+    \State compute $ \mathcal{F}_l \gets \{ \alpha \in \mathcal{C}_l \mid fr(\alpha, s, \rho) \geq \text{min\_fr} \} $
     \State $ l \gets l + 1 $
     \LineComment{Candidate generation (algorithm \ref{alg:cand-gen})}
     \State compute $ C_l = \{ \alpha \mid | \alpha | = l \wedge \forall \beta \mid \beta \subset \alpha : \beta \text{ is frequent} \} $
@@ -29,7 +29,7 @@ Output: The collection of episodes that are frequent in the sequence in terms of
 
 % TODO Read this future me, probably needs improvement.
 
-Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes of a certain class (parallel or serial) that are frequent in an event sequence $ s $, given window width \emph{win} and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $. The algorithm finds either parallel or serial episodes, not both simultaneously, since both require different subalgorithms, except for episodes which contain only one event type; those are equivalent to each other. Of course the chosen frequency measure also influences the output.
+Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes of a certain class (parallel or serial) that are frequent in an event sequence $ s $, given window width $ \rho $ and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $. The algorithm finds either parallel or serial episodes, not both simultaneously, since both require different subalgorithms, except for episodes which contain only one event type; those are equivalent to each other. Of course the chosen frequency measure also influences the output.
 
 The construction of the first set of candidates is a special case. $ \mathcal{C}_1 $ consists of simply all possible episodes with one node. That's one episode per event type, and so $ | C_1 | = | \Sigma | $. After constructing $ \mathcal{C}_1 $ a loop is entered where ever-bigger episodes are constructed and then filtered by frequency in the sequence.
 % for each $ l $, it is determined which episodes are frequent ($ \mathcal{F}_1 $), by a pass over the sequence, and subsequently, based on those, candidates of size $ 2 $ are generated. The loop continues with ever-increasing episode size $ l $, and stops when no more candidates were generated. Then all frequent episodes have been found.
@@ -372,8 +372,8 @@ We should note that in the subepisode construction procedure described above, so
 \begin{algorithm}
 
 \caption{Recognizing parallel episodes using the fixed window frequency measure. \\
-Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
-Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
+Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}.
 }
 
 \begin{algorithmic}[1]
@@ -396,9 +396,9 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \gets T_s - \text{win} + 1 $ to $ T_e $}
+\For{$ \text{start} \gets T_s - \rho + 1 $ to $ T_e $}
     \LineComment{Bring new events to the window}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-par-fwi:new-events}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-par-fwi:new-events}
         \State $ A \text{.event\_count} \gets A \text{.event\_count} + 1 $
         \ForAll{$ \alpha \in \text{contains}(A, A \text{.count}) $}
             \State $ \alpha \text{.event\_count} \gets \alpha \text{.event\_count} + A \text{.count} $
@@ -419,7 +419,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \EndFor
 \LineComment{Output}
 \ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
-    \If{$ \alpha \text{.freq\_count} / (T_e - T_s + \text{win} - 1) \geq \text{min\_fr} $} output $ \alpha $
+    \If{$ \alpha \text{.freq\_count} / (T_e - T_s + \rho - 1) \geq \text{min\_fr} $} output $ \alpha $
     \EndIf
 \EndFor
 
@@ -430,11 +430,11 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 Algorithm~\ref{alg:rec-par-fwi} recognizes parallel episodes in an event sequence. As stated before, parallel episodes impose no order on the occurrence of events in the window. Therefore, to recognize an episode in the sequence, it suffices to know that there are enough events of each type currently in the window. More formally, a parallel episode $ \alpha $ occurs in a window if for each event type $ A $, the window contains at least as many events of type $ A $ as there are nodes of type $ A $ in $ \alpha $'s graph.
 
-The algorithm makes one pass over the sequence, timestamp by timestamp, using a sliding window of size \emph{win}. At any point during iteration, there are a few timestamps of interest.
+The algorithm makes one pass over the sequence, timestamp by timestamp, using a sliding window of size $ \rho $. At any point during iteration, there are a few timestamps of interest.
 
-In the algorithm---and further algorithms that iterate the sequence---variable \emph{start} always refers to the smallest timestamp of the current window. It is the timestamp that will be dropped from the window the following iteration; at that timestamp we find the ``oldest'' events still in the window. The ``newest'' events in the window---the events which just entered the window---are found at $ (\text{start} + \text{win} - 1) $. We'll call the former the \emph{back} of the sliding window, and the latter the \emph{front}.
+In the algorithm---and further algorithms that iterate the sequence---variable \emph{start} always refers to the smallest timestamp of the current window. It is the timestamp that will be dropped from the window the following iteration; at that timestamp we find the ``oldest'' events still in the window. The ``newest'' events in the window---the events which just entered the window---are found at $ (\text{start} + \rho - 1) $. We'll call the former the \emph{back} of the sliding window, and the latter the \emph{front}.
 
-In order to prevent having to consider a special case for the beginning and the end of the iteration over the sequence, the algorithm starts with just the first valid timestamp $ T_s $ at the front of the sliding window. All other timestamps within the window are outside of the sequence at this point. In terms of subwindows, this first window can be written as $ s[T_s - \text{win} + 1, T_s + 1] $. Strictly speaking, this isn't a valid subwindow, since its range lies outside the range of the sequence itself, but we can imagine extending the sequence on both sides to allow for this. At the end of the sequence, the same happens; the last subwindow of the iteration is $ s[T_e, T_e + \text{win}] $. Figure~\ref{fig:sliding-window} shows this way of iterating visually.
+In order to prevent having to consider a special case for the beginning and the end of the iteration over the sequence, the algorithm starts with just the first valid timestamp $ T_s $ at the front of the sliding window. All other timestamps within the window are outside of the sequence at this point. In terms of subwindows, this first window can be written as $ s[T_s - \rho + 1, T_s + 1] $. Strictly speaking, this isn't a valid subwindow, since its range lies outside the range of the sequence itself, but we can imagine extending the sequence on both sides to allow for this. At the end of the sequence, the same happens; the last subwindow of the iteration is $ s[T_e, T_e + \rho] $. Figure~\ref{fig:sliding-window} shows this way of iterating visually.
 
 \begin{figure}
 \centering
@@ -572,8 +572,8 @@ The \emph{contains} data structure requires some sort of key-value storage. Typi
 \begin{algorithm}
 
 \caption{Recognizing serial episodes using the fixed window frequency measure. \\
-Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
-Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}.
 }
 
 \begin{algorithmic}[1]
@@ -591,20 +591,20 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
     \State{$ \alpha \text{.freq\_count} \leftarrow 0 $}
 \EndFor
 
-\For{$ t \leftarrow T_s - \text{win} $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
+\For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $} \label{alglin:rec-ser-fwi:iterate-sequence}
-    \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-fwi:iterate-sequence}
+    \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
     \State{$ \text{transitions} \leftarrow \emptyset $}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-ser-fwi:iterate-new-events}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-ser-fwi:iterate-new-events}
         \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
             \If{$ j = | \alpha | \wedge \alpha \text{.initialized}[j] = \text{\textit{uninitialized}} $} \label{alglin:rec-ser-fwi:mark-enter}
                 \State{$ \alpha \text{.in\_window} \leftarrow \text{start} $}
             \EndIf
             \If{$ j = 1 $} \label{alglin:rec-ser-fwi:add-to-transitions}
-                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \rho - 1 ) \} $}
             \Else
                 \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
                 \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-fwi:cleanup-old-states}
@@ -631,7 +631,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
     \EndFor
 \EndFor
 \ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
-    \If{$ \alpha \text{.freq\_count} / (T_e - T_s + \text{win} - 1) \geq \text{min\_fr} $}
+    \If{$ \alpha \text{.freq\_count} / (T_e - T_s + \rho - 1) \geq \text{min\_fr} $}
         \State{output $ \alpha $}
     \EndIf
 \EndFor
@@ -723,10 +723,10 @@ With the data structures just described in mind, we will go through the algorith
 
 The initialization is rather straightforward. One thing to note is that the permanent pairs of the \emph{waits} sets are constructed (line~\ref{alglin:rec-ser-fwi:fill-waits-init}). As stated before, for each episode $ \alpha $, $ \text{waits}(\alpha[1]) $ contains $ (\alpha, 1) $ from the start, and throughout the algorithm, to initialize a new automaton instance for $ \alpha $ any time an event of type $ \alpha[1] $ occurs.
 
-Then a sliding window is passed over the sequence, in the same manner algorithm~\ref{alg:rec-par-fwi} does (line~\ref{alglin:rec-ser-fwi:iterate-sequence}). Each time the sliding window is advanced, first the events that just came into the window are processed (line~\ref{alglin:rec-ser-fwi:iterate-new-events}), at time $ (\text{start} + \text{win} - 1) $. Say an event of type $ A $ came in. Thanks to the \emph{waits} data structure, all automaton instances that should make a state transition are found efficiently. For each of the pairs $ (\alpha, j) $ in $ \text{waits}(A) $, the following steps are evaluated:
+Then a sliding window is passed over the sequence, in the same manner algorithm~\ref{alg:rec-par-fwi} does (line~\ref{alglin:rec-ser-fwi:iterate-sequence}). Each time the sliding window is advanced, first the events that just came into the window are processed (line~\ref{alglin:rec-ser-fwi:iterate-new-events}), at time $ (\text{start} + \rho - 1) $. Say an event of type $ A $ came in. Thanks to the \emph{waits} data structure, all automaton instances that should make a state transition are found efficiently. For each of the pairs $ (\alpha, j) $ in $ \text{waits}(A) $, the following steps are evaluated:
 
 \begin{enumerate}
-\item (Lines~\ref{alglin:rec-ser-fwi:mark-enter} and further) If the automaton instance has reached state $ | \alpha | $, that is, the episode now occurs within the sliding window\footnote{\label{footnote:false-recognition}This is not entirely correct. Note that new events coming into the window are processed before old events are removed. After processing new events, the oldest possible automata were therefore initialized at timestamp $ \text{start} - 1 $, which may cause an episode to be recognized without being in the current window $ s[\text{start}, \text{start} + \text{win}] $. However, for such a falsely recognized episode, the corresponding automaton will be removed immediately afterwards, and the displacement of the sliding window will be zero, thus not affecting $ \alpha $'s frequency count.}, then $ \alpha \text{.in\_window} $ gets set to \emph{start} to mark the time at which the episode entered the sliding window. Except if another instance is already in state $ | \alpha | $, then $ \alpha \text{.in\_window} $ was already set. If we would overwrite the value in that case, the windows covering the previous occurrence would not be counted.
+\item (Lines~\ref{alglin:rec-ser-fwi:mark-enter} and further) If the automaton instance has reached state $ | \alpha | $, that is, the episode now occurs within the sliding window\footnote{\label{footnote:false-recognition}This is not entirely correct. Note that new events coming into the window are processed before old events are removed. After processing new events, the oldest possible automata were therefore initialized at timestamp $ \text{start} - 1 $, which may cause an episode to be recognized without being in the current window $ s[\text{start}, \text{start} + \rho] $. However, for such a falsely recognized episode, the corresponding automaton will be removed immediately afterwards, and the displacement of the sliding window will be zero, thus not affecting $ \alpha $'s frequency count.}, then $ \alpha \text{.in\_window} $ gets set to \emph{start} to mark the time at which the episode entered the sliding window. Except if another instance is already in state $ | \alpha | $, then $ \alpha \text{.in\_window} $ was already set. If we would overwrite the value in that case, the windows covering the previous occurrence would not be counted.
 \item (Lines~\ref{alglin:rec-ser-fwi:add-to-transitions} and further) The transition to be made is captured in the list of transitions.
 \item (Lines~\ref{alglin:rec-ser-fwi:cleanup-old-states} and further) The old state information is removed from data structures \emph{begins\_at}, \emph{initialized}, and \emph{waits}, if we're not initializing a new automaton instance.
 \end{enumerate}
@@ -745,14 +745,14 @@ After applying the state transitions, the events no longer in the window are dro
 
 While implementing this algorithm we found an oversight in~\cite{winepi97} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\cite{winepi97}), related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
 
-Using a window width of 2, and scanning the subsequence $ \cdots E \: A \: E \: C \cdots $. Say that the first $ E $ has timestamp $ t_1 $. Consider the recognition of the serial episode $ \alpha = E \to C $. Obviously the subsequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the subsequence. Upon encountering the first $ E $, an automaton instance gets initialized for $ \alpha $ (lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}). This includes, as discussed before:
+Using a window width of 2, and scanning the sequence $ e \, a \, e \, c $. Consider the recognition of the serial episode $ \alpha = e \to c $. Obviously the sequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the sequence. Upon encountering the first $ e $, an automaton instance gets initialized for $ \alpha $ (lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}). This includes, as discussed before:
 \begin{itemize}
 \item setting the timestamp in the \emph{initialized} array;
-\item adding $ (\alpha, 2) $ to the $ \text{waits}(C) $ set (so that if $ C $ is encountered, the automaton can transition to the next state);
-\item adding $ (\alpha, 1) $ to $ \text{begins\_at}(t_1) $ (to facilitate the removal of the the automaton instance once $ t_1 $ falls out of the window).
+\item adding $ (\alpha, 2) $ to the $ \text{waits}(c) $ set (so that if $ c $ is encountered, the automaton can transition to the next state);
+\item adding $ (\alpha, 1) $ to $ \text{begins\_at}(1) $ (to facilitate the removal of the the automaton instance once timestamp $ 1 $ falls out of the window).
 \end{itemize}
 
-When the second $ E $ is read (at $ t = t_1 + 2 $ and when $ \text{start} = t_1 + 1 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ C $ has been encountered---the previous instance must be overwritten. Indeed, this happens for the \emph{initialized} data structure at line~\ref{alglin:rec-ser-fwi:transition-begin}. However, \emph{begins\_at} is never updated to reflect this: $ (\alpha, 1) $ remains in $ \text{begins\_at}(t_1) $. Because of this, the newly created automaton is wrongly removed just afterwards, because the first instance fell out of the window (while iterating $ \text{begins\_at}(t_1 = \text{start} - 1) $, line~\ref{alglin:rec-ser-fwi:cleanup-for}). Then $ (\alpha, 2) $ is no longer in $ \text{waits}(C) $, and $ \alpha $ will fail to be recognized.
+When the second $ e $ is read (at $ t = 3 $ and when $ \text{start} = 2 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ c $ has been encountered---the previous instance must be overwritten. Indeed, this happens for the \emph{initialized} data structure at line~\ref{alglin:rec-ser-fwi:transition-begin}. However, \emph{begins\_at} is never updated to reflect this: $ (\alpha, 1) $ remains in $ \text{begins\_at}(1) $. Because of this, the newly created automaton is wrongly removed just afterwards, because the first instance fell out of the window (while iterating $ \text{begins\_at}(1 = \text{start} - 1) $, line~\ref{alglin:rec-ser-fwi:cleanup-for}). Then $ (\alpha, 2) $ is no longer in $ \text{waits}(c) $, and $ \alpha $ will fail to be recognized.
 
 This is a problem any time an older instance of an episode's automaton instance gets overwritten by a more recent one reaching the same state. In some cases, as illustrated above, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early. Consequently, this may cause the episode to be considered infrequent while it actually is frequent.
 
@@ -788,8 +788,8 @@ Like algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in 
 \begin{algorithm}
 
 \caption{Recognizing a collection $ \mathcal{C} $ of parallel episodes in a sequence $ s $ using the minimal window frequency measure. \\
-Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
-Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}, along with all minimal windows of each occurrence (including overlapping windows).}
+Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
+Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}, along with all minimal windows of each occurrence (including overlapping windows).}
 
 \begin{algorithmic}[1]
 
@@ -806,7 +806,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \gets T_s - \text{win} + 1 $ to $ T_e - 1 $} % TODO check if starting at correct position
+\For{$ \text{start} \gets T_s - \rho + 1 $ to $ T_e - 1 $} % TODO check if starting at correct position
     \LineComment{Drop out old events from the window}
     \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $}
         \While{$ | \text{in\_window}(A) | > 0 \wedge \text{in\_window}(A) \text{.front}() < \text{start} $}
@@ -815,8 +815,8 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
     \EndFor
 
     \LineComment{Bring in new events to the window}
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $}
-        \State $ \text{in\_window}[A] \text{.push}(\text{start} + \text{win} - 1) $
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $}
+        \State $ \text{in\_window}[A] \text{.push}(\text{start} + \rho - 1) $
         \ForAll{$ \alpha $ in $ \text{contains}(A) $}
             \If{{\footnotesize $ \forall A $ in $ \alpha : \min(| \text{in\_window}(A) |, \text{consider\_max}(\alpha, A)) \geq \text{num\_needed}(\alpha, A) $ }}
                 \LineComment{Occurrence detected; determine start of minimal window}
@@ -827,7 +827,7 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
                     \If{$ \text{window\_start} = Q[| Q | - \text{num\_needed}(\alpha, A)) + 1] $}
                         \State $ \text{consider\_max}(\alpha, A) \gets \text{num\_needed}(\alpha, A) - 1 $
                     \EndIf
-                    \State append $ [\text{window\_start}, \text{start} + \text{win}) $ to $ \alpha \text{.minimal\_windows} $
+                    \State append $ [\text{window\_start}, \text{start} + \rho) $ to $ \alpha \text{.minimal\_windows} $
                 \EndFor
             \EndIf
         \EndFor
@@ -846,8 +846,8 @@ With minimal windows, the frequency of an episode isn't expressed in terms of a 
 \begin{algorithm}
 
 \caption{Recognizing serial episodes using the minimal window frequency measure. \\
-Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width \textit{win}, and a frequency threshold \textit{min\_fr}. \\
-Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to \textit{win} and \textit{min\_fr}.
+Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}.
 }
 
 \begin{algorithmic}[1]
@@ -865,12 +865,12 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
     \State{$ \alpha \text{.minimal\_windows} \gets \emptyset $}
 \EndFor
 
-\For{$ t \leftarrow T_s - \text{win} $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
+\For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \leftarrow T_s - \text{win} + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence}
-    \State{$ \text{begins\_at}(\text{start} + \text{win} - 1) \leftarrow \emptyset $}
+\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence}
+    \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
     \State{$ \text{transitions} \leftarrow \emptyset $}
     \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $} \label{alglin:rec-ser-mwi:cleanup-for}
         \If{$ l < | \alpha | $} \label{alglin:rec-ser-mwi:cleanup-iteration-begin}
@@ -878,10 +878,10 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \EndIf
         \State{$ \alpha \text{.initialized}[l] \leftarrow \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:cleanup-iteration-end}
     \EndFor
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \text{win} - 1 $} \label{alglin:rec-ser-mwi:iterate-new-events}
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-ser-mwi:iterate-new-events}
         \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
             \If{$ j = 1 $} \label{alglin:rec-ser-mwi:add-to-transitions}
-                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \text{win} - 1 ) \} $}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \rho - 1 ) \} $}
             \Else
                 \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
                 \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-mwi:cleanup-old-states}
@@ -896,7 +896,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
         \If{$ j = | \alpha | $}
             \State $ \alpha \text{.minimal\_windows} \gets $
-            \State \hspace{\algorithmicindent} $ \alpha \text{.minimal\_windows} \cup \{ [\alpha \text{.initialized}[j], \text{start} + \text{win}) \} $
+            \State \hspace{\algorithmicindent} $ \alpha \text{.minimal\_windows} \cup \{ [\alpha \text{.initialized}[j], \text{start} + \rho) \} $
         \Else
             \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-mwi:transition-end}
         \EndIf
