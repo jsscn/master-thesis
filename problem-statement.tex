@@ -3,7 +3,7 @@
 \subsection{Event sequences}
 
 \begin{definition}
-A \emph{sequence event}, or \emph{event} for short, is defined as a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
+A \emph{sequence event}, or \emph{event} for short, is a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
 \end{definition}
 
 \begin{definition}
@@ -22,27 +22,42 @@ If a sequence event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s}
 
 Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
 
+\newcommand{\sequencetickmarks}[3]
+{
+% args: (number of tick marks, x of first tick mark, y of first tick mark)
+    \pgfmathsetmacro\secondtickmark{#2+0.5}
+    \pgfmathsetmacro\lasttickmark{#2+0.5*#1}
+
+    \draw (#2,#3) -- (\lasttickmark,#3);
+
+    \foreach \x in {#2,\secondtickmark,...,\lasttickmark}
+        \draw (\x,#3) -- +(0,3pt);
+}
+
+\newcommand{\sequenceeventtypes}[4]
+{
+% args: (x of first event, y, t of first event, list of t/A pairs)
+    \pgfmathsetlengthmacro\nodeheight{(#2)+(.8em)}
+
+    \foreach \t/\eventtype [evaluate=\t as \x using (\t-#3)*0.5+(#1)] in {#4}
+    {
+        \node [font=\vphantom{$ fbd $}] at (\x,#2) {$ \eventtype $};
+        \node (t\t) [inner sep=0] at (\x,\nodeheight) {};
+    }
+}
+
+\newcommand{\windowthingy}[2]
+{
+% args: starting position (leftmost point of horizontal line), number of timestamps
+    \pgfmathsetmacro\windowthingylength{#2*0.5-0.1}
+    \draw #1 ++(0,3pt) -- ++(0,-3pt) -- ++(\windowthingylength,0) -- ++(0,3pt);
+}
+
 \newcommand{\examplesequence}
 {
-    \draw (-5.5,0) -- (5.5,0);
+    \sequencetickmarks{23}{-5.5}{0}
 
-    \foreach \x in {-5.5,-5,...,5.5}
-        \draw (\x,0) -- (\x,3pt);
-
-    \foreach \x/\eventtype in {
-      -4.5/c,
-      -4/f,
-      -3.5/b,
-      -3/b,
-      -1.5/c,
-      -0.5/d,
-      -0/a,
-      1.5/b,
-      2.5/e,
-      3/a,
-      3.5/e,
-      4/c}
-        \node [font=\vphantom{$ fbd $}] at (\x,1em) {$ \eventtype $};
+    \sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b,38/c,40/d,41/a,44/b,46/e,47/a,48/e,49/c};
 }
 
 \newcommand{\examplesequencetimestamps}
@@ -74,10 +89,10 @@ Since sequences are allowed to be very long, and we are mostly looking for event
 \begin{definition}
 Given a sequence $ \boldsymbol{s} = (s, T_s, T_e) $ and two timestamps $ t_s $ and $ t_e $,
 % such that $ t_s < T_e $ and $ T_s < t_e $
-we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ \boldsymbol{s}[t_s, t_e) = (w, t_s, t_e) $ where $ w $ contains all events $ (A, t) $ in $ s $ where $ t_s \leq t < t_e $. We call $ \rho = t_s - t_e $ the \emph{width} of the window. Two windows $ \boldsymbol{s}[a, b) $ and $ \boldsymbol{s}[c, d) $ \emph{overlap} if $ [a, b) \cup [c, d) \neq \emptyset $.
+we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ \boldsymbol{s}[t_s, t_e) = (w, t_s, t_e) $ where $ w $ contains all events $ (A, t) $ in $ s $ where $ t_s \leq t < t_e $. We call $ \rho = t_s - t_e $ the \emph{width} of the window. $ \boldsymbol{s}[t_s, t_e) $ is a \emph{proper} subwindow of $ \boldsymbol{s} $ if $ w $ contains fewer events than $ \boldsymbol{s} $. Two windows $ \boldsymbol{s}[a, b) $ and $ \boldsymbol{s}[c, d) $ \emph{overlap} if $ [a, b) \cap [c, d) \neq \emptyset $. Otherwise we call them non-overlapping, or \emph{disjoint}.
 \end{definition}
 
-Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence. This will be important for some of the algorithms.
+Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence itself. A window on a sequence can thus start before the sequence starts, or end after the sequence ends. This will be important for some of the algorithms.
 
 Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig:event-sequence}.
 
@@ -239,9 +254,6 @@ where $ A_i $ is the event type of the $ i $-th node, and a node of event type $
 \examplesequence
 \examplesequencetimestamps
 
-\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,5.5}
-    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
-
 % serial episode
 
 \node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
@@ -375,15 +387,20 @@ We'll also briefly discuss some interestingness measures that are not based on f
 The first frequency measure we discuss was first proposed in~\cite{winepi97}, and is based on windows of a fixed length.
 
 \begin{definition}
-Given a window size $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of size $ \rho $ in $ \boldsymbol{s} $ covering the episode:
+Given a window width $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of width $ \rho $ in $ \boldsymbol{s} $ covering the episode:
 \begin{align*}
 fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[i, i + \rho) \mid \boldsymbol{s}[i, i + \rho) \text{ covers } \alpha \} |
 \end{align*}
 \end{definition}
 
-At first sight, counting the number of windows which cover the episode might seem a good approach---intuitively, if an episode occurs in many windows, then it must be frequent. However, upon closer inspection, the frequency values it produces are often counterintuitive, as they don't reflect very well how many occurrences there really are.
+At first sight, counting the number of windows which cover the episode might seem like a good approach---intuitively, one would think that the more windows an episode occurs in, the more frequent it is. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
 
-Figure~\ref{fig:fwi-example} shows all of the windows of size 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ a, a, b, c \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a drawback to this definition of frequency: the frequency values are highly dependent on the window size. If we were to choose a window size of $ 6 $ instead, then $ fr_f(\{ a, a, b, c \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $. We also see that the more an occurrence is spread out, the fewer windows cover it, and consequently the lower the frequency will be.
+Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ a, a, b, c \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
+
+\begin{itemize}
+\item The frequency values are highly dependent on the window width. If in the example, we were to choose a window width of $ 6 $ instead, then $ fr_f(\{ a, a, b, c \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $.
+\item In the example we also see that the more an occurrence is spread out, the fewer windows of a certain width cover it, and consequently the lower the fixed-window frequency.
+\end{itemize}
 
 \begin{figure}
 \centering
@@ -391,9 +408,6 @@ Figure~\ref{fig:fwi-example} shows all of the windows of size 8 that cover the e
 \begin{tikzpicture}
 
 \examplesequence
-
-\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,5.5}
-    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
 
 %% draw occurrence proofs again
 % serial episode
@@ -423,30 +437,27 @@ Figure~\ref{fig:fwi-example} shows all of the windows of size 8 that cover the e
 
 % windows
 
-\newcommand{\windowthingy}[1]
-{
-    \draw #1 -- ++(0,-3pt) -- ++(3.9,0) -- ++(0,3pt);
-}
+\windowthingy{(-7,-5pt)}{8}
+\windowthingy{(-6.5,-10pt)}{8}
+\windowthingy{(-6,-15pt)}{8}
+\windowthingy{(-5.5,-20pt)}{8}
+\windowthingy{(-5,-25pt)}{8}
+\windowthingy{(-4.5,-30pt)}{8}
 
-\windowthingy{(-7,-5pt)}
-\windowthingy{(-6.5,-10pt)}
-\windowthingy{(-6,-15pt)}
-\windowthingy{(-5.5,-20pt)}
-\windowthingy{(-5,-25pt)}
-\windowthingy{(-4.5,-30pt)}
-
-\windowthingy{(0.5,-5pt)}
-\windowthingy{(1,-10pt)}
-\windowthingy{(1.5,-15pt)}
+\windowthingy{(0.5,-5pt)}{8}
+\windowthingy{(1,-10pt)}{8}
+\windowthingy{(1.5,-15pt)}{8}
 
 \end{tikzpicture}
 
-\caption{All of the windows of size 8 that cover two episodes in a sequence; a parallel episode $ \{a, a, b, c \} $ and a serial episode $ c \to f \to b $.}
+\caption{All of the windows of width 8 that cover two episodes in a sequence; a parallel episode $ \{a, a, b, c \} $ and a serial episode $ c \to f \to b $.}
 \label{fig:fwi-example}
 \end{figure}
 
+One method of determining the confidence of an association rule is to use the fixed-window frequency of episodes.
+
 \begin{definition}
-Given a window size $ \rho $ and episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{fixed-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_f(\alpha \Rightarrow \beta) $, to be the ratio of their respective frequencies:
+Given a window width $ \rho $ and episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{fixed-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_f(\alpha \Rightarrow \beta) $, to be the ratio of their respective frequencies:
 \begin{align*}
 c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
 \end{align*}
@@ -454,19 +465,136 @@ c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
 
 Given that the fixed-window frequency gave unintuitive results for episodes, and that the fixed-window confidence is based on the fixed-window frequency, it should be no surprise that the confidence values for the fixed-window confidence can also be unintuitive.
 
-Consider again the occurrence of the parallel episode in figure~\ref{fig:fwi-assoc-example}. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $.
+Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of figure~\ref{fig:fwi-example}. In figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:
+\begin{itemize}
+\item $ c_f(\{ e, e \} \Rightarrow \{ b, c, e, e \}) = \frac12 $, and
+\item $ c_f(\{ b, c \}) \Rightarrow \{ b, c, e, e \} = 1 $.
+\end{itemize}
+
+So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the sequence than the occurrence of $ \{ b, c \} $, which spans the whole of $ \{ b, c, e, e \} $, the confidence values for the two association rules differ greatly.
+
+\begin{figure}
+\centering
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{6}{1.5}{0}
+\sequenceeventtypes{1.5}{1em}{44}{44/b,46/e,47/a,48/e,49/c}
+
+%% draw occurrence proofs again
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+% windows
+
+\windowthingy{(0.5,-10pt)}{8}
+\windowthingy{(1,-15pt)}{8}
+\windowthingy{(1.5,-20pt)}{8}
+
+\end{tikzpicture}
+
+\caption{3 windows of width 8 covering $ \{ b, c, e, e \} $}
+\end{subfigure}
+
+\begin{subfigure}[t]{0.4\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{6}{1.5}{0}
+\sequenceeventtypes{1.5}{1em}{44}{44/b,46/e,47/a,48/e,49/c}
+
+\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {1.5,2,...,5.5}
+    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+\node (parE1) at (2.25,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (3.75,2) [smallnode,label={$ e $}] {};
+
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-0.5) and +(0,0.5) .. (t48);
+
+\windowthingy{(0,-10pt)}{8}
+\windowthingy{(0.5,-15pt)}{8}
+\windowthingy{(1,-20pt)}{8}
+\windowthingy{(1.5,-25pt)}{8}
+\windowthingy{(2,-30pt)}{8}
+\windowthingy{(2.5,-35pt)}{8}
+
+\end{tikzpicture}
+
+\caption{6 windows of width 8 covering $ \{ e, e \} $}
+\end{subfigure}
+\qquad
+\begin{subfigure}[t]{0.4\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{6}{1.5}{0}
+\sequenceeventtypes{1.5}{1em}{44}{44/b,46/e,47/a,48/e,49/c}
+
+\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {1.5,2,...,5.5}
+    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+\node (parB) at (2.25,1.8) [smallnode,label={$ b $}] {};
+\node (parC) at (3.25,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-0.5) and +(0,0.5) .. (t44);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+\windowthingy{(0.5,-10pt)}{8}
+\windowthingy{(1,-15pt)}{8}
+\windowthingy{(1.5,-20pt)}{8}
+
+\node [inner sep=0] at (0.5,-35pt) {};
+
+\end{tikzpicture}
+
+\caption{3 windows of width 8 covering $ \{ b, c \} $}
+\end{subfigure}
+
+\caption{All of the windows of width 8 that cover $ \{ b, c, e, e \} $ and the windows that cover two subepisodes.}
+\label{fig:fwi-assoc-example}
+\end{figure}
+
+\subsubsection{Minimal windows}
+
+Another approach towards defining the frequency of an episode in a sequence is to use minimal windows.
+
+\begin{definition}
+Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a window $ \boldsymbol{s}[t_s, t_e) $ is called a \emph{minimal window} of $ \alpha $ in $ \boldsymbol{s} $, if:
+\begin{enumerate}
+\item $ t_e - t_s \leq \rho $, \label{min-win-requirement-window-width-limit}
+\item $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $, and
+\item no proper subwindow of $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $.
+\end{enumerate}
+
+We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define a function $ dis(W) $ to be equal to $ 1 $ if all windows in $ W $ are pairwise disjoint, and $ 0 $ otherwise.
+\end{definition}
+
+Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
+
+Compared to the fixed-window frequency, $ | mw(\alpha) | $ brings us much closer to the actual number of occurrences of an episode $ \alpha $. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. We see that there is just one minimal window for each episode in this case.
 
 \begin{figure}
 \centering
 
 \begin{tikzpicture}
 
-\clip (0,-10) rectangle (10,10);
-
 \examplesequence
-
-\foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,5.5}
-    \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
 
 %% draw occurrence proofs again
 % serial episode
@@ -496,44 +624,61 @@ Consider again the occurrence of the parallel episode in figure~\ref{fig:fwi-ass
 
 % windows
 
-\newcommand{\windowthingy}[1]
-{
-    \draw #1 -- ++(0,-3pt) -- ++(3.9,0) -- ++(0,3pt);
-}
+\windowthingy{(-4.5,-10pt)}{3}
 
-\windowthingy{(-7,-5pt)}
-\windowthingy{(-6.5,-10pt)}
-\windowthingy{(-6,-15pt)}
-\windowthingy{(-5.5,-20pt)}
-\windowthingy{(-5,-25pt)}
-\windowthingy{(-4.5,-30pt)}
-
-\windowthingy{(0.5,-5pt)}
-\windowthingy{(1,-10pt)}
-\windowthingy{(1.5,-15pt)}
+\windowthingy{(1.5,-10pt)}{6}
 
 \end{tikzpicture}
 
-\label{fig:fwi-assoc-example}
+\caption{All of the minimal windows that cover $ \{a, a, b, c \} $ and $ c \to f \to b $ in the sequence.}
+\label{fig:mwi-example}
 \end{figure}
 
-\subsubsection{Minimal windows}
+To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $ instead. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{8}{-5.5}{0}
+\sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b};
+
+% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
+%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-2.75,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t35);
+
+% windows
+
+\windowthingy{(-4.5,-10pt)}{4}
+
+\end{tikzpicture}
+
+\caption{A window for episode $ c \to f \to b $ that minimally contains a certain occurrence, yet is not a minimal window.}
+\label{fig:mwi-non-minimal-window}
+\end{figure}
+
+Minimal windows for an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $.
+
+Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. An episode should always be at least as frequent as any of its superepisodes.
 
 \begin{definition}
-Given a sequence $ s $ and an episode $ G $, a window $ s[a, b] $, is called a \emph{minimal window} of $ G $ in $ s $, if:
-\begin{itemize}
-\item $ len(s[a, b]) \leq \rho $, $ s[a, b] $, and
-\item no proper subwindow of of $ s[a, b] $ covers $ G $.
-\end{itemize}
-We define beginning, end ... % TODO figure out definitions (inclusive-exclusive end-timestamp)
-
-We denote the set of all minimal windows of $ G $ in $ s $ with $ mw(G; s) $, or simply $ mw(G) $ if $ s $ is known from the context. Given a set of minimal windows $ W $, we define a function $ dis(W) $ to be equal to 1 if all windows in $ W $ are pairwise disjoint, and 0 otherwise.
-\end{definition}
-
-\begin{definition}
-The \emph{disjoint-window frequency} of an episode $ G $ in a sequence $ s $, denoted $ fr_m(G) $, is defined as the maximal number of non-overlapping minimal windows within $ s $ that contain episode $ G $. Formally:
+The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
 \begin{align*}
-fr_m(G) = \text{max} \{ | W | \mid W \subseteq mw(G) \wedge dis(W) = 1 \}
+fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) = 1 \}
 \end{align*}
 \end{definition}
 
