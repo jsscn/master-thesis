@@ -448,7 +448,7 @@ In order to prevent having to consider a special case for the beginning and the 
 {
     \foreach \i [evaluate=\i as \x using \i * \interdotdistance] in {0,...,6}
     {
-        \fill (\x,#1) circle [color=black,radius=3pt] node (n#1\i) {};
+        \fill (\x,#1) circle [color=black,radius=2pt] node (n#1\i) {};
     }
     \draw ({(-0.5+#2)*\interdotdistance},#1-0.5*\slidingwindowheight) rectangle +(3*\interdotdistance,\slidingwindowheight);
     \ifcase #3
@@ -809,19 +809,17 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \For{$ \text{start} \gets T_s - \rho + 1 $ to $ T_e - 1 $} % TODO check if starting at correct position
     \LineComment{Drop out old events from the window}
     \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $}
-        \While{$ | \text{in\_window}(A) | > 0 \wedge \text{in\_window}(A) \text{.front}() < \text{start} $}
-            \State $ \text{in\_window}(A) \text{.pop}() $
-        \EndWhile
+        \State $ \text{in\_window}(A) \text{.pop}() $
     \EndFor
 
     \LineComment{Bring in new events to the window}
     \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $}
-        \State $ \text{in\_window}[A] \text{.push}(\text{start} + \rho - 1) $
+        \State $ \text{in\_window}[A] \text{.push}(t) $
         \ForAll{$ \alpha $ in $ \text{contains}(A) $}
             \If{{\footnotesize $ \forall A $ in $ \alpha : \min(| \text{in\_window}(A) |, \text{consider\_max}(\alpha, A)) \geq \text{num\_needed}(\alpha, A) $ }}
                 \LineComment{Occurrence detected; determine start of minimal window}
                 \State $ Q \gets \text{in\_window}(A) $
-                \State $ \text{window\_start} \gets \min\{ t | \forall A $ in $ \alpha : t = Q[| Q | - \text{num\_needed}(\alpha, A) + 1] \} $
+                \State $ \text{window\_start} \gets \min\{ t \mid \forall A $ in $ \alpha : t = Q[| Q | - \text{num\_needed}(\alpha, A) + 1] \} $
                 \ForAll{$ A $ in $ \alpha $}
                     $ Q \gets \text{in\_window}(A) $
                     \If{$ \text{window\_start} = Q[| Q | - \text{num\_needed}(\alpha, A)) + 1] $}
@@ -839,7 +837,45 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \label{alg:rec-par-mwi}
 \end{algorithm}
 
-With minimal windows, the frequency of an episode isn't expressed in terms of a number of windows anymore, but in the number of actual occurrences of the episode. For the fixed window frequency measure, % TODO finish sentence (and by extension, thesis)
+Recognizing parallel episodes with the minimal-windows frequency measure is slightly more complex than with the fixed-window frequency. Algorithms for recognizing parallel and serial episodes were presented in~\cite{laxman07}. However, those algorithms only determine the disjoint-window frequency. Because we also want to be able to determine the minimal-window confidence of association rules, not only do we need the total number of minimal windows; we also need the minimal windows themselves.
+
+% Our algorithm wasn't based on Laxman's.
+
+Thanks to the requirement that all minimal windows be smaller than a given window width $ \rho $, we can keep using a sliding window of fixed width, just like the algorithms for the fixed-window frequency. In that way only the part of the sequence included in the sliding window needs to be considered at any time, and so any minimal window we find will be a subwindow of the current sliding window. We'll still be scanning the front of the sliding window for new events, as before. Now, when a new event (A, t) comes in, we need to answer the following questions regarding an episode $ \alpha $ containing $ A $:
+\begin{enumerate}
+\item With this new event in the window, is there a minimal window $ [a, \text{start} + \rho) $ covering $ \alpha $ which ends at the front of the current sliding window? ($ b = \text{start} + \rho $)
+\item If so, where does the minimal window start: what is $ a $?
+\end{enumerate}
+
+Since minimal windows will often be smaller than the fixed-width sliding window, a previously recognized minimal window may still be within the sliding window several timestamps after it has been recognized. Therefore we cannot just rely on the number of events of each type currently in the sliding window, as we did in algorithm~\ref{alg:rec-par-fwi}---we need some way of excluding that previous minimal window from consideration. Any newly discovered minimal window has to start \emph{after} the start of the previous one.
+
+Algorithm~\ref{alg:rec-par-mwi} keeps a queue for each event type $ A $ containing the timestamps of the events of type $ A $, referred to by \textbf{in\_window} in the pseudocode. When a new event $ (A, t) $ comes in, $ t $ is pushed onto the queue for event type $ A $. Now, for each episode $ \alpha $ containing $ A $, it is determined whether we have a new minimal window, by:
+\begin{enumerate}
+\item the number of timestamps in each queue for the event types in $ \alpha $, and
+\item word this better some other time % TODO
+\end{enumerate}
+
+In figure~\ref{fig:rec-par-mwi-example}, all of the minimal windows covering $ \{ a, b \} $ are drawn.
+As shown before, minimal windows can overlap. This means that we can't just look for a minimal window and, once found, ``start over'' entirely. 
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{7}{0}{0}
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/b,5/c,6/b,7/a}
+
+\windowthingy{(0,-5pt)}{2}
+\windowthingy{(0.5,-10pt)}{2}
+\windowthingy{(1,-5pt)}{2}
+\windowthingy{(2.5,-5pt)}{2}
+
+\end{tikzpicture}
+
+\caption{All of the minimal windows of $ \{ a, b \} $ in the sequence.}
+\label{fig:rec-par-mwi-example}
+\end{figure}
 
 \subsection{Recognizing serial episodes with minimal windows}
 

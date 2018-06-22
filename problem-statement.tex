@@ -380,7 +380,15 @@ Traditionally, the most common interpretation of \emph{interestingness} is frequ
 
 Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear in sequential pattern mining. We will present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
 
-We'll also briefly discuss some interestingness measures that are not based on frequency.
+In data mining, a big challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{apriori97} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique.
+
+\begin{definition}
+A frequency measure is \emph{monotonic} if each episode is at least as frequent as any of its superepisodes.
+\end{definition}
+
+Given such a frequency measure, if we find an episode to be infrequent, then we know that all of its superepisodes will be infrequent as well.
+
+All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
 
 \subsubsection{Fixed windows}
 
@@ -401,6 +409,8 @@ Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the 
 \item The frequency values are highly dependent on the window width. If in the example, we were to choose a window width of $ 6 $ instead, then $ fr_f(\{ a, a, b, c \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $.
 \item In the example we also see that the more an occurrence is spread out, the fewer windows of a certain width cover it, and consequently the lower the fixed-window frequency.
 \end{itemize}
+
+In essence, one same occurrence may be counted multiple times without good reason, depending on the window size and the span of the occurrence.
 
 \begin{figure}
 \centering
@@ -582,7 +592,7 @@ Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a 
 \item no proper subwindow of $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $.
 \end{enumerate}
 
-We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define a function $ dis(W) $ to be equal to $ 1 $ if all windows in $ W $ are pairwise disjoint, and $ 0 $ otherwise.
+We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define $ dis(W) $ to be true if all windows in $ W $ are pairwise disjoint, and false otherwise.
 \end{definition}
 
 Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
@@ -673,34 +683,57 @@ To further illustrate the requirements for a window being minimal, consider the 
 
 Minimal windows for an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $.
 
-Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. An episode should always be at least as frequent as any of its superepisodes.
+Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. Therefore only disjoint minimal windows are considered.
 
 \begin{definition}
 The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
 \begin{align*}
-fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) = 1 \}
+fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
 \end{align*}
 \end{definition}
 
+% proof?
+The disjoint-window frequency is monotonic.
+
+The confidence of an association rule can also be based on minimal windows. Contrary to the frequency of episodes themselves, for association rules we \emph{can} use overlapping minimal windows.
+
 \begin{definition}
-Given episodes $ X $ and $ Y $, such that $ X \subset Y $, and a minimal window $ s[a, b] $ of episode $ X $. Assume there exists a minimal window $ s[c, d] $ of $ Y $ such that $ c \leq a $ and $ b \leq d $, then we define the \emph{minimal-extensibility} of occurrence $ s[a, b] $ of $ X $ into an occurrence of $ Y $ as
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that
+$ [a, b) \subseteq [c, d) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b] $ of $ \alpha $ into an occurrence of $ \beta $
 \begin{align*}
-ext_m(s[a, b], X, Y) = 1
+ext_m(\boldsymbol{s}[a, b), \alpha, \beta) = 1
 \end{align*}
-If there exists no such minimal window of $ Y $, we define $ ext_m(s[a, b], X, Y) = 0 $.
+If there doesn't exist such a window, we define $ ext_m(\boldsymbol{s}[a,b)) = 0 $.
+\end{definition}
+
+In simple terms, the minimal-extensibility tells us whether or not a minimal window of an episode $ \alpha $ is contained in a minimal window of another episode $ \beta $.
+
+\begin{definition}
+Given episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we define the \emph{minimal-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_m(\alpha \Rightarrow \beta) $, to be the proportion of windows of $ \alpha $ that are contained within a minimal window of $ \beta $:
+\begin{align*}
+c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \beta)}{| mw(\alpha) |}
+\end{align*}
 \end{definition}
 
 \subsubsection{Weighted minimal windows}
 
 \begin{definition}
-The \emph{total weight} of a set of windows $ W $ in a sequence $ s $, denoted $ tw(W) $, is defined as
+We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of its width:
 \begin{align*}
-tw(W) = \sum_{w \in W}{\frac{1}{len(w)}}
+\frac1{b - a}
 \end{align*}
-The \emph{weighted-window frequency} of an episode $ G $ in a sequence $ s $, denoted $ fr_w(G) $, is defined as
+
+Given a set of windows $ W $, the \emph{total weight} of the windows is the sum of all the weights:
 \begin{align*}
-fr_w(G) = \text{max} \{ tw(W) | W \subseteq mw(G), dis(W) = 1 \}
+\sum_{[a,b) \in W} \frac1{b - a}
 \end{align*}
+The \emph{weighted-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
+\begin{align*}
+fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right\}
+\end{align*}
+In words, the weighted-window frequency is the total weight of a set of disjoint minimal windows that maximizes the total weight.
 \end{definition}
+
+The weight of a window is the inverse of its width because an occurrence giving rise to a small minimal window is deemed more significant than one where the events are spread far apart.
 
 \subsubsection{Other interestingness measures}

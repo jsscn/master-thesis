@@ -40,12 +40,21 @@
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{bch}
 
-\setlength{\parindent}{0em}
-\setlength{\parskip}{0.5em}
+\newtheoremstyle{mydefinitionstyle} % name of the style to be used
+  {10mm}        % measure of space to leave above the theorem. E.g.: 3pt
+  {10mm}        % measure of space to leave below the theorem. E.g.: 3pt
+  {}            % name of font to use in the body of the theorem
+  {2em}  % measure of space to indent
+  {\bfseries}   % name of head font
+  {.}    % punctuation between head and body
+  {10mm}        % space after theorem head
+  {}            % Manually specify head
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
 % \renewcommand{\baselinestretch}{1.25}
 
 \begin{document}
@@ -75,24 +84,25 @@ University of Antwerp
 
 \date{1 January 1970}
 
-\maketitle
+% \maketitle
 
 % \tableofcontents
 
-\input{introduction}
+% \input{introduction}
 
-\section{Nederlandse samenvatting}
+% \section{Nederlandse samenvatting}
 
-\newpage
+% \newpage
 
 \input{problem-statement}
 \newpage
+
 
 \input{algorithms}
 \newpage
 
 
-\input{experiments}
+% \input{experiments}
 
 
 \section{Conclusion}
