@@ -677,7 +677,7 @@ To further illustrate the requirements for a window being minimal, consider the 
 
 \end{tikzpicture}
 
-\caption{A window for episode $ c \to f \to b $ that minimally contains a certain occurrence, yet is not a minimal window.}
+\caption{A window for episode $ c \to f \to b $ that minimally covers a certain occurrence, yet is not a minimal window.}
 \label{fig:mwi-non-minimal-window}
 \end{figure}
 
@@ -699,7 +699,7 @@ The confidence of an association rule can also be based on minimal windows. Cont
 
 \begin{definition}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that
-$ [a, b) \subseteq [c, d) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b] $ of $ \alpha $ into an occurrence of $ \beta $
+$ [a, b) \subseteq [c, d) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $
 \begin{align*}
 ext_m(\boldsymbol{s}[a, b), \alpha, \beta) = 1
 \end{align*}
