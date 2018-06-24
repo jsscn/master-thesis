@@ -388,7 +388,7 @@ A frequency measure is \emph{monotonic} if each episode is at least as frequent 
 
 Given such a frequency measure, if we find an episode to be infrequent, then we know that all of its superepisodes will be infrequent as well.
 
-All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
+% All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
 
 \subsubsection{Fixed windows}
 
@@ -736,4 +736,23 @@ In words, the weighted-window frequency is the total weight of a set of disjoint
 
 The weight of a window is the inverse of its width because an occurrence giving rise to a small minimal window is deemed more significant than one where the events are spread far apart.
 
-\subsubsection{Other interestingness measures}
+In order to calculate the confidence of association rules based on weighted windows, we first define the weighted-extensibility.
+
+\begin{definition}
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [c, d) \subseteq [a, b) $, and that this is the smalles window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+\begin{align*}
+ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
+\end{align*}
+If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = 0 $.
+\end{definition}
+
+The weighted-extensibility gives an indication of how far we need to look to extend an occurrence of $ \alpha $, into an occurrence of $ \beta $.
+
+\begin{definition}
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{weighted-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_w(\alpha \Rightarrow \beta) $, to be the average weighted-extensibility of an occurrence of $ \alpha $ into an occurrence of $ \beta $:
+\begin{align*}
+c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
+\end{align*}
+\end{definition}
+
+% \subsubsection{Other interestingness measures}
