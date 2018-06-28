@@ -403,10 +403,10 @@ fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[i, i + \rho) \mid \boldsymbol
 
 At first sight, counting the number of windows which cover the episode might seem like a good approach---intuitively, one would think that the more windows an episode occurs in, the more frequent it is. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
 
-Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ a, a, b, c \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
+Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
 
 \begin{itemize}
-\item The frequency values are highly dependent on the window width. If in the example, we were to choose a window width of $ 6 $ instead, then $ fr_f(\{ a, a, b, c \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $.
+\item The frequency values are highly dependent on the window width. If in the example, we were to choose a window width of $ 6 $ instead, then $ fr_f(\{ b, c, e, e \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $.
 \item In the example we also see that the more an occurrence is spread out, the fewer windows of a certain width cover it, and consequently the lower the fixed-window frequency.
 \end{itemize}
 
@@ -460,7 +460,7 @@ In essence, one same occurrence may be counted multiple times without good reaso
 
 \end{tikzpicture}
 
-\caption{All of the windows of width 8 that cover two episodes in a sequence; a parallel episode $ \{a, a, b, c \} $ and a serial episode $ c \to f \to b $.}
+\caption{All of the windows of width 8 that cover two episodes in a sequence; a parallel episode $ \{ b, c, e, e \} $ and a serial episode $ c \to f \to b $.}
 \label{fig:fwi-example}
 \end{figure}
 
@@ -640,7 +640,7 @@ Compared to the fixed-window frequency, $ | mw(\alpha) | $ brings us much closer
 
 \end{tikzpicture}
 
-\caption{All of the minimal windows that cover $ \{a, a, b, c \} $ and $ c \to f \to b $ in the sequence.}
+\caption{All of the minimal windows that cover $ \{ b, c, e, e \} $ and $ c \to f \to b $ in the sequence.}
 \label{fig:mwi-example}
 \end{figure}
 
