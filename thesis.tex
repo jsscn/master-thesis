@@ -1,8 +1,11 @@
 \documentclass{scrartcl}
-\usepackage[utf8]{inputenc}
 
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+
+\usepackage{natbib}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -57,6 +60,8 @@
 \setlength{\parskip}{0.5em}
 % \renewcommand{\baselinestretch}{1.25}
 
+\hyphenation{time-stamp}
+
 \begin{document}
 
 \frenchspacing
@@ -103,24 +108,12 @@ University of Antwerp
 
 
 \input{experiments}
+\newpage
 
 
 % \section{Conclusion}
 
-\begin{thebibliography}{99}
-
-\bibitem{winepi97} Mannila, H., Toivonen, H. \& Inkeri Verkamo, A. Data Mining and Knowledge Discovery (1997) 1: 259. https://doi.org/10.1023/A:1009748302351
-
-\bibitem{cule13} Cule, Boris \& Tatti, Nikolaj \& Goethals, Bart. (2013). MARBLES: Mining association rules buried in long event sequences. Statistical Analysis and Data Mining. 7. 10.1002/sam.11199. 
-
-\bibitem{cule16} Cule B., Feremans L., Goethals B. (2016) Efficient Discovery of Sets of Co-occurring Items in Event Sequences. In: Frasconi P., Landwehr N., Manco G., Vreeken J. (eds) Machine Learning and Knowledge Discovery in Databases. ECML PKDD 2016. Lecture Notes in Computer Science, vol 9851. Springer, Cham
-
-\bibitem{tatti12} Tatti, N. \& Cule, B. Data Min Knowl Disc (2012) 25: 34. https://doi.org/10.1007/s10618-011-0232-z
-
-\bibitem{laxman07} Laxman S., P. S. Sastry, and K. P. Unnikrishnan. (2007) A fast algorithm for finding frequent episodes in event streams. In Proceedings of the 13th ACM SIGKDD international conference on Knowledge discovery and data mining (KDD '07). ACM, New York, NY, USA, 410-419. DOI: https://doi.org/10.1145/1281192.1281238
-
-\bibitem{apriori97} Agrawal, R., Srikant, R. (1994) Fast Algorithms for Mining Association Rules in Large Databases. In Proceedings of the 20th International Conference on Very Large Data Bases (VLDB '94), Jorge B. Bocca, Matthias Jarke, and Carlo Zaniolo (Eds.). Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 487-499.
-
-\end{thebibliography}
+\bibliographystyle{plainnat}
+\bibliography{mybib}
 
 \end{document}

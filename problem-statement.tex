@@ -355,7 +355,7 @@ When discussing the algorithms we will mostly consider their array representatio
 Given two episodes $ \alpha $ and $ \beta $, we say that $ \alpha $ is a \emph{subepisode} of $ \beta $, denoted $ \alpha \subseteq \beta $, if the set of all sequences that cover $ \beta $ is a subset of the set of all sequences that cover $ \alpha $. $ \alpha $ is a \emph{proper subepisode} of $ \beta $ if $ \alpha \subseteq \beta $ and $ \alpha $ and $ \beta $ are not equivalent. In that case we can write $ \alpha \subset \beta $.
 \end{definition}
 
-Of course, considering all event sequences that cover an episode is an impossible task, so the above definition does not give rise to a practical way of determining whether one episode is a subepisode of another. Instead we must look at the episodes themselves, and reason about all of the ways in which they might occur in a sequence. For parallel and serial episodes, it is quite straightforward to do so, as described below. More general cases have been reasoned about~\cite{tatti12}, but are beyond the scope of this thesis.
+Of course, considering all event sequences that cover an episode is an impossible task, so the above definition does not give rise to a practical way of determining whether one episode is a subepisode of another. Instead we must look at the episodes themselves, and reason about all of the ways in which they might occur in a sequence. For parallel and serial episodes, it is quite straightforward to do so, as described below. More general cases have been reasoned about~\cite{tatti2012mining}, but are beyond the scope of this thesis.
 
 \begin{itemize}
 \item A parallel episode $ \alpha $ is a subepisode of a parallel episode $ \beta $ if:
@@ -380,10 +380,10 @@ Traditionally, the most common interpretation of \emph{interestingness} is frequ
 
 Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear in sequential pattern mining. We will present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
 
-In data mining, a big challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{apriori97} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique.
+In data mining, a big challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique.
 
 \begin{definition}
-A frequency measure is \emph{monotonic} if each episode is at least as frequent as any of its superepisodes.
+A frequency measure is \emph{monotonically decreasing} if each episode is at least as frequent as any of its superepisodes.
 \end{definition}
 
 Given such a frequency measure, if we find an episode to be infrequent, then we know that all of its superepisodes will be infrequent as well.
@@ -392,7 +392,7 @@ Given such a frequency measure, if we find an episode to be infrequent, then we 
 
 \subsubsection{Fixed windows}
 
-The first frequency measure we discuss was first proposed in~\cite{winepi97}, and is based on windows of a fixed length.
+The first frequency measure we discuss was first proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
 
 \begin{definition}
 Given a window width $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of width $ \rho $ in $ \boldsymbol{s} $ covering the episode:
@@ -727,7 +727,7 @@ Given a set of windows $ W $, the \emph{total weight} of the windows is the sum 
 \begin{align*}
 \sum_{[a,b) \in W} \frac1{b - a}
 \end{align*}
-The \emph{weighted-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
+The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
 \begin{align*}
 fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right\}
 \end{align*}
