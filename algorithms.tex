@@ -18,7 +18,7 @@ Output: The collection of episodes that are frequent in the sequence in terms of
     \State compute $ \mathcal{F}_l \gets \{ \alpha \in \mathcal{C}_l \mid fr(\alpha, s, \rho) \geq \text{min\_fr} \} $
     \State $ l \gets l + 1 $
     \LineComment{Candidate generation (algorithm \ref{alg:cand-gen})}
-    \State compute $ C_l = \{ \alpha \mid | \alpha | = l \wedge \forall \beta \mid \beta \subset \alpha : \beta \text{ is frequent} \} $
+    \State compute $ \mathcal{C}_l = \{ \alpha \mid | \alpha | = l \wedge \forall \beta \mid \beta \subset \alpha : \beta \text{ is frequent} \} $
 \EndWhile
 \State output all $ \mathcal{F}_i $
 
@@ -617,8 +617,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 \begin{algorithmic}[1]
 
-\LineComment{Initialization}
-\ForAll{$ \alpha \in \mathcal{C} $}
+\ForAll{$ \alpha \in \mathcal{C} $} \Comment{Initialization}
     \For{$ i \leftarrow 1 $ to $ | \alpha | $}
         \State{$ \alpha \text{.initialized} \leftarrow \text{\textit{uninitialized}} $}
         \State{$ \text{waits}(\alpha[i]) \leftarrow \emptyset $}
@@ -633,8 +632,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 \For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
 \EndFor
 
-\LineComment{Recognition}
-\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-fwi:iterate-sequence}
+\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-fwi:iterate-sequence} \Comment{Recognition}
     \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
     \State{$ \text{transitions} \leftarrow \emptyset $}
     \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-ser-fwi:iterate-new-events}
@@ -654,7 +652,10 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \EndFor
     \EndFor
     \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
-        \State{$ \alpha \text{.initialized} [j] \leftarrow t $} \label{alglin:rec-ser-fwi:transition-begin}
+        \If{$ \alpha \text{.initialized}[j] \neq \text{\textit{uninitialized}} $} \label{alglin:rec-ser-fwi:added-line-1} \label{alglin:rec-ser-fwi:transition-begin}
+            \State $ \text{begins\_at}(\alpha \text{.initialized}[j]) \gets \text{begins\_at}(\alpha \text{.initialized}[j]) \setminus \{ (\alpha, j) \} $ \label{alglin:rec-ser-fwi:added-line-2}
+        \EndIf
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $}
         \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
         \If{$ j < | \alpha | $}
             \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-fwi:transition-end}
@@ -780,20 +781,22 @@ After applying the state transitions, the events no longer in the window are dro
 \item The \emph{initialized} array of the episode is updated to reflect the removal of the automaton instance.
 \end{enumerate}
 
-\subsubsection{Correcting the original algorithm pseudocode}
+\subsubsection{Correcting the original algorithm presented in~\citep{mannila1997discovery}}
 
-While implementing this algorithm we found an oversight in~\cite{mannila1997discovery} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\cite{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. At line~\ref{alglin:rec-ser-fwi:transition-begin}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but the information about the potentially overwritten instance is not removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
+While implementing this algorithm we found an oversight in~\cite{mannila1997discovery} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\cite{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. Note that in~\cite{mannila1997discovery}, the update to \emph{begins\_at} of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2} are missing. (In their version of the algorithm, these statements should appear in between lines 26 and 27.)
 
-Using a window width of 2, and scanning the sequence $ e \, a \, e \, c $. Consider the recognition of the serial episode $ \alpha = e \to c $. Obviously the sequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the sequence. Upon encountering the first $ e $, an automaton instance gets initialized for $ \alpha $ (lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}). This includes, as discussed before:
+In lines~\ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but without the statements of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2}, the information about the potentially overwritten instance does not get removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
+
+Assume that the statements aren't there, as in~\cite{mannila1997discovery}. Using a window width of 2, and scanning the sequence $ e \, a \, e \, c $. Consider the recognition of the serial episode $ \alpha = e \to c $. Obviously the sequence contains $ \alpha $, and a window width of 2 suffices to recognize an instance of the episode in the sequence. Upon encountering the first $ e $, an automaton instance gets initialized for $ \alpha $ (lines \ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}). This includes, as discussed before:
 \begin{itemize}
 \item setting the timestamp in the \emph{initialized} array;
 \item adding $ (\alpha, 2) $ to the $ \text{waits}(c) $ set (so that if $ c $ is encountered, the automaton can transition to the next state);
 \item adding $ (\alpha, 1) $ to $ \text{begins\_at}(1) $ (to facilitate the removal of the the automaton instance once timestamp $ 1 $ falls out of the window).
 \end{itemize}
 
-When the second $ e $ is read (at $ t = 3 $ and when $ \text{start} = 2 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ c $ has been encountered---the previous instance must be overwritten. Indeed, this happens for the \emph{initialized} data structure at line~\ref{alglin:rec-ser-fwi:transition-begin}. However, \emph{begins\_at} is never updated to reflect this: $ (\alpha, 1) $ remains in $ \text{begins\_at}(1) $. Because of this, the newly created automaton is wrongly removed just afterwards, because the first instance fell out of the window (while iterating $ \text{begins\_at}(1 = \text{start} - 1) $, line~\ref{alglin:rec-ser-fwi:cleanup-for}). Then $ (\alpha, 2) $ is no longer in $ \text{waits}(c) $, and $ \alpha $ will fail to be recognized.
+When the second $ e $ is read (at time $ 3 $ and when $ \text{start} = 2 $), a new instance of the automaton is created, and since the previous instance is still in state $ 1 $---no $ c $ has been encountered---the previous instance must be overwritten. Indeed, this happens for the \emph{initialized} data structure at line~\ref{alglin:rec-ser-fwi:transition-begin}. However, \emph{begins\_at} is never updated to reflect this: $ (\alpha, 1) $ remains in $ \text{begins\_at}(1) $. Because of this, the newly created automaton is wrongly removed just afterwards, because timestamp $ 1 $---the timestamp at which the first instance was initialized---fell out of the window (while iterating $ \text{begins\_at}(\text{start} - 1 = 1) $, lines~\ref{alglin:rec-ser-fwi:cleanup-iteration-begin} through \ref{alglin:rec-ser-fwi:cleanup-iteration-end}). Then $ (\alpha, 2) $ is no longer in $ \text{waits}(c) $, and $ \alpha $ will fail to be recognized.
 
-This is a problem any time an older instance of an episode's automaton instance gets overwritten by a more recent one reaching the same state. In some cases, as illustrated above, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early. Consequently, this may cause the episode to be considered infrequent while it actually is frequent.
+This inconsistency in \emph{begins\_at} is a problem any time an older instance of an episode's automaton instance gets overwritten by a more recent one reaching the same state. In some cases, as in the example, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early.
 
 \subsubsection{The necessity of the \emph{transitions} data structure}
 \label{sec:transitions}
@@ -933,9 +936,9 @@ Algorithm~\ref{alg:disjoint-window-frequency} implements this procedure. $ b_l $
 
 \begin{algorithm}
 
-\caption{Recognizing a collection $ \mathcal{C} $ of parallel episodes in a sequence $ s $ using the minimal window frequency measure. \\
+\caption{Finding all of the minimal windows of a collection $ \mathcal{C} $ of parallel episodes in a sequence $ \boldsymbol{s} $. \\
 Input: A collection $ \mathcal{C} $ of parallel episodes, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
-Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}, along with all minimal windows of each occurrence (including overlapping windows).}
+Output: All episodes in $ \mathcal{C} $, along with all minimal windows of each episode (including overlapping windows).}
 
 \begin{algorithmic}[1]
 
@@ -983,10 +986,6 @@ Output: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 \label{alg:rec-par-mwi}
 \end{algorithm}
-
-
-
-% Our algorithm wasn't based on Laxman's.
 
 Finding the minimal windows of parallel episodes is slightly more complex than determining their fixed-window frequency.
 
@@ -1047,13 +1046,12 @@ We need random access into the queues in order to find the start of a minimal wi
 
 \caption{Recognizing serial episodes using the minimal window frequency measure. \\
 Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
-Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ with respect to $ \rho $ and \textit{min\_fr}.
+Ouptut: All episodes in $ \mathcal{C} $, along with all minimal windows of each episode (including overlapping windows).
 }
 
 \begin{algorithmic}[1]
 
-\LineComment{Initialization}
-\ForAll{$ \alpha \in \mathcal{C} $}
+\ForAll{$ \alpha \in \mathcal{C} $} \Comment{Initialization}
     \For{$ i \leftarrow 1 $ to $ | \alpha | $}
         \State{$ \alpha \text{.initialized}[i] \leftarrow \text{\textit{uninitialized}} $}
         \State{$ \text{waits}(\alpha[i]) \leftarrow \emptyset $}
@@ -1067,9 +1065,7 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
 
 \For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
 \EndFor
-
-\LineComment{Recognition}
-\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence}
+\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence} \Comment{Recognition}
     \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
     \State{$ \text{transitions} \leftarrow \emptyset $}
     \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $} \label{alglin:rec-ser-mwi:cleanup-for}
@@ -1092,7 +1088,10 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
         \EndFor
     \EndFor
     \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
-        \State{$ \alpha \text{.initialized} [j] \leftarrow t $} \label{alglin:rec-ser-mwi:transition-begin}
+        \If{$ \alpha \text{.initialized}[j] \neq \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:added-line-1} \label{alglin:rec-ser-mwi:transition-begin} \label{alglin:rec-ser-mwi:transition-begin}
+            \State $ \text{begins\_at}(\alpha \text{.initialized}[j]) \gets \text{begins\_at}(\alpha \text{.initialized}[j]) \setminus \{ (\alpha, j) \} $ \label{alglin:rec-ser-mwi:added-line-2}
+        \EndIf
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $}
         \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
         \If{$ j = | \alpha | $}
             \State $ \alpha \text{.minimal\_windows} \gets $
@@ -1103,25 +1102,79 @@ Ouptut: The episodes of $ \mathcal{C} $ that are frequent in $ \boldsymbol{s} $ 
     \EndFor
 \EndFor
 
-\ForAll{episodes $ \alpha $ in $ \mathcal{C} $}
-    \LineComment{See algorithm~\ref{alg:disjoint-window-frequency} in section~\ref{sec:disjoint-window-frequency}}
-    \If{$ fr_m(\alpha) \geq \text{min\_fr} $}
-        \State{output $ \alpha $}
-    \EndIf
-\EndFor
-
 \end{algorithmic}
 
 \label{alg:rec-ser-mwi}
 \end{algorithm}
 
-While recognizing parallel episodes with minimal windows was slightly more complicated than with fixed windows, recognizing serial episodes with minimal windows is actuallly simpler than with fixed windows, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
+While finding the minimal windows of parallel episodes was slightly more complicated than finding their fixed-window frequency, finding the minimal windows of serial episodes is actuallly simpler than finding their fixed-window frequency, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
 
 Algorithm~\ref{alg:rec-ser-mwi} accomplishes recognition of serial episodes using the minimal window frequency measure.
 
 Once an episode has reached state $ | \alpha | $, a minimal window covering the episode starts at the point where the automaton was initialized, and ends at the front of the current sliding window: $ \boldsymbol{s}[\alpha \text{.initialized}[| \alpha |], \text{start} + \rho) $. So the displacement of the window after reaching this state does not need to be kept track of anymore, and the \emph{in\_window} variable isn't needed.
 
 As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
+
+
+\subsection{Determining the minimal-window confidence}
+
+\begin{algorithm}
+
+\caption{Computing the minimal-window confidence of an association rule $ \alpha \Rightarrow \beta $.\\
+Input: List of minimal windows $ V = \langle [a_1, b_1), \ldots, [a_n, b_n) \rangle $ of episode $ \alpha $, list of minimal windows $ W = \langle [p_1, q_1), \ldots, [p_m, q_m) \rangle $ of episode $ \beta $.\\
+Output: $ c_m(\alpha \Rightarrow \beta) $
+}
+
+\begin{algorithmic}[1]
+
+\State $ u \gets 0 $
+\State $ j \gets 1 $
+\ForAll{$ i \gets 1 $ to $ n $} \label{alglin:minimal-window-confidence:for}
+    \While{$ j \leq m \wedge q_j < b_i $} \label{alglin:minimal-window-confidence:while}
+        \State $ j \gets j + 1 $
+    \EndWhile
+    \If{$ j \leq m \wedge p_j \leq a_i $} $ u \gets u + 1 $ \label{alglin:minimal-window-confidence:increment}
+    \EndIf
+\EndFor
+\State output $ u / n $
+
+\end{algorithmic}
+
+\label{alg:minimal-window-confidence}
+\end{algorithm}
+
+Algorithm~\ref{alg:minimal-window-confidence}, adapted from~\citep{cule2014marbles}, computes the minimal-window confidence of an association rule $ \alpha \Rightarrow \beta $, given a list $ V $ of the minimal windows of $ \alpha $ and a list $ W $ of the minimal windows of $ \beta $, both lists ordered by the timestamps that define the windows. Both lists are iterated once, simultaneously.
+
+For each minimal window $ [a, b) $ of $ \alpha $, we need to determine if there exists a minimal window $ [p, q) $ of $ \beta $, for which $ [a, b) \subset [p, q) $. If so, $ ext_m([a, b), \alpha, \beta) = 1 $. For each window in $ V $, (line~\ref{alglin:minimal-window-confidence:for}), $ W $ is traversed (line~\ref{alglin:minimal-window-confidence:while}) until for a minimal window $ [p, q) $ in $ W $, a comparison of the end timestamps of both windows determine that $ q \geq b $. Then the start timestamps are compared (line~\ref{alglin:minimal-window-confidence:increment}): if $ p \leq a $, then $ [a, b) \subset [p, q) $. Note that $ W $ does not need to be traversed from the beginning for each window in $ V $, since both lists are ordered by timestamp.
+
+If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $ [a, b) $, then this gets registered by incrementing variable $ u $ (line~\ref{alglin:minimal-window-confidence:increment}).
+
+\iffalse
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{15}{0}{0}
+
+\foreach \x in {0,0.5,...,7}
+    \draw [gray,ultra thin] (\x,2) -- (\x,-15pt);
+
+\draw [very thick] (2.5,10pt) ++(0,-3pt) -- ++(0,3pt) -- ++(1.9,0) -- +(0,-3pt);
+\windowthingy{(1,-5pt)}{5}
+\windowthingy{(2,-10pt)}{6}
+
+\end{tikzpicture}
+
+\caption{Finding a minimal window of $ \beta $ that contains a given minimal window of $ \alpha $ (drawn above the sequence tick marks in bold).}
+\label{fig:minimal-window-confidence}
+\end{figure}
+\fi
+
+\subsubsection{Correcting the original algorithm presented in~\citep{cule2014marbles}}
+
+In~\citep{cule2014marbles}, there is a small mistake in algorithm~\ref{alg:minimal-window-confidence} (algorithm~1 in~\citep{cule2014marbles}), regarding the comparison of the end timestamps of two windows. In the condition for the \emph{while}-statement, $ W $ is traversed until a window with an end timestamp \emph{strictly} greater than the end timstamp of the window in $ V $ currently being considered. However, one window can be a subwindow of another if their end timestamps are equal. If implemented as written in~\cite{cule2014marbles}, then a minimal window in $ W $ could be skipped erroneously.
+
 
 
 \subsection{Determining the weighted-window frequency}

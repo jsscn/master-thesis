@@ -50,7 +50,7 @@ Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequen
 {
 % args: starting position (leftmost point of horizontal line), number of timestamps
     \pgfmathsetmacro\windowthingylength{#2*0.5-0.1}
-    \draw #1 ++(0,3pt) -- ++(0,-3pt) -- ++(\windowthingylength,0) -- ++(0,3pt);
+    \draw [thick] #1 ++(0,3pt) -- ++(0,-3pt) -- ++(\windowthingylength,0) -- ++(0,3pt);
 }
 
 \newcommand{\examplesequence}
@@ -246,6 +246,8 @@ where $ A_i $ is the event type of the $ i $-th node, and a node of event type $
 \label{fig:episode-graphs}
 \end{figure}
 
+Figure~\ref{fig:occurrences} shows an occurrence of two episodes---one parallel, one serial---in the example sequence from figure~\ref{fig:event-sequence}.
+
 \begin{figure}
 \centering
 
@@ -397,7 +399,7 @@ The first frequency measure we discuss was first proposed in~\cite{mannila1997di
 \begin{definition}
 Given a window width $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of width $ \rho $ in $ \boldsymbol{s} $ covering the episode:
 \begin{align*}
-fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[i, i + \rho) \mid \boldsymbol{s}[i, i + \rho) \text{ covers } \alpha \} |
+fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol{s}[t, t + \rho) \text{ covers } \alpha \} |
 \end{align*}
 \end{definition}
 
