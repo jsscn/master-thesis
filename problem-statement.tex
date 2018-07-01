@@ -1,6 +1,6 @@
-\section{Problem Statement}
+\chapter{Problem Statement}
 
-\subsection{Event sequences}
+\section{Event sequences}
 
 \begin{definition}
 A \emph{sequence event}, or \emph{event} for short, is a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
@@ -130,7 +130,7 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig
 \label{fig:windows}
 \end{figure}
 
-\subsection{Episodes}
+\section{Episodes}
 
 Now we formally define patterns.
 
@@ -374,7 +374,7 @@ Given two episodes $ \alpha $ and $ \beta $ such that $ \beta \subset \alpha $, 
 
 Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given that we have an occurrence of $ \alpha $ in a sequence. So, intuitively, the confidence value of an association rule gives an indication of how well an occurrence of the head of the rule ``predicts'' an occurrence of the tail.
 
-\subsection{Interestingness measures}
+\section{Interestingness measures}
 
 Having discussed episodes occurring in event sequences, we would now like to be able to express how interesting an episode is in regard to a sequence.
 
@@ -392,7 +392,7 @@ Given such a frequency measure, if we find an episode to be infrequent, then we 
 
 % All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
 
-\subsubsection{Fixed windows}
+\subsection{Fixed windows}
 
 The first frequency measure we discuss was first proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
 
@@ -582,7 +582,7 @@ So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the 
 \label{fig:fwi-assoc-example}
 \end{figure}
 
-\subsubsection{Minimal windows}
+\subsection{Minimal windows}
 
 Another approach towards defining the frequency of an episode in a sequence is to use minimal windows.
 
@@ -717,7 +717,7 @@ c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \
 \end{align*}
 \end{definition}
 
-\subsubsection{Weighted minimal windows}
+\subsection{Weighted minimal windows}
 
 \begin{definition}
 We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of its width:
@@ -757,4 +757,4 @@ c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \
 \end{align*}
 \end{definition}
 
-% \subsubsection{Other interestingness measures}
+% \subsection{Other interestingness measures}

@@ -1,6 +1,6 @@
-\section{Algorithms}
+\chapter{Algorithms}
 
-\subsection{Finding frequent episodes: high-level algorithm}
+\section{Finding frequent episodes: high-level algorithm}
 
 \begin{algorithm}
 
@@ -36,7 +36,7 @@ The construction of the first set of candidates is a special case. $ \mathcal{C}
 
 The following subsections will cover all of the subalgorithms.
 
-\subsection{Candidate generation}
+\section{Candidate generation}
 \label{sec:cand-gen}
 
 \begin{algorithm}
@@ -392,7 +392,7 @@ We should note that in the subepisode construction procedure described above, so
 \label{fig:cand-subepisodes}
 \end{figure}
 
-\subsubsection{Notes on the implementation}
+\subsection{Notes on the implementation}
 
 After constructing a subepisode, the algorithm tests whether or not it appears in $ \mathcal{F}_l $. There are a few different options to realize this check.
 
@@ -407,7 +407,7 @@ Taking the first option as a naïve first approach turned out to be too slow.
 The two latter options performed much better, and gave comparable running times, likely indicating that the subepisode membership test wasn't a bottleneck anymore.
 
 
-\subsection{Determining the fixed-window frequency for parallel episodes}
+\section{Determining the fixed-window frequency for parallel episodes}
 
 \begin{algorithm}
 
@@ -516,7 +516,7 @@ To prevent having to consider a special case for the beginning and the end of th
 \label{fig:sliding-window}
 \end{figure}
 
-\subsubsection{Operation}
+\subsection{Operation}
 
 Recognition is accomplished as follows. For each event type $ A $, a counter $ A \text{.count} $ is maintained. This counter denotes how many events of type $ A $ are currently in the window. When a new event of type $ A $ enters the window (line~\ref{alglin:rec-par-fwi:new-events} and further), this counter is incremented by $ 1 $. Then, for all episodes $ \alpha $ containing $ A \text{.count} $ nodes of type $ A $, a per-episode counter $ \alpha \text{.event\_count} $ is increased by $ A \text{.count} $, indicating that there are currently enough events of type $ A $ in the window to satisfy an occurrence. If this is the case for all event types in $ \alpha $, then $ \alpha \text{.event\_count} = | \alpha | $, and so the window contains $ \alpha $.\footnote{\label{footnote:false-recognition}Actually, $ \alpha $ is not necessarily in the window. Note that new events coming into the window are processed before old events are removed. After processing new events, events at timestamp $ \text{start} - 1 $ aren't removed yet, even though they just fell outside of the current window. This may cause an episode to be recognized even though the current sliding window $ s[\text{start}, \text{start} + \rho) $ does not cover it. However, immediately after falsely recognizing an episode in this way, the events at $ \text{start} - 1 $ will be removed, and the displacement of the sliding window will be zero, thus not affecting $ \alpha $'s frequency count.} To mark the point in time at which the episode entered the sliding window, variable $ \alpha \text{.in\_window} $ gets set to \emph{start}.
 
@@ -602,11 +602,11 @@ Figure~\ref{fig:parallel-recognition} illustrates this the recognition of a para
 \label{fig:parallel-recognition}
 \end{figure}
 
-\subsubsection{Notes on the implementation}
+\subsection{Notes on the implementation}
 
 The \emph{contains} data structure requires some sort of key-value storage. Typically, these types of data structures are either  tree-based or hash-based. Lookup of a single key is generally faster with a hash-based data structure, while traversal of all elements is faster with a tree-based solution, especially if the traversal needs to be in-order. In this case, \emph{contains} never needs to be traversed, so one would expect a hash-based data structure to be the best choice. This turned out to be the case experimentally. \emph{contains} should store a reference to the episodes in $ \mathcal{C} $, such that all updates to episode-specific variables are performed on $ \mathcal{C} $.
 
-\subsection{Determining the fixed-window frequency for serial episodes}
+\section{Determining the fixed-window frequency for serial episodes}
 
 \begin{algorithm}
 
@@ -745,7 +745,7 @@ Figure~\ref{fig:serial-recognition} illustrates the principle with an example.
 \label{fig:serial-recognition}
 \end{figure}
 
-\subsubsection{Data structures}
+\subsection{Data structures}
 
 The algorithm uses some bookkeeping data structures, which get updated as the sequence gets read. We'll discuss the most important ones.
 \begin{itemize}
@@ -757,7 +757,7 @@ Note that \emph{initialized} allows at most one automaton to be in a given state
 \item All of the state transitions to be performed for a given timestamp are collected in a list, \textbf{transitions}, before they actually get executed. If they were executed immediately, an automaton could be incorrectly overwritten if there there are multiple events in a single timestamp. We will come back to this in section~\ref{sec:transitions}.
 \end{itemize}
 
-\subsubsection{Operation}
+\subsection{Operation}
 
 With the data structures just described in mind, we will go through the algorithm in detail to see how it operates.
 
@@ -781,7 +781,7 @@ After applying the state transitions, the events no longer in the window are dro
 \item The \emph{initialized} array of the episode is updated to reflect the removal of the automaton instance.
 \end{enumerate}
 
-\subsubsection{Correcting the original algorithm presented in~\citep{mannila1997discovery}}
+\subsection{Correcting the original algorithm presented in~\citep{mannila1997discovery}}
 
 While implementing this algorithm we found an oversight in~\cite{mannila1997discovery} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\cite{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. Note that in~\cite{mannila1997discovery}, the update to \emph{begins\_at} of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2} are missing. (In their version of the algorithm, these statements should appear in between lines 26 and 27.)
 
@@ -798,7 +798,7 @@ When the second $ e $ is read (at time $ 3 $ and when $ \text{start} = 2 $), a n
 
 This inconsistency in \emph{begins\_at} is a problem any time an older instance of an episode's automaton instance gets overwritten by a more recent one reaching the same state. In some cases, as in the example, an occurrence of an episode may fail to be recognized entirely, while in other cases it may get recognized but with an incorrect frequency count, again due to an automaton instance being removed early.
 
-\subsubsection{The necessity of the \emph{transitions} data structure}
+\subsection{The necessity of the \emph{transitions} data structure}
 \label{sec:transitions}
 
 Earlier we mentioned that the \emph{transitions} data structure, which captures all transitions to execute at a timestamp before finalizing them, exists for good reason. In short, an automaton instance in state $ j $ could incorrectly overwrite an instance in state $ j + 1 $ if both instances are to transition. Consider the following example. Say $ \alpha = a \to b \to c $ is in the collection of candidates, and consider the event sequence $ \langle (a, 1),\allowbreak(b, 2),\allowbreak(a, 3),\allowbreak(b, 4),\allowbreak(c, 4) \rangle $. Note that the last two events occur at the same timestamp. Assume the window width is at least $ 4 $ so that it is sufficiently large to recognize $ \alpha $.
@@ -822,7 +822,7 @@ Now the data structures are in an inconsistent state: according to \emph{initial
 
 Collecting all transitions to be peformed at a given timestamp before executing them, will prevent \emph{initialized} entries being incorrectly overwritten.
 
-\subsubsection{Notes on the implementation}
+\subsection{Notes on the implementation}
 
 Like algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in order to be able to look up information efficiently. More specifically for \emph{waits}. Again, lookup is important, traversal is not. Therefore, again, a hash-based data structure is the best choice.
 
@@ -830,7 +830,7 @@ While at first sight, the \emph{begins\_at} data structure might seem best-suite
 
 
 
-\subsection{Determining the disjoint-window frequency}
+\section{Determining the disjoint-window frequency}
 \label{sec:disjoint-window-frequency}
 
 Algorithms for finding the disjoint-window frequency of parallel and serial episodes were presented by~\cite{laxman2007fast}. Their algorithms find only the disjoint-window frequency, however. We also want to be able to determine the minimal-window confidence of association rules, and so we also need minimal windows themselves---including overlapping windows. Therefore, we determine the disjoint-window frequency in two steps:
@@ -931,7 +931,7 @@ Algorithm~\ref{alg:disjoint-window-frequency} implements this procedure. $ b_l $
 \fi
 
 
-\subsection{Finding all minimal windows of parallel episodes}
+\section{Finding all minimal windows of parallel episodes}
 \label{sec:rec-par-mwi}
 
 \begin{algorithm}
@@ -1034,12 +1034,12 @@ If we have determined that there are enough events in consideration to form a ne
 \end{figure}
 \fi
 
-\subsubsection{Notes on the implementation}
+\subsection{Notes on the implementation}
 
 We need random access into the queues in order to find the start of a minimal window (line~\ref{alglin:rec-par-mwi:find-window-start}). The queues should therefore be implemented with a circular buffer.
 
 
-\subsection{Finding all minimal windows of serial episodes}
+\section{Finding all minimal windows of serial episodes}
 \label{sec:rec-ser-mwi}
 
 \begin{algorithm}
@@ -1116,7 +1116,7 @@ Once an episode has reached state $ | \alpha | $, a minimal window covering the 
 As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
 
 
-\subsection{Determining the minimal-window confidence}
+\section{Determining the minimal-window confidence}
 
 \begin{algorithm}
 
@@ -1171,13 +1171,13 @@ If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $
 \end{figure}
 \fi
 
-\subsubsection{Correcting the original algorithm presented in~\citep{cule2014marbles}}
+\subsection{Correcting the original algorithm presented in~\citep{cule2014marbles}}
 
 In~\citep{cule2014marbles}, there is a small mistake in algorithm~\ref{alg:minimal-window-confidence} (algorithm~1 in~\citep{cule2014marbles}), regarding the comparison of the end timestamps of two windows. In the condition for the \emph{while}-statement, $ W $ is traversed until a window with an end timestamp \emph{strictly} greater than the end timstamp of the window in $ V $ currently being considered. However, one window can be a subwindow of another if their end timestamps are equal. If implemented as written in~\cite{cule2014marbles}, then a minimal window in $ W $ could be skipped erroneously.
 
 
 
-\subsection{Determining the weighted-window frequency}
+\section{Determining the weighted-window frequency}
 
 \begin{algorithm}
 
@@ -1218,7 +1218,7 @@ where the leftmost argument to $ \max $ represents selecting window $ i $, and t
 
 In this way, the $ d_i $ essentially allow us to \emph{backtrack} to undo earlier choices in favour of a better one.
 
-\subsection{Removing episodes which have been found infrequent}
+\section{Removing episodes which have been found infrequent}
 \label{sec:maintain-blocks}
 
 \begin{algorithm}
