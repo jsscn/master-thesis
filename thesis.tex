@@ -7,9 +7,17 @@ twoside
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 
-\usepackage[bibfile=mybib.bib,bibstyle=authoryear]{cleanthesis}
+% \usepackage[bibfile=mybib.bib,bibstyle=authoryear]{cleanthesis}
 
 % \usepackage{natbib}
+\usepackage[
+  backend=bibtex,
+  style=authoryear,
+  natbib,
+  backref
+]{biblatex}
+
+\addbibresource{mybib.bib}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -30,8 +38,6 @@ twoside
 \usepackage{caption} % to remove colon from figures with no caption
 % \usepackage[top=3cm, left=2cm, right=2cm, bottom=3cm]{geometry}
 
-% \setlength{\headsep}{25pt}
-
 \usepackage[%
 %colorlinks=false,hidelinks
 ]{hyperref}
@@ -50,7 +56,7 @@ twoside
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
 
 \renewcommand{\sfdefault}{phv}
-% \renewcommand{\rmdefault}{bch}
+\renewcommand{\rmdefault}{bch}
 
 \newtheoremstyle{mydefinitionstyle} % name of the style to be used
   {10mm}        % measure of space to leave above the theorem. E.g.: 3pt

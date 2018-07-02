@@ -1147,7 +1147,7 @@ Algorithm~\ref{alg:minimal-window-confidence}, adapted from~\citep{cule2014marbl
 
 For each minimal window $ [a, b) $ of $ \alpha $, we need to determine if there exists a minimal window $ [p, q) $ of $ \beta $, for which $ [a, b) \subset [p, q) $. If so, $ ext_m([a, b), \alpha, \beta) = 1 $. For each window in $ V $, (line~\ref{alglin:minimal-window-confidence:for}), $ W $ is traversed (line~\ref{alglin:minimal-window-confidence:while}) until for a minimal window $ [p, q) $ in $ W $, a comparison of the end timestamps of both windows determine that $ q \geq b $. Then the start timestamps are compared (line~\ref{alglin:minimal-window-confidence:increment}): if $ p \leq a $, then $ [a, b) \subset [p, q) $. Note that $ W $ does not need to be traversed from the beginning for each window in $ V $, since both lists are ordered by timestamp.
 
-If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $ [a, b) $, then this gets registered by incrementing variable $ u $ (line~\ref{alglin:minimal-window-confidence:increment}).
+If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $ [a, b) $ of $ \alpha $, then this gets registered by incrementing variable $ u $ (line~\ref{alglin:minimal-window-confidence:increment}).
 
 \iffalse
 \begin{figure}
