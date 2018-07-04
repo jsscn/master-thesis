@@ -1,6 +1,8 @@
 \documentclass[%
-a4paper,
-twoside
+  a4paper,
+  twoside,
+  % openright,
+  abstract=on,
 ]{scrreprt}
 
 \usepackage[utf8]{inputenc}
@@ -12,9 +14,11 @@ twoside
 % \usepackage{natbib}
 \usepackage[
   backend=bibtex,
+  % style=chicago-authordate,
   style=authoryear,
   natbib,
-  backref
+  backref,
+  hyperref
 ]{biblatex}
 
 \addbibresource{mybib.bib}
@@ -49,7 +53,9 @@ twoside
 
 \usepackage{listings}
 \usepackage{courier}
-\usepackage{amsthm}
+% \usepackage{amsthm}
+
+\usepackage{scrhack} % avoid \float@addtolist warnings
 
 \usepackage[gen]{eurosym}
 
@@ -58,29 +64,30 @@ twoside
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{bch}
 
-\newtheoremstyle{mydefinitionstyle} % name of the style to be used
-  {10mm}        % measure of space to leave above the theorem. E.g.: 3pt
-  {10mm}        % measure of space to leave below the theorem. E.g.: 3pt
-  {}            % name of font to use in the body of the theorem
-  {2em}  % measure of space to indent
-  {\bfseries}   % name of head font
-  {.}    % punctuation between head and body
-  {10mm}        % space after theorem head
-  {}            % Manually specify head
-
-\theoremstyle{definition}
+\usepackage[thmmarks,amsmath,thref,hyperref]{ntheorem}
+\theoremstyle{plain}
+\theoremseparator{.}
+\theoremindent2.5em
+\theorembodyfont{\normalfont}
 \newtheorem{definition}{Definition}
 
-% \setlength{\parindent}{0em}
-% \setlength{\parskip}{0.5em}
+% \theoremstyle{mydef}
+% \newtheorem{definition}{Definition}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
 % \renewcommand{\baselinestretch}{1.25}
+
+\AtBeginEnvironment{algorithmic}{\linespread{1.0}\selectfont}
 
 \hyphenation{time-stamp}
 
 \begin{document}
 
+
 \frenchspacing
 
+\iffalse
 \title{Evaluation of Algorithms for Sequential Pattern Mining in Long Event Sequences}
 \subtitle{}
 
@@ -103,13 +110,20 @@ University of Antwerp
 %***********************************************************************
 
 \date{1 January 1970}
+\fi
+
+\thispagestyle{empty}
 
 \input{title-page}
 
 \tableofcontents
+\thispagestyle{empty}
 \newpage
+% \begin{abstract}
+% We implement a variety of algortihms for mining interesting sequential patterns in a single long input sequence. The used algorithms vary in both mining techniques and measures used to evaluate the discovered patterns. We compare the algorithms both in terms of performance and the quality of output. We discuss the advantages and disadvantages of the various algorithms and their applicability in different theoretical problem settings and practical applications.
+% \end{abstract}
 
-% \input{introduction}
+\input{introduction}
 
 % \chapter{Nederlandse samenvatting}
 % \newpage

@@ -1,3 +1,37 @@
 \chapter{Introduction}
 
-As opposed to frequent itemset mining, where a database consists of transactions, each with a number of items, in sequential pattern mining the goal is to find patterns in long streams of data, where at events occur at points in time.
+In data mining, the goal is generally to obtain useful information from datasets that are too large for a person to draw conclusions from by just looking at the data, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods. [TODO elaborate, cite something?]
+
+One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions---each transaction consisting of a (relatively small) set of items---is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur in transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is a item that a customer bought from a supermarket.
+
+A well-known algorithm for mining patterns in such a transactional database is Apriori~\citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets. It uses a breadth-first approach---first finding all 1-sized itemsets, then all 2-sized itemsets, and so on---generating larger candidates from smaller episodes that are known to be frequent.
+
+% Other techniques, depth first. (?)
+
+A first exploration into mining patterns in data of a sequential nature still presumed a database of transactions, with (relatively short) sequences as transactions instead of sets \citep{agrawal1995mining}.
+Since the data format is similar to that of typical frequent pattern mining, mining algorithms are as well. % include this? if so, reword perhaps
+
+% ESP?
+
+Later, a procedure was developed for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
+
+Such sequences may represent different kinds of data:
+
+- activity logs: whether a pattern of activity is cause for alarm
+
+- machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
+
+- logs of user behaviour: what patterns do gambles exhibit? How does a person use a graphical user interface?
+
+- bio sequences (https://ieeexplore.ieee.org/document/6392660/)
+
+Can also be any kind of text---books, transcripts, code (?).
+
+Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}, represented by a graph. Can use monotonically decreasing frequency measures just like frequent pattern mining, where superpatterns cannot be more frequent than any of their subpattern, allowing to discard large portions of episodes.
+
+In this thesis we describe and implement algorithms for two subclasses of episodes---parallel and serial episodes---and observe:
+
+\begin{enumerate}
+\item the efficiency: how does the implementation perform with a variety of datasets and parameters, and how does it compare to other implementations, which use different classes of episodes and interestingness measures? ((Is this even useful, actually?))
+\item the quality of the output: can we find interesting patterns? How well do the resulting values of the interestingness measures represent what they are trying to represent?
+\end{enumerate}

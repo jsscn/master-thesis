@@ -1,5 +1,7 @@
 \chapter{Problem Statement}
 
+We will begin by defining the form of a data set in our setting---\emph{event sequences}. Then we will move on to \emph{patterns}---how to define a pattern on an event sequence. At the end of this chapter we will look into the \emph{interestingness measures} we will implement---how interesting is a pattern in an event sequence.
+
 \section{Event sequences}
 
 \begin{definition}
@@ -403,7 +405,7 @@ fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol
 \end{align*}
 \end{definition}
 
-At first sight, counting the number of windows which cover the episode might seem like a good approach---intuitively, one would think that the more windows an episode occurs in, the more frequent it is. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
+At first sight, counting the number of windows which cover the episode might seem like a good approach---intuitively, one would think that the more windows an episode occurs in, the more frequent it is. After all, the percentage of fixed windows that contain an occurrence of an episode expresses the probability of finding the episode in an randomly chosen window. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
 
 Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
 
@@ -578,7 +580,7 @@ So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the 
 \caption{3 windows of width 8 covering $ \{ b, c \} $}
 \end{subfigure}
 
-\caption{All of the windows of width 8 that cover $ \{ b, c, e, e \} $ and the windows that cover two subepisodes.}
+\caption{All of the windows of width 8 that cover $ \{ b, c, e, e \} $ and two of its subepisodes.}
 \label{fig:fwi-assoc-example}
 \end{figure}
 
@@ -740,8 +742,8 @@ The weight of a window is the inverse of its width because an occurrence giving 
 
 In order to calculate the confidence of association rules based on weighted windows, we first define the weighted-extensibility.
 
-\begin{definition}
-Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [c, d) \subseteq [a, b) $, and that this is the smalles window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+\begin{definition} \label{def:weighted-extensibility}
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [c, d) \subseteq [a, b) $, and that this is the smallest window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
 \begin{align*}
 ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
 \end{align*}
@@ -750,7 +752,7 @@ If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymb
 
 The weighted-extensibility gives an indication of how far we need to look to extend an occurrence of $ \alpha $, into an occurrence of $ \beta $.
 
-\begin{definition}
+\begin{definition} \label{def:weighted-window-confidence}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{weighted-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_w(\alpha \Rightarrow \beta) $, to be the average weighted-extensibility of an occurrence of $ \alpha $ into an occurrence of $ \beta $:
 \begin{align*}
 c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
