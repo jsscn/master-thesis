@@ -1,4 +1,5 @@
 \chapter{Algorithms}
+\label{sec:algorithms}
 
 \section{Finding frequent episodes: high-level algorithm}
 
@@ -29,7 +30,7 @@ Output: The collection of episodes that are frequent in the sequence in terms of
 
 % TODO Read this future me, probably needs improvement.
 
-Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes of a certain class (parallel or serial) that are frequent in an event sequence $ s $, given window width $ \rho $ and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $. The algorithm finds either parallel or serial episodes, not both simultaneously, since both require different subalgorithms, except for episodes which contain only one event type; those are equivalent to each other. Of course the chosen frequency measure also influences the output.
+Algorithm~\ref{alg:episodes-top-level} describes the high-level procedure to find all frequent episodes of a certain class (parallel or serial) that are frequent in an event sequence $ \boldsymbol{s} $, given window width $ \rho $ and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $. The algorithm finds either parallel or serial episodes, not both simultaneously, since both require different subalgorithms, except for episodes which contain only one event type; those are equivalent to each other. Of course the chosen frequency measure also influences the output.
 
 The construction of the first set of candidates is a special case. $ \mathcal{C}_1 $ consists of simply all possible episodes with one node. That's one episode per event type, and so $ | C_1 | = | \Sigma | $. After constructing $ \mathcal{C}_1 $ a loop is entered where ever-bigger episodes are constructed and then filtered by frequency in the sequence.
 % for each $ l $, it is determined which episodes are frequent ($ \mathcal{F}_1 $), by a pass over the sequence, and subsequently, based on those, candidates of size $ 2 $ are generated. The loop continues with ever-increasing episode size $ l $, and stops when no more candidates were generated. Then all frequent episodes have been found.
@@ -1207,7 +1208,7 @@ Output: $ fr_w(\alpha) $
 \label{alg:wwi}
 \end{algorithm}
 
-For the weighted-window frequency, selecting the non-overlapping minimal windows such that total weight is maximal, is a bit more involved than selecting the largest possible number of non-overlapping minimal windows for the minimal window frequency measure.
+For the weighted-window frequency, selecting the non-overlapping minimal windows such that total weight is maximal, is a bit more involved than selecting the largest possible number of non-overlapping minimal windows for the disjoint-window frequency (section~\ref{sec:disjoint-window-frequency}).
 
 In algorithm~\ref{alg:wwi} (from~\cite{cule2014marbles}), lines~\ref{alglin:wwi:begin-next-disjoint-window} through~\ref{alglin:wwi:end-next-disjoint-window}, for each minimal window $ [a_i, b_i) $ the \emph{next} window disjoint from $ [a, b) $ is determined, and referred to by $ d_i $. More precisely, $ d_i $ refers to the window $ [a_j, b_j) $ with the smallest $ a_j $ such that $ a_j \geq b_i $.
 
@@ -1236,17 +1237,22 @@ Output: $ c_w(\alpha \Rightarrow \beta) $
     \While{$ i \leq m \wedge p_i < b_k $}
         \State $ i \gets i + 1 $
     \EndWhile
+    \State $ \text{exists} \gets \text{\textit{false}} $
     \State $ j \gets i $
     \State $ l \gets +\infty $
     \While{$ j \leq m \wedge p_j \leq a_k $} \label{alglin:weighted-window-confidence:find-smallest-while}
         \If{$ q_j - p_j \leq l $}
+            \State $ \text{exists} \gets \text{\textit{true}} $
             \State $ l \gets q_j - p_j $
             \State $ i \gets j $
         \EndIf
         \State $ j \gets j + 1 $
     \EndWhile
-    \State $ c \gets c + (q_i - p_i) / l $
+    \If{exists}
+        \State $ c \gets c + (b_i - a_i) / l $
+    \EndIf
 \EndFor
+\State output $ c / n $
 
 \end{algorithmic}
 
@@ -1256,6 +1262,10 @@ Output: $ c_w(\alpha \Rightarrow \beta) $
 The calculation of the weighted-window confidence of an association rule can be done in a similar vein as the minimal-window confidence (section~\ref{sec:minimal-window-confidence}). The main difference is that now, not only do we have to determine whether or not there exists a window in $ W $ contains a given $ [a_k, b_k) \in V $; if it does, we have to find the \emph{smallest} such window in order to compute $ ext_w([a_i, b_i), \alpha, \beta) $, given definition~\ref{def:weighted-extensibility}.
 
 This is what happens in the second \emph{while}-loop in algorithm~\ref{alg:weighted-window-confidence} (line~\ref{alglin:weighted-window-confidence:find-smallest-while}, algorithm adapted from~\cite{cule2014marbles}). After the first minimal window $ [p_i, q_i) \supset [a_k, b_k) $ has been found, then all subsequent windows $ [p_j, q_j) \supset [a_k, b_k) $ are checked for their length. The index $ j $ for which $ q_j - p_j $ is minimal, is stored in $ i $, and the length of that window is counted towards the weighted-window confidence.
+
+\subsection{Correcting the algorithm presented in~\citep{cule2014marbles}}
+
+Algorithm 3 from~\citep{cule2014marbles}---which algorithm~\ref{alg:weighted-window-confidence} was based on---does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we introduced the \emph{exists} variable.
 
 
 
@@ -1274,13 +1284,13 @@ Output: A sorted array $ \mathcal{F} $ of those episodes in $ \mathcal{C} $ whic
 \State $ \text{new\_block\_start} \gets 1 $
 \State $ \mathcal{F} \gets \text{empty array} $
 \State $ \mathcal{F} \text{.block\_start} \gets \text{empty array} $
-\For{$ i = 1 $; $ i \leq | \mathcal{C} | $; $ i \gets i + 1 $}
+\For{$ i \gets 1 $; $ i \leq | \mathcal{C} | $; $ i \gets i + 1 $}
     \If{$ \alpha \text{.freq\_count} < \text{min\_fr} $}
         \LineComment{Episode infrequent; discard}
-        \State continue with next i
+        \State continue with next $ i $
     \EndIf
     \If{$ \mathcal{C} \text{.block\_start}[i] = i $} \label{alglin:remove-infrequent-episodes:different-block-test}
-        \LineComment{Encountered new block in candidates}
+        \LineComment{Encountered new block in $ \mathcal{C} $}
         \State $ \text{new\_block\_start} \gets | \mathcal{F} | $
     \EndIf
     \State append $ \alpha $ to $ \mathcal{F} $

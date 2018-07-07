@@ -29,9 +29,13 @@ Can also be any kind of text---books, transcripts, code (?).
 
 Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}, represented by a graph. Can use monotonically decreasing frequency measures just like frequent pattern mining, where superpatterns cannot be more frequent than any of their subpattern, allowing to discard large portions of episodes.
 
-In this thesis we describe and implement algorithms for two subclasses of episodes---parallel and serial episodes---and observe:
+In chapter~\ref{sec:problem-statement} we begin by defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence? At the end of that chapter we will look into a number of \emph{interestingness measures}: how interesting is a pattern in an event sequence?
+
+Then, in chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
+
+To conclude, in chapter~\ref{sec:experiments} we make an assessment of the implementation, in terms of:
 
 \begin{enumerate}
-\item the efficiency: how does the implementation perform with a variety of datasets and parameters, and how does it compare to other implementations, which use different classes of episodes and interestingness measures? ((Is this even useful, actually?))
-\item the quality of the output: can we find interesting patterns? How well do the resulting values of the interestingness measures represent what they are trying to represent?
+\item the efficiency: how does the implementation perform with a variety of datasets and parameters, and how does it compare to other implementations?
+\item the quality of the output: can we find interesting patterns in different datasets? How does our implementation stack up to other implementations which use other interestingness measures and classes of episodes?
 \end{enumerate}
