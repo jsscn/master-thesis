@@ -29,6 +29,8 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage[toc]{appendix}
+\usepackage{tabulary}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,decorations.pathreplacing}
@@ -118,7 +120,7 @@ University of Antwerp
 
 \tableofcontents
 \thispagestyle{empty}
-\newpage
+\clearpage
 % \begin{abstract}
 % We implement a variety of algortihms for mining interesting sequential patterns in a single long input sequence. The used algorithms vary in both mining techniques and measures used to evaluate the discovered patterns. We compare the algorithms both in terms of performance and the quality of output. We discuss the advantages and disadvantages of the various algorithms and their applicability in different theoretical problem settings and practical applications.
 % \end{abstract}
@@ -126,23 +128,24 @@ University of Antwerp
 \input{introduction}
 
 % \chapter{Nederlandse samenvatting}
-% \newpage
+% \clearpage
 
 \input{problem-statement}
-\newpage
+\clearpage
 
 
 \input{algorithms}
-\newpage
+\clearpage
 
 
 \input{experiments}
-\newpage
+\clearpage
 
 
-% \chapter{Conclusion}
+\input{conclusion}
+\clearpage
 
 % \bibliographystyle{plainnat}
-\printbibliography
+\printbibliography[heading=bibintoc]
 
 \end{document}

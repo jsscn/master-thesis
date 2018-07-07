@@ -1,7 +1,21 @@
 \chapter{Experiments}
 \label{sec:experiments}
 
-We compare the efficiency of the implementation with a closed episode miner\footnote{http://adrem.ua.ac.be/mining-closed-strict-episodes}, which has options to include episodes which are not closed.
+A big point of comparison while implementing our algorithms was a closed episode miner\footnote{http://adrem.ua.ac.be/mining-closed-strict-episodes}. It allowed us to verify the correctness of our implementation. The closed episode miner differs in a few ways from our implementation:
+
+\begin{itemize}
+\item It generates general episodes, not just parallel and serial episodes.
+\item It generates closed episodes. Closed episodes are episodes that have no superepisodes of the same frequency. It has options to mine non-closed episodes as well, though.
+\item While our implementation finds episodes of one class at a time, as specified by the user---parallel or serial---the closed episode miner finds episodes of all classes at once---parallel, serial and general.
+\end{itemize}
+
+Given the above, in order to compare the two implementations in terms of their output, we have to enable the options that cause the closed episode miner to find non-closed episodes, since our implementation finds non-closed episodes as well; and we have to filter out those episodes which don't match the class of episodes we're currently mining.
+
+Mining general episodes is of higher complexity than parallel and serial episodes.
+
+Parallel episodes can only ``grow'' by adding a new node, and serial episodes grow in much the same way: by adding a node and an edge at the same time. Pattern explosion is a bigger concern with general episodes: additionally, they can grow by adding only an edge. So, ideally, our implementation should be faster than the closed episode miner.
+
+% ^ terrible ^
 
 We'll do a comparative study with two implementations of mining algorithms that use different, non-frequency interestingness measures.
 
@@ -12,3 +26,19 @@ A quantile-based approach in~\citep{feremans2018mining}.
 \section{Efficiency}
 
 Nothing... yet.
+
+\section{Quality}
+
+We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
+
+We'll generate all episodes using all of the frequency measures we implemented.
+
+\begin{table}
+
+\begin{tabulary}{\textwidth}{ L|R|R|R }
+
+
+
+\end{tabulary}
+
+\end{table}

@@ -1,6 +1,12 @@
 \chapter{Problem Statement}
 \label{sec:problem-statement}
 
+In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets---\emph{event sequences} composed of \emph{events}, each of a certain type and occurring at a certain time.
+
+Next, we define patterns, named \emph{episodes} in sequence pattern mining, and cover the classes of episodes we will be mining. From these episodes we can construct \emph{association rules}, which can uncover correlations between the different events in an event sequence.
+
+Lastly, we define several \emph{interestingness measures} proposed by different researchers, which quantify how interesting an episode or an association rule is in a sequence.
+
 \section{Event sequences}
 
 \begin{definition}
@@ -77,7 +83,7 @@ Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequen
 
 \end{tikzpicture}
 
-\caption{A visual example of a sequence.}
+\caption{A visual representation of a sequence.}
 \label{fig:event-sequence}
 \end{figure}
 
@@ -133,7 +139,7 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig
 
 \section{Episodes}
 
-Now we formally define patterns.
+Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to think of \emph{interesting} is in terms of how often it occurs in the sequence. While other ways exist [TODO cite (?)], we will mainly focus on \emph{frequency measures}, which we'll discuss in section~\ref{sec:interestingness-measures}. First we formally define patterns.
 
 \begin{definition}
 An \emph{episode} $ \alpha $ is a directed acyclic graph with labelled nodes, that is, $ \alpha = (V, E, lab) $, where $ V = (v_1, \ldots, v_k) $ is the set of nodes, $ E $ is the set of directed edges, and \emph{lab} is a function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to an event type. If $ lab(v) = A $, then we say that node $ v $ is of (event) type $ A $, and that $ \alpha $ contains $ A $, or $ A $ is in $ \alpha $.
@@ -369,13 +375,25 @@ Of course, considering all event sequences that cover an episode is an impossibl
 \item For serial episodes, the above is also a condition. Additionally, for each node $ v $ in $ \alpha $ of type $ A $ that is an ancestor of a node $ u $ of type $ B $, $ \beta $ must also have two nodes for which the node with event type $ A $ precedes the node with event type $ B $. Put more simply, the ordering of event types must be preserved.
 \end{itemize}
 
+Now that we have defined patterns on event sequences, we would like to be to know how interesting a pattern is in a sequence.
+
+\section{Association rules}
+
+We've touched upon the fact that we want to quantify how interesting a pattern is. Besides quantifying a single episode, it might also be desirable to know which patterns are correlated. \emph{Association rules}~\citep{mannila1997discovery} allow us to do so, similarly to association rules in itemset mining.
+
+% TODO ^ check if this is the right thing to cite here? ^
+% TODO cite something with itemset mining? who introduced association rules there?
+
 \begin{definition}
-Given two episodes $ \alpha $ and $ \beta $ such that $ \beta \subset \alpha $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
+Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
 \end{definition}
 
-Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given that we have an occurrence of $ \alpha $ in a sequence. So, intuitively, the confidence value of an association rule gives an indication of how well an occurrence of the head of the rule ``predicts'' an occurrence of the tail.
+Intuitively, An association rule $ \alpha \Rightarrow \beta $ can be read as $ \alpha $ \emph{leads to} $ \beta $. More precisely, an occurrence of $ \alpha $ leads to an occurrence of $ \beta $. Or, if we find an occurrence of $ \alpha $, then we'll find an occurrence of $ \beta $ \emph{nearby}.
+
+If we state that $ \alpha \Rightarrow \beta $, we must be \emph{confident} stating it. So, given an association rule and a sequence, we want to express \emph{how} confident we are about the association rule, and define measures to quantify that. We will cover the measures in section~\ref{sec:interestingness-measures}, together with the frequency measures of episodes.
 
 \section{Interestingness measures}
+\label{sec:interestingness-measures}
 
 Having discussed episodes occurring in event sequences, we would now like to be able to express how interesting an episode is in regard to a sequence.
 
@@ -404,7 +422,7 @@ fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol
 \end{align*}
 \end{definition}
 
-At first sight, counting the number of windows which cover the episode might seem like a good approach---intuitively, one would think that the more windows an episode occurs in, the more frequent it is. After all, the percentage of fixed windows that contain an occurrence of an episode expresses the probability of finding the episode in an randomly chosen window. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
+At first sight, counting the number of windows which cover the episode seems like a good approach. After all, the percentage of fixed windows that contain an occurrence of an episode expresses the probability of finding the episode in an randomly chosen window. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
 
 Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
 
@@ -466,6 +484,8 @@ In essence, one same occurrence may be counted multiple times without good reaso
 \caption{All of the windows of width 8 that cover two episodes in a sequence; a parallel episode $ \{ b, c, e, e \} $ and a serial episode $ c \to f \to b $.}
 \label{fig:fwi-example}
 \end{figure}
+
+Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, the confidence value of an association rule expresses the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
 
 One method of determining the confidence of an association rule is to use the fixed-window frequency of episodes.
 
@@ -686,7 +706,11 @@ To further illustrate the requirements for a window being minimal, consider the 
 
 Minimal windows of an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $. They cannot overlap arbitrarily, though: given two windows for an episode $ [a, b) $ and $ [c, d) $, (without loss of generality) it holds that $ a < c \Leftrightarrow b < d $. If this wasn't the case, then one would be contained in the other, and by definition~\ref{def:minimal-window} the other would not be a minimal window, which contradicts the initial assumption.
 
-Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. Therefore only disjoint minimal windows are considered.
+Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is undesirable.
+
+% TODO ^ elaborate on why it is undesirable here? ^
+
+As can be seen in the previous example, an episode may have more minimal windows than one of its subepisodes due to the fact that minimal windows can overlap. The minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
 
 \begin{definition}
 The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
@@ -696,7 +720,7 @@ fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
 \end{definition}
 
 % proof?
-The disjoint-window frequency is monotonic.
+The disjoint-window frequency is monotonically decreasing.
 
 The confidence of an association rule can also be based on minimal windows. Contrary to the frequency of episodes themselves, for association rules we \emph{can} use overlapping minimal windows.
 

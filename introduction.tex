@@ -11,7 +11,7 @@ A well-known algorithm for mining patterns in such a transactional database is A
 A first exploration into mining patterns in data of a sequential nature still presumed a database of transactions, with (relatively short) sequences as transactions instead of sets \citep{agrawal1995mining}.
 Since the data format is similar to that of typical frequent pattern mining, mining algorithms are as well. % include this? if so, reword perhaps
 
-% ESP?
+% ESP? Laxman and their hidden markov models? "find a model that could have generated this sequence"
 
 Later, a procedure was developed for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
 
@@ -29,7 +29,15 @@ Can also be any kind of text---books, transcripts, code (?).
 
 Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}, represented by a graph. Can use monotonically decreasing frequency measures just like frequent pattern mining, where superpatterns cannot be more frequent than any of their subpattern, allowing to discard large portions of episodes.
 
-In chapter~\ref{sec:problem-statement} we begin by defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence? At the end of that chapter we will look into a number of \emph{interestingness measures}: how interesting is a pattern in an event sequence?
+\cite{laxman2005discovering} connected sequential pattern mining to hidden markov models [cite?], finding the parameters of a model that could have generated a given sequence.
+
+
+% TODO ^ move this maybe, add more approaches to sequential pattern mining maybe ^
+% TODO cite hidden markov models introduction maybe
+
+In chapter~\ref{sec:problem-statement} we begin by defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
+And how do we quantify how interesting a pattern is in an event sequence?
+% At the end of that chapter we will look into a number of \emph{interestingness measures}: how interesting is a pattern in an event sequence?
 
 Then, in chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
 
