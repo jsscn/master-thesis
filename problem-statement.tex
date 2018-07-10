@@ -3,9 +3,9 @@
 
 In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets---\emph{event sequences} composed of \emph{events}, each of a certain type and occurring at a certain time.
 
-Next, we define patterns, named \emph{episodes} in sequence pattern mining, and cover the classes of episodes we will be mining. From these episodes we can construct \emph{association rules}, which can uncover correlations between the different events in an event sequence.
+Next, we define patterns, named \emph{episodes} in sequence pattern mining, and cover the classes of episodes we will be mining. We define several \emph{frequency measures} proposed by different researchers, which quantify how interesting an episode is, so that we can find the most interesting episodes in a sequence.
 
-Lastly, we define several \emph{interestingness measures} proposed by different researchers, which quantify how interesting an episode or an association rule is in a sequence.
+Finally, from episodes we can construct \emph{association rules}, which can uncover correlations between the different events in an event sequence. On association rules, \emph{confidence measures} are defined, where high-scoring rules denote high correlation between events.
 
 \section{Event sequences}
 
@@ -24,7 +24,7 @@ With $ \boldsymbol{s}_i $ we refer to the pair $ (A_i, t_i) $ in $ s $.
 
 $ T_s $ and $ T_e $ are timestamps such that $ T_s \leq t_1 $ and $ t_n < T_e $. They mark the beginning and the end of the sequence, respectively.
 
-If a sequence event $ (A, t) $ is in $ s $ for a given sequence $ \boldsymbol{s} $, we say that the event \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
+If a sequence event $ (A, t) $ is in $ s $, we say that the event \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
 \end{definition}
 
 Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
@@ -139,7 +139,9 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig
 
 \section{Episodes}
 
-Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to think of \emph{interesting} is in terms of how often it occurs in the sequence. While other ways exist [TODO cite (?)], we will mainly focus on \emph{frequency measures}, which we'll discuss in section~\ref{sec:interestingness-measures}. First we formally define patterns.
+Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to define \emph{interesting} is how often it occurs in the sequence. While other interpretations of \emph{interestingness} exist [TODO cite (?)], we will mainly focus on \emph{frequency measures}, some of which we'll discuss in section~\ref{sec:interestingness-measures-episodes}. First we formally define patterns.
+
+% TODO ^ cite Geoff Webb maybe? ^
 
 \begin{definition}
 An \emph{episode} $ \alpha $ is a directed acyclic graph with labelled nodes, that is, $ \alpha = (V, E, lab) $, where $ V = (v_1, \ldots, v_k) $ is the set of nodes, $ E $ is the set of directed edges, and \emph{lab} is a function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to an event type. If $ lab(v) = A $, then we say that node $ v $ is of (event) type $ A $, and that $ \alpha $ contains $ A $, or $ A $ is in $ \alpha $.
@@ -152,12 +154,14 @@ A node $ n $ in an episode graph is a \emph{descendant} of a node $ m $ if there
 \end{definition}
 
 \begin{definition}
-Given a sequence $ \boldsymbol{s} $ and an episode $ \alpha $ we say that $ s $ \emph{covers} $ \alpha $, or $ \alpha $ \emph{occurs in} $ \boldsymbol{s} $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that:
+Given a sequence $ \boldsymbol{s} $ and an episode $ \alpha $ we say that $ \boldsymbol{s} $ \emph{covers} $ \alpha $, or $ \alpha $ \emph{occurs in} $ \boldsymbol{s} $, if there is an injective map $ f $ mapping each node $ v_i $ to a valid index such that:
 \begin{enumerate}
 \item the node $ v_i $ in $ \alpha $ and the corresponding sequence element $ \boldsymbol{s}_{f(v_i)} $ are of the same event type: $ \boldsymbol{s}_{f(v_i)} = lab(v_i) $, and
-\item if there is an edge $ (v_i, v_j) $ in $ \alpha $, then we must have $ f(v_i) < f(v_j) $. In other words, the parents of $ v_j $ must occur in $ \boldsymbol{s} $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ \boldsymbol{s} $ are used, we will say that $ \boldsymbol{s} $ is an \emph{instance} of $ \alpha $.
+\item if there is an edge $ (v_i, v_j) $ in $ \alpha $, then we must have $ f(v_i) < f(v_j) $. In other words, the ancestors of $ v_j $ must occur in $ \boldsymbol{s} $ before $ v_j $. If the mapping $ f $ is surjective, that is, all events in $ \boldsymbol{s} $ are used, we will say that $ \boldsymbol{s} $ is an \emph{instance} of $ \alpha $.
 \end{enumerate}
 \end{definition}
+
+More intuitively, the above definition says that an episode occurs in a sequence if the event types corresponding to the episode's nodes appear in the sequence, respecting the order of the episode's edges.
 
 \begin{definition}
 Episodes $ \alpha $ and $ \beta $ are said to be \emph{equivalent} if each sequence that covers $ \alpha $ also covers $ \beta $, and vice versa.
@@ -165,13 +169,13 @@ Episodes $ \alpha $ and $ \beta $ are said to be \emph{equivalent} if each seque
 
 In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \begin{itemize}
-\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur in a sequence. An example is shown in figure~\ref{fig:episode-graphs-parallel}. In text we'll write parallel episodes by their event types using the following notation:
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur in a sequence. An example is shown in figure~\ref{fig:episode-graphs-parallel}, and figure~\ref{fig:occurrences} (right) shows an occurrence in a sequence. In text we'll write parallel episodes by their event types using the following notation:
 \begin{align*}
     \{ A_1, A_2, \ldots, A_n \}
 \end{align*}
-by which we mean a parallel episode with $ n $ nodes, and the event types are $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not actually represent a set: a parallel episode $ \{ a, a, b, c \} $ is not equivalent to an episode $ \{ a, b, c \} $.
+by which we mean a parallel episode with $ n $ nodes, and event types $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not actually represent a set: a parallel episode $ \{ a, a, b, c \} $ is not equivalent to an episode $ \{ a, b, c \} $.
 
-\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example, and figure~\ref{fig:occurrences} (left) shows an occurrence in a sequence.
 
 % Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in figure~\ref{fig:episode-graphs-serial}.
 
@@ -252,8 +256,6 @@ where $ A_i $ is the event type of the $ i $-th node, and a node of event type $
 
 \label{fig:episode-graphs}
 \end{figure}
-
-Figure~\ref{fig:occurrences} shows an occurrence of two episodes---one parallel, one serial---in the example sequence from figure~\ref{fig:event-sequence}.
 
 \begin{figure}
 \centering
@@ -361,7 +363,7 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 When discussing the algorithms we will mostly consider their array representation, and address the $ i $-th element of an episode array $ \alpha $ with $ \alpha [i] $.
 
 \begin{definition}
-Given two episodes $ \alpha $ and $ \beta $, we say that $ \alpha $ is a \emph{subepisode} of $ \beta $, denoted $ \alpha \subseteq \beta $, if the set of all sequences that cover $ \beta $ is a subset of the set of all sequences that cover $ \alpha $. $ \alpha $ is a \emph{proper subepisode} of $ \beta $ if $ \alpha \subseteq \beta $ and $ \alpha $ and $ \beta $ are not equivalent. In that case we can write $ \alpha \subset \beta $.
+Given two episodes $ \alpha $ and $ \beta $, we say that $ \alpha $ is a \emph{subepisode} of $ \beta $, denoted $ \alpha \subseteq \beta $, if the set of all sequences that cover $ \beta $ is a subset of the set of all sequences that cover $ \alpha $. $ \alpha $ is a \emph{proper subepisode} of $ \beta $, denoted $ \alpha \subset \beta $, if $ \alpha \subseteq \beta $ and $ \alpha $ and $ \beta $ are not equivalent.
 \end{definition}
 
 Of course, considering all event sequences that cover an episode is an impossible task, so the above definition does not give rise to a practical way of determining whether one episode is a subepisode of another. Instead we must look at the episodes themselves, and reason about all of the ways in which they might occur in a sequence. For parallel and serial episodes, it is quite straightforward to do so, as described below. More general cases have been reasoned about~\cite{tatti2012mining}, but are beyond the scope of this thesis.
@@ -372,36 +374,23 @@ Of course, considering all event sequences that cover an episode is an impossibl
 \item $ | V(\alpha) | \leq | V(\beta) | $, and
 \item for each event type $ A $ in $ \alpha $, the number of nodes $ v $ in $ \alpha $ for which $ lab(v) = A $, is no greater than the number of nodes for which the same holds in $ \beta $.
 \end{enumerate}
-\item For serial episodes, the above is also a condition. Additionally, for each node $ v $ in $ \alpha $ of type $ A $ that is an ancestor of a node $ u $ of type $ B $, $ \beta $ must also have two nodes for which the node with event type $ A $ precedes the node with event type $ B $. Put more simply, the ordering of event types must be preserved.
+\item A serial episode $ \alpha $ is a subepisode of a serial episode $ \beta $ if:
+\begin{enumerate}
+\item the conditions for parallel episodes are satisfied, and additionally
+\item if node $ v $ is an anchestor of node $ u $ in $ \alpha $, then there exist nodes $ u', v' $ in $ \beta $ such that $ u' $ is an anchestor of $ v' $ in $ \beta $ and $ lab(u) = lab(u') $ and $ lab(v) = lab(v') $. Put more simply, the ordering of event types must be preserved.
+\end{enumerate}
 \end{itemize}
 
-Now that we have defined patterns on event sequences, we would like to be to know how interesting a pattern is in a sequence.
+\section{Frequency measures for episodes}
+\label{sec:interestingness-measures-episodes}
 
-\section{Association rules}
-
-We've touched upon the fact that we want to quantify how interesting a pattern is. Besides quantifying a single episode, it might also be desirable to know which patterns are correlated. \emph{Association rules}~\citep{mannila1997discovery} allow us to do so, similarly to association rules in itemset mining.
-
-% TODO ^ check if this is the right thing to cite here? ^
-% TODO cite something with itemset mining? who introduced association rules there?
-
-\begin{definition}
-Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
-\end{definition}
-
-Intuitively, An association rule $ \alpha \Rightarrow \beta $ can be read as $ \alpha $ \emph{leads to} $ \beta $. More precisely, an occurrence of $ \alpha $ leads to an occurrence of $ \beta $. Or, if we find an occurrence of $ \alpha $, then we'll find an occurrence of $ \beta $ \emph{nearby}.
-
-If we state that $ \alpha \Rightarrow \beta $, we must be \emph{confident} stating it. So, given an association rule and a sequence, we want to express \emph{how} confident we are about the association rule, and define measures to quantify that. We will cover the measures in section~\ref{sec:interestingness-measures}, together with the frequency measures of episodes.
-
-\section{Interestingness measures}
-\label{sec:interestingness-measures}
-
-Having discussed episodes occurring in event sequences, we would now like to be able to express how interesting an episode is in regard to a sequence.
+Now that we have defined patterns on event sequences, we would like to be to be able to quantify how interesting a pattern is in regard to a sequence.
 
 Traditionally, the most common interpretation of \emph{interestingness} is frequency, which expresses how often an episode occurs in the sequence. The more often an episode occurs, the more interesting it is considered to be.
 
-Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear in sequential pattern mining. We will present three methods to measure the frequency of an episode and the confidence of an association rule. In a later section, we implement a mining algorithm based on them.
+Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear. We will present three methods to measure the frequency of an episode. In a later section, we implement a mining algorithm based on them.
 
-In data mining, a big challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique.
+In data mining, the main challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique if we define \emph{monotonically decreasing} measures.
 
 \begin{definition}
 A frequency measure is \emph{monotonically decreasing} if each episode is at least as frequent as any of its superepisodes.
@@ -411,7 +400,7 @@ Given such a frequency measure, if we find an episode to be infrequent, then we 
 
 % All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
 
-\subsection{Fixed windows}
+\subsection{Fixed-window frequency}
 
 The first frequency measure we discuss was first proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
 
@@ -432,6 +421,8 @@ Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the 
 \end{itemize}
 
 In essence, one same occurrence may be counted multiple times without good reason, depending on the window size and the span of the occurrence.
+
+% TODO ^ reword "without good reason" (too radical) ^
 
 \begin{figure}
 \centering
@@ -485,9 +476,176 @@ In essence, one same occurrence may be counted multiple times without good reaso
 \label{fig:fwi-example}
 \end{figure}
 
-Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, the confidence value of an association rule expresses the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
 
-One method of determining the confidence of an association rule is to use the fixed-window frequency of episodes.
+\subsection{Disjoint-window frequency}
+
+Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was put forward in~\citep{mannila1997discovery}, and was expanded upon in~\cite{laxman2005discovering} and \citep{laxman2007fast}.
+
+\begin{definition} \label{def:minimal-window}
+Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a window $ \boldsymbol{s}[t_s, t_e) $ is called a \emph{minimal window} of $ \alpha $ in $ \boldsymbol{s} $, if:
+\begin{enumerate}
+\item $ t_e - t_s \leq \rho $, \label{min-win-requirement-window-width-limit}
+\item $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $, and
+\item no proper subwindow of $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $.
+\end{enumerate}
+
+We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define $ dis(W) $ to be true if all windows in $ W $ are pairwise disjoint, and false otherwise.
+\end{definition}
+
+Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
+
+Compared to the fixed-window frequency, $ | mw(\alpha) | $ brings us much closer to the actual number of occurrences of an episode $ \alpha $. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. We see that there is just one minimal window for each episode in this case.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\examplesequence
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+% windows
+
+\windowthingy{(-4.5,-10pt)}{3}
+
+\windowthingy{(1.5,-10pt)}{6}
+
+\end{tikzpicture}
+
+\caption{All of the minimal windows that cover $ \{ b, c, e, e \} $ and $ c \to f \to b $ in the sequence.}
+\label{fig:mwi-example}
+\end{figure}
+
+To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $ instead. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{8}{-5.5}{0}
+\sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b};
+
+% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
+%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-2.75,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t35);
+
+% windows
+
+\windowthingy{(-4.5,-10pt)}{4}
+
+\end{tikzpicture}
+
+\caption{A window for episode $ c \to f \to b $ that minimally covers a certain occurrence, yet is not a minimal window.}
+\label{fig:mwi-non-minimal-window}
+\end{figure}
+
+Minimal windows of an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $. They cannot overlap arbitrarily, though: given two minimal windows for an episode $ [a, b) $ and $ [c, d) $, (without loss of generality) it holds that $ a < c \Leftrightarrow b < d $. If this wasn't the case, then one could be contained in the other, contradicting the initial assumption that both windows are minimal.
+
+Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is undesirable.
+
+% TODO ^ elaborate on why it is undesirable here? ^
+
+As can be seen in the previous example, an episode may have more minimal windows than one of its subepisodes. And this is due to the fact that minimal windows can overlap---the minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
+
+\begin{definition}
+The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
+\begin{align*}
+fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
+\end{align*}
+\end{definition}
+
+% proof?
+The disjoint-window frequency is monotonically decreasing.
+
+
+
+\subsection{Weighted-window frequency}
+
+\begin{definition}
+We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of its width:
+\begin{align*}
+\frac1{b - a}
+\end{align*}
+
+Given a set of windows $ W $, the \emph{total weight} of the windows is the sum of all the weights:
+\begin{align*}
+\sum_{[a,b) \in W} \frac1{b - a}
+\end{align*}
+The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
+\begin{align*}
+fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right\}
+\end{align*}
+In words, the weighted-window frequency is the total weight of a set of disjoint minimal windows that maximizes the total weight.
+\end{definition}
+
+The weight of a window is the inverse of its width because an occurrence giving rise to a small minimal window is deemed more significant than one where the events are spread far apart.
+
+
+
+\section{Association rules}
+
+We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. \emph{Association rules}~\citep{mannila1997discovery} allow us to do so, similarly to association rules in itemset mining.
+
+% TODO ^ check if this is the right thing to cite here? ^
+% TODO cite something with itemset mining? who introduced association rules there?
+
+\begin{definition}
+Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
+\end{definition}
+
+An association rule $ \alpha \Rightarrow \beta $ can be read as \emph{$ \alpha $ leads to $ \beta $}. More precisely, \emph{an occurrence of $ \alpha $ leads to an occurrence of $ \beta $}. Or, \emph{if we find an occurrence of $ \alpha $, then we'll find an occurrence of $ \beta $ nearby}.
+
+If we state that $ \alpha \Rightarrow \beta $, we must be \emph{confident} stating it. So we want to be able to express \emph{how} confident we are about the statement, and define \emph{confidence measures} to quantify this confidence. We will introduce the measures in section~\ref{sec:interestingness-measures-association-rules}.
+
+\section{Confidence measures for association rules}
+\label{sec:interestingness-measures-association-rules}
+
+\subsection{Fixed-window confidence}
+
+Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, $ c(\alpha \Rightarrow \beta) $ rule expresses the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
+
+We will present three methods to measure the confidence of an association rule, each based on its equivalent frequency measure defined in section~\ref{sec:interestingness-measures-episodes}.
+
+The first method of determining the confidence of an association rule is to use the fixed-window frequency of episodes \citep{mannila1997discovery}.
 
 \begin{definition}
 Given a window width $ \rho $ and episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{fixed-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_f(\alpha \Rightarrow \beta) $, to be the ratio of their respective frequencies:
@@ -603,134 +761,17 @@ So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the 
 \label{fig:fwi-assoc-example}
 \end{figure}
 
-\subsection{Minimal windows}
+\subsection{Minimal-window confidence}
 
-Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was put forward in~\citep{mannila1997discovery}, and was expanded in~\cite{laxman2005discovering} and \citep{laxman2005discovering}.
-
-\begin{definition} \label{def:minimal-window}
-Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a window $ \boldsymbol{s}[t_s, t_e) $ is called a \emph{minimal window} of $ \alpha $ in $ \boldsymbol{s} $, if:
-\begin{enumerate}
-\item $ t_e - t_s \leq \rho $, \label{min-win-requirement-window-width-limit}
-\item $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $, and
-\item no proper subwindow of $ \boldsymbol{s}[t_s, t_e) $ covers $ \alpha $.
-\end{enumerate}
-
-We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define $ dis(W) $ to be true if all windows in $ W $ are pairwise disjoint, and false otherwise.
-\end{definition}
-
-Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
-
-Compared to the fixed-window frequency, $ | mw(\alpha) | $ brings us much closer to the actual number of occurrences of an episode $ \alpha $. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. We see that there is just one minimal window for each episode in this case.
-
-\begin{figure}
-\centering
-
-\begin{tikzpicture}
-
-\examplesequence
-
-%% draw occurrence proofs again
-% serial episode
-
-\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
-\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
-\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
-
-\draw [->,very thick] (serC) -- (serF);
-\draw [->,very thick] (serF) -- (serB);
-
-\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
-\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
-\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
-
-% parallel episode
-
-\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
-\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
-\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
-\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
-
-\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
-\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
-\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
-\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
-
-% windows
-
-\windowthingy{(-4.5,-10pt)}{3}
-
-\windowthingy{(1.5,-10pt)}{6}
-
-\end{tikzpicture}
-
-\caption{All of the minimal windows that cover $ \{ b, c, e, e \} $ and $ c \to f \to b $ in the sequence.}
-\label{fig:mwi-example}
-\end{figure}
-
-To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $ instead. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
-
-\begin{figure}
-\centering
-
-\begin{tikzpicture}
-
-\sequencetickmarks{8}{-5.5}{0}
-\sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b};
-
-% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
-%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
-
-%% draw occurrence proofs again
-% serial episode
-
-\node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
-\node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
-\node (serB) at (-2.75,2.5) [smallnode,label={$ b $}] {};
-
-\draw [->,very thick] (serC) -- (serF);
-\draw [->,very thick] (serF) -- (serB);
-
-\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
-\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
-\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t35);
-
-% windows
-
-\windowthingy{(-4.5,-10pt)}{4}
-
-\end{tikzpicture}
-
-\caption{A window for episode $ c \to f \to b $ that minimally covers a certain occurrence, yet is not a minimal window.}
-\label{fig:mwi-non-minimal-window}
-\end{figure}
-
-Minimal windows of an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $. They cannot overlap arbitrarily, though: given two windows for an episode $ [a, b) $ and $ [c, d) $, (without loss of generality) it holds that $ a < c \Leftrightarrow b < d $. If this wasn't the case, then one would be contained in the other, and by definition~\ref{def:minimal-window} the other would not be a minimal window, which contradicts the initial assumption.
-
-Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is undesirable.
-
-% TODO ^ elaborate on why it is undesirable here? ^
-
-As can be seen in the previous example, an episode may have more minimal windows than one of its subepisodes due to the fact that minimal windows can overlap. The minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
-
-\begin{definition}
-The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
-\begin{align*}
-fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
-\end{align*}
-\end{definition}
-
-% proof?
-The disjoint-window frequency is monotonically decreasing.
-
-The confidence of an association rule can also be based on minimal windows. Contrary to the frequency of episodes themselves, for association rules we \emph{can} use overlapping minimal windows.
+The confidence of an association rule can also be based on minimal windows \citep{cule2014marbles}. Contrary to the frequency of episodes themselves, for association rules we \emph{do} use overlapping minimal windows.
 
 \begin{definition}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that
-$ [a, b) \subseteq [c, d) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $
+$ [c, d) \supseteq [a, b) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $
 \begin{align*}
 ext_m(\boldsymbol{s}[a, b), \alpha, \beta) = 1
 \end{align*}
-If there doesn't exist such a window, we define $ ext_m(\boldsymbol{s}[a,b)) = 0 $.
+If such a window doesn't exist, we define $ ext_m(\boldsymbol{s}[a,b)) = 0 $.
 \end{definition}
 
 In simple terms, the minimal-extensibility tells us whether or not a minimal window of an episode $ \alpha $ is contained in a minimal window of another episode $ \beta $.
@@ -742,31 +783,12 @@ c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \
 \end{align*}
 \end{definition}
 
-\subsection{Weighted minimal windows}
+\subsection{Weighted-window confidence}
 
-\begin{definition}
-We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of its width:
-\begin{align*}
-\frac1{b - a}
-\end{align*}
-
-Given a set of windows $ W $, the \emph{total weight} of the windows is the sum of all the weights:
-\begin{align*}
-\sum_{[a,b) \in W} \frac1{b - a}
-\end{align*}
-The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
-\begin{align*}
-fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right\}
-\end{align*}
-In words, the weighted-window frequency is the total weight of a set of disjoint minimal windows that maximizes the total weight.
-\end{definition}
-
-The weight of a window is the inverse of its width because an occurrence giving rise to a small minimal window is deemed more significant than one where the events are spread far apart.
-
-In order to calculate the confidence of association rules based on weighted windows, we first define the weighted-extensibility.
+In order to calculate the confidence of association rules based on weighted windows \citep{cule2014marbles}, we first define the weighted-extensibility.
 
 \begin{definition} \label{def:weighted-extensibility}
-Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [c, d) \subseteq [a, b) $, and that this is the smallest window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [a, b) \supseteq [c, d) $, and that this is the smallest window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
 \begin{align*}
 ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
 \end{align*}
@@ -785,5 +807,3 @@ Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we 
 c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
 \end{align*}
 \end{definition}
-
-% \subsection{Other interestingness measures}
