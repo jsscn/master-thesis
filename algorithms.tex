@@ -1117,6 +1117,126 @@ Once an episode has reached state $ | \alpha | $, a minimal window of the episod
 As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
 
 
+
+\section{Determining the weighted-window frequency}
+
+\begin{algorithm}
+
+\caption{Computing the weighted frequency of an episode in a sequence.\\
+Input: A list of minimal windows $ V = \langle \, [a_1, b_1), \, \ldots, \, [a_n, b_n) \rangle $ of episode $ \alpha $.\\
+Output: $ fr_w(\alpha) $
+}
+
+\begin{algorithmic}[1]
+
+\State $ j \gets 1 $
+\ForAll {$ [a_i, b_i) \in V $} \label{alglin:wwi:begin-next-disjoint-window}
+    \While {$ j \leq n \wedge b_i > a_j $}
+        \State $ j \gets j + 1 $
+    \EndWhile
+    \State $ d_i \gets j $ \label{alglin:wwi:end-next-disjoint-window}
+\EndFor
+\State $ c_{n + 1} \gets 0 $ \label{alglin:wwi:begin-wwi-calculation}
+\For {$ i \gets n $ down to $ 1 $}
+    \State $ c_i \gets \max((b_i - a_i)^{-1} + c_{d_i}, \; c_{i+1}) $ \label{alglin:wwi:end-wwi-calculation}
+\EndFor
+\State output $ c_1 $
+
+\end{algorithmic}
+
+\label{alg:wwi}
+\end{algorithm}
+
+For the weighted-window frequency, selecting the non-overlapping minimal windows such that total weight is maximal, is a bit more involved than selecting the largest possible number of non-overlapping minimal windows for the disjoint-window frequency (section~\ref{sec:disjoint-window-frequency}).
+
+In algorithm~\ref{alg:wwi} (from~\cite{cule2014marbles}), lines~\ref{alglin:wwi:begin-next-disjoint-window} through~\ref{alglin:wwi:end-next-disjoint-window}, for each minimal window $ [a_i, b_i) $ the \emph{next} window disjoint from $ [a, b) $ is determined, and referred to by $ d_i $. More precisely, $ d_i $ refers to the window $ [a_j, b_j) $ with the smallest $ a_j $ such that $ a_j \geq b_i $.
+
+Then, in lines~\ref{alglin:wwi:begin-wwi-calculation} through~\ref{alglin:wwi:end-wwi-calculation}, the weighted-window frequency is determined through a backwards pass over the minimal windows. Each $ c_i $ is the optimal choice of windows $ i $ through $ n $. If all $ c_j $ with $ j > i $ are known, then $ c_i $ can be calculated as
+\begin{align*}
+c_i = \max((b_i - a_i)^{-1} + c_{d_i}, \; c_{i+1})
+\end{align*}
+where the leftmost argument to $ \max $ represents selecting window $ i $, and therefore ``unselecting'' all earlier selected windows that overlap with window $ i $, and the rightmost argument to $ \max $ represents not selecting window $ i $ and continuing with all previously selected windows.
+
+In this way, the $ d_i $ essentially allow us to \emph{backtrack} to undo earlier choices in favour of a better one.
+
+
+
+\section{Removing episodes which have been found infrequent}
+\label{sec:maintain-blocks}
+
+\begin{algorithm}
+
+\caption{Removing infrequent episodes from a collection of candidates $ \mathcal{C} $ for which \emph{freq\_count} is known. \\
+Input: A sorted array of candidates $ \mathcal{C} $, including their \emph{block\_start} values, and their \emph{freq\_count} values with respect to some sequence, and a minimum frequency threshold \emph{min\_fr}. \\
+Output: A sorted array $ \mathcal{F} $ of those episodes in $ \mathcal{C} $ which are frequent, along with consistent \emph{block\_start} values.
+}
+
+\begin{algorithmic}[1]
+
+\State $ \text{new\_block\_start} \gets 1 $
+\State $ \mathcal{F} \gets \text{empty array} $
+\State $ \mathcal{F} \text{.block\_start} \gets \text{empty array} $
+\For{$ i \gets 1 $; $ i \leq | \mathcal{C} | $; $ i \gets i + 1 $}
+    \If{$ \mathcal{C} \text{.block\_start}[i] = i $} \label{alglin:remove-infrequent-episodes:different-block-test}
+        \LineComment{Encountered new block in $ \mathcal{C} $}
+        \State $ \text{new\_block\_start} \gets | \mathcal{F} | $
+    \EndIf
+    \If{$ \alpha \text{.freq\_count} < \text{min\_fr} $}
+        \LineComment{Episode infrequent; discard}
+        \State continue with next $ i $
+    \EndIf
+    \State append $ \alpha $ to $ \mathcal{F} $
+    \State $ \mathcal{F} \text{.block\_start}[ | \mathcal{F} | ] \gets \text{new\_block\_start} $
+\EndFor
+\State output $ \mathcal{F} $
+
+\end{algorithmic}
+
+\label{alg:remove-infrequent-episodes}
+\end{algorithm}
+
+At first sight, it seems a trivial task to discard episodes from a list of candidates which have turned out to be infrequent. But one thing needs to be taken into consideration, namely the auxiliary \emph{block\_start} variables, used in the candidate generation algorithm (section~\ref{sec:cand-gen}). Each episode $ \alpha $ has such a \emph{block\_start} value, which denotes the array index of the first episode in the list with which it shares the first $ | \alpha | - 1 $ elements in the episode's array representation. If we remove episodes without further consideration, these indices will be invalidated. They should not be invalidated, however, since the next round of the candidate generation step relies on them. Hence we need to keep track of the blocks while constructing the list of frequent episodes. Algorithm~\ref{alg:remove-infrequent-episodes} achieves this.
+
+The algorithm stores the frequent episodes in a new data structure $ \mathcal{F} $. While iterating over the episodes in order, the array index of the new block start is kept in \emph{new\_block\_start}. If for an index $ i $, $ \mathcal{C}. \text{block\_start}[i] = i $, we know that a new block started at position $ i $ in $ \mathcal{C} $, and so \emph{new\_block\_start} gets updated in order to start a new block in $ \mathcal{F} $ as well.
+
+
+
+\section{Finding association rules from frequent episodes: high-level algorithm}
+
+\begin{algorithm}
+
+\caption{Finding confident association rules composed of frequent episodes.\\
+Input: A window width $ \rho $, a frequency threshold \emph{min\_fr}, and a confidence threshold \emph{min\_conf}.\\
+Output: $ \{ (\alpha \Rightarrow \beta, c(\alpha \Rightarrow \beta)) \mid \beta \subset \alpha \wedge fr(\beta) \geq \text{min\_conf} \wedge c(\alpha \Rightarrow \beta) \geq \text{min\_conf} \} $
+}
+
+\begin{algorithmic}[1]
+
+\LineComment{Find frequent episodes (algorithm~\ref{alg:episodes-top-level})}
+\State compute $ \mathcal{F}(\boldsymbol{s}, \rho, \text{min\_fr}) $
+\LineComment{Generate rules}
+\ForAll{$ \beta \in \mathcal{F}(\boldsymbol{s}, \rho, \text{min\_fr}) $}
+    \ForAll{$ \alpha \subset \beta $} \Comment{Algorithm [TODO write thingies]}
+        \If{$ c(\alpha \Rightarrow \beta) \geq \text{min\_conf} $} \label{alglin:association-rules-top-level:compute-confidence}
+            output $ \alpha \Rightarrow \beta $ and $ c(\alpha \Rightarrow \beta) $
+        \EndIf
+    \EndFor
+\EndFor
+
+\end{algorithmic}
+
+\label{alg:association-rules-top-level}
+\end{algorithm}
+
+Now that we have described the full solution for mining frequent episodes, let's turn to association rules. Algorithm~\ref{alg:association-rules-top-level} (adapted from \citep{mannila1997discovery}) shows the high-level procedure for generating confident association rules after mining frequent episodes.
+
+On line~\ref{alglin:association-rules-top-level:compute-confidence}, to decide whether a newly constructed association rule $ \alpha \Rightarrow \beta $ is confident, its confidence value must be computed. For the fixed-window confidence this is trivial: given the frequency of both episodes, compute
+\begin{align*}
+c_f(\alpha \Rightarrow \beta) = \frac{fr(\beta)}{fr(\alpha)}
+\end{align*}
+
+For the minimal-window confidence and the weighted-window confidence, we use the minimal windows found while mining frequent episodes; in algorithms~\ref{alg:minimal-window-confidence} (section~\ref{sec:minimal-window-confidence}) and \ref{alg:weighted-window-confidence} (section~\ref{sec:weighted-window-confidence}), respectively.
+
 \section{Determining the minimal-window confidence}
 \label{sec:minimal-window-confidence}
 
@@ -1179,48 +1299,8 @@ In~\citep{cule2014marbles}, there is a small mistake in algorithm~\ref{alg:minim
 
 
 
-\section{Determining the weighted-window frequency}
-
-\begin{algorithm}
-
-\caption{Computing the weighted frequency of an episode in a sequence.\\
-Input: A list of minimal windows $ V = \langle \, [a_1, b_1), \, \ldots, \, [a_n, b_n) \rangle $ of episode $ \alpha $.\\
-Output: $ fr_w(\alpha) $
-}
-
-\begin{algorithmic}[1]
-
-\State $ j \gets 1 $
-\ForAll {$ [a_i, b_i) \in V $} \label{alglin:wwi:begin-next-disjoint-window}
-    \While {$ j \leq n \wedge b_i > a_j $}
-        \State $ j \gets j + 1 $
-    \EndWhile
-    \State $ d_i \gets j $ \label{alglin:wwi:end-next-disjoint-window}
-\EndFor
-\State $ c_{n + 1} \gets 0 $ \label{alglin:wwi:begin-wwi-calculation}
-\For {$ i \gets n $ down to $ 1 $}
-    \State $ c_i \gets \max((b_i - a_i)^{-1} + c_{d_i}, \; c_{i+1}) $ \label{alglin:wwi:end-wwi-calculation}
-\EndFor
-\State output $ c_1 $
-
-\end{algorithmic}
-
-\label{alg:wwi}
-\end{algorithm}
-
-For the weighted-window frequency, selecting the non-overlapping minimal windows such that total weight is maximal, is a bit more involved than selecting the largest possible number of non-overlapping minimal windows for the disjoint-window frequency (section~\ref{sec:disjoint-window-frequency}).
-
-In algorithm~\ref{alg:wwi} (from~\cite{cule2014marbles}), lines~\ref{alglin:wwi:begin-next-disjoint-window} through~\ref{alglin:wwi:end-next-disjoint-window}, for each minimal window $ [a_i, b_i) $ the \emph{next} window disjoint from $ [a, b) $ is determined, and referred to by $ d_i $. More precisely, $ d_i $ refers to the window $ [a_j, b_j) $ with the smallest $ a_j $ such that $ a_j \geq b_i $.
-
-Then, in lines~\ref{alglin:wwi:begin-wwi-calculation} through~\ref{alglin:wwi:end-wwi-calculation}, the weighted-window frequency is determined through a backwards pass over the minimal windows. Each $ c_i $ is the optimal choice of windows $ i $ through $ n $. If all $ c_j $ with $ j > i $ are known, then $ c_i $ can be calculated as
-\begin{align*}
-c_i = \max((b_i - a_i)^{-1} + c_{d_i}, \; c_{i+1})
-\end{align*}
-where the leftmost argument to $ \max $ represents selecting window $ i $, and therefore ``unselecting'' all earlier selected windows that overlap with window $ i $, and the rightmost argument to $ \max $ represents not selecting window $ i $ and continuing with all previously selected windows.
-
-In this way, the $ d_i $ essentially allow us to \emph{backtrack} to undo earlier choices in favour of a better one.
-
 \section{Determining the weighted-window confidence}
+\label{sec:weighted-window-confidence}
 
 \begin{algorithm}
 
@@ -1264,43 +1344,3 @@ This is what happens in the second \emph{while}-loop in algorithm~\ref{alg:weigh
 \subsection{Correcting the algorithm presented in~\citep{cule2014marbles}}
 
 Algorithm 3 from~\citep{cule2014marbles}---which algorithm~\ref{alg:weighted-window-confidence} was based on---does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
-
-
-
-\section{Removing episodes which have been found infrequent}
-\label{sec:maintain-blocks}
-
-\begin{algorithm}
-
-\caption{Removing infrequent episodes from a collection of candidates $ \mathcal{C} $ for which \emph{freq\_count} is known. \\
-Input: A sorted array of candidates $ \mathcal{C} $, including their \emph{block\_start} values, and their \emph{freq\_count} values with respect to some sequence, and a minimum frequency threshold \emph{min\_fr}. \\
-Output: A sorted array $ \mathcal{F} $ of those episodes in $ \mathcal{C} $ which are frequent, along with consistent \emph{block\_start} values.
-}
-
-\begin{algorithmic}[1]
-
-\State $ \text{new\_block\_start} \gets 1 $
-\State $ \mathcal{F} \gets \text{empty array} $
-\State $ \mathcal{F} \text{.block\_start} \gets \text{empty array} $
-\For{$ i \gets 1 $; $ i \leq | \mathcal{C} | $; $ i \gets i + 1 $}
-    \If{$ \mathcal{C} \text{.block\_start}[i] = i $} \label{alglin:remove-infrequent-episodes:different-block-test}
-        \LineComment{Encountered new block in $ \mathcal{C} $}
-        \State $ \text{new\_block\_start} \gets | \mathcal{F} | $
-    \EndIf
-    \If{$ \alpha \text{.freq\_count} < \text{min\_fr} $}
-        \LineComment{Episode infrequent; discard}
-        \State continue with next $ i $
-    \EndIf
-    \State append $ \alpha $ to $ \mathcal{F} $
-    \State $ \mathcal{F} \text{.block\_start}[ | \mathcal{F} | ] \gets \text{new\_block\_start} $
-\EndFor
-\State output $ \mathcal{F} $
-
-\end{algorithmic}
-
-\label{alg:remove-infrequent-episodes}
-\end{algorithm}
-
-At first sight, it seems a trivial task to discard episodes from a list of candidates which have turned out to be infrequent. But one thing needs to be taken into consideration, namely the auxiliary \emph{block\_start} variables, used in the candidate generation algorithm (section~\ref{sec:cand-gen}). Each episode $ \alpha $ has such a \emph{block\_start} value, which denotes the array index of the first episode in the list with which it shares the first $ | \alpha | - 1 $ elements in the episode's array representation. If we remove episodes without further consideration, these indices will be invalidated. They should not be invalidated, however, since the next round of the candidate generation step relies on them. Hence we need to keep track of the blocks while constructing the list of frequent episodes. Algorithm~\ref{alg:remove-infrequent-episodes} achieves this.
-
-The algorithm stores the frequent episodes in a new data structure $ \mathcal{F} $. While iterating over the episodes in order, the array index of the new block start is kept in \emph{new\_block\_start}. If for an index $ i $, $ \mathcal{C}. \text{block\_start}[i] = i $, we know that a new block started at position $ i $ in $ \mathcal{C} $, and so \emph{new\_block\_start} gets updated in order to start a new block in $ \mathcal{F} $ as well.
