@@ -10,7 +10,7 @@ Finally, from episodes we can construct \emph{association rules}, which can unco
 \section{Event sequences}
 
 \begin{definition}
-A \emph{sequence event}, or \emph{event} for short, is a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is a timestamp integer.
+A \emph{sequence event}, or \emph{event} for short, is a pair $ (A, t) $ where $ A \in \Sigma $ is an event type from a given set of event types $ \Sigma $, and $ t $ is an integer timestamp, denoting the point in time at which the event occurred.
 \end{definition}
 
 \begin{definition}
@@ -593,7 +593,6 @@ fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
 \end{align*}
 \end{definition}
 
-% proof?
 The disjoint-window frequency is monotonically decreasing.
 
 
@@ -612,7 +611,7 @@ Given a set of windows $ W $, the \emph{total weight} of the windows is the sum 
 \end{align*}
 The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
 \begin{align*}
-fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right\}
+fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right \}
 \end{align*}
 In words, the weighted-window frequency is the total weight of a set of disjoint minimal windows that maximizes the total weight.
 \end{definition}
@@ -623,7 +622,7 @@ The weight of a window is the inverse of its width because an occurrence giving 
 
 \section{Association rules}
 
-We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. \emph{Association rules}~\citep{mannila1997discovery} allow us to do so, similarly to association rules in itemset mining.
+We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. Perhaps the occurrence of certain event types give rise to the occurrence of certain other event types. \emph{Association rules} allow us to find such correlations, similarly to association rules in itemset mining \citep{piatetsky1991discovery}.
 
 % TODO ^ check if this is the right thing to cite here? ^
 % TODO cite something with itemset mining? who introduced association rules there?

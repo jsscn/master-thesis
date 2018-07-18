@@ -23,9 +23,37 @@ The first interestingness measure is called \emph{cohesion}, introduced in~\cite
 
 A quantile-based approach in~\citep{feremans2018mining}.
 
+Throughout the experiments, we will consider a few different datasets.
+
+\begin{itemize}
+\item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence.
+\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes.
+\end{itemize}
+
 \section{Efficiency}
 
-Nothing... yet.
+Nothing... yet. Or is there...? now look at that! a plot! amazing
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    title=Run time,
+    xlabel={frequency threshold},
+    ylabel={time (s)},
+]
+
+\addplot table {
+    A B
+    0 0
+    1 1
+
+    1 2
+    2 2
+};
+
+\end{axis}
+
+\end{tikzpicture}
 
 \section{Quality}
 
