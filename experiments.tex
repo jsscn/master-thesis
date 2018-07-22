@@ -5,7 +5,7 @@ A big point of comparison while implementing our algorithms was a closed episode
 
 \begin{itemize}
 \item It generates general episodes, not just parallel and serial episodes.
-\item It generates closed episodes. Closed episodes are episodes that have no superepisodes of the same frequency. It has options to mine non-closed episodes as well, though.
+\item It generates closed episodes. Closed episodes are episodes that have no superepisodes of the same frequency. Mining only closed episodes helps in reducing the amount of output. The implementation has options to mine non-closed episodes as well, though, which allows us to compare with our implementation.
 \item While our implementation finds episodes of one class at a time, as specified by the user---parallel or serial---the closed episode miner finds episodes of all classes at once---parallel, serial and general.
 \end{itemize}
 
@@ -21,6 +21,17 @@ We'll do a comparative study with two implementations of mining algorithms that 
 
 The first interestingness measure is called \emph{cohesion}, introduced in~\citep{cule2016efficient}. The cohesiveness of an episode/itemset expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
+We won't go into detail on the mining algorithm, but we'll take a look at the interestingness measure to see how it compares to the measures we considered.
+
+Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
+\begin{align*}
+N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
+\end{align*}
+
+The support of an event type $ A $ is $ | N(\{ A \}) | $.
+
+
+
 A quantile-based approach in~\citep{feremans2018mining}.
 
 Throughout the experiments, we will consider a few different datasets.
@@ -32,24 +43,46 @@ Throughout the experiments, we will consider a few different datasets.
 
 \section{Efficiency}
 
-Nothing... yet. Or is there...? now look at that! a plot! amazing
+Nothing... yet. Or is there...? now look at that! a plot! amazing... only took me three months
 
 \begin{tikzpicture}
 
 \begin{axis}[
     title=Run time,
-    xlabel={frequency threshold},
+    xlabel={event types ordered by frequency},
     ylabel={time (s)},
+    ymode=log
 ]
 
-\addplot table {
-    A B
-    0 0
-    1 1
+\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency.tsv};
 
-    1 2
-    2 2
-};
+\end{axis}
+
+\end{tikzpicture}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    title=Run time,
+    xlabel={event types ordered by frequency},
+    ylabel={time (s)},
+    ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/nsf-alphabet-frequency.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\begin{tikzpicture}
+
+\begin{axis}
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
 
 \end{axis}
 
