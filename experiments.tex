@@ -34,53 +34,157 @@ The support of an event type $ A $ is $ | N(\{ A \}) | $.
 
 A quantile-based approach in~\citep{feremans2018mining}.
 
+\section{Datasets}
+
 Throughout the experiments, we will consider a few different datasets.
 
 \begin{itemize}
 \item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence.
-\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes.
+\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able extract any meaning from the patterns, but it it an interesting dataset nontheless, because contrary to the text datasets, \emph{trains} is sparse.
 \end{itemize}
+
+Table~\ref{table:datasets-numbers} shows some statistics about each dataset, where $ | \Sigma | $ is the size of the alphabet, $ | s | $ is the number of events, and $ T_e - T_s $ is the time range of the sequence. For dense sequences, $ T_e - T_s = | s | $. For sparse sequences, a window of $ \rho $ contains on average $ | s | \frac\rho{T_e - T_s} $ events.
+
+\begin{table}
+\centering
+
+\begin{tabulary}{\textwidth}{ L|RRRC }
+
+dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \multicolumn{1}{c}{$ T_e - T_s $} & type \\
+\hline
+\emph{abstract} & 51346 & 67828 & 67828 & dense \\
+\emph{tolstoy} & 95623 & 124627 & 124627 & dense \\
+\emph{trains} & 7874 & 10115 & 26626667 & sparse \\
+
+\end{tabulary}
+
+\caption{Characterization of the datasets $ (s, T_s, T_e) $.}
+\label{table:datasets-numbers}
+\end{table}
+
+We see that the textual and \emph{trains} datasets have quite large alphabets.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    xlabel={event types ordered by frequency},
+    ylabel={number of occurrences},
+    % ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/nsf-alphabet-frequency-300.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{The frequency of the 300 most frequent events in \emph{abstract}.}
+\label{fig:frequency-plot-nsf}
+\end{figure}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    xlabel={event types ordered by frequency},
+    ylabel={number of occurrences},
+    % ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/tolstoy-alphabet-frequency-2200.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{The frequency of the 2200 most frequent events in \emph{tolstoy}.}
+\label{fig:frequency-plot-nsf}
+\end{figure}
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    title=Run time,
+    xlabel={event types ordered by frequency},
+    ylabel={time (s)},
+    % ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency-300.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{The frequency of the 300 most frequent events in \emph{trains}.}
+\label{fig:frequency-plot-trains}
+\end{figure}
 
 \section{Efficiency}
 
-Nothing... yet. Or is there...? now look at that! a plot! amazing... only took me three months
+To assess the efficiency of the algorithm, we inspect the runtime for different input parameters: comparing both episode classes, the frequency measures, while varying the window width and the frequency and confidence thresholds.
+
+The efficiency experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
+
+\begin{itemize}
+\item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold.
+\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. Once memory runs out, or the timeout is exceeded, all lower frequencies for the same combination of episode class, frequency measure, and window width must not be considered anymore, as they will only take more time and memory.
+\end{itemize}
+
+All efficiency experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB.}.
+
+We noticed that, using the fixed-window frequency measure, we were more likely to run out of memory, while the other measures were more likely to run out of time.
+
+We should not compare the runtimes of different frequency measures as a function of the frequency threshold, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for equal thresholds, the weighted-window frequency will usually produce fewer episodes than the disjoint-window frequency. We can, however, compare runtimes as a function of output size.
+
+\begin{figure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
 
 \begin{tikzpicture}
 
 \begin{axis}[
-    title=Run time,
-    xlabel={event types ordered by frequency},
-    ylabel={time (s)},
-    ymode=log
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
 ]
 
-\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\begin{tikzpicture}
-
-\begin{axis}[
-    title=Run time,
-    xlabel={event types ordered by frequency},
-    ylabel={time (s)},
-    ymode=log
-]
-
-\addplot table [x=rank,y=count,mark=none] {experiments/nsf-alphabet-frequency.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\begin{tikzpicture}
-
-\begin{axis}
-
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
 
@@ -88,18 +192,47 @@ Nothing... yet. Or is there...? now look at that! a plot! amazing... only took m
 
 \end{tikzpicture}
 
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{abstract} using a window width of 8.}
+\label{fig:runtimes-nsf-8}
+\end{figure}
+
+\section{Number of candidate episodes versus number of frequent episodes}
+
+The database passes are an expensive---if not the most expensive---part of the mining algorithm. Comparing the number of frequent episodes in the output to the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
+
+\section{Comparing the different frequency measures}
+
+\section{Comparing different window sizes}
+
+\section{Correctness}
+
+Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation, until we got to a point where we were convinced that our implementation was correct. We did find, however, a possible bug in the closed episode miner as well. We didn't deeply investigate the issue, but we'll report what we found.
+
+When mining parallel episodes in the example sequence (figure~\ref{event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has the greater weight. Our implementation seems to correctly select the window with the highest weight, while the closed episode miner seems to choose the first window, which is longer.
+
+\begin{table}
+\centering
+
+\begin{tabulary}{\textwidth}{ C|C|C }
+
+$ \alpha $ & $ fr_w(\alpha) $ (ours) & $ fr_w(\alpha) $ (closed episode miner) \\
+\hline
+$ \{ b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.166 \ldots $ ($ 1/6 $) \\
+$ \{ a, b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.142857 $ ($ 1/7 $) \\
+$ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
+
+\end{tabulary}
+
+\caption{Differing weighted-window frequency values between two implementations}
+\label{table:closepi-frequency-difference}
+\end{table}
+
 \section{Quality}
 
 We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
 
-\begin{table}
-
-\begin{tabulary}{\textwidth}{ L|R|R|R }
-
-
-
-\end{tabulary}
-
-\end{table}

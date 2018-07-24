@@ -635,6 +635,8 @@ An association rule $ \alpha \Rightarrow \beta $ can be read as \emph{$ \alpha $
 
 If we state that $ \alpha \Rightarrow \beta $, we must be \emph{confident} stating it. So we want to be able to express \emph{how} confident we are about the statement, and define \emph{confidence measures} to quantify this confidence. We will introduce the measures in section~\ref{sec:interestingness-measures-association-rules}.
 
+Typical algorithms (including ours) only consider association rules consisting of episodes that are frequent in the sequence. It should be noted, though, that association rules consisting of infrequent episodes can be confident as well. But those are much harder to find. The main reason for only considering frequent episodes is to limit the number of candidates to have tractable mining algorithms---and so we work under the assumption that association rules are only interesting if they consist of interesting episodes.
+
 \section{Confidence measures for association rules}
 \label{sec:interestingness-measures-association-rules}
 
