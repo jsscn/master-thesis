@@ -28,15 +28,30 @@ Episodes are restricted to parallel episodes in which $ lab $ is injective, that
 N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
 \end{align*}
 
-The support of an event type $ A $ is $ | N(\{ A \}) | $.
+% The support of an event type $ A $ is $ | N(\{ A \}) | $.
 
+To evaluate the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, first a measure of 
 
+The definition of the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $ depends on the \emph{size of the minimal occurrence of $ \alpha $} around a given timestamp $ t $:
+\begin{align*}
+W_t(\alpha) = \min\{ t_e - t_s \mid t_s \leq t < t_e \wedge \forall v \in V(\alpha) \exists (lab(v), t') \in s : t_s \leq t' < t_e \}
+\end{align*}
+
+The \emph{size of the average minimal occurrence of $ \alpha $ in $ \boldsymbol{s} $} averages all of the minimal occurrences over the sequence.
+\begin{align*}
+\overline{W}(\alpha) = \frac{\sum_{t \in N(\alpha)} W_t(\alpha)}{| N(\alpha) |}
+\end{align*}
+
+The \emph{cohesion} of $ \alpha $ is then defined as
+\begin{align*}
+C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
+\end{align*}
 
 A quantile-based approach in~\citep{feremans2018mining}.
 
 \section{Datasets}
 
-Throughout the experiments, we will consider a few different datasets.
+We will conduct experiments using a number of datasets:
 
 \begin{itemize}
 \item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence.
@@ -139,7 +154,7 @@ The efficiency experiments were ran as follows. For specified episode classes, f
 \item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. Once memory runs out, or the timeout is exceeded, all lower frequencies for the same combination of episode class, frequency measure, and window width must not be considered anymore, as they will only take more time and memory.
 \end{itemize}
 
-All efficiency experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB.}.
+All efficiency experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5}.
 
 We noticed that, using the fixed-window frequency measure, we were more likely to run out of memory, while the other measures were more likely to run out of time.
 
@@ -199,6 +214,60 @@ We should not compare the runtimes of different frequency measures as a function
 \label{fig:runtimes-nsf-8}
 \end{figure}
 
+\begin{figure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 8.}
+\label{fig:runtimes-trains-900}
+\end{figure}
+
 \section{Number of candidate episodes versus number of frequent episodes}
 
 The database passes are an expensive---if not the most expensive---part of the mining algorithm. Comparing the number of frequent episodes in the output to the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
@@ -221,7 +290,7 @@ When mining parallel episodes in the example sequence (figure~\ref{event-sequenc
 $ \alpha $ & $ fr_w(\alpha) $ (ours) & $ fr_w(\alpha) $ (closed episode miner) \\
 \hline
 $ \{ b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.166 \ldots $ ($ 1/6 $) \\
-$ \{ a, b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.142857 $ ($ 1/7 $) \\
+$ \{ a, b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.142857 \ldots $ ($ 1/7 $) \\
 $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 \end{tabulary}
@@ -235,4 +304,38 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={1.0,0.4,0.0},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-1.0] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-0.4] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-0.0] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={1.0,0.4,0.0},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-1.0] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-0.4] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-0.0] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
 
