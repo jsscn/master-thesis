@@ -17,46 +17,17 @@ Parallel episodes can only ``grow'' by adding a new node, and serial episodes gr
 
 % ^ terrible ^
 
-We'll do a comparative study with two implementations of mining algorithms that use different, non-frequency interestingness measures.
-
-The first interestingness measure is called \emph{cohesion}, introduced in~\citep{cule2016efficient}. The cohesiveness of an episode/itemset expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
-
-We won't go into detail on the mining algorithm, but we'll take a look at the interestingness measure to see how it compares to the measures we considered.
-
-Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
-\begin{align*}
-N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
-\end{align*}
-
-% The support of an event type $ A $ is $ | N(\{ A \}) | $.
-
-To evaluate the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, first a measure of 
-
-The definition of the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $ depends on the \emph{size of the minimal occurrence of $ \alpha $} around a given timestamp $ t $:
-\begin{align*}
-W_t(\alpha) = \min\{ t_e - t_s \mid t_s \leq t < t_e \wedge \forall v \in V(\alpha) \exists (lab(v), t') \in s : t_s \leq t' < t_e \}
-\end{align*}
-
-The \emph{size of the average minimal occurrence of $ \alpha $ in $ \boldsymbol{s} $} averages all of the minimal occurrences over the sequence.
-\begin{align*}
-\overline{W}(\alpha) = \frac{\sum_{t \in N(\alpha)} W_t(\alpha)}{| N(\alpha) |}
-\end{align*}
-
-The \emph{cohesion} of $ \alpha $ is then defined as
-\begin{align*}
-C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
-\end{align*}
-
-A quantile-based approach in~\citep{feremans2018mining}.
-
 \section{Datasets}
 
 We will conduct experiments using a number of datasets:
 
 \begin{itemize}
-\item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence.
-\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able extract any meaning from the patterns, but it it an interesting dataset nontheless, because contrary to the text datasets, \emph{trains} is sparse.
+\item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence\footnote{\url{http://kdd.ics.uci.edu/databases/nsfabs/nsfawards.html}}.
+\item \emph{tolstoy}: Leo Tolstoy's Anna Karenina, from Project Gutenberg\footnote{\url{https://www.gutenberg.org/ebooks/1399}}.
+\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able derive any meaning from the patterns, but it it an interesting dataset nontheless, because contrary to the textual datasets, \emph{trains} is sparse.
 \end{itemize}
+
+The textual datasets were preprocessed by lemmatizing using the Porter stemmer\footnote{\url{https://tartarus.org/martin/PorterStemmer}} and stop words were removed.
 
 Table~\ref{table:datasets-numbers} shows some statistics about each dataset, where $ | \Sigma | $ is the size of the alphabet, $ | s | $ is the number of events, and $ T_e - T_s $ is the time range of the sequence. For dense sequences, $ T_e - T_s = | s | $. For sparse sequences, a window of $ \rho $ contains on average $ | s | \frac\rho{T_e - T_s} $ events.
 
@@ -67,24 +38,32 @@ Table~\ref{table:datasets-numbers} shows some statistics about each dataset, whe
 
 dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \multicolumn{1}{c}{$ T_e - T_s $} & type \\
 \hline
-\emph{abstract} & 51346 & 67828 & 67828 & dense \\
-\emph{tolstoy} & 95623 & 124627 & 124627 & dense \\
-\emph{trains} & 7874 & 10115 & 26626667 & sparse \\
+\emph{abstract} & $ 51\,346 $ & $ 67\,828 $ & $ 67\,828 $ & dense \\
+\emph{tolstoy} & $ 95\,623 $ & $ 124\,627 $ & $ 124\,627 $ & dense \\
+\emph{trains} & $ 7\,874 $ & $ 10\,115 $ & $ 26\,626\,667 $ & sparse \\
 
 \end{tabulary}
 
-\caption{Characterization of the datasets $ (s, T_s, T_e) $.}
+\caption{Some properties of the datasets $ (s, T_s, T_e) $.}
 \label{table:datasets-numbers}
 \end{table}
 
-We see that the textual and \emph{trains} datasets have quite large alphabets.
+We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority occurring very rarely. Note that the graphs don't show all event types, although for \emph{abstract} and \emph{trains} the event types at the right end occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 \begin{figure}
+\centering
+
+\def\testwidth{6cm}
+\def\testheight{5cm}
+
+\begin{subfigure}[b]{\textwidth}
 \centering
 
 \begin{tikzpicture}
 
 \begin{axis}[
+    width=\testwidth,
+    height=\testheight,
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
     % ymode=log
@@ -98,14 +77,18 @@ We see that the textual and \emph{trains} datasets have quite large alphabets.
 
 \caption{The frequency of the 300 most frequent events in \emph{abstract}.}
 \label{fig:frequency-plot-nsf}
-\end{figure}
+\end{subfigure}
 
-\begin{figure}
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
 \centering
 
 \begin{tikzpicture}
 
 \begin{axis}[
+    width=\testwidth,
+    height=\testheight,
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
     % ymode=log
@@ -118,18 +101,21 @@ We see that the textual and \emph{trains} datasets have quite large alphabets.
 \end{tikzpicture}
 
 \caption{The frequency of the 2200 most frequent events in \emph{tolstoy}.}
-\label{fig:frequency-plot-nsf}
-\end{figure}
+\label{fig:frequency-plot-tolstoy}
+\end{subfigure}
 
-\begin{figure}
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
 \centering
 
 \begin{tikzpicture}
 
 \begin{axis}[
-    title=Run time,
+    width=\testwidth,
+    height=\testheight,
     xlabel={event types ordered by frequency},
-    ylabel={time (s)},
+    ylabel={number of occurrences},
     % ymode=log
 ]
 
@@ -141,24 +127,116 @@ We see that the textual and \emph{trains} datasets have quite large alphabets.
 
 \caption{The frequency of the 300 most frequent events in \emph{trains}.}
 \label{fig:frequency-plot-trains}
+\end{subfigure}
+
+\caption{The frequency of the most frequent event types in the datasets.}
+\caption{fig:alphabet-frequencies}
 \end{figure}
 
-\section{Efficiency}
+\begin{table}
+\centering
+
+\begin{tabulary}{\textwidth}{L|L}
+
+\emph{abstract} & \emph{tolstoy} \\
+\hline
+research    (1289) & levin (1629) \\
+studi   (708) & vronski (865) \\
+project (588) & anna (823) \\
+student (563) & kitti (672) \\
+program (439) & thought (663) \\
+provid  (372) & time (651) \\
+investig    (369) & hand (651) \\
+develop (360) & smile (632) \\
+work    (345) & alexei (632) \\
+univers (344) & face (598) \\
+system  (308) & love (595) \\
+problem (307) & alexandrovitch (571) \\
+model   (306) & ey (570) \\
+theori  (296) & man (565) \\
+support (288) & feel (561) \\
+area    (271) & felt (555) \\
+experi  (264) & don (553) \\
+structur    (251) & stepan (548) \\
+group   (251) & arkadyevitch (548) \\
+includ  (250) & good (507) \\
+
+\end{tabulary}
+
+\caption{The most frequent words (event types) for \emph{abstract} and \emph{trains}, and their frequency in parentheses.}
+\label{table:most-frequent-event-types}
+\end{table}
+
+\section{Performance}
 
 To assess the efficiency of the algorithm, we inspect the runtime for different input parameters: comparing both episode classes, the frequency measures, while varying the window width and the frequency and confidence thresholds.
 
-The efficiency experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
+The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
 
 \begin{itemize}
 \item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold.
-\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. Once memory runs out, or the timeout is exceeded, all lower frequencies for the same combination of episode class, frequency measure, and window width must not be considered anymore, as they will only take more time and memory.
+\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequenciy thresholds for that combination of episode class, frequency measure, and window width are skipped, as they will take at least as much time and memory as the current threshold.
 \end{itemize}
 
-All efficiency experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5}.
+All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5}.
 
-We noticed that, using the fixed-window frequency measure, we were more likely to run out of memory, while the other measures were more likely to run out of time.
 
-We should not compare the runtimes of different frequency measures as a function of the frequency threshold, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for equal thresholds, the weighted-window frequency will usually produce fewer episodes than the disjoint-window frequency. We can, however, compare runtimes as a function of output size.
+\subsection{Episodes}
+
+We would like to compare the efficiency for the different frequency measures across a range of frequency thresholds. However we should not evaluate the runtimes as a function of the frequency threshold directly, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for otherwise equal parameters (including thresholds), the weighted-window frequency will produce a subset of the disjoint-window frequency. Instead we can compare runtimes as a function of the number of frequent episodes.
+
+\iffalse
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of candidates},
+    ylabel={number of frequent episodes},
+]
+
+\addplot table [x=num-frequent-episodes,y=num-candidates] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=num-candidates] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=num-candidates] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of candidates},
+    ylabel={number of frequent episodes},
+]
+
+\addplot table [x=num-frequent-episodes,y=percentage-frequent-of-candidates] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=percentage-frequent-of-candidates] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=percentage-frequent-of-candidates] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of candidates},
+    ylabel={number of frequent episodes},
+]
+
+\addplot table [x=num-candidates,y=num-frequent-episodes] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-candidates,y=num-frequent-episodes] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
+\addplot table [x=num-candidates,y=num-frequent-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\fi
 
 \begin{figure}
 
@@ -268,13 +346,75 @@ We should not compare the runtimes of different frequency measures as a function
 \label{fig:runtimes-trains-900}
 \end{figure}
 
-\section{Number of candidate episodes versus number of frequent episodes}
+\subsection{Association rules}
+
+Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating association rules from \emph{trains} using different episode classes, a number of confidence thresholds, and across borders % TODO fix
+
+\begin{figure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{rules consisting of parallel episodes}
+\end{subfigure}
+
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=outer north east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-rules-0.0] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{rules consisting of serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding association rules from episodes generated from \emph{trains} (same experiment as figure~\ref{fig:runtimes-trains-900}) for different confidence thresholds (0.0, 0.4 and 1.0).}
+\label{fig:runtimes-rules-trains-900}
+\end{figure}
+
+\subsection{Number of candidate episodes versus number of frequent episodes}
 
 The database passes are an expensive---if not the most expensive---part of the mining algorithm. Comparing the number of frequent episodes in the output to the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
 
-\section{Comparing the different frequency measures}
+\subsection{Comparing the frequency measures}
 
-\section{Comparing different window sizes}
+\subsection{Comparing window sizes}
+
+\subsection{Comparing performance with the closed episode miner}
+
+Alongside the performance experiments, we ran the closed episode miner on some of the same parameter configurations.
 
 \section{Correctness}
 
@@ -301,41 +441,46 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 \section{Quality}
 
+Qualitative analysis.
+
+\section{Comparing the frequency measures}
+
 We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
 
-\begin{tikzpicture}
+\section{Comparing with cohesive-episode miner}
 
-\begin{axis}[
-    legend entries={1.0,0.4,0.0},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
 
-\addplot table [x=num-frequent-episodes,y=duration-1.0] {experiments/trains/trains-serial-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-0.4] {experiments/trains/trains-serial-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-0.0] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+We'll do a comparative study with two implementations of mining algorithms that use different, non-frequency interestingness measures.
 
-\end{axis}
+The first interestingness measure is called \emph{cohesion}, introduced in~\citep{cule2016efficient}. The cohesiveness of an episode/itemset expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
-\end{tikzpicture}
+We won't go into detail on the mining algorithm, but we'll take a look at the interestingness measure to see how it compares to the measures we considered.
 
-\begin{tikzpicture}
+Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
+\begin{align*}
+N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
+\end{align*}
 
-\begin{axis}[
-    legend entries={1.0,0.4,0.0},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
+% The support of an event type $ A $ is $ | N(\{ A \}) | $.
 
-\addplot table [x=num-frequent-episodes,y=duration-1.0] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-0.4] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-0.0] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+To evaluate the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, first a measure of 
 
-\end{axis}
+The definition of the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $ depends on the \emph{size of the minimal occurrence of $ \alpha $} around a given timestamp $ t $:
+\begin{align*}
+W_t(\alpha) = \min\{ t_e - t_s \mid t_s \leq t < t_e \wedge \forall v \in V(\alpha) \exists (lab(v), t') \in s : t_s \leq t' < t_e \}
+\end{align*}
 
-\end{tikzpicture}
+The \emph{size of the average minimal occurrence of $ \alpha $ in $ \boldsymbol{s} $} averages all of the minimal occurrences over the sequence.
+\begin{align*}
+\overline{W}(\alpha) = \frac{\sum_{t \in N(\alpha)} W_t(\alpha)}{| N(\alpha) |}
+\end{align*}
+
+The \emph{cohesion} of $ \alpha $ is then defined as
+\begin{align*}
+C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
+\end{align*}
+
+A quantile-based approach in~\citep{feremans2018mining}.
 

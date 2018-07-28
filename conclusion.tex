@@ -1,14 +1,19 @@
 \chapter{Conclusion}
 
-sequential pattern mining
+In this thesis, we implemented an algorithm for mining frequent episodes and confident association rules, according to multiple frequency and confidence measures, ranging from long-established approaches to more novel ones. While the general strategy for mining episodes is consistent across these episode classes and frequency measures, quite a few specialized subalgorithms were needed. Many of the subalgorithms were based on preexisting algorithms, though most needed some modification for our purposes.
 
-episodes (graph with labelled nodes)
+% TODO ^ expand introduction to conclusion ^
 
-serial, parallel
+We saw that each of these interestingness measures had advantages and disadvantages. The fixed-window frequency was often, especially with parallel episodes, since the amount of bookkeeping in a database pass is a lot more limited compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed.
 
-association rules from frequent episodes
+% TODO ^ more advantages, disadvantages ^
 
-different frequency measures, recap their properties, advantages and disadvantages
+There are downsides to our implementation.
+- efficiency often worse than closed episode miner
+- no closed episodes
+- no general episodes
+- no association rules from both parallel and serial episodes at once
+- output quality suffers due to redundancy (closedness plays into this as well)
 
 recap algorithms; different algorithms for both episode classes
 

@@ -1,4 +1,5 @@
 import json
+import numpy as np
 import pandas as pd
 import argparse
 import sys
@@ -29,8 +30,8 @@ if 'rules' in df:
     for run in j:
         for rules_run in run['rules']:
             threshold = round(float(rules_run['confidence-threshold']), 3)
-            rules_only['duration-{}'.format(threshold)].append(rules_run['duration-s'])
-            rules_only['num-confident-association-rules-{}'.format(threshold)].append(rules_run['num-confident-association-rules'])
+            rules_only['duration-rules-{}'.format(threshold)].append(rules_run['duration-s'])
+            rules_only['num-confident-rules-{}'.format(threshold)].append(rules_run['num-confident-rules'])
 
     new_columns = pd.DataFrame(rules_only)
     
@@ -38,12 +39,16 @@ if 'rules' in df:
 
 f.close()
 
+df = df[df['status'] != 'too-many-candidates']
+
+df['percentage-frequent-of-candidates'] = df.apply(lambda frame: frame['num-frequent-episodes'] / frame['num-candidates'], axis=1)
+
 (name, ext) = os.path.splitext(args.file_path)
 
 for (episode_class, frequency_measure, window_width) in \
         itertools.product(df['episode-class'].unique(), df['frequency-measure'].unique(), df['window-width'].unique()):
 
-    subdf = df[(df['episode-class'] == episode_class) & (df['frequency-measure'] == frequency_measure) & (df['window-width'] == window_width) & (df['status'] != 'too-many-candidates')]
+    subdf = df[(df['episode-class'] == episode_class) & (df['frequency-measure'] == frequency_measure) & (df['window-width'] == window_width)]
 
     subdf.to_csv('{}-{}-{}-{}.tsv'.format(name, episode_class, frequency_measure, window_width), index=False, sep='\t')
 

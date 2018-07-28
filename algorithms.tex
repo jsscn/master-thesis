@@ -697,7 +697,7 @@ Regardless of the state an automaton instance reached, the instance is removed w
 
 Figure~\ref{fig:serial-recognition} illustrates the principle with an example.
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 
 \begin{tikzpicture}
@@ -729,18 +729,18 @@ Figure~\ref{fig:serial-recognition} illustrates the principle with an example.
 \node (initializedtxt) [below=0.35cm of n0-2,align=center] {first event of possible occurrence\\(\emph{initialized}, \emph{begins\_at})};
 \draw [->] (initializedtxt) -- (n0-2);
 
-\slidingwindowthingy{-2}{1}
-\draw (-0.5*\interdotdistance,-2-0.5*\slidingwindowheight) -- ++(6*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-6*\interdotdistance,0);
+\slidingwindowthingy{-2.5}{1}
+\draw (-0.5*\interdotdistance,-2.5-0.5*\slidingwindowheight) -- ++(6*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-6*\interdotdistance,0);
 \node [right=10pt of dr1,align=left] {encountered $ a $;\\advance automaton to state 2,\\wait for c};
 
-\slidingwindowthingy{-4}{2}
-\draw (-0.5*\interdotdistance,-4-0.5*\slidingwindowheight) rectangle ++(8*\interdotdistance,\slidingwindowheight);
+\slidingwindowthingy{-5}{2}
+\draw (-0.5*\interdotdistance,-5-0.5*\slidingwindowheight) rectangle ++(8*\interdotdistance,\slidingwindowheight);
 \node [right=10pt of dr2,align=left] {encountered $ c $;\\advance automaton to state 3,\\episode successfully recognized};
 \node (marktxt) [above=0.35cm of n2-0,align=center,xshift=6pt] {save location of sliding\\window (\emph{in\_window})};
 \draw [->] (n2-0 |- marktxt.south) -- (n2-0);
 
-\slidingwindowthingy{-6}{3}
-\draw ({(9.5)*\interdotdistance},-6-0.5*\slidingwindowheight) -- ++(-7*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(7*\interdotdistance,0);
+\slidingwindowthingy{-7}{3}
+\draw ({(9.5)*\interdotdistance},-7-0.5*\slidingwindowheight) -- ++(-7*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(7*\interdotdistance,0);
 \node [right=10pt of dr3,align=left] {occurrence no longer in window;\\determine number of windows\\which contained occurrence};
 
 \draw (n3-0.south) -- ++(0,-6pt) -- node (numwindowsindicator) [midway,below,align=center] {displacement of window\\since recognition} ++(3*\interdotdistance,0) -- (n3-3.south);
@@ -981,8 +981,8 @@ Output: All episodes in $ \mathcal{C} $, along with all minimal windows of each 
                 \State $ \text{window\_start} \gets $ \label{alglin:rec-par-mwi:find-window-start}
                 \State \hspace{\algorithmicindent} $ \min\{ t \mid A $ in $ \alpha \wedge t = Q(A)[| Q(A) | - \text{num\_needed}(\alpha, A) + 1] \} $
                 \ForAll{$ A $ in $ \alpha $}
-                    $ Q \gets Q(A) $
-                    \If{$ \text{window\_start} = Q[| Q | - \text{num\_needed}(\alpha, A)) + 1] $}
+                    $ q \gets Q(A) $
+                    \If{$ \text{window\_start} = q[| q | - \text{num\_needed}(\alpha, A)) + 1] $}
                         \State $ \text{consider\_max}(\alpha, A) \gets \text{num\_needed}(\alpha, A) - 1 $
                     \EndIf
                 \EndFor
@@ -1125,7 +1125,108 @@ Once an episode has reached state $ | \alpha | $, a minimal window of the episod
 
 As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
 
+\begin{figure}
+\centering
 
+\begin{tikzpicture}
+
+\def\slidingwindowheight{0.5}
+\def\interdotdistance{0.6}
+
+\newcommand\letteratposition[1]
+{\ifnum#1=2a\else\ifnum#1=3b\else\ifnum#1=5a\else\ifnum#1=7a\else0\fi\fi\fi\fi}
+
+\newcommand\slidingwindowthingy[2]
+{
+    \foreach \i [evaluate=\i as \x using \i * \interdotdistance] in {0,...,7}
+    {
+        \ifnum\pdfstrcmp{\letteratposition{\i}}{0}=0
+            \fill (\x,#1) circle [color=black,radius=2pt] node (n#2-\i) {};
+        \else
+            \draw (\x,#1) node [enoughdamnvspace] (n#2-\i) {$ \letteratposition{\i} $};
+        \fi
+    }
+
+    \node (dr#2) [right=7pt of n#2-7] {$ \cdots $};
+}
+
+\slidingwindowthingy{0}{0}
+\draw (-0.5*\interdotdistance,-0.5*\slidingwindowheight) -- ++(2*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-2*\interdotdistance,0);
+\node (Qa) [right=1.5em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ Q(a) $};
+\node (Qb) [right=4em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ Q(b) $};
+\node (maxconsidera) [right=6em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ \text{max\_consider}(\alpha, a) $};
+\node (maxconsiderb) [right=7.5em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ \text{max\_consider}(\alpha, b) $};
+
+\node at (Qa |- dr0) {$ \langle \; \rangle $};
+\node at (Qb |- dr0) {$ \langle \; \rangle $};
+\node at (maxconsidera |- dr0) {$ 0 $};
+\node at (maxconsiderb |- dr0) {$ 0 $};
+
+\node at (n0-0 |- {(0,0.75)}) {\footnotesize $ 1 $};
+\node at (n0-2 |- {(0,0.75)}) {\footnotesize $ 3 $};
+\node at (n0-4 |- {(0,0.75)}) {\footnotesize $ 5 $};
+\node at (n0-6 |- {(0,0.75)}) {\footnotesize $ 7 $};
+
+\slidingwindowthingy{-1}{1}
+\draw (-0.5*\interdotdistance,-1-0.5*\slidingwindowheight) -- ++(3*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-3*\interdotdistance,0);
+
+\node at (Qa |- dr1) {$ \langle 3 \rangle $};
+\node at (Qb |- dr1) {$ \langle \; \rangle $};
+\node at (maxconsidera |- dr1) {$ 1 $};
+\node at (maxconsiderb |- dr1) {$ 0 $};
+
+\slidingwindowthingy{-2}{2}
+\draw (-0.5*\interdotdistance,-2-0.5*\slidingwindowheight) -- ++(4*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-4*\interdotdistance,0);
+
+\node at (Qa |- dr2) {$ \langle 3 \rangle $};
+\node at (Qb |- dr2) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr2) {$ 1 $};
+\node at (maxconsiderb |- dr2) {$ 1 $};
+
+\slidingwindowthingy{-3}{3}
+\draw (-0.5*\interdotdistance,-3-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr3) {$ \langle 3, 6 \rangle $};
+\node at (Qb |- dr3) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr3) {$ 2 $};
+\node at (maxconsiderb |- dr3) {$ 1 $};
+
+\node [right=9em of dr3,align=left] {enough events in window\\and in consideration;\\minimal window found};
+
+\draw (n3-2.south) -- ++(0,-6pt) -- node (numwindowsindicator) [near start,below right,align=left] {determine minimal window \\ using \emph{num\_needed}, $ Q $, and \emph{start}} ++(3.5*\interdotdistance,0) -- ++(0,6pt);
+
+\slidingwindowthingy{-5.25}{4}
+\draw (0.5*\interdotdistance,-5.25-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr4) {$ \langle 3, 6 \rangle $};
+\node at (Qb |- dr4) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr4) {$ 1 $};
+\node at (maxconsiderb |- dr4) {$ 1 $};
+
+\node [right=9em of dr4,align=left] {previous occurrence still in\\window, but first $ a $ out of \\ consideration};
+\slidingwindowthingy{-7}{5}
+\draw (1.5*\interdotdistance,-7-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr5) {$ \langle 3, 6, 8 \rangle $};
+\node at (Qb |- dr5) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr5) {$ 2 $};
+\node at (maxconsiderb |- dr5) {$ 1 $};
+
+\node [right=9em of dr5,align=left] {new $ a $ entered; \\ enough events in \\ consideration again};
+
+\slidingwindowthingy{-8}{6}
+\draw (7.5*\interdotdistance,-8-0.5*\slidingwindowheight) -- ++(-5*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(5*\interdotdistance,0);
+
+\node at (Qa |- dr6) {$ \langle 6, 8 \rangle $};
+\node at (Qb |- dr6) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr6) {$ 2 $};
+\node at (maxconsiderb |- dr6) {$ 0 $};
+
+\end{tikzpicture}
+
+\caption{Recognition of parallel episode $ \alpha = \{ a, a, b \} $ for finding its minimal windows in the sequence. Black dots are timestamps which don't contain $ a $ or $ b $.}
+\label{fig:parallel-minimal-recognition}
+\end{figure}
 
 \section{Determining the weighted-window frequency}
 

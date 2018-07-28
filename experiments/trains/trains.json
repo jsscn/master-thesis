@@ -1,1 +1,1262 @@
-[{"duration-s":0.148281219,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":20000.0,"num-candidates":1325,"num-frequent-episodes":9,"rules":[{"confidence-threshold":0.0,"duration-s":1.6378999999983046e-05,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":8.462000000014624e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":8.538000000002377e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":9.068000000000964e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":8.659999999993673e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":9.011000000003211e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.17002579400000004,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":14000.0,"num-candidates":15476,"num-frequent-episodes":168,"rules":[{"confidence-threshold":0.0,"duration-s":0.00014221199999997491,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.00012738900000003328,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.000161533000000047,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.0001466529999999966,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.00012366999999996464,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.0001373479999999816,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.36397097800000006,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":9800.0,"num-candidates":71901,"num-frequent-episodes":538,"rules":[{"confidence-threshold":0.0,"duration-s":0.002270503999999951,"num-confident-association-rules":330},{"confidence-threshold":0.2,"duration-s":0.0024374630000000286,"num-confident-association-rules":330},{"confidence-threshold":0.4,"duration-s":0.002415017999999991,"num-confident-association-rules":330},{"confidence-threshold":0.6000000000000001,"duration-s":0.0037288839999999324,"num-confident-association-rules":215},{"confidence-threshold":0.8,"duration-s":0.0014628399999999653,"num-confident-association-rules":5},{"confidence-threshold":1.0,"duration-s":0.0013981519999999303,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.7496818409999999,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":6860.0,"num-candidates":181964,"num-frequent-episodes":1795,"rules":[{"confidence-threshold":0.0,"duration-s":0.060999520999999834,"num-confident-association-rules":4460},{"confidence-threshold":0.2,"duration-s":0.058852667000000025,"num-confident-association-rules":4460},{"confidence-threshold":0.4,"duration-s":0.043491853999999996,"num-confident-association-rules":4098},{"confidence-threshold":0.6000000000000001,"duration-s":0.023308713000000036,"num-confident-association-rules":1836},{"confidence-threshold":0.8,"duration-s":0.01708122000000012,"num-confident-association-rules":386},{"confidence-threshold":1.0,"duration-s":0.01974749199999981,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":1.158124964,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":4802.0,"num-candidates":282748,"num-frequent-episodes":6190,"rules":[{"confidence-threshold":0.0,"duration-s":0.4449642690000002,"num-confident-association-rules":41412},{"confidence-threshold":0.2,"duration-s":0.5233307970000003,"num-confident-association-rules":41405},{"confidence-threshold":0.4,"duration-s":0.3421831909999997,"num-confident-association-rules":29130},{"confidence-threshold":0.6000000000000001,"duration-s":0.25868936799999975,"num-confident-association-rules":15636},{"confidence-threshold":0.8,"duration-s":0.21538194000000033,"num-confident-association-rules":4131},{"confidence-threshold":1.0,"duration-s":0.18998850300000036,"num-confident-association-rules":22}],"status":"success","window-width":900},{"duration-s":2.0573640279999994,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":3361.0,"num-candidates":449971,"num-frequent-episodes":20861,"rules":[{"confidence-threshold":0.0,"duration-s":3.9289712039999998,"num-confident-association-rules":285910},{"confidence-threshold":0.2,"duration-s":3.875854115000001,"num-confident-association-rules":276912},{"confidence-threshold":0.4,"duration-s":3.0729240240000024,"num-confident-association-rules":182919},{"confidence-threshold":0.6000000000000001,"duration-s":2.1641170490000015,"num-confident-association-rules":91468},{"confidence-threshold":0.8,"duration-s":1.556400993999997,"num-confident-association-rules":26751},{"confidence-threshold":1.0,"duration-s":1.1260104049999988,"num-confident-association-rules":412}],"status":"success","window-width":900},{"duration-s":3.439859274,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":2352.0,"num-candidates":589606,"num-frequent-episodes":66315,"rules":[{"confidence-threshold":0.0,"duration-s":22.721207789999998,"num-confident-association-rules":1683000},{"confidence-threshold":0.2,"duration-s":18.305622683000003,"num-confident-association-rules":1489718},{"confidence-threshold":0.4,"duration-s":11.963439879999996,"num-confident-association-rules":936650},{"confidence-threshold":0.6000000000000001,"duration-s":8.540969837999995,"num-confident-association-rules":447365},{"confidence-threshold":0.8,"duration-s":6.554552396000005,"num-confident-association-rules":140137},{"confidence-threshold":1.0,"duration-s":7.00959757199999,"num-confident-association-rules":5634}],"status":"success","window-width":900},{"duration-s":5.371425670999997,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":1646.0,"num-candidates":872762,"num-frequent-episodes":193469,"rules":[{"confidence-threshold":0.0,"duration-s":112.317410424,"num-confident-association-rules":8624560},{"confidence-threshold":0.2,"duration-s":88.216157369,"num-confident-association-rules":7272950},{"confidence-threshold":0.4,"duration-s":63.02293999400001,"num-confident-association-rules":4227269},{"confidence-threshold":0.6000000000000001,"duration-s":45.243767065999975,"num-confident-association-rules":1974081},{"confidence-threshold":0.8,"duration-s":35.246123721000004,"num-confident-association-rules":649757},{"confidence-threshold":1.0,"duration-s":31.134125966,"num-confident-association-rules":50584}],"status":"success","window-width":900},{"duration-s":13.52401998299996,"episode-class":"parallel","frequency-measure":"fixed-windows","frequency-threshold":1152.0,"num-candidates":1255154,"num-frequent-episodes":531999,"rules":[{"confidence-threshold":0.0,"duration-s":568.851733055,"num-confident-association-rules":40429200},{"confidence-threshold":0.2,"duration-s":448.4438044000001,"num-confident-association-rules":31988965},{"confidence-threshold":0.4,"duration-s":290.38205122599993,"num-confident-association-rules":17591937},{"confidence-threshold":0.6000000000000001,"duration-s":205.24242580600003,"num-confident-association-rules":8120392},{"confidence-threshold":0.8,"duration-s":163.212165593,"num-confident-association-rules":2872263},{"confidence-threshold":1.0,"duration-s":145.65550415799999,"num-confident-association-rules":379124}],"status":"timeout","window-width":900},{"duration-s":0.14811200400000013,"episode-class":"parallel","frequency-measure":"minimal-windows","frequency-threshold":21.0,"num-candidates":1686,"num-frequent-episodes":28,"rules":[{"confidence-threshold":0.0,"duration-s":2.4382999999961186e-05,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":2.3136000000034684e-05,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":2.2774000000058692e-05,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":2.278099999997174e-05,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":2.2799999999989495e-05,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":2.280900000029007e-05,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":1.5414579590000002,"episode-class":"parallel","frequency-measure":"minimal-windows","frequency-threshold":14.0,"num-candidates":35316,"num-frequent-episodes":2742,"rules":[{"confidence-threshold":0.0,"duration-s":0.3041486289999997,"num-confident-association-rules":23734},{"confidence-threshold":0.2,"duration-s":0.319277118,"num-confident-association-rules":23734},{"confidence-threshold":0.4,"duration-s":0.30901003000000005,"num-confident-association-rules":23734},{"confidence-threshold":0.6000000000000001,"duration-s":0.25582332299999955,"num-confident-association-rules":23459},{"confidence-threshold":0.8,"duration-s":0.26630001600000064,"num-confident-association-rules":15576},{"confidence-threshold":1.0,"duration-s":0.12129643200000029,"num-confident-association-rules":2888}],"status":"success","window-width":900},{"duration-s":17.89900715,"episode-class":"parallel","frequency-measure":"minimal-windows","frequency-threshold":9.0,"num-candidates":224758,"num-frequent-episodes":68143,"rules":[{"confidence-threshold":0.0,"duration-s":41.374026539999996,"num-confident-association-rules":2685118},{"confidence-threshold":0.2,"duration-s":35.147792271,"num-confident-association-rules":2685118},{"confidence-threshold":0.4,"duration-s":33.229623773000014,"num-confident-association-rules":2678363},{"confidence-threshold":0.6000000000000001,"duration-s":25.77060576400001,"num-confident-association-rules":1913179},{"confidence-threshold":0.8,"duration-s":16.529362539000005,"num-confident-association-rules":818871},{"confidence-threshold":1.0,"duration-s":11.851140762,"num-confident-association-rules":191525}],"status":"timeout","window-width":900},{"duration-s":0.13949688800000004,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":22.79779037074626,"num-candidates":1325,"num-frequent-episodes":9,"rules":[{"confidence-threshold":0.0,"duration-s":9.138999999880326e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":7.864999999940281e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":7.71100000007685e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":7.827000000126816e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":7.718999999850595e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":7.821000000074463e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.4852836199999997,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":15.958453259522381,"num-candidates":15476,"num-frequent-episodes":168,"rules":[{"confidence-threshold":0.0,"duration-s":0.00012882599999963773,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.00012894199999990974,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.00012764399999998233,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.00012732599999987215,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.00012398299999993867,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.00012748000000017967,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":1.5063587040000002,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":11.170917281665666,"num-candidates":57896,"num-frequent-episodes":336,"rules":[{"confidence-threshold":0.0,"duration-s":0.00028042599999977824,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.00025852500000000944,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.0002481090000001629,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.0002482430000001479,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.00024834099999981873,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.0002484229999999421,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":3.7831208609999996,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":7.819642097165966,"num-candidates":179783,"num-frequent-episodes":597,"rules":[{"confidence-threshold":0.0,"duration-s":0.00045114600000051297,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.0004405710000003893,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.00043970399999970766,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.00043963099999988486,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.0004397670000004794,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.00043967100000052994,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":5.217693262,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":5.473749468016176,"num-candidates":272496,"num-frequent-episodes":736,"rules":[{"confidence-threshold":0.0,"duration-s":0.0006019059999999854,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.0005992910000003349,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.0005745029999992823,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.0005740870000003895,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.0005743869999985662,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.0005791619999993003,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":6.855661384000001,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":3.8316246276113226,"num-candidates":415785,"num-frequent-episodes":910,"rules":[{"confidence-threshold":0.0,"duration-s":0.0006901210000016533,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.0006846960000004287,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.0006830330000013873,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.000685640000000376,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.0006744420000011075,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.000676812000001803,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":8.335821517,"episode-class":"parallel","frequency-measure":"weighted-windows","frequency-threshold":2.6821372393279255,"num-candidates":490835,"num-frequent-episodes":989,"rules":[{"confidence-threshold":0.0,"duration-s":0.001001234000000295,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":0.0011926380000026882,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":0.0007361630000026764,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":0.0007345379999996737,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":0.0007373319999999239,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":0.000742443000000037,"num-confident-association-rules":0}],"status":"timeout","window-width":900},{"duration-s":0.19471403299999998,"episode-class":"serial","frequency-measure":"fixed-windows","frequency-threshold":20000.0,"num-candidates":1361,"num-frequent-episodes":9,"rules":[{"confidence-threshold":0.0,"duration-s":2.165999999997892e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":1.1769999999911018e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":1.1800000000172783e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":1.2189999999967505e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":1.112000000025315e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":1.099000000004402e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.6514030289999999,"episode-class":"serial","frequency-measure":"fixed-windows","frequency-threshold":14000.0,"num-candidates":29504,"num-frequent-episodes":168,"rules":[{"confidence-threshold":0.0,"duration-s":7.474999999979026e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":5.652999999994357e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":5.315000000005732e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":5.210000000088755e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":5.442999999938358e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":5.453999999960324e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":3.120241322,"episode-class":"serial","frequency-measure":"fixed-windows","frequency-threshold":9800.0,"num-candidates":141905,"num-frequent-episodes":386,"rules":[{"confidence-threshold":0.0,"duration-s":0.00015420299999968634,"num-confident-association-rules":22},{"confidence-threshold":0.2,"duration-s":0.00020137299999989366,"num-confident-association-rules":22},{"confidence-threshold":0.4,"duration-s":0.00010515200000016378,"num-confident-association-rules":22},{"confidence-threshold":0.6000000000000001,"duration-s":6.894500000020898e-05,"num-confident-association-rules":14},{"confidence-threshold":0.8,"duration-s":4.990700000018222e-05,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":5.01869999998128e-05,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":7.654432472,"episode-class":"serial","frequency-measure":"fixed-windows","frequency-threshold":6860.0,"num-candidates":357876,"num-frequent-episodes":879,"rules":[{"confidence-threshold":0.0,"duration-s":0.003528087999999485,"num-confident-association-rules":572},{"confidence-threshold":0.2,"duration-s":0.0035005500000000467,"num-confident-association-rules":572},{"confidence-threshold":0.4,"duration-s":0.004215714000000759,"num-confident-association-rules":487},{"confidence-threshold":0.6000000000000001,"duration-s":0.0014307640000001953,"num-confident-association-rules":41},{"confidence-threshold":0.8,"duration-s":0.0016975050000009873,"num-confident-association-rules":1},{"confidence-threshold":1.0,"duration-s":0.0011838289999985818,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":11.769791204,"episode-class":"serial","frequency-measure":"fixed-windows","frequency-threshold":4802.0,"num-candidates":546274,"num-frequent-episodes":1898,"rules":[{"confidence-threshold":0.0,"duration-s":0.014936744999999974,"num-confident-association-rules":2592},{"confidence-threshold":0.2,"duration-s":0.014938008000001446,"num-confident-association-rules":2591},{"confidence-threshold":0.4,"duration-s":0.008803341000000131,"num-confident-association-rules":1165},{"confidence-threshold":0.6000000000000001,"duration-s":0.005553298000002371,"num-confident-association-rules":180},{"confidence-threshold":0.8,"duration-s":0.005159517999999252,"num-confident-association-rules":22},{"confidence-threshold":1.0,"duration-s":0.0050866449999986685,"num-confident-association-rules":5}],"status":"timeout","window-width":900},{"duration-s":0.20494367999999952,"episode-class":"serial","frequency-measure":"minimal-windows","frequency-threshold":21.0,"num-candidates":2064,"num-frequent-episodes":28,"rules":[{"confidence-threshold":0.0,"duration-s":2.589000001052e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":1.705000002516499e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":1.6840000007789513e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":1.629999999863685e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":1.7190000001221506e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":1.6619999989586631e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":2.2644245410000003,"episode-class":"serial","frequency-measure":"minimal-windows","frequency-threshold":14.0,"num-candidates":62429,"num-frequent-episodes":503,"rules":[{"confidence-threshold":0.0,"duration-s":0.003317735999999627,"num-confident-association-rules":560},{"confidence-threshold":0.2,"duration-s":0.0031388969999994742,"num-confident-association-rules":560},{"confidence-threshold":0.4,"duration-s":0.004584209000000783,"num-confident-association-rules":560},{"confidence-threshold":0.6000000000000001,"duration-s":0.0032371809999993673,"num-confident-association-rules":540},{"confidence-threshold":0.8,"duration-s":0.0018384309999994741,"num-confident-association-rules":226},{"confidence-threshold":1.0,"duration-s":0.0012360489999991842,"num-confident-association-rules":14}],"status":"success","window-width":900},{"duration-s":8.158611626000003,"episode-class":"serial","frequency-measure":"minimal-windows","frequency-threshold":9.0,"num-candidates":288435,"num-frequent-episodes":3574,"rules":[{"confidence-threshold":0.0,"duration-s":0.11959475800000519,"num-confident-association-rules":12012},{"confidence-threshold":0.2,"duration-s":0.12228227500000344,"num-confident-association-rules":12012},{"confidence-threshold":0.4,"duration-s":0.10984489799999864,"num-confident-association-rules":11891},{"confidence-threshold":0.6000000000000001,"duration-s":0.06196232399999957,"num-confident-association-rules":6378},{"confidence-threshold":0.8,"duration-s":0.03958705499999837,"num-confident-association-rules":1677},{"confidence-threshold":1.0,"duration-s":0.03802673500000253,"num-confident-association-rules":204}],"status":"timeout","window-width":900},{"duration-s":0.18496749899999898,"episode-class":"serial","frequency-measure":"weighted-windows","frequency-threshold":22.79779037074626,"num-candidates":1361,"num-frequent-episodes":9,"rules":[{"confidence-threshold":0.0,"duration-s":1.6729999998688072e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":1.1909999990677989e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":1.18400000204133e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":1.1220000004641406e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":1.1720000010484455e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":1.1190000002159195e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":0.8671696349999998,"episode-class":"serial","frequency-measure":"weighted-windows","frequency-threshold":15.958453259522381,"num-candidates":29504,"num-frequent-episodes":168,"rules":[{"confidence-threshold":0.0,"duration-s":7.39200000055007e-06,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":5.890000000619011e-06,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":5.714000000267561e-06,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":5.85100000094485e-06,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":5.660999999435035e-06,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":5.819999998379899e-06,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":3.141691306000002,"episode-class":"serial","frequency-measure":"weighted-windows","frequency-threshold":11.170917281665666,"num-candidates":114176,"num-frequent-episodes":336,"rules":[{"confidence-threshold":0.0,"duration-s":1.3242999997942206e-05,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":1.0965999997836207e-05,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":1.0824999996827955e-05,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":1.0963999997670726e-05,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":1.0883000001626897e-05,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":1.101700000560868e-05,"num-confident-association-rules":0}],"status":"success","window-width":900},{"duration-s":8.409411569,"episode-class":"serial","frequency-measure":"weighted-windows","frequency-threshold":7.819642097165966,"num-candidates":357689,"num-frequent-episodes":597,"rules":[{"confidence-threshold":0.0,"duration-s":1.96490000021754e-05,"num-confident-association-rules":0},{"confidence-threshold":0.2,"duration-s":1.613499999564283e-05,"num-confident-association-rules":0},{"confidence-threshold":0.4,"duration-s":1.5861000001393677e-05,"num-confident-association-rules":0},{"confidence-threshold":0.6000000000000001,"duration-s":1.5971999999919717e-05,"num-confident-association-rules":0},{"confidence-threshold":0.8,"duration-s":1.5824000001884997e-05,"num-confident-association-rules":0},{"confidence-threshold":1.0,"duration-s":1.603000000471866e-05,"num-confident-association-rules":0}],"status":"timeout","window-width":900}]
+[
+  {
+    "duration-s": 0.149528821,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 20000.0,
+    "num-candidates": 1325,
+    "num-frequent-episodes": 9,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 9.876000000019758e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 7.819999999991722e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 7.795000000004881e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 8.182999999994944e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 7.969999999996036e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 8.150000000012314e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.17066577700000002,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 14000.0,
+    "num-candidates": 15476,
+    "num-frequent-episodes": 168,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00013587699999995095,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.00013313199999998027,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00012799399999996464,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.00014172499999998145,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.00014121699999997128,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.00013374100000002054,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.351116054,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 9800.0,
+    "num-candidates": 71901,
+    "num-frequent-episodes": 538,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0011671840000000433,
+        "num-confident-rules": 330
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0011649679999999885,
+        "num-confident-rules": 330
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00113884799999997,
+        "num-confident-rules": 330
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.0011498399999999576,
+        "num-confident-rules": 215
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.001025396999999928,
+        "num-confident-rules": 5
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.0010440600000000133,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.712507944,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 6860.0,
+    "num-candidates": 181964,
+    "num-frequent-episodes": 1795,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.012381156000000004,
+        "num-confident-rules": 4460
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.01301037000000016,
+        "num-confident-rules": 4460
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.011909833999999897,
+        "num-confident-rules": 4098
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.010755467000000074,
+        "num-confident-rules": 1836
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.009824810999999878,
+        "num-confident-rules": 386
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.009105482000000054,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 1.0731498110000002,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 4802.0,
+    "num-candidates": 282748,
+    "num-frequent-episodes": 6190,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.13437122099999987,
+        "num-confident-rules": 41412
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.1260224299999999,
+        "num-confident-rules": 41405
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.12819298700000026,
+        "num-confident-rules": 29130
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.12576470199999967,
+        "num-confident-rules": 15636
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.11082622099999995,
+        "num-confident-rules": 4131
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.1000417330000003,
+        "num-confident-rules": 22
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 1.8507000510000005,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 3361.0,
+    "num-candidates": 449971,
+    "num-frequent-episodes": 20861,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.0510577979999995,
+        "num-confident-rules": 285910
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 1.015433024000001,
+        "num-confident-rules": 276912
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.8936348410000008,
+        "num-confident-rules": 182919
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.819962438000001,
+        "num-confident-rules": 91468
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.7531770370000004,
+        "num-confident-rules": 26751
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.6997554389999987,
+        "num-confident-rules": 412
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 3.093021631000001,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 2352.0,
+    "num-candidates": 589606,
+    "num-frequent-episodes": 66315,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.708208312,
+        "num-confident-rules": 1683000
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 5.829427472999999,
+        "num-confident-rules": 1489718
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 6.6687978609999945,
+        "num-confident-rules": 936650
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 4.575438106,
+        "num-confident-rules": 447365
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 3.5651924920000013,
+        "num-confident-rules": 140137
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 4.920937144,
+        "num-confident-rules": 5634
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 5.944877140000003,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1646.0,
+    "num-candidates": 872762,
+    "num-frequent-episodes": 193469,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 31.097856492,
+        "num-confident-rules": 8624560
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 22.110894415999994,
+        "num-confident-rules": 7272950
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 18.578918113000015,
+        "num-confident-rules": 4227269
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 16.164384987999995,
+        "num-confident-rules": 1974081
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 14.038073746999999,
+        "num-confident-rules": 649757
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 13.212192618000017,
+        "num-confident-rules": 50584
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 12.044944200999993,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1152.0,
+    "num-candidates": 1255154,
+    "num-frequent-episodes": 531999,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 121.48913456799997,
+        "num-confident-rules": 40429200
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 113.21178778899997,
+        "num-confident-rules": 31988965
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 94.144701714,
+        "num-confident-rules": 17591937
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 81.81351917300003,
+        "num-confident-rules": 8120392
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 72.61014067300005,
+        "num-confident-rules": 2872263
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 69.367548005,
+        "num-confident-rules": 379124
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.16490685800000016,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 21.0,
+    "num-candidates": 1686,
+    "num-frequent-episodes": 28,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.5380000000074787e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 2.2789999999828225e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 2.219100000022678e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 2.2337999999955116e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 2.2234000000009857e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 2.2374000000269234e-05,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 1.4731440139999998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 14.0,
+    "num-candidates": 35316,
+    "num-frequent-episodes": 2742,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.09344513800000032,
+        "num-confident-rules": 23734
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.09864658199999976,
+        "num-confident-rules": 23734
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.1258910219999998,
+        "num-confident-rules": 23734
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.09164373499999989,
+        "num-confident-rules": 23459
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.07713224000000007,
+        "num-confident-rules": 15576
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.05933732199999975,
+        "num-confident-rules": 2888
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 17.478952749999998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 9.0,
+    "num-candidates": 224758,
+    "num-frequent-episodes": 68143,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 14.626826713,
+        "num-confident-rules": 2685118
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 12.210394605000005,
+        "num-confident-rules": 2685118
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 10.323066113000003,
+        "num-confident-rules": 2678363
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 9.198862813000005,
+        "num-confident-rules": 1913179
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 6.842364165000006,
+        "num-confident-rules": 818871
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 8.401199828000003,
+        "num-confident-rules": 191525
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.147774847,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 22.79779037074626,
+    "num-candidates": 1325,
+    "num-frequent-episodes": 9,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 9.895000000037513e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 8.06399999975227e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 7.67999999995439e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 7.750999999833752e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 7.564999999987165e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 7.725999999985689e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.46268262999999976,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 15.958453259522381,
+    "num-candidates": 15476,
+    "num-frequent-episodes": 168,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00012524999999996567,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.00012091899999999711,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00012150000000010763,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.00012204700000006952,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.00012158899999992201,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.00012139200000005346,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 1.472532599,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 11.170917281665666,
+    "num-candidates": 57896,
+    "num-frequent-episodes": 336,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00029120200000010144,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.00029308500000002624,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00028308999999993034,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.00031131499999981216,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.0003533540000000279,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.00035045800000022,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 3.608656318,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 7.819642097165966,
+    "num-candidates": 179783,
+    "num-frequent-episodes": 597,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0005010690000002427,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.00046924100000023117,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00045873999999912485,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.0004573530000007153,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.0004580880000002452,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.000457571000000101,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 5.227906345,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 5.473749468016176,
+    "num-candidates": 272496,
+    "num-frequent-episodes": 736,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0005400490000013747,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0005404509999991092,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.0005431769999990621,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.0005543089999999751,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.0005342999999999876,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.0005371210000006954,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 6.295228442000001,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 3.8316246276113226,
+    "num-candidates": 415785,
+    "num-frequent-episodes": 910,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0006731620000017813,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0006604579999986981,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.000666281000000879,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.000677231000000944,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.0006691639999978349,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.0006688829999994539,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 8.2978819,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 2.6821372393279255,
+    "num-candidates": 490835,
+    "num-frequent-episodes": 989,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0007213809999981891,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0007255919999984428,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.0007757670000003714,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.0007320659999976442,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.000720526000002053,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.0007599430000020391,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.195903989,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 20000.0,
+    "num-candidates": 1361,
+    "num-frequent-episodes": 9,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.140999999983295e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 1.1530000000037344e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 1.1080000000274204e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 1.1340000000137351e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 1.1070000000001912e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 1.1429999999812424e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.634254289,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 14000.0,
+    "num-candidates": 29504,
+    "num-frequent-episodes": 168,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 5.652999999994357e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 4.608999999988761e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 4.663000000015849e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 4.628000000006516e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 4.625999999952057e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 4.6120000000149375e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 2.781502978,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 9800.0,
+    "num-candidates": 141905,
+    "num-frequent-episodes": 386,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 4.1092000000020334e-05,
+        "num-confident-rules": 22
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 2.979199999986193e-05,
+        "num-confident-rules": 22
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 2.9490000000187422e-05,
+        "num-confident-rules": 22
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 2.7603000000375744e-05,
+        "num-confident-rules": 14
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 2.1250000000083702e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 2.1369000000159843e-05,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 8.126802753,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 6860.0,
+    "num-candidates": 357876,
+    "num-frequent-episodes": 879,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0005252470000005616,
+        "num-confident-rules": 572
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0005113990000005231,
+        "num-confident-rules": 572
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.00048154600000138714,
+        "num-confident-rules": 487
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.00029388100000105055,
+        "num-confident-rules": 41
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.000300263999999828,
+        "num-confident-rules": 1
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.0002693839999992065,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.2126021859999998,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 21.0,
+    "num-candidates": 2064,
+    "num-frequent-episodes": 28,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.5570000001806648e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 1.539999999522479e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 1.5599999994009295e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 1.5839999996103415e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 1.5529999988217469e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 1.6239999993672427e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 2.064639757,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 14.0,
+    "num-candidates": 62429,
+    "num-frequent-episodes": 503,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0007955349999999584,
+        "num-confident-rules": 560
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.0008862339999993196,
+        "num-confident-rules": 560
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.0007927089999988368,
+        "num-confident-rules": 560
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.0008026300000008035,
+        "num-confident-rules": 540
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.0006597340000009666,
+        "num-confident-rules": 226
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.00045407300000022133,
+        "num-confident-rules": 14
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 9.408059811,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 9.0,
+    "num-candidates": 288435,
+    "num-frequent-episodes": 3574,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.03052194499999672,
+        "num-confident-rules": 12012
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 0.035424752000000836,
+        "num-confident-rules": 12012
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 0.029364221000001578,
+        "num-confident-rules": 11891
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 0.024306288000001786,
+        "num-confident-rules": 6378
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 0.01901507099999833,
+        "num-confident-rules": 1677
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 0.01841571799999997,
+        "num-confident-rules": 204
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.1775885620000004,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 22.79779037074626,
+    "num-candidates": 1361,
+    "num-frequent-episodes": 9,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.6089999981261371e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 1.1900000025377722e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 1.1350000015397654e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 1.1399999984007536e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 1.1350000015397654e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 1.148999999145417e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 0.9509489970000011,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 15.958453259522381,
+    "num-candidates": 29504,
+    "num-frequent-episodes": 168,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 7.602000000161979e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 4.884999999177353e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 4.938000000009879e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 4.8839999990946126e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 4.870000001488961e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 4.898000000252978e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 3.242529092999998,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 11.170917281665666,
+    "num-candidates": 114176,
+    "num-frequent-episodes": 336,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.1566000001295151e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 9.635999997925637e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 9.586999997424073e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 9.579000000314863e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 9.56100000237825e-06,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 9.602000002217892e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 12.888091414000002,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 7.819642097165966,
+    "num-candidates": 357689,
+    "num-frequent-episodes": 597,
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.5597999997396528e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.2,
+        "duration-s": 1.4291000006494414e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.4,
+        "duration-s": 1.435500000468437e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.6000000000000001,
+        "duration-s": 1.4327999998897667e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 0.8,
+        "duration-s": 1.4265000004343165e-05,
+        "num-confident-rules": 0
+      },
+      {
+        "confidence-threshold": 1.0,
+        "duration-s": 1.4322999994931251e-05,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "timeout",
+    "window-width": 900
+  }
+]
