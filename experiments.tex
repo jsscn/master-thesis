@@ -418,9 +418,9 @@ Alongside the performance experiments, we ran the closed episode miner on some o
 
 \section{Correctness}
 
-Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation, until we got to a point where we were convinced that our implementation was correct. We did find, however, a possible bug in the closed episode miner as well. We didn't deeply investigate the issue, but we'll report what we found.
+Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation. We did find, however, a possible bug in the closed episode miner. We didn't deeply investigate the issue, but we'll report what we found.
 
-When mining parallel episodes in the example sequence (figure~\ref{event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has the greater weight. Our implementation seems to correctly select the window with the highest weight, while the closed episode miner seems to choose the first window, which is longer.
+When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
 
 \begin{table}
 \centering
@@ -452,20 +452,37 @@ We'll generate all episodes using all of the frequency measures we implemented.
 \section{Comparing with cohesive-episode miner}
 
 
-We'll do a comparative study with two implementations of mining algorithms that use different, non-frequency interestingness measures.
+We'll carry out a comparative study with two implementations of mining algorithms that use interestingness measures not based on frequency.
 
-The first interestingness measure is called \emph{cohesion}, introduced in~\citep{cule2016efficient}. The cohesiveness of an episode/itemset expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
+\citep{cule2016efficient} introduced an interestingness interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
-We won't go into detail on the mining algorithm, but we'll take a look at the interestingness measure to see how it compares to the measures we considered.
+We won't go into detail on the mining algorithm, but we'll take a look at the measure itself, to see how it compares to the measures we implemented.
 
+Intuitively, an episode is deemed cohesive in regard to a sequence if its minimal minimal windows are small on average; that is, on average the events that constitute an occurrence are close to each other.
+
+Recall that the weighted-window frequency also takes into account the size of the minimal windows---it lends more weight to smaller windows. There is an important distinction, though:
+\begin{itemize}
+\item The weighted-window frequency assigns a weight to each minimal window (the inverse of its width) and sums the weights.
+\item The cohesion is inversely proportional to the average width of the windows.
+\end{itemize}
+
+So, with the weighted-window frequency, a pattern that occurs often has an advantage over a less frequent pattern. With cohesion, that is not the case.
+
+Additionally, the cohesion doesn't disadvantage larger patterns, as frequency measures inherently do due to their monotonic nature. The cohesion is proportional to the size of the pattern, which addresses the fact that larger patterns naturally have larger minimal windows.
+
+While cohesiveness is not frequency-based, there is a frequency aspect, still: to combat the pattern explosion inherent to data mining, the event types that make up a cohesive episode should be frequent in the sequence, by a given threshold. Event types that don't have enough support won't appear in any pattern.
+
+The \emph{cohesion} of an episode $ \alpha $ is defined as
+\begin{align*}
+C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
+\end{align*}
+where $ \overline{W}(\alpha) $ is the average size of the minimal occurrences of $ \alpha $.
+
+\iffalse
 Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
 \begin{align*}
 N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
 \end{align*}
-
-% The support of an event type $ A $ is $ | N(\{ A \}) | $.
-
-To evaluate the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, first a measure of 
 
 The definition of the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $ depends on the \emph{size of the minimal occurrence of $ \alpha $} around a given timestamp $ t $:
 \begin{align*}
@@ -481,6 +498,7 @@ The \emph{cohesion} of $ \alpha $ is then defined as
 \begin{align*}
 C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
 \end{align*}
+\fi
 
-A quantile-based approach in~\citep{feremans2018mining}.
+In~\cite{cule2016efficient}, the cohesion of a pattern is determined by the mean width of the minimal windows. Means are known to be unstable in case of outliers, though. So for instance, if one window is significantly wider than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the cohesion of a pattern is determined by the percentage of minimal windows smaller than a certain threshold.
 

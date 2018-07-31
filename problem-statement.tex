@@ -605,7 +605,7 @@ We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of 
 \frac1{b - a}
 \end{align*}
 
-Given a set of windows $ W $, the \emph{total weight} of the windows is the sum of all the weights:
+Given a set of windows $ W $, the \emph{total weight} of $ W $ is the sum of all the weights:
 \begin{align*}
 \sum_{[a,b) \in W} \frac1{b - a}
 \end{align*}
@@ -622,7 +622,7 @@ The weight of a window is the inverse of its width because an occurrence giving 
 
 \section{Association rules}
 
-We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. Perhaps the occurrence of certain event types give rise to the occurrence of certain other event types. \emph{Association rules} allow us to find such correlations, similarly to association rules in itemset mining \citep{piatetsky1991discovery}.
+We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. Perhaps the occurrence of certain event types give rise to the occurrence of certain other event types. Association rules allow us to find such correlations, similarly to association rules in itemset mining \citep{piatetsky1991discovery}.
 
 % TODO ^ check if this is the right thing to cite here? ^
 % TODO cite something with itemset mining? who introduced association rules there?
@@ -631,11 +631,13 @@ We've quantified the interestingness of patterns in different ways. Besides expr
 Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
 \end{definition}
 
-An association rule $ \alpha \Rightarrow \beta $ can be read as \emph{$ \alpha $ leads to $ \beta $}. More precisely, \emph{an occurrence of $ \alpha $ leads to an occurrence of $ \beta $}. Or, \emph{if we find an occurrence of $ \alpha $, then we'll find an occurrence of $ \beta $ nearby}.
+An association rule $ \alpha \Rightarrow \beta $ can be read as \emph{an occurrence of $ \alpha $ leads to an occurrence of $ \beta $}. Or, \emph{if we find an occurrence of $ \alpha $, then we are likely to find an occurrence of $ \beta $ nearby}.
 
-If we state that $ \alpha \Rightarrow \beta $, we must be \emph{confident} stating it. So we want to be able to express \emph{how} confident we are about the statement, and define \emph{confidence measures} to quantify this confidence. We will introduce the measures in section~\ref{sec:interestingness-measures-association-rules}.
+If we state that $ \alpha \Rightarrow \beta $ holds in the context of a sequence, we must be confident stating it. And so, we want to be able to express \emph{how} confident we are about that statement, and define \emph{confidence measures} to quantify this confidence. We will introduce a number of measures in section~\ref{sec:interestingness-measures-association-rules}.
 
-Typical algorithms (including ours) only consider association rules consisting of episodes that are frequent in the sequence. It should be noted, though, that association rules consisting of infrequent episodes can be confident as well. But those are much harder to find. The main reason for only considering frequent episodes is to limit the number of candidates to have tractable mining algorithms---and so we work under the assumption that association rules are only interesting if they consist of interesting episodes.
+The purpose of the search for confident association rules is to find episodes $ \alpha $ which are good predictors of superepisodes $ \beta $.
+
+Typical algorithms (including ours) only consider association rules consisting of episodes that are frequent in the sequence---episodes that were mined from the sequence. It should be noted, though, that association rules consisting of infrequent episodes can be confident as well. But those are much harder to find. The main reason for only considering frequent episodes is to limit the number of candidates to make mining algorithms tractable. Therefore we work under the assumption that association rules are only interesting if they consist of interesting episodes.
 
 \section{Confidence measures for association rules}
 \label{sec:interestingness-measures-association-rules}

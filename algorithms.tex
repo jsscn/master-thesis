@@ -1021,112 +1021,6 @@ If we have determined that there are enough events in consideration to form a ne
 
 % TODO explain the preceding a bit better maybe
 
-[TODO add example figure]
-
-\iffalse
-\begin{figure}
-\centering
-
-\begin{tikzpicture}
-
-\sequencetickmarks{7}{0}{0}
-\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/b,5/c,6/b,7/a}
-
-\windowthingy{(0,-5pt)}{2}
-\windowthingy{(0.5,-10pt)}{2}
-\windowthingy{(1,-5pt)}{2}
-\windowthingy{(2.5,-5pt)}{2}
-
-\end{tikzpicture}
-
-\caption{All of the minimal windows of $ \{ a, b \} $ in the sequence.}
-\label{fig:rec-par-mwi-example}
-\end{figure}
-\fi
-
-\subsection{Notes on the implementation}
-
-We need random access into the queues in order to find the start of a minimal window (line~\ref{alglin:rec-par-mwi:find-window-start}). The queues should therefore be implemented with a circular buffer.
-
-
-\section{Finding all minimal windows of serial episodes}
-\label{sec:rec-ser-mwi}
-
-\begin{algorithm}
-
-\caption{Recognizing serial episodes using the minimal window frequency measure. \\
-Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
-Ouptut: All episodes in $ \mathcal{C} $, along with all minimal windows of each episode (including overlapping windows).
-}
-
-\begin{algorithmic}[1]
-
-\ForAll{$ \alpha \in \mathcal{C} $} \Comment{Initialization}
-    \For{$ i \leftarrow 1 $ to $ | \alpha | $}
-        \State{$ \alpha \text{.initialized}[i] \leftarrow \text{\textit{uninitialized}} $}
-        \State{$ \text{waits}(\alpha[i]) \leftarrow \emptyset $}
-    \EndFor
-\EndFor
-
-\ForAll{$ \alpha \in \mathcal{C} $}
-    \State{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $} \label{alglin:rec-ser-mwi:fill-waits-init}
-    \State{$ \alpha \text{.minimal\_windows} \gets \emptyset $}
-\EndFor
-
-\For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
-\EndFor
-\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence} \Comment{Recognition}
-    \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
-    \State{$ \text{transitions} \leftarrow \emptyset $}
-    \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $} \label{alglin:rec-ser-mwi:cleanup-for}
-        \If{$ l < | \alpha | $} \label{alglin:rec-ser-mwi:cleanup-iteration-begin}
-            \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
-        \EndIf
-        \State{$ \alpha \text{.initialized}[l] \leftarrow \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:cleanup-iteration-end}
-    \EndFor
-    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-ser-mwi:iterate-new-events}
-        \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
-            \If{$ j = 1 $} \label{alglin:rec-ser-mwi:add-to-transitions}
-                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \rho - 1 ) \} $}
-            \Else
-                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
-                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-mwi:cleanup-old-states}
-                \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
-                \State{$ \alpha \text{.initialized} [j - 1] \leftarrow \text{\textit{uninitialized}} $}
-                \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
-            \EndIf
-        \EndFor
-    \EndFor
-    \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
-        \If{$ \alpha \text{.initialized}[j] \neq \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:added-line-1} \label{alglin:rec-ser-mwi:transition-begin}
-            \State $ \text{begins\_at}(\alpha \text{.initialized}[j]) \gets \text{begins\_at}(\alpha \text{.initialized}[j]) \setminus \{ (\alpha, j) \} $ \label{alglin:rec-ser-mwi:added-line-2}
-        \EndIf
-        \State{$ \alpha \text{.initialized} [j] \leftarrow t $}
-        \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
-        \If{$ j = | \alpha | $}
-            \State $ \alpha \text{.minimal\_windows} \gets $
-            \State \hspace{\algorithmicindent} $ \alpha \text{.minimal\_windows} \cup \{ [\alpha \text{.initialized}[j], \text{start} + \rho) \} $
-        \Else
-            \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-mwi:transition-end}
-        \EndIf
-    \EndFor
-\EndFor
-
-\end{algorithmic}
-
-\label{alg:rec-ser-mwi}
-\end{algorithm}
-
-While finding the minimal windows of parallel episodes was slightly more complicated than finding their fixed-window frequency, finding the minimal windows of serial episodes is actuallly simpler than finding their fixed-window frequency, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
-
-Algorithm~\ref{alg:rec-ser-mwi} accomplishes recognition of serial episodes using the minimal window frequency measure.
-
-Once an automaton instance for an episode $ \alpha $ has reached state $ | \alpha | $, we know immediately where a minimal window starts and ends---it starts at the point where the automaton was initialized, and ends at the front of the current sliding window: $ \boldsymbol{s}[\alpha \text{.initialized}[| \alpha |], \allowbreak \text{start} + \rho) $. So, in contrast to the situation for fixed windows, now there is no second phase in which to keep track of the displacement of the sliding window, and therefore the \emph{in\_window} variable isn't needed.
-
-In this adaptation, old events are removed before new ones are processed, because the situation explained in footnote~\ref{footnote:false-recognition} on page~\pageref{footnote:false-recognition} would become a problem when the frequency isn't determined by the displacement of the sliding window anymore.
-
-% As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition of such an  will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
-
 Figure~\ref{fig:parallel-minimal-recognition} shows how the algorithm finds the minimal windows of an episode $ \{ a, a, b \} $ in an example sequence.
 
 \begin{figure}
@@ -1234,6 +1128,89 @@ Figure~\ref{fig:parallel-minimal-recognition} shows how the algorithm finds the 
 \caption{Recognition of parallel episode $ \alpha = \{ a, a, b \} $, finding its minimal windows in the sequence. Black dots are timestamps that don't contain $ a $ or $ b $.}
 \label{fig:parallel-minimal-recognition}
 \end{figure}
+
+\subsection{Notes on the implementation}
+
+We need random access into the queues in order to find the start of a minimal window (line~\ref{alglin:rec-par-mwi:find-window-start}). The queues should therefore be implemented with a circular buffer.
+
+
+\section{Finding all minimal windows of serial episodes}
+\label{sec:rec-ser-mwi}
+
+\begin{algorithm}
+
+\caption{Recognizing serial episodes using the minimal window frequency measure. \\
+Input: An array of serial episodes $ \mathcal{C} $, an event sequence $ \boldsymbol{s} = (s, T_s, T_e) $, a window width $ \rho $, and a frequency threshold \textit{min\_fr}. \\
+Ouptut: All episodes in $ \mathcal{C} $, along with all minimal windows of each episode (including overlapping windows).
+}
+
+\begin{algorithmic}[1]
+
+\ForAll{$ \alpha \in \mathcal{C} $} \Comment{Initialization}
+    \For{$ i \leftarrow 1 $ to $ | \alpha | $}
+        \State{$ \alpha \text{.initialized}[i] \leftarrow \text{\textit{uninitialized}} $}
+        \State{$ \text{waits}(\alpha[i]) \leftarrow \emptyset $}
+    \EndFor
+\EndFor
+
+\ForAll{$ \alpha \in \mathcal{C} $}
+    \State{$ \text{waits}(\alpha[1]) \leftarrow \text{waits}(\alpha[1]) \cup \left\{ \left( \alpha, 1 \right) \right\} $} \label{alglin:rec-ser-mwi:fill-waits-init}
+    \State{$ \alpha \text{.minimal\_windows} \gets \emptyset $}
+\EndFor
+
+\For{$ t \leftarrow T_s - \rho $ to $ T_s - 1 $} $ \text{begins\_at}(t) \leftarrow \emptyset $
+\EndFor
+\For{$ \text{start} \leftarrow T_s - \rho + 1 $ to $ T_e $} \label{alglin:rec-ser-mwi:iterate-sequence} \Comment{Recognition}
+    \State{$ \text{begins\_at}(\text{start} + \rho - 1) \leftarrow \emptyset $}
+    \State{$ \text{transitions} \leftarrow \emptyset $}
+    \ForAll{$ (\alpha, l) \in \text{begins\_at}(\text{start} - 1) $} \label{alglin:rec-ser-mwi:cleanup-for}
+        \If{$ l < | \alpha | $} \label{alglin:rec-ser-mwi:cleanup-iteration-begin}
+            \State{$ \text{waits}(\alpha [l + 1]) \leftarrow \text{waits}(\alpha [l + 1]) \setminus \{ ( \alpha, l + 1 ) \} $}
+        \EndIf
+        \State{$ \alpha \text{.initialized}[l] \leftarrow \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:cleanup-iteration-end}
+    \EndFor
+    \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} + \rho - 1 $} \label{alglin:rec-ser-mwi:iterate-new-events}
+        \ForAll{$ ( \alpha, j) \in \text{waits}(A) $}
+            \If{$ j = 1 $} \label{alglin:rec-ser-mwi:add-to-transitions}
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ ( \alpha, 1, \text{start} + \rho - 1 ) \} $}
+            \Else
+                \State{$ \text{transitions} \leftarrow \text{transitions} \cup \{ \alpha, j, \alpha \text{.initialized} [j - 1] \} $}
+                \State{$ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \leftarrow $ \label{alglin:rec-ser-mwi:cleanup-old-states}
+                \State \hspace{\algorithmicindent} $ \text{begins\_at}( \alpha \text{.initialized}[j - 1] ) \setminus \{ ( \alpha, j - 1 ) \} $}
+                \State{$ \alpha \text{.initialized} [j - 1] \leftarrow \text{\textit{uninitialized}} $}
+                \State{$ \text{waits}(A) \leftarrow \text{waits}(A) \setminus \{ ( \alpha, j ) \} $}
+            \EndIf
+        \EndFor
+    \EndFor
+    \ForAll{$ ( \alpha, j, t ) \in \text{transitions} $}
+        \If{$ \alpha \text{.initialized}[j] \neq \text{\textit{uninitialized}} $} \label{alglin:rec-ser-mwi:added-line-1} \label{alglin:rec-ser-mwi:transition-begin}
+            \State $ \text{begins\_at}(\alpha \text{.initialized}[j]) \gets \text{begins\_at}(\alpha \text{.initialized}[j]) \setminus \{ (\alpha, j) \} $ \label{alglin:rec-ser-mwi:added-line-2}
+        \EndIf
+        \State{$ \alpha \text{.initialized} [j] \leftarrow t $}
+        \State{$ \text{begins\_at}(t) \leftarrow \text{begins\_at}(t) \cup \{ ( \alpha, j ) \} $}
+        \If{$ j = | \alpha | $}
+            \State $ \alpha \text{.minimal\_windows} \gets $
+            \State \hspace{\algorithmicindent} $ \alpha \text{.minimal\_windows} \cup \{ [\alpha \text{.initialized}[j], \text{start} + \rho) \} $
+        \Else
+            \State{$ \text{waits}(\alpha [j + 1]) \leftarrow \text{waits}(\alpha [j + 1]) \cup \{ (\alpha, j + 1) \} $} \label{alglin:rec-ser-mwi:transition-end}
+        \EndIf
+    \EndFor
+\EndFor
+
+\end{algorithmic}
+
+\label{alg:rec-ser-mwi}
+\end{algorithm}
+
+While finding the minimal windows of parallel episodes was slightly more complicated than finding their fixed-window frequency, finding the minimal windows of serial episodes is actuallly simpler than finding their fixed-window frequency, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
+
+Algorithm~\ref{alg:rec-ser-mwi} accomplishes recognition of serial episodes using the minimal window frequency measure.
+
+Once an automaton instance for an episode $ \alpha $ has reached state $ | \alpha | $, we know immediately where a minimal window starts and ends---it starts at the point where the automaton was initialized, and ends at the front of the current sliding window: $ \boldsymbol{s}[\alpha \text{.initialized}[| \alpha |], \allowbreak \text{start} + \rho) $. So, in contrast to the situation for fixed windows, now there is no second phase in which to keep track of the displacement of the sliding window, and therefore the \emph{in\_window} variable isn't needed.
+
+In this adaptation, old events are removed before new ones are processed, because the situation explained in footnote~\ref{footnote:false-recognition} on page~\pageref{footnote:false-recognition} would become a problem when the frequency isn't determined by the displacement of the sliding window anymore.
+
+% As we discussed in footnote~\ref{footnote:false-recognition}, the recognition algorithms for fixed windows recognize occurrences of widths up to $ \rho + 1 $ because new events are processed before old events are dropped. There, that's not a problem since the recognition of such an  will result in a sliding window displacement of $ 0 $, such that the frequency count of a falsely recognized episode isn't affected. Here, that would not work though, because we don't determine frequency based on sliding window displacement anymore. Therefore we remove old events before letting new events enter the sliding window.
 
 \section{Determining the weighted-window frequency}
 
