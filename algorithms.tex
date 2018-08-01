@@ -836,8 +836,7 @@ Collecting all transitions to be peformed at a given timestamp before executing 
 
 Like algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in order to be able to look up information efficiently. More specifically for \emph{waits}. Again, lookup is important, traversal is not. Therefore, again, a hash-based data structure is the best choice.
 
-While at first sight, the \emph{begins\_at} data structure might seem best-suited for key-value storage as well, note that it only needs to contain information about the subsequent timestamps currently in the window $ [\text{start} - 1, \text{start} + \rho) $. So, the $ \rho + 1 $ sets can be accessed in constant-time complexity using a circular buffer. Each time the sliding window is advanced, the oldest information is dropped to make room for new information. With a 1-indexed buffer, $ \text{begins\_at}(t) $ can be accessed with index $ (t - \text{start} + 2) $.
-
+While at first sight, the \emph{begins\_at} data structure might seem best-suited for key-value storage as well, note that it only needs to contain information about the subsequent timestamps currently in the window $ [\text{start} - 1, \text{start} + \rho) $. So, the $ \rho + 1 $ sets can be accessed in constant-time complexity using a circular array\footnote{\url{https://en.wikipedia.org/wiki/Circular_buffer}}. Each time the sliding window is advanced, the oldest information is dropped to make room for new information. With a 1-indexed buffer, $ \text{begins\_at}(t) $ can be accessed with index $ (t - \text{start} + 2) $.
 
 
 \section{Determining the disjoint-window frequency}
@@ -1131,7 +1130,7 @@ Figure~\ref{fig:parallel-minimal-recognition} shows how the algorithm finds the 
 
 \subsection{Notes on the implementation}
 
-We need random access into the queues in order to find the start of a minimal window (line~\ref{alglin:rec-par-mwi:find-window-start}). The queues should therefore be implemented with a circular buffer.
+We need random access into the queues in order to find the start of a minimal window (line~\ref{alglin:rec-par-mwi:find-window-start}). The queues should therefore be implemented with a circular array.
 
 
 \section{Finding all minimal windows of serial episodes}

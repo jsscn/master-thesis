@@ -50,6 +50,8 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 
 We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority occurring very rarely. Note that the graphs don't show all event types, although for \emph{abstract} and \emph{trains} the event types at the right end occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
+Table~\ref{table:most-frequent-event-types} contains the most frequent words (event types) in datasets \emph{abstract} and \emph{tolstoy}, including the exact number of times they appear in the sequence. This information already gives a sense of which event types are most frequent, and we can expect to see them appear in episodes.
+
 \begin{figure}
 \centering
 
@@ -168,22 +170,28 @@ includ  (250) & good (507) \\
 \end{table}
 
 \section{Performance}
+\label{sec:performance}
 
 To assess the efficiency of the algorithm, we inspect the runtime for different input parameters: comparing both episode classes, the frequency measures, while varying the window width and the frequency and confidence thresholds.
 
 The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
 
 \begin{itemize}
-\item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold.
+\item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold. For example, with a multiplier of 0.90, the next threshold is always 10\% smaller than the last.
 \item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequenciy thresholds for that combination of episode class, frequency measure, and window width are skipped, as they will take at least as much time and memory as the current threshold.
 \end{itemize}
 
-All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5}.
+Because it turned wasn't trivial to limit memory directly, we experimentally settled on a limit to the number of candidates that should be considered at once. For the machine we ran the experiments on, it turned out that after about 2.5~million candidates the system would start suffering under memory pressure.
+
+All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5. All C++ code compiled with Clang~900.0.39.2 from LLVM~9.0. All Java code ran with Java~SE~1.8.}.
 
 
 \subsection{Episodes}
+\label{sec:performance-episodes}
 
 We would like to compare the efficiency for the different frequency measures across a range of frequency thresholds. However we should not evaluate the runtimes as a function of the frequency threshold directly, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for otherwise equal parameters (including thresholds), the weighted-window frequency will produce a subset of the disjoint-window frequency. Instead we can compare runtimes as a function of the number of frequent episodes.
+
+
 
 \iffalse
 \begin{tikzpicture}
@@ -348,7 +356,7 @@ We would like to compare the efficiency for the different frequency measures acr
 
 \subsection{Association rules}
 
-Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating association rules from \emph{trains} using different episode classes, a number of confidence thresholds, and across borders % TODO fix
+Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating association rules from \emph{trains} using different episode classes, as a function of the number of frequent episodes. Some weird results though % TODO fix
 
 \begin{figure}
 
@@ -406,7 +414,7 @@ Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating associa
 
 \subsection{Number of candidate episodes versus number of frequent episodes}
 
-The database passes are an expensive---if not the most expensive---part of the mining algorithm. Comparing the number of frequent episodes in the output to the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
+The database passes are an expensive---if not the most expensive---part of the mining algorithm. Plotting the number of frequent episodes in the output and the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
 
 \subsection{Comparing the frequency measures}
 
@@ -449,12 +457,48 @@ We consider the example sequence of the example in figure~\ref{fig:event-sequenc
 
 We'll generate all episodes using all of the frequency measures we implemented.
 
-\section{Comparing with cohesive-episode miner}
+\section{Comparing the different confidence measures}
 
+The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by a disjoint-window frequency threshold will generate association rules by  minimal-window confidence threshold.
+
+\section{Comparing with cohesive-episode miner}
 
 We'll carry out a comparative study with two implementations of mining algorithms that use interestingness measures not based on frequency.
 
-\citep{cule2016efficient} introduced an interestingness interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
+Anti-monotonic freausncy measures inherently put larger episodes at a disadvantage, since an episode is never more frequent than any of its subepisodes. This has a few effects:
+\begin{itemize}
+\item $ (l + 1) $-episodes will generally score lower than $ l $-episodes, so larger episodes will tend to be ranked lower than smalles ones.
+\item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
+\end{itemize}
+We can clearly see the second effect if we plot the number of frequent episodes grouped by size (figure~\ref{fig:episode-frequencies-by-size}, for one of the experiments performed in section~\ref{sec:performance-episodes}. We do see, however, that it helps to choose thresholds as low as possible, since the number of 5-episodes, for instance, rises significantly. Still, these episodes generally won't score highly, and so they won't do well when episodes are ranked.
+
+\begin{figure}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=outer north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    % ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{A plot of the number of episodes found across different thresholds, grouped by size. Parallel episodes generated from dataset \emph{abstract} using the fixed-window frequency measure.}
+\label{fig:episode-frequencies-by-size}
+\end{figure}
+
+\citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
 We won't go into detail on the mining algorithm, but we'll take a look at the measure itself, to see how it compares to the measures we implemented.
 
@@ -476,9 +520,11 @@ The \emph{cohesion} of an episode $ \alpha $ is defined as
 \begin{align*}
 C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
 \end{align*}
-where $ \overline{W}(\alpha) $ is the average size of the minimal occurrences of $ \alpha $.
+where $ \overline{W}(\alpha) $ is the average size of the minimal occurrences of $ \alpha $. Further details can be found in~\cite{cule2016efficient}.
 
 \iffalse
+% --- probably don't include any of this; what's currently in the paper is more than likely enough
+
 Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
 \begin{align*}
 N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
@@ -498,7 +544,8 @@ The \emph{cohesion} of $ \alpha $ is then defined as
 \begin{align*}
 C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
 \end{align*}
+% --- ---
 \fi
 
-In~\cite{cule2016efficient}, the cohesion of a pattern is determined by the mean width of the minimal windows. Means are known to be unstable in case of outliers, though. So for instance, if one window is significantly wider than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the cohesion of a pattern is determined by the percentage of minimal windows smaller than a certain threshold.
+In~\cite{cule2016efficient}, the cohesion of a pattern is determined by the mean width of the minimal windows. The mean has a number of downsides, though; one of which is that the mean of a distribution is unstable if there are outliers. So for instance, if one window is significantly wider than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the cohesion of a pattern is determined by the percentage of minimal windows smaller than a certain threshold.
 

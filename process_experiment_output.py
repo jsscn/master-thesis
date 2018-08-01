@@ -17,12 +17,26 @@ f = open(args.file_path)
 
 df = pd.read_json(f)
 
+f.seek(0)
+j = json.load(f)
+
+df.drop(['num-frequent-episodes-of-size', 'num-candidates-of-size'], axis='columns', inplace=True)
+
+largest_episode_size = max(len(run['num-frequent-episodes-of-size']) for run in j)
+
+columnize_frequent_episode_counts = defaultdict(list)
+
+for run in j:
+    for i in range(largest_episode_size):
+        episode_counts = run['num-frequent-episodes-of-size']
+
+        columnize_frequent_episode_counts['num-frequent-{}-episodes'.format(i + 1)].append(
+                episode_counts[i] if i < len(episode_counts) else 0)
+
+df = pd.concat([df, pd.DataFrame(columnize_frequent_episode_counts)], axis=1)
+
 if 'rules' in df:
     df.drop(['rules'], axis='columns', inplace=True)
-
-    f.seek(0)
-
-    j = json.load(f)
 
     # confidence_threshodls = j[0]['rules']
 
