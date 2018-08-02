@@ -1,11 +1,11 @@
 \chapter{Problem Statement}
 \label{sec:problem-statement}
 
-In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets---\emph{event sequences} composed of \emph{events}, each of a certain type and occurring at a certain time.
+In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets---\emph{event sequences} composed of \emph{events}, each event occurring at a certain point in time.
 
-Next, we define patterns, named \emph{episodes} in sequence pattern mining, and cover the classes of episodes we will be mining. We define several \emph{frequency measures} proposed by different researchers, which quantify how interesting an episode is, so that we can find the most interesting episodes in a sequence.
+Next, we define patterns, named \emph{episodes} in sequence pattern mining, and cover the classes of episodes we will be mining. We define several \emph{frequency measures} proposed by different researchers, which quantify how interesting an episode is, with the goal of finding the most interesting episodes in a sequence.
 
-Finally, from episodes we can construct \emph{association rules}, which can uncover correlations between the different events in an event sequence. On association rules, \emph{confidence measures} are defined, where high-scoring rules denote high correlation between events.
+Finally, from episodes we can construct \emph{association rules}, which can uncover correlations between the different events in an event sequence. On association rules, \emph{confidence measures} are defined, so that a high-scoring rule indicates a large correlation between events.
 
 \section{Event sequences}
 
@@ -390,7 +390,7 @@ Traditionally, the most common interpretation of \emph{interestingness} is frequ
 
 Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear. We will present three methods to measure the frequency of an episode. In a later section, we implement a mining algorithm based on them.
 
-In data mining, the main challenge is how to mine information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, patterns explosion is even worse than in itemset mining. However, we can employ a similar technique if we define \emph{monotonically decreasing} measures.
+In data mining, the main challenge is to find ways of mining information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, the search space is even larger, because an event type can occur any number of times in an episode. However, we can employ a similar technique if we define \emph{monotonically decreasing} frequency measures on episodes.
 
 \begin{definition}
 A frequency measure is \emph{monotonically decreasing} if each episode is at least as frequent as any of its superepisodes.
@@ -401,8 +401,9 @@ Given such a frequency measure, if we find an episode to be infrequent, then we 
 % All of the mining algorithms we implement use frequency-based interestingness measures. Later in this section we'll also briefly discuss some interestingness measures that are not based on frequency.
 
 \subsection{Fixed-window frequency}
+\label{sec:fixed-window-frequency}
 
-The first frequency measure we discuss was first proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
+The first frequency measure we discuss was originally proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
 
 \begin{definition}
 Given a window width $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of width $ \rho $ in $ \boldsymbol{s} $ covering the episode:
@@ -411,18 +412,20 @@ fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol
 \end{align*}
 \end{definition}
 
-At first sight, counting the number of windows which cover the episode seems like a good approach. After all, the percentage of fixed windows that contain an occurrence of an episode expresses the probability of finding the episode in an randomly chosen window. However, upon closer inspection, the frequency values for the fixed-window frequency are often counterintuitive, as they don't reflect very well how many occurrences there really are.
+Using this definition, we can find the probability of finding an occurrence of the episode in an randomly chosen window of width $ \rho $:
+\begin{align*}
+\frac{fr_f(\alpha, \boldsymbol{s})}{| \{ \boldsymbol{s}[t, t + \rho) \mid t \in [T_s - \rho + 1, T_e] \} |}
+\end{align*}
 
-Figure~\ref{fig:fwi-example} shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $. We can immediately see a few drawbacks to this definition of frequency.
+For a visual example of the fixed-window frequency of an episode, see figure~\ref{fig:fwi-example}. It shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $.
 
-\begin{itemize}
-\item The frequency values are highly dependent on the window width. If in the example, we were to choose a window width of $ 6 $ instead, then $ fr_f(\{ b, c, e, e \}) = 6 $ and $ fr_f(c \to f \to b) = 1 $.
-\item In the example we also see that the more an occurrence is spread out, the fewer windows of a certain width cover it, and consequently the lower the fixed-window frequency.
-\end{itemize}
+In event sequence mining, it is desirable for a frequency measure to give more weight to an occurrence that spans a shorter time range. The farther apart the events composing an occurrence, the more likely it is that the occurrence is accidental. Figure~\ref{fig:fwi-example} shows that the events for the serial episode are close together, such that a larger number of windows cover it, giving it a higher score than the parallel episode, where the events giving rise to the occurrence are more spread out, such that fewer windows cover the episode. So, the fixed-window frequency does have this covetable trait.
 
-In essence, one same occurrence may be counted multiple times without good reason, depending on the window size and the span of the occurrence.
+Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width---even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in the same window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less-frequent ones. While this doesn't affect the ranking of the episodes,
+it does mean that the frequency value itself isn't very meaningful.
+% it impacts the usability of the fixed-window frequency as an interval scale\footnote{\url{https://en.wikipedia.org/wiki/Level_of_measurement\#Interval_scale}}.
 
-% TODO ^ reword "without good reason" (too radical) ^
+Another consideration is that a lot of information about the contents of the windows is lost. Take the silly example of figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal, even though one would naturally say that the episode occurs many more times in figure~\ref{fig:many-events} than in figure~\ref{fig:few-events}. So, the size of a window
 
 \begin{figure}
 \centering
@@ -476,10 +479,43 @@ In essence, one same occurrence may be counted multiple times without good reaso
 \label{fig:fwi-example}
 \end{figure}
 
+\begin{figure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\end{tikzpicture}
+
+\caption{Few events.}
+\label{fig:few-events}
+\end{subfigure}
+
+\par\bigskip
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/b,5/a,6/b,7/a,8/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\end{tikzpicture}
+
+\caption{Many events.}
+\label{fig:many-events}
+\end{subfigure}
+
+\caption{Two sequences. With $ \rho \geq 9 $, the fixed-window frequency of $ \{ a, b \} $ is equal in both sequences.}
+\label{fig:many-vs-few-events}
+\end{figure}
 
 \subsection{Disjoint-window frequency}
 
-Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was put forward in~\citep{mannila1997discovery}, and was expanded upon in~\cite{laxman2005discovering} and \citep{laxman2007fast}.
+Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was already put forward in~\citep{mannila1997discovery}, and was expanded upon in~\cite{laxman2005discovering} and \citep{laxman2007fast}.
 
 \begin{definition} \label{def:minimal-window}
 Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a window $ \boldsymbol{s}[t_s, t_e) $ is called a \emph{minimal window} of $ \alpha $ in $ \boldsymbol{s} $, if:
@@ -492,9 +528,7 @@ Given a sequence $ s $, an episode $ \alpha $, and a natural number $ \rho $, a 
 We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define $ dis(W) $ to be true if all windows in $ W $ are pairwise disjoint, and false otherwise.
 \end{definition}
 
-Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
-
-Compared to the fixed-window frequency, $ | mw(\alpha) | $ brings us much closer to the actual number of occurrences of an episode $ \alpha $. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. We see that there is just one minimal window for each episode in this case.
+Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is mostly convenient for the mining algorithms.
 
 \begin{figure}
 \centering
@@ -582,9 +616,7 @@ Minimal windows of an episode can still overlap, however. As a very simple examp
 
 Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is undesirable.
 
-% TODO ^ elaborate on why it is undesirable here? ^
-
-As can be seen in the previous example, an episode may have more minimal windows than one of its subepisodes. And this is due to the fact that minimal windows can overlap---the minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
+As proven in the previous example, an episode may have more minimal windows than one of its subepisodes. This is due to the fact that minimal windows can overlap---the minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied for the example. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
 
 \begin{definition}
 The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
@@ -593,9 +625,13 @@ fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
 \end{align*}
 \end{definition}
 
-The disjoint-window frequency is monotonically decreasing.
+The disjoint-window frequency is monotonically decreasing, allowing for Apriori-style pruning.
 
+Compared to the fixed-window frequency, the disjoint-window frequency brings us much closer to the actual number of occurrences of an episode $ \alpha $.
 
+Consider the example in figure~\ref{fig:many-vs-few-events}, where the fixed-window frequency didn't distinguish between the two cases at all, above a certain window width. For any $ \rho \geq 2 $, the disjoint-window frequency of $ \{ a, b \} $ is 2 for the sequence in figure~\ref{fig:many-events}, and 5 for the sequence in figure~\ref{fig:few-events}. So the disjoint-window frequency does not suffer the information loss problem described in section~\ref{sec:fixed-window-frequency}.
+
+The disjoint-window frequency does have a disadvantage compared to the fixed-window frequency as well. The width of a minimal window is unaccounted for. So a small minimal window contributes just as much to the disjoint-window frequency as a large one. As we explained in section~\ref{sec:fixed-window-frequency}, occurrences spanning a short time range are more likely to be significant than ones spanning a long range. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. Where the fixed-window frequency assigned a greater frequency to the shorter occurrence, the disjoint-window frequency treats them both equally.
 
 \subsection{Weighted-window frequency}
 
@@ -659,13 +695,15 @@ c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
 
 Given that the fixed-window frequency gave unintuitive results for episodes, and that the fixed-window confidence is based on the fixed-window frequency, it should be no surprise that the confidence values for the fixed-window confidence can also be unintuitive.
 
-Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of figure~\ref{fig:fwi-example}. In figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:
+\iffalse
+Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of figure~\ref{fig:fwi-example}. In figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:occurrences spanning a long time range are more likely to be coincidental than short occurrences
 \begin{itemize}
 \item $ c_f(\{ e, e \} \Rightarrow \{ b, c, e, e \}) = \frac12 $, and
 \item $ c_f(\{ b, c \}) \Rightarrow \{ b, c, e, e \} = 1 $.
 \end{itemize}
 
 So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the sequence than the occurrence of $ \{ b, c \} $, which spans the whole of $ \{ b, c, e, e \} $, the confidence values for the two association rules differ greatly.
+\fi
 
 \begin{figure}
 \centering
@@ -798,7 +836,7 @@ ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
 If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = 0 $.
 \end{definition}
 
-The weighted-extensibility gives an indication of how far we need to look to extend a minimal window of $ \alpha $, into a minimal window of $ \beta $.
+The inverse of the weighted-extensibility tells us how much we need to enlarge a minimal occurrence of $ \alpha $ to find a minimal occurrence of $ \beta $.
 
 % TODO rewrite the thing about the weighted-extensibility
 

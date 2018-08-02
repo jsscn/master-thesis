@@ -132,9 +132,10 @@ Table~\ref{table:most-frequent-event-types} contains the most frequent words (ev
 \end{subfigure}
 
 \caption{The frequency of the most frequent event types in the datasets.}
-\caption{fig:alphabet-frequencies}
+\label{fig:alphabet-frequencies}
 \end{figure}
 
+\iffalse
 \begin{table}
 \centering
 
@@ -142,32 +143,33 @@ Table~\ref{table:most-frequent-event-types} contains the most frequent words (ev
 
 \emph{abstract} & \emph{tolstoy} \\
 \hline
-research    (1289) & levin (1629) \\
-studi   (708) & vronski (865) \\
+research (1289) & levin (1629) \\
+studi (708) & vronski (865) \\
 project (588) & anna (823) \\
 student (563) & kitti (672) \\
 program (439) & thought (663) \\
-provid  (372) & time (651) \\
-investig    (369) & hand (651) \\
+provid (372) & time (651) \\
+investig (369) & hand (651) \\
 develop (360) & smile (632) \\
-work    (345) & alexei (632) \\
+work (345) & alexei (632) \\
 univers (344) & face (598) \\
-system  (308) & love (595) \\
+system (308) & love (595) \\
 problem (307) & alexandrovitch (571) \\
-model   (306) & ey (570) \\
-theori  (296) & man (565) \\
+model (306) & ey (570) \\
+theori (296) & man (565) \\
 support (288) & feel (561) \\
-area    (271) & felt (555) \\
-experi  (264) & don (553) \\
-structur    (251) & stepan (548) \\
-group   (251) & arkadyevitch (548) \\
-includ  (250) & good (507) \\
+area (271) & felt (555) \\
+experi (264) & don (553) \\
+structur (251) & stepan (548) \\
+group (251) & arkadyevitch (548) \\
+includ (250) & good (507) \\
 
 \end{tabulary}
 
 \caption{The most frequent words (event types) for \emph{abstract} and \emph{trains}, and their frequency in parentheses.}
 \label{table:most-frequent-event-types}
 \end{table}
+\fi
 
 \section{Performance}
 \label{sec:performance}
@@ -189,11 +191,9 @@ All performance experiments were run on the same machine; the full specification
 \subsection{Episodes}
 \label{sec:performance-episodes}
 
-We would like to compare the efficiency for the different frequency measures across a range of frequency thresholds. However we should not evaluate the runtimes as a function of the frequency threshold directly, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for otherwise equal parameters (including thresholds), the weighted-window frequency will produce a subset of the disjoint-window frequency. Instead we can compare runtimes as a function of the number of frequent episodes.
-
-
 
 \iffalse
+% --- Plotting the number of candidates and the number of frequent episodes. Maybe not so useful.
 \begin{tikzpicture}
 
 \begin{axis}[
@@ -244,115 +244,8 @@ We would like to compare the efficiency for the different frequency measures acr
 \end{axis}
 
 \end{tikzpicture}
+% --- ---
 \fi
-
-\begin{figure}
-
-\begin{subfigure}[b]{\textwidth}
-\centering
-
-\begin{tikzpicture}
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{parallel episodes}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}[b]{\textwidth}
-\centering
-
-\begin{tikzpicture}
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{serial episodes}
-\end{subfigure}
-
-\caption{Runtimes for finding episodes in dataset \emph{abstract} using a window width of 8.}
-\label{fig:runtimes-nsf-8}
-\end{figure}
-
-\begin{figure}
-
-\begin{subfigure}[b]{\textwidth}
-\centering
-
-\begin{tikzpicture}
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{parallel episodes}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}[b]{\textwidth}
-\centering
-
-\begin{tikzpicture}
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{serial episodes}
-\end{subfigure}
-
-\caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 8.}
-\label{fig:runtimes-trains-900}
-\end{figure}
 
 \subsection{Association rules}
 
@@ -360,14 +253,14 @@ Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating associa
 
 \begin{figure}
 
-\begin{subfigure}[b]{\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
     legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
+    legend style={legend pos=north west},
     xlabel={number of frequent episodes},
     ylabel={runtime (s)},
 ]
@@ -382,17 +275,14 @@ Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating associa
 
 \caption{rules consisting of parallel episodes}
 \end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}[b]{\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
     legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=outer north east},
+    legend style={legend pos=north west},
     xlabel={number of frequent episodes},
     ylabel={runtime (s)},
 ]
@@ -414,9 +304,117 @@ Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating associa
 
 \subsection{Number of candidate episodes versus number of frequent episodes}
 
-The database passes are an expensive---if not the most expensive---part of the mining algorithm. Plotting the number of frequent episodes in the output and the number of candidates that were considered in a pass over the sequence will give us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
+The database passes are an expensive---if not the most expensive---part of the mining algorithm. Plotting the number of frequent episodes in the output and the number of candidates that were considered in a pass over the sequence gives us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
 
 \subsection{Comparing the frequency measures}
+
+We would like to compare the efficiency for the different frequency measures across a range of frequency thresholds. However we should not evaluate the runtimes as a function of the frequency threshold directly, since the values for each of the measures are semantically different. For instance, the weighted-window frequency of an episode in a sequence is at most equal to the disjoint-window frequency; so for otherwise equal parameters (including thresholds), the weighted-window frequency will produce a subset of the disjoint-window frequency. Instead we can compare runtimes as a function of the number of frequent episodes.
+
+Figure~\ref{fig:runtimes-nsf-8} shows such plots for both parallel and serial episodes, using the \emph{abstracts} dataset. We see that the fixed-window frequency performs significantly better than the other measures for parallel episodes. The weighted-window frequency runs up against the timeout very quickly in comparison.
+
+For serial episodes, the fixed-window frequency has less of an advantage, and at a certain point the minimal-window frequency produces more episodes for in less time. This could be explained by the fact that the data pass algorithm that finds minimal windows of serial episodes is slightly simpler than the algorithm that determines the fixed-window frequency for serial episodes. While the weighted-window frequency algorithm uses the same data pass algorithms as the disjoint-window frequency, selecting the optimal selection of non-overlapping windows is more complex, explaining its higher runtimes.
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{abstract} using a window width of 8.}
+\label{fig:runtimes-nsf-8}
+\end{figure}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 8.}
+\label{fig:runtimes-trains-900}
+\end{figure}
 
 \subsection{Comparing window sizes}
 
@@ -461,7 +459,7 @@ We'll generate all episodes using all of the frequency measures we implemented.
 
 The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by a disjoint-window frequency threshold will generate association rules by  minimal-window confidence threshold.
 
-\section{Comparing with cohesive-episode miner}
+\section{Comparing with non-frequency-based methods}
 
 We'll carry out a comparative study with two implementations of mining algorithms that use interestingness measures not based on frequency.
 
@@ -470,9 +468,10 @@ Anti-monotonic freausncy measures inherently put larger episodes at a disadvanta
 \item $ (l + 1) $-episodes will generally score lower than $ l $-episodes, so larger episodes will tend to be ranked lower than smalles ones.
 \item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
 \end{itemize}
-We can clearly see the second effect if we plot the number of frequent episodes grouped by size (figure~\ref{fig:episode-frequencies-by-size}, for one of the experiments performed in section~\ref{sec:performance-episodes}. We do see, however, that it helps to choose thresholds as low as possible, since the number of 5-episodes, for instance, rises significantly. Still, these episodes generally won't score highly, and so they won't do well when episodes are ranked.
+We can clearly see the second effect if we plot the number of frequent episodes grouped by size (figure~\ref{fig:episode-frequencies-by-size}, for one of the experiments performed in section~\ref{sec:performance-episodes}. We do see, however, that it helps to choose thresholds as low as possible, since the number of 5-episodes, for instance, rises significantly near the lowest thresholds. Still, these episodes generally won't score highly, and so they won't do well when episodes are ranked.
 
 \begin{figure}
+\centering
 
 \begin{tikzpicture}
 
@@ -481,7 +480,8 @@ We can clearly see the second effect if we plot the number of frequent episodes 
     legend style={legend pos=outer north east},
     xlabel={frequency threshold},
     ylabel={number of frequent $ l $-episodes},
-    % ymode=log,
+    xmode=log,
+    ymode=log,
 ]
 
 \addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
@@ -500,7 +500,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
-We won't go into detail on the mining algorithm, but we'll take a look at the measure itself, to see how it compares to the measures we implemented.
+Their implementation mines parallel episodes.
 
 Intuitively, an episode is deemed cohesive in regard to a sequence if its minimal minimal windows are small on average; that is, on average the events that constitute an occurrence are close to each other.
 
@@ -520,32 +520,22 @@ The \emph{cohesion} of an episode $ \alpha $ is defined as
 \begin{align*}
 C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
 \end{align*}
-where $ \overline{W}(\alpha) $ is the average size of the minimal occurrences of $ \alpha $. Further details can be found in~\cite{cule2016efficient}.
+where $ \overline{W}(\alpha) $ is the average size of the minimal occurrences of $ \alpha $.
 
-\iffalse
-% --- probably don't include any of this; what's currently in the paper is more than likely enough
+The mining algorithm \textsc{Fci} mines parallel episodes with an injective $ lab $-function, meaning that each event type appears at most once. The algorithm takes the following parameters:
+\begin{itemize}
+\item The minimal support that an event type must have in order to be considered at all.
+\item The maximal size of patterns that will be generated.
+\item The minimal cohesion that any pattern must have.
+\end{itemize}
+Further details can be found in~\cite{cule2016efficient}.
 
-Episodes are restricted to parallel episodes in which $ lab $ is injective, that is, each event type appears at most once. For an episode $ \alpha = \{ A_1, \ldots, A_n \} $, the set of occurrences of event types making up $ \alpha $ in a sequence $ \boldsymbol{s} $ is defined as
-\begin{align*}
-N(\alpha) = \{ t \mid (A, t) \in \boldsymbol{s} \wedge \exists v \in V(\alpha): lab(v) = A \}
-\end{align*}
+In~\cite{cule2016efficient}, the cohesion of a pattern is defined using the mean width of the minimal windows. The mean has a number of downsides, though; one of which is that the mean of a distribution is unstable if there are outliers. So for instance, if one window is significantly wider than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the cohesion of a pattern is determined by the percentage of events in a minimal occurrence shorter than a certain threshold. The threshold is proportional to the size of the episode, again in an effort not to disadvantage larger patterns.
 
-The definition of the cohesiveness of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $ depends on the \emph{size of the minimal occurrence of $ \alpha $} around a given timestamp $ t $:
-\begin{align*}
-W_t(\alpha) = \min\{ t_e - t_s \mid t_s \leq t < t_e \wedge \forall v \in V(\alpha) \exists (lab(v), t') \in s : t_s \leq t' < t_e \}
-\end{align*}
-
-The \emph{size of the average minimal occurrence of $ \alpha $ in $ \boldsymbol{s} $} averages all of the minimal occurrences over the sequence.
-\begin{align*}
-\overline{W}(\alpha) = \frac{\sum_{t \in N(\alpha)} W_t(\alpha)}{| N(\alpha) |}
-\end{align*}
-
-The \emph{cohesion} of $ \alpha $ is then defined as
-\begin{align*}
-C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
-\end{align*}
-% --- ---
-\fi
-
-In~\cite{cule2016efficient}, the cohesion of a pattern is determined by the mean width of the minimal windows. The mean has a number of downsides, though; one of which is that the mean of a distribution is unstable if there are outliers. So for instance, if one window is significantly wider than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the cohesion of a pattern is determined by the percentage of minimal windows smaller than a certain threshold.
+Their mining method \textsc{Qcsp} mines serial episodes, and takes the following parameters:
+\begin{itemize}
+\item The threshold mentioned above (which gets multiplied by the size of each episode considered).
+\item $ k $. The algorithm reports only the $ k $ patterns with the greatest cohesion.
+\item The maximal size of patterns that will be generated.
+\end{itemize}
 
