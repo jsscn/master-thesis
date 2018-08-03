@@ -1,4 +1,9 @@
-duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	duration-rules-0.0	num-confident-rules-0.0	duration-rules-0.2	num-confident-rules-0.2	duration-rules-0.4	num-confident-rules-0.4	duration-rules-0.6	num-confident-rules-0.6	duration-rules-0.8	num-confident-rules-0.8	duration-rules-1.0	num-confident-rules-1.0
-0.21260218599999903	serial	minimal-windows	21.0	2064	28	success	900	2.5570000001806648e-06	0	1.539999999522479e-06	0	1.5599999994009295e-06	0	1.5839999996103415e-06	0	1.5529999988217469e-06	0	1.6239999993672427e-06	0
-2.064639757	serial	minimal-windows	14.0	62429	503	success	900	0.0007955349999999584	560	0.0008862339999993196	560	0.0007927089999988368	560	0.0008026300000008035	540	0.0006597340000009666	226	0.00045407300000022133	14
-9.408059811	serial	minimal-windows	9.0	288435	3574	timeout	900	0.03052194499999672	12012	0.035424752000000836	12012	0.029364221000001578	11891	0.024306288000001786	6378	0.01901507099999833	1677	0.01841571799999997	204
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	num-frequent-7-episodes	num-frequent-8-episodes	num-frequent-9-episodes	num-frequent-10-episodes	num-frequent-11-episodes	num-frequent-12-episodes	num-frequent-13-episodes	num-frequent-14-episodes	num-frequent-15-episodes	percentage-frequent-of-candidates
+0.189559271999996	serial	minimal-windows	25.0	1305	5	success	900	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.0038314176245210726
+0.470053806000009	serial	minimal-windows	18.0	11684	109	success	900	102	7	0	0	0	0	0	0	0	0	0	0	0	0	0	0.009328996918863403
+2.564402911000002	serial	minimal-windows	13.0	82414	761	success	900	284	435	42	0	0	0	0	0	0	0	0	0	0	0	0	0.009233868032130462
+7.822181792000009	serial	minimal-windows	9.0	288435	3574	success	900	528	1692	1291	63	0	0	0	0	0	0	0	0	0	0	0	0.01239100663927748
+17.108675763999997	serial	minimal-windows	6.0	585180	16310	success	900	736	3853	8484	3056	178	3	0	0	0	0	0	0	0	0	0	0.02787176595235654
+33.220856329000014	serial	minimal-windows	4.0	986121	67921	success	900	910	6832	24386	27286	7744	737	26	0	0	0	0	0	0	0	0	0.0688769430931904
+46.775202766999996	serial	minimal-windows	3.0	1359445	197259	success	900	989	9613	42916	79442	49565	12947	1695	92	0	0	0	0	0	0	0	0.14510259701569392
+180.21171312	serial	minimal-windows	2.0	2840074	1188459	timeout	900	1107	14613	85616	260462	366095	272472	129737	44293	11453	2258	323	29	1	0	0	0.4184605753230374

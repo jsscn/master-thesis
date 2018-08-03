@@ -374,9 +374,11 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 
 \begin{axis}[
     legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=south east},
+    legend style={legend pos=north west},
     xlabel={number of frequent episodes},
     ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
 ]
 
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
@@ -396,9 +398,11 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 
 \begin{axis}[
     legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=south east},
+    legend style={legend pos=north west},
     xlabel={number of frequent episodes},
     ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
 ]
 
 \addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
@@ -441,13 +445,13 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 \end{tabulary}
 
-\caption{Differing weighted-window frequency values between two implementations}
+\caption{Differing weighted-window frequency values between two implementations.}
 \label{table:closepi-frequency-difference}
 \end{table}
 
 \section{Quality}
 
-Qualitative analysis.
+In this section, we will do a qualitative analysis of episodes. We compare the top-ranked results across the different frequency measures we implemented, and those of cohesion-based interestingness measures, as we will explain later.
 
 \section{Comparing the frequency measures}
 
@@ -473,11 +477,13 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \begin{figure}
 \centering
 
-\begin{tikzpicture}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
     legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
-    legend style={legend pos=outer north east},
+    legend style={legend pos=north east},
     xlabel={frequency threshold},
     ylabel={number of frequent $ l $-episodes},
     xmode=log,
@@ -493,11 +499,127 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{axis}
 
 \end{tikzpicture}
+\caption{parallel, fixed windows}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
 
-\caption{A plot of the number of episodes found across different thresholds, grouped by size. Parallel episodes generated from dataset \emph{abstract} using the fixed-window frequency measure.}
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{serial, fixed windows}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes},
+    legend style={legend pos=north east},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{subfigure}
+\caption{A plot of the number of episodes found across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
 \label{fig:episode-frequencies-by-size}
 \end{figure}
-
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
 Their implementation mines parallel episodes.
