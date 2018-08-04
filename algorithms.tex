@@ -1438,8 +1438,10 @@ This is what happens in the second \emph{while}-loop in algorithm~\ref{alg:weigh
 
 Algorithm 3 from~\citep{cule2014marbles}---which algorithm~\ref{alg:weighted-window-confidence} was based on---does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
 
+\iffalse
 \section{Finding all subepisodes of a parallel episode}
 
 While generating association rules in algorithm~\ref{alg:association-rules-top-level}, we need to consider all subepisodes $ \alpha $ of each frequent episode $ \beta $. For serial episodes, we take all possible combinations of leaving out nodes from the episode graph. Using this approach, the number of subepisodes to be considered is exponential This will sometimes produce equivalent episodes, namely when the same event type occurs multiple times. Take, for instance the episode $ a \to a $.
+\fi
 
 % TODO consider dropping this...

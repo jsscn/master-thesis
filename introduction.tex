@@ -1,48 +1,46 @@
 \chapter{Introduction}
 
-In data mining, the goal is generally to extract useful information from datasets that are too large for a person to draw conclusions from by just looking at the data, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods. [TODO elaborate, cite something?]
+In data mining, the goal is generally to extract useful information from datasets that are too large for a person to draw conclusions from by just looking at the data, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods.
 
-One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions---each transaction consisting of a (relatively small) set of items---is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur in transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is a item that a customer bought from a supermarket.
+% [TODO elaborate, cite something?]
 
-A well-known algorithm for mining patterns in such a transactional database is Apriori~\citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets. It uses a breadth-first approach---first finding all 1-sized itemsets, then all 2-sized itemsets, and so on---generating larger candidates from smaller episodes that are known to be frequent.
+One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions---each transaction consisting of a (relatively small) set of items---is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur within transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is an item that a customer bought during a visit to the store.
+
+A well-known algorithm for mining itemsets in such a transactional database is Apriori~\citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets, allowing the search space to be pruned heavily. It uses a breadth-first approach---first finding all 1-sized itemsets, then all 2-sized itemsets, and so on---generating larger candidates from smaller itemsets that are known to be frequent.
+
+From itemsets that have been found frequent (or otherwise interesting), correlations between items can be found using \emph{association rules~\cite{agrawal1994fast}}, where the occurrence of one itemset can be a good predictor of another.
 
 % Other techniques, depth first. (?)
 
 A first exploration into mining patterns in data of a sequential nature still presumed a database of transactions, with (relatively short) sequences as transactions instead of sets \citep{agrawal1995mining}.
-Since the data format is similar to that of typical frequent pattern mining, mining algorithms are as well. % include this? if so, reword perhaps
+Since the data format is similar to that of typical frequent pattern mining, mining algorithms are often similar to those in frequent pattern mining as well.
 
 % ESP? Laxman and their hidden markov models? "find a model that could have generated this sequence"
 
-Later, a procedure was developed for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
+Later, a new kind of setting was introduced for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
 
 Such sequences may represent different kinds of data:
+\begin{itemize}
+\item activity logs: whether a pattern of activity is cause for alarm
+\item machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
+\item any kind of text---books, articles, tweets, transcripts, \ldots
+\item logs of user behaviour: What patterns do gamblers exhibit? How does a person use a graphical user interface?
+\item biosequences \cite{biosequences}
+\end{itemize}
+% TODO cite activity logs, machine logs maybe
 
-- activity logs: whether a pattern of activity is cause for alarm
+Though the main goal of finding patterns remains equivalent, the mining techniques used for these kinds of data stray further from those in the transactional setting. In sequential pattern mining, the main bottleneck is the length of the sequence, rather than the number of transactions.
 
-- machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
+Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}. If one wants to assess the interestingness of an episode by how frequently it appears in the sequence, then the search space can be pruned in much the same way that Apriori does in frequent pattern mining.
 
-- logs of user behaviour: what patterns do gambles exhibit? How does a person use a graphical user interface?
-
-- bio sequences (https://ieeexplore.ieee.org/document/6392660/)
-
-Can also be any kind of text---books, transcripts, code (?).
-
-Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}, represented by a graph. Can use monotonically decreasing frequency measures just like frequent pattern mining, where superpatterns cannot be more frequent than any of their subpattern, allowing to discard large portions of episodes.
-
-\cite{laxman2005discovering} connected sequential pattern mining to hidden markov models [cite?], finding the parameters of a model that could have generated a given sequence.
-
-% TODO ^ move this maybe, add more approaches to sequential pattern mining maybe ^
-% TODO cite hidden markov models introduction maybe
-
-In chapter~\ref{sec:problem-statement} we begin by defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
+In chapter~\ref{sec:problem-statement} we begin by formally defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
 And how do we quantify how interesting a pattern is in an event sequence?
-% At the end of that chapter we will look into a number of \emph{interestingness measures}: how interesting is a pattern in an event sequence?
 
 Then, in chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
 
 In chapter~\ref{sec:experiments} we experiment to make an assessment of the implementation, in terms of:
 
 \begin{enumerate}
-\item the efficiency: how does the implementation perform with a variety of datasets and parameters, and how does it compare to other implementations?
+\item the performance: how efficient is the implementation with a variety of datasets and parameters?
 \item the quality of the output: can we find interesting patterns in different datasets? How does our implementation stack up to other implementations which use other interestingness measures and classes of episodes?
 \end{enumerate}

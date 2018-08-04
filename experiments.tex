@@ -251,6 +251,8 @@ All performance experiments were run on the same machine; the full specification
 
 Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating association rules from \emph{trains} using different episode classes, as a function of the number of frequent episodes. Some weird results though % TODO fix
 
+As we saw in algorithm~\ref{alg:association-rules-top-level}, for each frequent episode $ \beta $, all $ \alpha \Rightarrow \beta $ with $ \alpha \subset \beta $ are considered.
+
 \begin{figure}
 
 \begin{subfigure}[b]{0.5\textwidth}
@@ -475,9 +477,8 @@ Anti-monotonic freausncy measures inherently put larger episodes at a disadvanta
 We can clearly see the second effect if we plot the number of frequent episodes grouped by size (figure~\ref{fig:episode-frequencies-by-size}, for one of the experiments performed in section~\ref{sec:performance-episodes}. We do see, however, that it helps to choose thresholds as low as possible, since the number of 5-episodes, for instance, rises significantly near the lowest thresholds. Still, these episodes generally won't score highly, and so they won't do well when episodes are ranked.
 
 \begin{figure}
-\centering
 
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -501,7 +502,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{tikzpicture}
 \caption{parallel, fixed windows}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -525,7 +526,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{tikzpicture}
 \caption{serial, fixed windows}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -547,8 +548,9 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{axis}
 
 \end{tikzpicture}
+\caption{parallel, minimal windows}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -570,8 +572,9 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{axis}
 
 \end{tikzpicture}
+\caption{serial, minimal windows}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -593,8 +596,9 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{axis}
 
 \end{tikzpicture}
+\caption{parallel, weighted windows}
 \end{subfigure}
-\begin{subfigure}[b]{0.49\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
 
@@ -616,15 +620,14 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 \end{axis}
 
 \end{tikzpicture}
+\caption{serial, weighted windows}
 \end{subfigure}
 \caption{A plot of the number of episodes found across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
 \label{fig:episode-frequencies-by-size}
 \end{figure}
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
-Their implementation mines parallel episodes.
-
-Intuitively, an episode is deemed cohesive in regard to a sequence if its minimal minimal windows are small on average; that is, on average the events that constitute an occurrence are close to each other.
+An episode is deemed cohesive in regard to a sequence if the events that constitute an occurrence are close to each other; in other words, its minimal minimal windows are small on average.
 
 Recall that the weighted-window frequency also takes into account the size of the minimal windows---it lends more weight to smaller windows. There is an important distinction, though:
 \begin{itemize}
@@ -661,3 +664,32 @@ Their mining method \textsc{Qcsp} mines serial episodes, and takes the following
 \item The maximal size of patterns that will be generated.
 \end{itemize}
 
+We ran the algorithms with such and such algorithms.
+
+Table~\ref{table:compare-top-episodes} shows the top 15 parallel episodes for frequency measures.
+
+\begin{table}
+
+\begin{tabulary}{\textwidth}{L|L}
+
+weighted frequency & cohesion \\
+\hline
+$ \{ \text{levin} \} $ (1.63e+03) & $ \{ \text{time}, \text{thought} \} $ (0.0176) \\
+$ \{ \text{vronski} \} $ (865) & $ \{ \text{time}, \text{hand} \} $ (0.0157) \\
+$ \{ \text{anna} \} $ (823) & $ \{ \text{time}, \text{hand}, \text{thought} \} $ (0.0141) \\
+$ \{ \text{kitti} \} $ (672) & $ \{ \text{smile}, \text{hand} \} $ (0.0175) \\
+$ \{ \text{thought} \} $ (663) & $ \{ \text{smile}, \text{time} \} $ (0.0147) \\
+$ \{ \text{hand} \} $ (651) & $ \{ \text{smile}, \text{time}, \text{hand} \} $ (0.0151) \\
+$ \{ \text{time} \} $ (651) & $ \{ \text{smile}, \text{time}, \text{hand}, \text{thought} \} $ (0.0148) \\
+$ \{ \text{alexei} \} $ (632) & $ \{ \text{face}, \text{hand} \} $ (0.0185) \\
+$ \{ \text{smile} \} $ (632) & $ \{ \text{face}, \text{time} \} $ (0.0147) \\
+$ \{ \text{face} \} $ (598) & $ \{ \text{face}, \text{time}, \text{hand} \} $ (0.0149) \\
+$ \{ \text{love} \} $ (595) & $ \{ \text{face}, \text{time}, \text{hand}, \text{thought} \} $ (0.0144) \\
+$ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{face}, \text{smile} \} $ (0.0159) \\
+$ \{ \text{ey} \} $ (570) & $ \{ \text{face}, \text{smile}, \text{hand} \} $ (0.0159) \\
+$ \{ \text{man} \} $ (565) & $ \{ \text{face}, \text{smile}, \text{hand}, \text{thought} \} $ (0.0144) \\
+$ \{ \text{feel} \} $ (561) & $ \{ \text{face}, \text{smile}, \text{time} \} $ (0.0141) \\
+\end{tabulary}
+
+\caption{Output for different methods and interestingness measures.}
+\end{table}
