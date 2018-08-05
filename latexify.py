@@ -2,14 +2,14 @@ import sys
 import json
 import argparse
 
-def latexify_episode(episode, args):
+def latexify_episode(episode, args, measures=['frequency']):
     if not isinstance(episode, dict):
         return None
     if not 'event-types' in episode:
         return None
 
     elements = [label(e) for e in episode['event-types']]
-    frequency = episode.get('frequency')
+    values = filter(lambda value: value is not None, (episode.get(measure) for measure in measures))
 
     elements_it = ("\\text{{{}}}".format(e) for e in elements) if args.regular_text \
         else elements
@@ -22,8 +22,10 @@ def latexify_episode(episode, args):
     if args.math_mode_delimiters:
         latexified = "$ {} $".format(latexified)
 
-    if not args.no_frequencies and frequency is not None:
-        latexified = "{} ({:.3g})".format(latexified, frequency)
+    if not args.no_frequencies and len(measures) > 0:
+        latexified = "{} ({})".format(
+            latexified, ', '.join(
+                ('{:.3g}' if isinstance(value, float) else '{}').format(value) for value in values))
 
     return latexified
 
@@ -35,12 +37,19 @@ def latexify(thing, args):
             split = line.split()
             if args.fci:
                 pattern = [item.replace('_', '\\_') for item in split[:-1]]
-                (frequency, length, cohesion) = split[-1].split(';')[1:-1]
+                (frequency, length, cohesion) = map(float, split[-1].split(';')[1:-1])
+                latexifieds.append(
+                    latexify_episode({'event-types': pattern, 'cohesion': cohesion},
+                        args, ['cohesion']))
             else:
-                pattern = split[0][1:-1].replace('_', '\\_').split(',')
-                cohesion = split[2].replace(',', '.')
+                pattern = split[0][1:-1].replace('_', '\\_').replace(':', '').split(',')
+                cohesion = float(split[-2].replace(',', '.'))
+                support = float(split[-1])
 
-            latexifieds.append(latexify({'event-types': pattern, 'frequency': float(cohesion)}, args))
+                latexifieds.append(
+                    latexify_episode({'event-types': pattern, 'cohesion': cohesion, 'support': int(support)},
+                        args, ['cohesion', 'support']))
+
         return latexifieds
 
     if isinstance(thing, dict) and 'event-types' in thing:
@@ -81,7 +90,8 @@ out = sys.stdout if args.o is None else open(args.o, "w")
 
 if args.fci or args.qcsp:
     latexified = list(latexify(f, args))
-    print('\n'.join(str(e) for e in latexified), file=out)
+    for e in latexified:
+        print(str(e), file=out)
 else:
     j = json.load(f)
 
@@ -95,6 +105,5 @@ else:
     print('All episodes:', file=out)
     print('\n'.join(latexified['episodes']), file=out)
 
-
 f.close()
-out.close()
+if out is not sys.stdout: out.close()

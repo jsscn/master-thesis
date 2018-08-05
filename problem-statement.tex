@@ -115,9 +115,9 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig
 
 \draw [->,very thick] (2.75,-0.8) -- ++(0,-0.5);
 
-\draw (1.5,-2) -- ++(2.4,0);
+\draw (1.5,-2) -- ++(2.5,0);
 
-\foreach \x in {1.5,2,...,3.5}
+\foreach \x in {1.5,2,...,4}
     \draw (\x,-2) -- ++(0,3pt);
 
 \foreach \x/\label in {
@@ -128,8 +128,9 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig
     \path (\x,-2) ++(0,1em) node [enoughdamnvspace] {$ \label $};
 
 \path (1.5,-2) ++(0,-1em) node {$ 44 $};
+\path (4,-2) ++(0,-1em) node {$ 49 $};
 
-\node [anchor=east] at (1,-2) {Contents of window $ \boldsymbol{s}[44,49) $:};
+\node [anchor=east] at (1,-2) {contents of window $ \boldsymbol{s}[44,49) $:};
 
 \end{tikzpicture}
 
