@@ -1,0 +1,5 @@
+FCI: minsup 5 mincoh 0.014 maxlen 5
+QCSP: minsup 5 alpha 2 maxlen 7 ......
+wwi: t 5 w 15 parallel
+mwi-parallel: t 7 w 15
+mwi-serial t 10 w 15

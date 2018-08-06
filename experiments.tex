@@ -599,25 +599,26 @@ Table~\ref{table:compare-top-episodes} shows the top 15 parallel episodes for fr
 
 \begin{table}
 
-\begin{tabulary}{\textwidth}{L|L}
+\begin{tabulary}{\textwidth}{L|L|L}
 
-weighted frequency & cohesion \\
+weighted frequency & cohesion & quantile-based cohesion \\
 \hline
-$ \{ \text{levin} \} $ (1.63e+03) & $ \{ \text{time}, \text{thought} \} $ (0.0176) \\
-$ \{ \text{vronski} \} $ (865) & $ \{ \text{time}, \text{hand} \} $ (0.0157) \\
-$ \{ \text{anna} \} $ (823) & $ \{ \text{time}, \text{hand}, \text{thought} \} $ (0.0141) \\
-$ \{ \text{kitti} \} $ (672) & $ \{ \text{smile}, \text{hand} \} $ (0.0175) \\
-$ \{ \text{thought} \} $ (663) & $ \{ \text{smile}, \text{time} \} $ (0.0147) \\
-$ \{ \text{hand} \} $ (651) & $ \{ \text{smile}, \text{time}, \text{hand} \} $ (0.0151) \\
-$ \{ \text{time} \} $ (651) & $ \{ \text{smile}, \text{time}, \text{hand}, \text{thought} \} $ (0.0148) \\
-$ \{ \text{alexei} \} $ (632) & $ \{ \text{face}, \text{hand} \} $ (0.0185) \\
-$ \{ \text{smile} \} $ (632) & $ \{ \text{face}, \text{time} \} $ (0.0147) \\
-$ \{ \text{face} \} $ (598) & $ \{ \text{face}, \text{time}, \text{hand} \} $ (0.0149) \\
-$ \{ \text{love} \} $ (595) & $ \{ \text{face}, \text{time}, \text{hand}, \text{thought} \} $ (0.0144) \\
-$ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{face}, \text{smile} \} $ (0.0159) \\
-$ \{ \text{ey} \} $ (570) & $ \{ \text{face}, \text{smile}, \text{hand} \} $ (0.0159) \\
-$ \{ \text{man} \} $ (565) & $ \{ \text{face}, \text{smile}, \text{hand}, \text{thought} \} $ (0.0144) \\
-$ \{ \text{feel} \} $ (561) & $ \{ \text{face}, \text{smile}, \text{time} \} $ (0.0141) \\
+$ \{ \text{levin} \} $ (1629) & $ \{ \text{agafea}, \text{mihalovna} \} $ (1) & 
+$ \{ \text{vronski} \} $ (865) & $ \{ \text{\_char}, \text{banc\_} \} $ (1) & 
+$ \{ \text{anna} \} $ (823) & $ \{ \text{pinc}, \text{nez} \} $ (1) & 
+$ \{ \text{kitti} \} $ (672) & $ \{ \text{\_bell}, \text{soeur\_} \} $ (1) & 
+$ \{ \text{thought} \} $ (663) & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (0.915) & 
+$ \{ \text{hand} \} $ (651) & $ \{ \text{nativ}, \text{tribe} \} $ (0.523) & 
+$ \{ \text{time} \} $ (651) & $ \{ \text{lizaveta}, \text{petrovna} \} $ (0.408) & 
+$ \{ \text{alexei} \} $ (632) & $ \{ \text{ivanovna}, \text{lidia} \} $ (0.137) & 
+$ \{ \text{smile} \} $ (632) & $ \{ \text{alexandrovitch}, \text{alexei} \} $ (0.05) & 
+$ \{ \text{face} \} $ (598) & $ \{ \text{sergei}, \text{ivanovitch} \} $ (0.0428) & 
+$ \{ \text{love} \} $ (595) & $ \{ \text{darya}, \text{alexandrovna} \} $ (0.0363) & 
+$ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{bezzubov}, \text{landau} \} $ (0.0351) & 
+$ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{gladiat}, \text{frou} \} $ (0.0326) & 
+$ \{ \text{ey} \} $ (570) & $ \{ \text{partnership}, \text{ryezunov} \} $ (0.0303) & 
+$ \{ \text{man} \} $ (565) & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) & 
+
 \end{tabulary}
 
 \caption{Output for different methods and interestingness measures.}

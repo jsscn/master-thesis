@@ -25,7 +25,7 @@ def latexify_episode(episode, args, measures=['frequency']):
     if not args.no_frequencies and len(measures) > 0:
         latexified = "{} ({})".format(
             latexified, ', '.join(
-                ('{:.3g}' if isinstance(value, float) else '{}').format(value) for value in values))
+                '{:.3g}'.format(value) if value != int(value) else '{}'.format(int(value)) for value in values))
 
     return latexified
 
