@@ -474,14 +474,18 @@ Anti-monotonic freausncy measures inherently put larger episodes at a disadvanta
 \item $ (l + 1) $-episodes will generally score lower than $ l $-episodes, so larger episodes will tend to be ranked lower than smalles ones.
 \item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
 \end{itemize}
-We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number of 5-episodes, for instance, rises significantly near the lowest thresholds, especially in figure~\ref{fig:episode-frequencies-by-size-parallel-fwi}. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
+We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds, especially with parallel episodes and fixed-window frequency (figure~\ref{fig:episode-frequencies-by-size-parallel-fwi}), where at the lowest threshold, the number of 5-episodes exceeds the number of 1-episodes. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
+
+We can make some more observations about the plots in figure~\ref{fig:episodes-frequencies-by-size}. % oh yeah? we'll see about that
+
+For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
 
 \begin{figure}
 
 \newcommand\nsfepisodefrequenciesbysizeaxis[1]{%
 \begin{axis}[
-    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes,6-episodes},
-    legend style={legend pos=north east,fill opacity=0.7,text opacity=1},
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes,6-episodes,7-episodes,8-episodes},
+    legend style={legend pos=north east,legend style={nodes={scale=0.75}},fill opacity=0.7,text opacity=1},
     xlabel={frequency threshold},
     ylabel={number of frequent $ l $-episodes},
     xmode=log,
@@ -517,6 +521,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \end{tikzpicture}
 \caption{serial, fixed windows}
+\label{fig:episode-frequencies-by-size-parallel-mwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -525,6 +530,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \end{tikzpicture}
 \caption{parallel, minimal windows}
+\label{fig:episode-frequencies-by-size-serial-mwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -533,6 +539,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \end{tikzpicture}
 \caption{serial, minimal windows}
+\label{fig:episode-frequencies-by-size-parallel-wwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -541,6 +548,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \end{tikzpicture}
 \caption{parallel, weighted windows}
+\label{fig:episode-frequencies-by-size-serial-wwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -549,6 +557,7 @@ We can clearly see the second effect if we plot the number of frequent episodes 
 
 \end{tikzpicture}
 \caption{serial, weighted windows}
+\label{fig:episode-frequencies-by-size-parallel-fwi}
 \end{subfigure}
 \caption{A plot of the number of episodes found across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
 \label{fig:episode-frequencies-by-size}
@@ -602,7 +611,7 @@ Table~\ref{table:compare-top-episodes} shows the top 15 parallel episodes for fr
 
 \begin{tabulary}{\textwidth}{L|L}
 
-weighted frequency & cohesion \\
+disjoint-window frequency & cohesion \\
 \hline
 $ \{ \text{levin} \} $ (1629) & $ \{ \text{agafea}, \text{mihalovna} \} $ (1) \\
 $ \{ \text{vronski} \} $ (865) & $ \{ \text{\_char}, \text{banc\_} \} $ (1) \\
@@ -622,5 +631,32 @@ $ \{ \text{man} \} $ (565) & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) \\
 
 \end{tabulary}
 
-\caption{The top 15 patterns mined from~\emph{tolstoy} using <> and \textsc{Fci}.}
+\caption{The top 15 patterns mined from~\emph{tolstoy} using the disjoint-window frequency (parallel, $ \rho = 15 $) and \textsc{Fci} (minimum support 5, maximal length 5).}
+\end{table}
+
+\begin{table}
+\centering
+
+\begin{tabulary}{\textwidth}{L|L}
+
+disjoint-window frequency & quantile-based cohesion \\
+\hline \\
+$ \text{levin} $ (1629) & $ \text{stepan} \to \text{arkadyevitch} $ (0.998, 1096) \\
+$ \text{vronski} $ (865) & $ \text{alexei} \to \text{alexandrovitch} $ (0.95, 1203) \\
+$ \text{anna} $ (823) & $ \text{sergei} \to \text{ivanovitch} $ (0.965, 603) \\
+$ \text{kitti} $ (672) & $ \text{agafea} \to \text{mihalovna} $ (1, 148) \\
+$ \text{thought} $ (663) & $ \text{darya} \to \text{alexandrovna} $ (0.967, 424) \\
+$ \text{hand} $ (651) & $ \text{lidia} \to \text{ivanovna} $ (0.977, 221) \\
+$ \text{time} $ (651) & $ \text{lizaveta} \to \text{petrovna} $ (0.98, 49) \\
+$ \text{alexei} $ (632) & $ \text{nativ} \to \text{tribe} $ (0.966, 29) \\
+$ \text{smile} $ (632) & $ \text{liza} \to \text{merkalova} $ (0.706, 34) \\
+$ \text{face} $ (598) & $ \text{marya} \to \text{nikolaevna} $ (0.673, 98) \\
+$ \text{love} $ (595) & $ \text{countess} \to \text{lidia} \to \text{ivanovna} $ (0.586, 389) \\
+$ \text{alexei} \to \text{alexandrovitch} $ (571) & $ \text{vassili} \to \text{lukitch} $ (0.588, 51) \\
+$ \text{alexandrovitch} $ (571) & $ \text{countess} \to \text{lidia} $ (0.557, 280) \\
+$ \text{ey} $ (570) & $ \text{countess} \to \text{ivanovna} $ (0.549, 277) \\
+$ \text{man} $ (565) & $ \text{madam} \to \text{stahl} $ (0.55, 171) \\
+
+\end{tabulary}
+
 \end{table}

@@ -29,6 +29,19 @@ def latexify_episode(episode, args, measures=['frequency']):
 
     return latexified
 
+def latexify_rule(rule, args):
+    if not isinstance(rule, dict) or not 'antecedent' in rule:
+        return None
+
+    latexified = '{} \\Rightarrow {}'.format(,
+        latexify_episode(rule['antecedent'], args, []),
+        latexify_episode(rule['consequent'], args, []))
+
+    if 'confidence' in rule:
+        latexified = '{} ({})'.format(latexified, rule['confinence'])
+
+    return latexified
+
 def latexify(thing, args):
     if (args.fci or args.qcsp) and hasattr(thing, 'read'):
         lines = thing.read().splitlines()
@@ -52,16 +65,17 @@ def latexify(thing, args):
 
         return latexifieds
 
-    if isinstance(thing, dict) and 'event-types' in thing:
-        latexified = latexify_episode(thing, args)
+    if isinstance(thing, list):
+        return [latexify(item, args) for item in thing]
 
-        return latexified if latexified is not None else None
+    if isinstance(thing, dict) and 'antecedent' in thing:
+        return latexify_rule(thing, args)
+
+    if isinstance(thing, dict) and 'event-types' in thing:
+        return latexify_episode(thing, args)
 
     if isinstance(thing, dict):
         return  {key : latexify(item, args) for key, item in thing.items()}
-
-    if isinstance(thing, list):
-        return [latexify(item, args) for item in thing]
 
 
 parser = argparse.ArgumentParser()
@@ -97,11 +111,14 @@ else:
 
     latexified = latexify(j, args)
 
-    print('Global top k:', file=out)
+    print('Global top k episodes:', file=out)
     print('\n'.join(latexified['top-k-episodes']['global']), file=out)
-    print('Per-size top k:', file=out)
+    print('Per-size top k episodes:', file=out)
     print('\n'.join('{}-episodes:\n{}'.format(
         i, '\n'.join(str(e) for e in i_episodes)) for i, i_episodes in enumerate(latexified['top-k-episodes']['per-size'], start=1)), file=out)
+    if 'top-k-rules' in latexified:
+        print('Top k association rules:', file=out)
+        print('\n'.join(latexified['top-k-rules']), file=out)
     print('All episodes:', file=out)
     print('\n'.join(latexified['episodes']), file=out)
 
