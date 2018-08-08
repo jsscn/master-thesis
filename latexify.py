@@ -19,8 +19,7 @@ def latexify_episode(episode, args, measures=['frequency']):
     else:
         latexified = " \\to ".join(elements_it)
 
-    if args.math_mode_delimiters:
-        latexified = "$ {} $".format(latexified)
+    latexified = "$ {} $".format(latexified)
 
     if not args.no_frequencies and len(measures) > 0:
         latexified = "{} ({})".format(
@@ -33,7 +32,7 @@ def latexify_rule(rule, args):
     if not isinstance(rule, dict) or not 'antecedent' in rule:
         return None
 
-    latexified = '{} \\Rightarrow {}'.format(,
+    latexified = '{} \\Rightarrow {}'.format(
         latexify_episode(rule['antecedent'], args, []),
         latexify_episode(rule['consequent'], args, []))
 
@@ -84,7 +83,6 @@ parser.add_argument("-c", default="parallel") # parallel or serial (parallel by 
 parser.add_argument("-f")
 parser.add_argument("-o")
 parser.add_argument("-l")
-parser.add_argument("--math-mode-delimiters", action="store_true")
 parser.add_argument("--regular-text", action="store_true")
 parser.add_argument('--no-frequencies', action='store_true')
 parser.add_argument('--fci', action='store_true')
@@ -106,21 +104,28 @@ if args.fci or args.qcsp:
     latexified = list(latexify(f, args))
     for e in latexified:
         print(str(e), file=out)
+
 else:
     j = json.load(f)
-
     latexified = latexify(j, args)
+    
+    if isinstance(latexified, dict):
+        if 'top-k-episodes' in latexified:
+            print('Global top k episodes:', file=out)
+            print('\n'.join(latexified['top-k-episodes']['global']), file=out)
+            print('Per-size top k episodes:', file=out)
+            print('\n'.join('{}-episodes:\n{}'.format(
+                i, '\n'.join(str(e) for e in i_episodes)) for i, i_episodes in enumerate(latexified['top-k-episodes']['per-size'], start=1)), file=out)
 
-    print('Global top k episodes:', file=out)
-    print('\n'.join(latexified['top-k-episodes']['global']), file=out)
-    print('Per-size top k episodes:', file=out)
-    print('\n'.join('{}-episodes:\n{}'.format(
-        i, '\n'.join(str(e) for e in i_episodes)) for i, i_episodes in enumerate(latexified['top-k-episodes']['per-size'], start=1)), file=out)
-    if 'top-k-rules' in latexified:
-        print('Top k association rules:', file=out)
-        print('\n'.join(latexified['top-k-rules']), file=out)
-    print('All episodes:', file=out)
-    print('\n'.join(latexified['episodes']), file=out)
+        if 'top-k-rules' in latexified:
+            print('Top k association rules:', file=out)
+            print('\n'.join(latexified['top-k-rules']), file=out)
+
+        print('All episodes:', file=out)
+        print('\n'.join(latexified['episodes']), file=out)
+
+    elif isinstance(latexified, list):
+        print('\n'.join(latexified), file=out)
 
 f.close()
 if out is not sys.stdout: out.close()

@@ -48,7 +48,7 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \label{table:datasets-numbers}
 \end{table}
 
-We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority occurring very rarely. Note that the graphs don't show all event types, although for \emph{abstract} and \emph{trains} the event types at the right end occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
+We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for texts. In \emph{trains}, too, there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 Table~\ref{table:most-frequent-event-types} contains the most frequent words (event types) in datasets \emph{abstract} and \emph{tolstoy}, including the exact number of times they appear in the sequence. This information already gives a sense of which event types are most frequent, and we can expect to see them appear in episodes.
 
@@ -455,11 +455,120 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 In this section, we will do a qualitative analysis. We compare the top-ranked results across the different frequency measures we implemented, and those of cohesion-based interestingness measures, as we will explain later.
 
-\section{Comparing the frequency measures}
+\section{Comparing the frequency measures on a toy example}
 
 We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
+
+\section{Analysis of episodes mined from \emph{tolstoy} dataset}
+
+\begin{table}
+
+% TODO add more frequency measures
+
+\begin{tabulary}{\textwidth}{L|L|L}
+
+fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
+\hline
+& $ \{ \text{levin} \} $ (1629) & $ \{ \text{levin} \} $ (1629) \\
+& $ \{ \text{vronski} \} $ (865) & $ \{ \text{vronski} \} $ (865) \\
+& $ \{ \text{anna} \} $ (823) & $ \{ \text{anna} \} $ (823) \\
+& $ \{ \text{kitti} \} $ (672) & $ \{ \text{kitti} \} $ (672) \\
+& $ \{ \text{thought} \} $ (663) & $ \{ \text{thought} \} $ (663) \\
+& $ \{ \text{time} \} $ (651) & $ \{ \text{time} \} $ (651) \\
+& $ \{ \text{hand} \} $ (651) & $ \{ \text{hand} \} $ (651) \\
+& $ \{ \text{smile} \} $ (632) & $ \{ \text{smile} \} $ (632) \\
+& $ \{ \text{alexei} \} $ (632) & $ \{ \text{alexei} \} $ (632) \\
+& $ \{ \text{face} \} $ (598) & $ \{ \text{face} \} $ (598) \\
+& $ \{ \text{love} \} $ (595) & $ \{ \text{love} \} $ (595) \\
+& $ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{alexandrovitch} \} $ (571) \\
+& $ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{ey} \} $ (570) \\
+& $ \{ \text{ey} \} $ (570) & $ \{ \text{man} \} $ (565) \\
+& $ \{ \text{man} \} $ (565) & $ \{ \text{feel} \} $ (561) \\
+
+\end{tabulary}
+
+\caption{The top 15 parallel episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
+\label{table:fmw-tolstoy-top-15-all-episodes}
+\end{table}
+
+
+As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (table~\ref{table:fmw-tolstoy-top-15-all-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
+
+\begin{itemize}
+\item We learn of many characters' names---either first or last, but we don't know many characters' first and last name.
+\item Looking at the column for the disjoint-window frequency, we see that two names are mentioned together frequently: $ \{ \text{alexei}, \text{alexandrovitch} \} $. From this information it is likely that a character named \emph{Alexei Alexandrovitch} appears often in the book. (This is indeed the case.) Moreover, we see that $ \{ \text{alexei}, \text{alexandrovitch} \} $ is just as frequent as subepisode $ \{ \text{alexandrovitch} \} $. So wherever the first name \emph{Alexei} is mentioned, the last name \emph{Alexandrovitch} is mentioned nearby (within at most within 15 words).
+\item Common words like \emph{thought}, \emph{smile}, \emph{face}, \emph{love}, \emph{eye} (stemmed to \emph{ey}), \emph{feel} can give some indication of genre. At least it seems clear that the sequence does not represent a research paper in computer science.
+
+\end{itemize}
+
+
+\begin{table}
+
+% TODO add more frequency measures
+
+\begin{tabulary}{\textwidth}{L|L|L}
+
+fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
+\hline
+& $ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{alexei}, \text{alexandrovitch} \} $ (286) \\
+& $ \{ \text{stepan}, \text{arkadyevitch} \} $ (547) & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (274) \\
+& $ \{ \text{levin}, \text{levin} \} $ (395) & $ \{ \text{sergei}, \text{ivanovitch} \} $ (146) \\
+& $ \{ \text{sergei}, \text{ivanovitch} \} $ (291) & $ \{ \text{darya}, \text{alexandrovna} \} $ (102) \\
+& $ \{ \text{darya}, \text{alexandrovna} \} $ (205) & $ \{ \text{levin}, \text{levin} \} $ (61.6) \\
+& $ \{ \text{levin}, \text{kitti} \} $ (202) & $ \{ \text{lidia}, \text{ivanovna} \} $ (54) \\
+& $ \{ \text{stepan}, \text{levin} \} $ (199) & $ \{ \text{anna}, \text{vronski} \} $ (45.1) \\
+& $ \{ \text{arkadyevitch}, \text{levin} \} $ (197) & $ \{ \text{smile}, \text{levin} \} $ (41.3) \\
+& $ \{ \text{vronski}, \text{vronski} \} $ (191) & $ \{ \text{levin}, \text{kitti} \} $ (41.1) \\
+& $ \{ \text{anna}, \text{vronski} \} $ (180) & $ \{ \text{room}, \text{draw} \} $ (40.6) \\
+& $ \{ \text{smile}, \text{levin} \} $ (171) & $ \{ \text{countess}, \text{lidia} \} $ (39.4) \\
+& $ \{ \text{anna}, \text{anna} \} $ (170) & $ \{ \text{thought}, \text{levin} \} $ (39.3) \\
+& $ \{ \text{time}, \text{levin} \} $ (159) & $ \{ \text{love}, \text{love} \} $ (38.2) \\
+& $ \{ \text{good}, \text{levin} \} $ (153) & $ \{ \text{arkadyevitch}, \text{levin} \} $ (37.2) \\
+& $ \{ \text{brother}, \text{levin} \} $ (149) & $ \{ \text{agafea}, \text{mihalovna} \} $ (37) \\
+
+\end{tabulary}
+
+\caption{The top 15 parallel 2-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
+\label{table:fmw-tolstoy-top-15-all-episodes}
+\end{table}
+
+\begin{table}
+
+% TODO add more frequency measures
+
+\begin{tabulary}{\textwidth}{L|L}
+
+disjoint-window fr. & weighted-window fr. \\
+\hline
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{levin} \} $ (195) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{levin} \} $ (31.5) \\
+$ \{ \text{levin}, \text{sergei}, \text{ivanovitch} \} $ (113) & $ \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (25.7) \\
+$ \{ \text{alexei}, \text{alexei}, \text{alexandrovitch} \} $ (110) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{smile} \} $ (18.2) \\
+$ \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (107) & $ \{ \text{anna}, \text{alexei}, \text{alexandrovitch} \} $ (16.6) \\
+$ \{ \text{anna}, \text{alexei}, \text{alexandrovitch} \} $ (104) & $ \{ \text{levin}, \text{sergei}, \text{ivanovitch} \} $ (15.9) \\
+$ \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (92) & $ \{ \text{wife}, \text{alexei}, \text{alexandrovitch} \} $ (13.6) \\
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (92) & $ \{ \text{hand}, \text{alexei}, \text{alexandrovitch} \} $ (13.6) \\
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{smile} \} $ (92) & $ \{ \text{alexei}, \text{alexei}, \text{alexandrovitch} \} $ (12.5) \\
+$ \{ \text{wife}, \text{alexei}, \text{alexandrovitch} \} $ (85) & $ \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (12.1) \\
+$ \{ \text{hand}, \text{alexei}, \text{alexandrovitch} \} $ (78) & $ \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (11.8) \\
+$ \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (78) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (11.8) \\
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{good} \} $ (68) & $ \{ \text{brother}, \text{sergei}, \text{ivanovitch} \} $ (11.3) \\
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (67) & $ \{ \text{ey}, \text{alexei}, \text{alexandrovitch} \} $ (10.3) \\
+$ \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (66) & $ \{ \text{face}, \text{alexei}, \text{alexandrovitch} \} $ (10.2) \\
+$ \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} $ (64) & $ \{ \text{time}, \text{alexei}, \text{alexandrovitch} \} $ (9.73) \\
+
+\end{tabulary}
+
+\caption{The top 15 parallel 3-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
+\label{table:fmw-tolstoy-top-15-all-episodes}
+\end{table}
+
+From studying table~\ref{table:fmw-tolstoy-top-15-all-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. One simple way to counter the problem of smaller episodes having an advantage over larger episodes, is to group by size before ranking. Table~\ref{table:fmw-tolstoy-top-15-2-episodes} and table~\ref{table:fmw-tolstoy-top-15-3-episodes} show the rankings of 2-episodes and 3-episodes, respectively.
+
+
+
+
 
 \section{Comparing the different confidence measures}
 
@@ -475,6 +584,7 @@ Anti-monotonic freausncy measures inherently put larger episodes at a disadvanta
 \item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
 \end{itemize}
 We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds, especially with parallel episodes and fixed-window frequency (figure~\ref{fig:episode-frequencies-by-size-parallel-fwi}), where at the lowest threshold, the number of 5-episodes exceeds the number of 1-episodes. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
+
 
 We can make some more observations about the plots in figure~\ref{fig:episodes-frequencies-by-size}. % oh yeah? we'll see about that
 
@@ -602,9 +712,7 @@ Their mining method \textsc{Qcsp} mines serial episodes, and takes the following
 \item $ k $. The algorithm reports only the $ k $ patterns with the greatest cohesion.
 \end{itemize}
 
-We ran the algorithms with such and such algorithms.
-
-Table~\ref{table:compare-top-episodes} shows the top 15 parallel episodes for frequency measures.
+For the quality experiments, we ran our implementation with a window width of 15, and with thresholds as low as possible within reasonable time. \textsc{Fci} was run with a minimum support of 5, a maximal pattern size of 5, and a minimal cohesion of 0.14 (a lower threshold started to take significantly more time).
 
 \begin{table}
 \centering
@@ -634,6 +742,10 @@ $ \{ \text{man} \} $ (565) & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) \\
 \caption{The top 15 patterns mined from~\emph{tolstoy} using the disjoint-window frequency (parallel, $ \rho = 15 $) and \textsc{Fci} (minimum support 5, maximal length 5).}
 \end{table}
 
+Since \textsc{Fci} outputs patterns of size 2 and greater---any event type satisfying minimum support would end up as a cohesive pattern, which isn't too useful---we'll first filter out all 1-episodes from our algorithm as well.
+
+Table~\ref{table:compare-top-episodes} shows the 15 most frequent parallel episodes by the disjoint-window frequency, and the 15 most cohesive patterns mined from \textsc{Fci}.
+
 \begin{table}
 \centering
 
@@ -659,4 +771,5 @@ $ \text{man} $ (565) & $ \text{madam} \to \text{stahl} $ (0.55, 171) \\
 
 \end{tabulary}
 
+\caption{The top 15 patterns mined from~\emph{tolstoy} using the disjoint-window frequency (serial, $ \rho = 15 $) and \textsc{Fci} (minimum support 7, maximal length 5).}
 \end{table}
