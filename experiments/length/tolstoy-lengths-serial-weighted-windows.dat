@@ -1,0 +1,11 @@
+portion	index	duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	rules	status	window-width
+0.1	83	0.031666107000006	serial	weighted-windows	75.08468627929688	2782	10	[]	success	15
+0.2	78	0.25763509499999704	serial	weighted-windows	75.08468627929688	5264	37	[]	success	15
+0.3	71	0.5244299209999921	serial	weighted-windows	75.08468627929688	8151	59	[]	success	15
+0.4	67	2.323091696999995	serial	weighted-windows	75.08468627929688	15853	104	[]	success	15
+0.5	69	5.348842168999994	serial	weighted-windows	75.08468627929688	25602	142	[]	success	15
+0.6	66	6.848359606999992	serial	weighted-windows	75.08468627929688	37801	179	[]	success	15
+0.7	65	15.059770452999999	serial	weighted-windows	75.08468627929688	51373	214	[]	success	15
+0.8	63	10.484957860999998	serial	weighted-windows	75.08468627929688	67344	249	[]	success	15
+0.9	60	17.599415237000017	serial	weighted-windows	75.08468627929688	91194	293	[]	success	15
+1.0	57	19.38242793899998	serial	weighted-windows	75.08468627929688	113026	328	[]	success	15

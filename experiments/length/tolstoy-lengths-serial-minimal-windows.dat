@@ -1,0 +1,11 @@
+portion	index	duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	rules	status	window-width
+0.1	68	0.03929844400001	serial	minimal-windows	74.0	2782	11	[]	success	15
+0.2	64	0.182241486999998	serial	minimal-windows	74.0	5265	38	[]	success	15
+0.3	58	0.5669576930000061	serial	minimal-windows	74.0	8271	64	[]	success	15
+0.4	54	1.569300077999997	serial	minimal-windows	74.0	16689	113	[]	success	15
+0.5	56	3.443229805000001	serial	minimal-windows	74.0	27910	157	[]	success	15
+0.6	53	8.221920326000003	serial	minimal-windows	74.0	38173	198	[]	success	15
+0.7	53	10.299338598000006	serial	minimal-windows	74.0	53978	247	[]	success	15
+0.8	51	12.141245685000001	serial	minimal-windows	74.0	70881	295	[]	success	15
+0.9	49	29.460569042000003	serial	minimal-windows	74.0	95392	362	[]	success	15
+1.0	46	20.496749300000005	serial	minimal-windows	74.0	121074	418	[]	success	15

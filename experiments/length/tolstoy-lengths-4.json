@@ -1,0 +1,1542 @@
+[
+  {
+    "duration-s": 0.139895493,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1000.0,
+    "num-candidates": 11336,
+    "num-candidates-of-size": [
+      5449,
+      5886,
+      1
+    ],
+    "num-frequent-episodes": 112,
+    "num-frequent-episodes-of-size": [
+      108,
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.17009054300000004,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 750.0,
+    "num-candidates": 20332,
+    "num-candidates-of-size": [
+      5449,
+      14878,
+      5
+    ],
+    "num-frequent-episodes": 181,
+    "num-frequent-episodes-of-size": [
+      172,
+      9,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.22967768999999993,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 562.0,
+    "num-candidates": 33906,
+    "num-candidates-of-size": [
+      5449,
+      28441,
+      16
+    ],
+    "num-frequent-episodes": 256,
+    "num-frequent-episodes-of-size": [
+      238,
+      17,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.313405594,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 421.0,
+    "num-candidates": 61796,
+    "num-candidates-of-size": [
+      5449,
+      56280,
+      67
+    ],
+    "num-frequent-episodes": 397,
+    "num-frequent-episodes-of-size": [
+      335,
+      58,
+      4
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.4994513239999999,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 315.0,
+    "num-candidates": 121582,
+    "num-candidates-of-size": [
+      5449,
+      115921,
+      212
+    ],
+    "num-frequent-episodes": 608,
+    "num-frequent-episodes-of-size": [
+      481,
+      121,
+      6
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.8597655370000001,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 236.0,
+    "num-candidates": 225447,
+    "num-candidates-of-size": [
+      5449,
+      219453,
+      545
+    ],
+    "num-frequent-episodes": 913,
+    "num-frequent-episodes-of-size": [
+      662,
+      241,
+      10
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.3969730009999997,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 177.0,
+    "num-candidates": 424314,
+    "num-candidates-of-size": [
+      5449,
+      417241,
+      1620,
+      4
+    ],
+    "num-frequent-episodes": 1439,
+    "num-frequent-episodes-of-size": [
+      913,
+      498,
+      28,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 2.139590308,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 132.0,
+    "num-candidates": 685426,
+    "num-candidates-of-size": [
+      5449,
+      675703,
+      4265,
+      9
+    ],
+    "num-frequent-episodes": 2216,
+    "num-frequent-episodes-of-size": [
+      1162,
+      984,
+      66,
+      4
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 3.1924268529999997,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 99.0,
+    "num-candidates": 1095319,
+    "num-candidates-of-size": [
+      5449,
+      1079715,
+      10137,
+      18
+    ],
+    "num-frequent-episodes": 3431,
+    "num-frequent-episodes-of-size": [
+      1469,
+      1811,
+      144,
+      7
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 4.795506744999999,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 74.0,
+    "num-candidates": 1833054,
+    "num-candidates-of-size": [
+      5449,
+      1804050,
+      23484,
+      70,
+      1
+    ],
+    "num-frequent-episodes": 5599,
+    "num-frequent-episodes-of-size": [
+      1899,
+      3358,
+      325,
+      17,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 6.865701328,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 55.0,
+    "num-candidates": 2517771,
+    "num-candidates-of-size": [
+      5449,
+      2458653,
+      53393,
+      274,
+      2
+    ],
+    "num-frequent-episodes": 9221,
+    "num-frequent-episodes-of-size": [
+      2217,
+      6209,
+      752,
+      41,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 11.148771337,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 41.0,
+    "num-candidates": 3715893,
+    "num-candidates-of-size": [
+      5449,
+      3592540,
+      116954,
+      938,
+      12
+    ],
+    "num-frequent-episodes": 15733,
+    "num-frequent-episodes-of-size": [
+      2680,
+      11075,
+      1824,
+      147,
+      7
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 19.717557069,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 30.0,
+    "num-candidates": 6037650,
+    "num-candidates-of-size": [
+      5449,
+      5771503,
+      257932,
+      2706,
+      59,
+      1
+    ],
+    "num-frequent-episodes": 28358,
+    "num-frequent-episodes-of-size": [
+      3397,
+      19726,
+      4745,
+      455,
+      35,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 31.09185918,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 22.0,
+    "num-candidates": 6484554,
+    "num-candidates-of-size": [
+      5449,
+      5908203,
+      562211,
+      8407,
+      265,
+      18,
+      1
+    ],
+    "num-frequent-episodes": 56797,
+    "num-frequent-episodes-of-size": [
+      3437,
+      37098,
+      14126,
+      1920,
+      200,
+      15,
+      1
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09443686200000001,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 421.0,
+    "num-candidates": 5452,
+    "num-candidates-of-size": [
+      5449,
+      3
+    ],
+    "num-frequent-episodes": 2,
+    "num-frequent-episodes-of-size": [
+      2,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09899324399999998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 315.0,
+    "num-candidates": 5459,
+    "num-candidates-of-size": [
+      5449,
+      10
+    ],
+    "num-frequent-episodes": 4,
+    "num-frequent-episodes-of-size": [
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.131340729,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 236.0,
+    "num-candidates": 5494,
+    "num-candidates-of-size": [
+      5449,
+      45
+    ],
+    "num-frequent-episodes": 9,
+    "num-frequent-episodes-of-size": [
+      9,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.1749297110000001,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 177.0,
+    "num-candidates": 5725,
+    "num-candidates-of-size": [
+      5449,
+      276
+    ],
+    "num-frequent-episodes": 25,
+    "num-frequent-episodes-of-size": [
+      23,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.2766536809999999,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 132.0,
+    "num-candidates": 6352,
+    "num-candidates-of-size": [
+      5449,
+      903
+    ],
+    "num-frequent-episodes": 44,
+    "num-frequent-episodes-of-size": [
+      42,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.409439946,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 99.0,
+    "num-candidates": 7221,
+    "num-candidates-of-size": [
+      5449,
+      1770,
+      2
+    ],
+    "num-frequent-episodes": 63,
+    "num-frequent-episodes-of-size": [
+      59,
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.9367798709999999,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 74.0,
+    "num-candidates": 11127,
+    "num-candidates-of-size": [
+      5449,
+      5671,
+      7
+    ],
+    "num-frequent-episodes": 115,
+    "num-frequent-episodes-of-size": [
+      106,
+      9,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.6852055590000004,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 55.0,
+    "num-candidates": 19001,
+    "num-candidates-of-size": [
+      5449,
+      13530,
+      22
+    ],
+    "num-frequent-episodes": 189,
+    "num-frequent-episodes-of-size": [
+      164,
+      23,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 3.1249153080000003,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 41.0,
+    "num-candidates": 32559,
+    "num-candidates-of-size": [
+      5449,
+      27028,
+      82
+    ],
+    "num-frequent-episodes": 299,
+    "num-frequent-episodes-of-size": [
+      232,
+      62,
+      5
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 6.037019454,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 30.0,
+    "num-candidates": 66167,
+    "num-candidates-of-size": [
+      5449,
+      60378,
+      338,
+      2
+    ],
+    "num-frequent-episodes": 519,
+    "num-frequent-episodes-of-size": [
+      347,
+      160,
+      11,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 10.241910506999998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 22.0,
+    "num-candidates": 133961,
+    "num-candidates-of-size": [
+      5449,
+      127260,
+      1247,
+      5
+    ],
+    "num-frequent-episodes": 901,
+    "num-frequent-episodes-of-size": [
+      504,
+      368,
+      25,
+      4
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 18.221741459000004,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 16.0,
+    "num-candidates": 255430,
+    "num-candidates-of-size": [
+      5449,
+      246051,
+      3918,
+      12
+    ],
+    "num-frequent-episodes": 1601,
+    "num-frequent-episodes-of-size": [
+      701,
+      823,
+      71,
+      6
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 30.248083864999998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 12.0,
+    "num-candidates": 486156,
+    "num-candidates-of-size": [
+      5449,
+      470935,
+      9702,
+      68,
+      2
+    ],
+    "num-frequent-episodes": 2711,
+    "num-frequent-episodes-of-size": [
+      970,
+      1550,
+      172,
+      18,
+      1
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.13159606000000001,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 421.875,
+    "num-candidates": 5452,
+    "num-candidates-of-size": [
+      5449,
+      3
+    ],
+    "num-frequent-episodes": 2,
+    "num-frequent-episodes-of-size": [
+      2,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.11584730299999996,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 316.40625,
+    "num-candidates": 5459,
+    "num-candidates-of-size": [
+      5449,
+      10
+    ],
+    "num-frequent-episodes": 4,
+    "num-frequent-episodes-of-size": [
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.13889132800000004,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 237.3046875,
+    "num-candidates": 5485,
+    "num-candidates-of-size": [
+      5449,
+      36
+    ],
+    "num-frequent-episodes": 8,
+    "num-frequent-episodes-of-size": [
+      8,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.18366605599999997,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 177.978515625,
+    "num-candidates": 5725,
+    "num-candidates-of-size": [
+      5449,
+      276
+    ],
+    "num-frequent-episodes": 23,
+    "num-frequent-episodes-of-size": [
+      23,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.2637652910000001,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 133.48388671875,
+    "num-candidates": 6352,
+    "num-candidates-of-size": [
+      5449,
+      903
+    ],
+    "num-frequent-episodes": 42,
+    "num-frequent-episodes-of-size": [
+      42,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.3804556910000001,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 100.1129150390625,
+    "num-candidates": 7045,
+    "num-candidates-of-size": [
+      5449,
+      1596
+    ],
+    "num-frequent-episodes": 57,
+    "num-frequent-episodes-of-size": [
+      56,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.8709885519999998,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 75.08468627929688,
+    "num-candidates": 10702,
+    "num-candidates-of-size": [
+      5449,
+      5253
+    ],
+    "num-frequent-episodes": 104,
+    "num-frequent-episodes-of-size": [
+      102,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.5747516519999998,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 56.313514709472656,
+    "num-candidates": 17852,
+    "num-candidates-of-size": [
+      5449,
+      12403
+    ],
+    "num-frequent-episodes": 159,
+    "num-frequent-episodes-of-size": [
+      157,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 2.768213503,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 42.23513603210449,
+    "num-candidates": 28669,
+    "num-candidates-of-size": [
+      5449,
+      23220
+    ],
+    "num-frequent-episodes": 217,
+    "num-frequent-episodes-of-size": [
+      215,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 4.784973399,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 31.67635202407837,
+    "num-candidates": 55852,
+    "num-candidates-of-size": [
+      5449,
+      50403
+    ],
+    "num-frequent-episodes": 321,
+    "num-frequent-episodes-of-size": [
+      317,
+      4
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 8.791264139,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 23.757264018058777,
+    "num-candidates": 107827,
+    "num-candidates-of-size": [
+      5449,
+      102378
+    ],
+    "num-frequent-episodes": 457,
+    "num-frequent-episodes-of-size": [
+      452,
+      5
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 13.978329264,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 17.817948013544083,
+    "num-candidates": 202329,
+    "num-candidates-of-size": [
+      5449,
+      196878,
+      2
+    ],
+    "num-frequent-episodes": 634,
+    "num-frequent-episodes-of-size": [
+      627,
+      7,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 21.408705285000003,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 13.363461010158062,
+    "num-candidates": 335537,
+    "num-candidates-of-size": [
+      5449,
+      330078,
+      10
+    ],
+    "num-frequent-episodes": 831,
+    "num-frequent-episodes-of-size": [
+      812,
+      19,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 27.939148975000002,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 10.022595757618546,
+    "num-candidates": 550991,
+    "num-candidates-of-size": [
+      5449,
+      545490,
+      52
+    ],
+    "num-frequent-episodes": 1103,
+    "num-frequent-episodes-of-size": [
+      1044,
+      58,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 31.083231814,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 7.51694681821391,
+    "num-candidates": 946109,
+    "num-candidates-of-size": [
+      5449,
+      940506,
+      154
+    ],
+    "num-frequent-episodes": 1489,
+    "num-frequent-episodes-of-size": [
+      1371,
+      115,
+      3
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.307862229,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1000.0,
+    "num-candidates": 17114,
+    "num-candidates-of-size": [
+      5449,
+      11664,
+      1
+    ],
+    "num-frequent-episodes": 112,
+    "num-frequent-episodes-of-size": [
+      108,
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 2.753415244,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 750.0,
+    "num-candidates": 35036,
+    "num-candidates-of-size": [
+      5449,
+      29584,
+      3
+    ],
+    "num-frequent-episodes": 179,
+    "num-frequent-episodes-of-size": [
+      172,
+      7,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 5.636674160999999,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 562.0,
+    "num-candidates": 62098,
+    "num-candidates-of-size": [
+      5449,
+      56644,
+      5
+    ],
+    "num-frequent-episodes": 247,
+    "num-frequent-episodes-of-size": [
+      238,
+      9,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 9.639275755,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 421.0,
+    "num-candidates": 117689,
+    "num-candidates-of-size": [
+      5449,
+      112225,
+      15
+    ],
+    "num-frequent-episodes": 356,
+    "num-frequent-episodes-of-size": [
+      335,
+      20,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 19.815390766000004,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 315.0,
+    "num-candidates": 236874,
+    "num-candidates-of-size": [
+      5449,
+      231361,
+      64
+    ],
+    "num-frequent-episodes": 529,
+    "num-frequent-episodes-of-size": [
+      481,
+      46,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 37.451893151,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 236.0,
+    "num-candidates": 443957,
+    "num-candidates-of-size": [
+      5449,
+      438244,
+      264
+    ],
+    "num-frequent-episodes": 804,
+    "num-frequent-episodes-of-size": [
+      662,
+      134,
+      8
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.0916288739999942,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 421.0,
+    "num-candidates": 5453,
+    "num-candidates-of-size": [
+      5449,
+      4
+    ],
+    "num-frequent-episodes": 2,
+    "num-frequent-episodes-of-size": [
+      2,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.08481649200000163,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 315.0,
+    "num-candidates": 5465,
+    "num-candidates-of-size": [
+      5449,
+      16
+    ],
+    "num-frequent-episodes": 4,
+    "num-frequent-episodes-of-size": [
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09226568299999371,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 236.0,
+    "num-candidates": 5530,
+    "num-candidates-of-size": [
+      5449,
+      81
+    ],
+    "num-frequent-episodes": 9,
+    "num-frequent-episodes-of-size": [
+      9,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.14936086800000226,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 177.0,
+    "num-candidates": 5978,
+    "num-candidates-of-size": [
+      5449,
+      529
+    ],
+    "num-frequent-episodes": 25,
+    "num-frequent-episodes-of-size": [
+      23,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.3963703750000036,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 132.0,
+    "num-candidates": 7213,
+    "num-candidates-of-size": [
+      5449,
+      1764
+    ],
+    "num-frequent-episodes": 44,
+    "num-frequent-episodes-of-size": [
+      42,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.662680065999993,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 99.0,
+    "num-candidates": 8932,
+    "num-candidates-of-size": [
+      5449,
+      3481,
+      2
+    ],
+    "num-frequent-episodes": 63,
+    "num-frequent-episodes-of-size": [
+      59,
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.5693000779999977,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 74.0,
+    "num-candidates": 16689,
+    "num-candidates-of-size": [
+      5449,
+      11236,
+      4
+    ],
+    "num-frequent-episodes": 113,
+    "num-frequent-episodes-of-size": [
+      106,
+      7,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 4.650188412999995,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 55.0,
+    "num-candidates": 32354,
+    "num-candidates-of-size": [
+      5449,
+      26896,
+      9
+    ],
+    "num-frequent-episodes": 176,
+    "num-frequent-episodes-of-size": [
+      164,
+      12,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 6.119848378,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 41.0,
+    "num-candidates": 59308,
+    "num-candidates-of-size": [
+      5449,
+      53824,
+      35
+    ],
+    "num-frequent-episodes": 261,
+    "num-frequent-episodes-of-size": [
+      232,
+      27,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 10.411316872,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 30.0,
+    "num-candidates": 126043,
+    "num-candidates-of-size": [
+      5449,
+      120409,
+      183,
+      2
+    ],
+    "num-frequent-episodes": 448,
+    "num-frequent-episodes-of-size": [
+      347,
+      87,
+      13,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 21.330415345000006,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 22.0,
+    "num-candidates": 260317,
+    "num-candidates-of-size": [
+      5449,
+      254016,
+      848,
+      4
+    ],
+    "num-frequent-episodes": 756,
+    "num-frequent-episodes-of-size": [
+      504,
+      229,
+      21,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 29.575493023999996,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 16.0,
+    "num-candidates": 499395,
+    "num-candidates-of-size": [
+      5449,
+      491401,
+      2541,
+      4
+    ],
+    "num-frequent-episodes": 1209,
+    "num-frequent-episodes-of-size": [
+      701,
+      473,
+      33,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 45.57896235300001,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 12.0,
+    "num-candidates": 954857,
+    "num-candidates-of-size": [
+      5449,
+      940900,
+      8491,
+      17
+    ],
+    "num-frequent-episodes": 2086,
+    "num-frequent-episodes-of-size": [
+      970,
+      1027,
+      86,
+      3
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.0584911370000043,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 421.875,
+    "num-candidates": 5453,
+    "num-candidates-of-size": [
+      5449,
+      4
+    ],
+    "num-frequent-episodes": 2,
+    "num-frequent-episodes-of-size": [
+      2,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.07318008500000417,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 316.40625,
+    "num-candidates": 5465,
+    "num-candidates-of-size": [
+      5449,
+      16
+    ],
+    "num-frequent-episodes": 4,
+    "num-frequent-episodes-of-size": [
+      4,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09317481300000452,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 237.3046875,
+    "num-candidates": 5513,
+    "num-candidates-of-size": [
+      5449,
+      64
+    ],
+    "num-frequent-episodes": 8,
+    "num-frequent-episodes-of-size": [
+      8,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.18272343099999944,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 177.978515625,
+    "num-candidates": 5978,
+    "num-candidates-of-size": [
+      5449,
+      529
+    ],
+    "num-frequent-episodes": 23,
+    "num-frequent-episodes-of-size": [
+      23,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.435278174000004,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 133.48388671875,
+    "num-candidates": 7213,
+    "num-candidates-of-size": [
+      5449,
+      1764
+    ],
+    "num-frequent-episodes": 42,
+    "num-frequent-episodes-of-size": [
+      42,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.6876730589999909,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 100.1129150390625,
+    "num-candidates": 8585,
+    "num-candidates-of-size": [
+      5449,
+      3136
+    ],
+    "num-frequent-episodes": 57,
+    "num-frequent-episodes-of-size": [
+      56,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 2.3230916969999953,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 75.08468627929688,
+    "num-candidates": 15853,
+    "num-candidates-of-size": [
+      5449,
+      10404
+    ],
+    "num-frequent-episodes": 104,
+    "num-frequent-episodes-of-size": [
+      102,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 3.060743025000008,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 56.313514709472656,
+    "num-candidates": 30098,
+    "num-candidates-of-size": [
+      5449,
+      24649
+    ],
+    "num-frequent-episodes": 159,
+    "num-frequent-episodes-of-size": [
+      157,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 4.044839680999999,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 42.23513603210449,
+    "num-candidates": 51674,
+    "num-candidates-of-size": [
+      5449,
+      46225
+    ],
+    "num-frequent-episodes": 217,
+    "num-frequent-episodes-of-size": [
+      215,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 8.721949793000007,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 31.67635202407837,
+    "num-candidates": 105938,
+    "num-candidates-of-size": [
+      5449,
+      100489
+    ],
+    "num-frequent-episodes": 321,
+    "num-frequent-episodes-of-size": [
+      317,
+      4
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 16.276810228000002,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 23.757264018058777,
+    "num-candidates": 209753,
+    "num-candidates-of-size": [
+      5449,
+      204304
+    ],
+    "num-frequent-episodes": 457,
+    "num-frequent-episodes-of-size": [
+      452,
+      5
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 25.400330838000002,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 17.817948013544083,
+    "num-candidates": 398580,
+    "num-candidates-of-size": [
+      5449,
+      393129,
+      2
+    ],
+    "num-frequent-episodes": 634,
+    "num-frequent-episodes-of-size": [
+      627,
+      7,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 36.05874306300001,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 13.363461010158062,
+    "num-candidates": 664798,
+    "num-candidates-of-size": [
+      5449,
+      659344,
+      5
+    ],
+    "num-frequent-episodes": 824,
+    "num-frequent-episodes-of-size": [
+      812,
+      12,
+      0
+    ],
+    "rules": [],
+    "status": "timeout",
+    "window-width": 15
+  }
+]

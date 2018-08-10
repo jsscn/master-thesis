@@ -1,0 +1,11 @@
+portion	index	duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	rules	status	window-width
+0.1	21	0.045923704	parallel	minimal-windows	55.0	2914	23	[]	success	15
+0.2	22	0.235268841999999	parallel	minimal-windows	55.0	5568	61	[]	success	15
+0.3	22	0.8105584239999991	parallel	minimal-windows	55.0	11015	125	[]	success	15
+0.4	21	1.685205559	parallel	minimal-windows	55.0	19001	189	[]	success	15
+0.5	23	3.007721073	parallel	minimal-windows	55.0	27379	263	[]	success	15
+0.6	22	5.563881824	parallel	minimal-windows	55.0	40266	350	[]	success	15
+0.7	23	8.320587964	parallel	minimal-windows	55.0	58447	459	[]	success	15
+0.8	22	14.075356727	parallel	minimal-windows	55.0	80873	578	[]	success	15
+0.9	22	18.822153550000003	parallel	minimal-windows	55.0	103167	708	[]	success	15
+1.0	21	23.794931243	parallel	minimal-windows	55.0	126968	837	[]	success	15

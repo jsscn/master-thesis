@@ -422,7 +422,68 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \label{fig:runtimes-trains-900}
 \end{figure}
 
-\subsection{Comparing window sizes}
+
+
+\subsection{Comparing sequence lengths}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=north west,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={portion of the whole sequence},
+    ylabel={runtime (s)},
+    % ymode=log,
+]
+
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-fixed-windows.dat};
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-minimal-windows.dat};
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-weighted-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-fixed-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-minimal-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-weighted-windows.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{linear scale}
+\label{fig:tolstoy-runtime-vs-length-linear-scale}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=south east,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={portion of the whole sequence},
+    ylabel={runtime (s)},
+    ymode=log,
+]
+
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-fixed-windows.dat};
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-minimal-windows.dat};
+\addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-weighted-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-fixed-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-minimal-windows.dat};
+% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-weighted-windows.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{logaritmic scale}
+\label{fig:tolstoy-runtime-vs-length-log-scale}
+\end{subfigure}
+
+\caption{Runtimes for different portions of \emph{tolstoy} using a fixed frequency threshold for each frequency measure. $ \rho = 15 $.}
+\label{fig:tolstoy-runtime-vs-length}
+\end{figure}
+
+In sequential pattern mining, sequences are expected to be very long. Therefore we would like to have an idea of how the length of the sequence affects the performance. We measured the runtime of the algorithm for different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures. The results can be seen in figure~\ref{fig:tolstoy-runtime-vs-length}. The general progression is fairly similar for all of the measures. While unfortunately the progression is not linear (figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}) it doesn't seem to be exponential---if that were the case, we would see straight lines on a graph with a logarithmic scale (figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}).
 
 \subsection{Comparing performance with the closed episode miner}
 
@@ -447,7 +508,7 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 \end{tabulary}
 
-\caption{Differing weighted-window frequency values between two implementations.}
+\caption{Differing weighted-window frequency values between two implementations, mining the example sequence from figure~\ref{fig:event-sequence}.}
 \label{table:closepi-frequency-difference}
 \end{table}
 
@@ -531,7 +592,7 @@ fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
 \end{tabulary}
 
 \caption{The top 15 parallel 2-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
-\label{table:fmw-tolstoy-top-15-all-episodes}
+\label{table:fmw-tolstoy-top-15-2-episodes}
 \end{table}
 
 \begin{table}
@@ -561,20 +622,36 @@ $ \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} $ (64) & $ \{ 
 \end{tabulary}
 
 \caption{The top 15 parallel 3-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
-\label{table:fmw-tolstoy-top-15-all-episodes}
+\label{table:fmw-tolstoy-top-15-3-episodes}
 \end{table}
 
 From studying table~\ref{table:fmw-tolstoy-top-15-all-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. One simple way to counter the problem of smaller episodes having an advantage over larger episodes, is to group by size before ranking. Table~\ref{table:fmw-tolstoy-top-15-2-episodes} and table~\ref{table:fmw-tolstoy-top-15-3-episodes} show the rankings of 2-episodes and 3-episodes, respectively.
 
+% TODO analyze 2-episodes and 3-episodes
 
 
 
 
 \section{Comparing the different confidence measures}
 
-The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by a disjoint-window frequency threshold will generate association rules by  minimal-window confidence threshold.
+The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by the disjoint-window frequency will generate association rules according to the minimal-window confidence.
 
-\section{Comparing with non-frequency-based methods}
+\begin{table}
+
+\begin{tabulary}{\textwidth}{L|L}
+
+
+
+\end{tabulary}
+
+\end{table}
+
+Table~\ref{table:tolstoy-rules} shows the top 15 association rules found in an experiment.
+
+
+
+
+\section{Comparison with non-frequency-based methods}
 
 We'll carry out a comparative study with two implementations of mining algorithms that use interestingness measures not based on frequency.
 
