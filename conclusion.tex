@@ -2,11 +2,13 @@
 
 % TODO something here? something about data science in general again?
 
-We implemented an algorithm for mining frequent episodes and confident association rules, according to multiple frequency and confidence measures, ranging from long-established approaches to more novel ones. While the general strategy for mining episodes is consistent across these episode classes and frequency measures, quite a few specialized subalgorithms were needed. Many of the subalgorithms were based on preexisting algorithms, though most needed some modification for our purposes.
+After an introduction to sequential pattern mining, including various measures of interestingness of patterns, ranging from long-established approaches to more novel ones, we implemented an algorithm for mining frequent episodes and confident association rules, according to those interestingness measures. While the general strategy for mining episodes is consistent across these episode classes and frequency measures---breadth-first search, Apriori-style pruning---quite a few specialized subalgorithms were needed. Many of the subalgorithms were based on preexisting algorithms, though most needed some adaptation for our purposes.
 
 % TODO ^ expand introduction to conclusion ^
 
-We saw that each of these interestingness measures had advantages and disadvantages. The fixed-window frequency was often, especially with parallel episodes, since the amount of bookkeeping in a database pass is a lot more limited compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed.
+We saw that each of these interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes in less time, since the amount of bookkeeping in a database pass is smaller compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed. However, 
+
+The measures based on minimal windows performed slower, but they produce more natural frequency values.
 
 % TODO ^ more advantages, disadvantages ^
 

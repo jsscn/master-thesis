@@ -530,7 +530,7 @@ When an event of type $ A $ leaves the window (line~\ref{alglin:rec-par-fwi:old-
 
 Figure~\ref{fig:parallel-recognition} illustrates this the recognition of a parallel episode by algorithm~\ref{alg:rec-par-fwi}.
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 
 \begin{tikzpicture}
@@ -787,7 +787,7 @@ After applying the state transitions, the events no longer in the window are dro
 \item The \emph{initialized} array of the episode is updated to reflect the removal of the automaton instance.
 \end{enumerate}
 
-\subsection{Correcting the original algorithm presented in~\citep{mannila1997discovery}}
+\subsection{Adapting the algorithm presented in~\citep{mannila1997discovery}}
 
 While implementing this algorithm we found an oversight in~\citep{mannila1997discovery} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\citep{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. Note that in~\citep{mannila1997discovery}, the update to \emph{begins\_at} of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2} are missing. (In their version of the algorithm, these statements should appear in between lines 26 and 27.)
 
@@ -1386,7 +1386,7 @@ If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $
 \end{figure}
 \fi
 
-\subsection{Correcting the original algorithm presented in~\cite{cule2014marbles}}
+\subsection{Adapting the original algorithm presented in~\cite{cule2014marbles}}
 
 In~\citep{cule2014marbles}, there is a small mistake in algorithm~\ref{alg:minimal-window-confidence} (algorithm~1 in~\citep{cule2014marbles}), regarding the comparison of the end timestamps of two windows. In the condition for the \emph{while}-statement, $ W $ is traversed until a window with an end timestamp \emph{strictly} greater than the end timstamp of the window in $ V $ currently being considered. However, one window can be a subwindow of another if their end timestamps are equal. If implemented as written in~\cite{cule2014marbles}, then a minimal window in $ W $ could be skipped erroneously.
 
@@ -1434,7 +1434,7 @@ The calculation of the weighted-window confidence of an association rule can be 
 
 This is what happens in the second \emph{while}-loop in algorithm~\ref{alg:weighted-window-confidence} (line~\ref{alglin:weighted-window-confidence:find-smallest-while}, algorithm adapted from~\cite{cule2014marbles}). After the first minimal window $ [p_i, q_i) \supset [a_k, b_k) $ has been found, all subsequent windows $ [p_j, q_j) \supset [a_k, b_k) $ are checked for their length. The index $ j $ for which the weight $ (q_j - p_j)^{-1} $ is maximal, is stored in $ i $, and the corresponding window contributes towards the weighted-window confidence.
 
-\subsection{Correcting the algorithm presented in~\citep{cule2014marbles}}
+\subsection{Adapting the algorithm presented in~\citep{cule2014marbles}}
 
 Algorithm 3 from~\citep{cule2014marbles}---which algorithm~\ref{alg:weighted-window-confidence} was based on---does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
 

@@ -422,11 +422,11 @@ Using this definition, we can find the probability of finding an occurrence of t
 
 For a visual example of the fixed-window frequency of an episode, see figure~\ref{fig:fwi-example}. It shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $.
 
-In event sequence mining, it is desirable for a frequency measure to give more weight to an occurrence that spans a shorter time range. The farther apart the events composing an occurrence, the more likely it is that the occurrence is accidental. Figure~\ref{fig:fwi-example} shows that the events for the serial episode are close together, such that a larger number of windows cover it, giving it a higher score than the parallel episode, where the events giving rise to the occurrence are more spread out, such that fewer windows cover the episode. So, the fixed-window frequency does have this covetable trait.
+In event sequence mining, it is desirable for a frequency measure to give more weight to an occurrence that spans a shorter time range. The farther apart the events composing an occurrence, the more likely it is that the occurrence is accidental. Figure~\ref{fig:fwi-example} shows that the events for the serial episode are close together, such that a larger number of windows cover it, giving it a higher score than the parallel episode, where the events giving rise to the occurrence are more spread out, such that fewer windows cover the episode. So, the fixed-window frequency does have this appealing trait.
 
-Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width---even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in the same window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. While this doesn't affect the ranking of the episodes, it does mean that the frequency value itself isn't easily interpretable.
+Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width---even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in one window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. This makes for frequency values that aren't easily interpretable.
 
-Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal in \ref{fig:many-events} and \ref{fig:few-events}, even though one would naturally say that the episode occurs more than twice as often in figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
+Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal in \ref{fig:many-events} and \ref{fig:few-events}, even though one would naturally say that the episode occurs at least twice as often in figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
 
 \begin{figure}
 \centering
@@ -529,7 +529,7 @@ Given a sequence $ s $, an episode $ \alpha $, and a positive integer $ \rho $, 
 We denote the set of all minimal windows of $ \alpha $ in $ \boldsymbol{s} $ with $ mw(\alpha, \boldsymbol{s}) $, or simply $ mw(\alpha) $ if $ \boldsymbol{s} $ is known from the context. Given a set of minimal windows $ W $, we define $ dis(W) $ to be true if all windows in $ W $ are pairwise disjoint, and false otherwise.
 \end{definition}
 
-Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is mostly convenient for the mining algorithms.
+Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the width of a minimal window, under the assumption that windows of greater width aren't useful. This limit is also convenient for the mining algorithms.
 
 If we mention a \emph{minimal occurrence} of an episode, we refer to the occurrence that gives rise to a minimal window of the episode.
 
@@ -578,7 +578,7 @@ If we mention a \emph{minimal occurrence} of an episode, we refer to the occurre
 \label{fig:mwi-example}
 \end{figure}
 
-To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $ instead. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
+To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
 
 \begin{figure}
 \centering
@@ -657,13 +657,13 @@ fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\
 In words, the weighted-window frequency is the sum weight of a set of disjoint minimal windows that maximizes the total weight.
 \end{definition}
 
-The weight of a window is the inverse of its width because an occurrence giving rise to a small minimal window is deemed more significant than one where the events are spread far apart.
+The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode---which is to say, not very much for large $ \rho $.
 
 
 
 \section{Association rules}
 
-We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know which patterns are correlated. Perhaps the occurrence of certain event types give rise to the occurrence of certain other event types. Association rules allow us to find such correlations, similarly to association rules in itemset mining.
+We've quantified the interestingness of patterns in different ways. Besides expressing the interestingness of a single episode, it might also be desirable to know if an occurrence of an episode gives rise to the occurrence of certain other events nearby. Association rules allow us to find such correlations, similarly to association rules in itemset mining.
 
 \begin{definition}
 Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we can express an \emph{association rule} $ \alpha \Rightarrow \beta $. We call $ \alpha $ the \emph{head} of the rule, and $ \beta $ the \emph{tail} of the rule.
@@ -671,7 +671,7 @@ Given two episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, 
 
 An association rule $ \alpha \Rightarrow \beta $ can be read as \emph{an occurrence of $ \alpha $ leads to an occurrence of $ \beta $}. Or, \emph{if we find an occurrence of $ \alpha $, then we are likely to find an occurrence of $ \beta $ nearby}.
 
-If we state that $ \alpha \Rightarrow \beta $ holds in the context of a sequence, we must be confident stating it. And so, we want to be able to express \emph{how} confident we are about that statement, and define \emph{confidence measures} to quantify this confidence. We will introduce a number of measures in section~\ref{sec:interestingness-measures-association-rules}.
+If we state that $ \alpha \Rightarrow \beta $ holds in the context of a sequence, we must be confident stating it. Thus, we want to be able to express \emph{how} confident we are about that statement, and define \emph{confidence measures} to quantify this confidence. We will introduce a number of measures in section~\ref{sec:interestingness-measures-association-rules}.
 
 The purpose of the search for confident association rules is to find episodes $ \alpha $ which are good predictors of superepisodes $ \beta $.
 
@@ -682,11 +682,11 @@ Typical algorithms (including ours) only consider association rules consisting o
 
 \subsection{Fixed-window confidence}
 
-Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, $ c(\alpha \Rightarrow \beta) $ rule expresses the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
+Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, $ c(\alpha \Rightarrow \beta) $ rule should express the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
 
 We will present three methods to measure the confidence of an association rule, each based on its equivalent frequency measure defined in section~\ref{sec:interestingness-measures-episodes}.
 
-The first method of determining the confidence of an association rule is to use the fixed-window frequency of episodes \citep{mannila1997discovery}.
+A first method is to use the fixed-window frequency of episodes \citep{mannila1997discovery}.
 
 \begin{definition}
 Given a window width $ \rho $ and episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{fixed-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_f(\alpha \Rightarrow \beta) $, to be the ratio of their respective frequencies:
@@ -695,7 +695,13 @@ c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
 \end{align*}
 \end{definition}
 
-Given that the fixed-window frequency gave unintuitive results for episodes, and that the fixed-window confidence is based on the fixed-window frequency, it should be no surprise that the confidence values for the fixed-window confidence can also be unintuitive.
+Intuitively, this measure of confidence expresses the amount of windows that contain $ \beta $, relative to the windows that contain $ \alpha $. In probabilistic terms, it answers the following: \emph{if we pick a random window in which $ \alpha $ occurs, how likely are we to find $ \beta $ as well?}
+
+At first sight, this seems like a sensible approach. However, in section~\ref{sec:fixed-window-frequency} we established that the frequency values produced by the fixed-window frequency, are unintuitive, in part because they heavily depend on the chosen window width. That being so, and given that the fixed-window confidence is based directly on the fixed-window frequency, the fixed-window confidence cannot be expected to produce very meaningful results either.
+
+% TODO maybe expand
+
+
 
 \iffalse
 Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of figure~\ref{fig:fwi-example}. In figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:occurrences spanning a long time range are more likely to be coincidental than short occurrences
@@ -705,7 +711,6 @@ Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of fi
 \end{itemize}
 
 So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the sequence than the occurrence of $ \{ b, c \} $, which spans the whole of $ \{ b, c, e, e \} $, the confidence values for the two association rules differ greatly.
-\fi
 
 \begin{figure}
 \centering
@@ -803,10 +808,19 @@ So just because the occurrence of $ \{ e, e \} $ spans a smaller portion of the 
 \caption{All of the windows of width 8 that cover $ \{ b, c, e, e \} $ and two of its subepisodes.}
 \label{fig:fwi-assoc-example}
 \end{figure}
+\fi
 
 \subsection{Minimal-window confidence}
 
-The confidence of an association rule can also be based on minimal windows \citep{cule2014marbles}. Contrary to the frequency of episodes themselves, for association rules we \emph{do} use overlapping minimal windows.
+The confidence of an association rule can also be based on minimal windows \citep{cule2014marbles}. As opposed to the fixed-window confidence, here we don't directly base the confidence measure upon the corresponding frequency measure. To obtain a confidence value of an association rule, we consider the minimal windows of both episodes involved.
+
+Contrary to the disjoint-window frequency, for association rules we \emph{do} use overlapping minimal windows, since the use of non-overlapping minimal windows for the disjoint-window frequency is just a means to define an anti-monotonic frequency measure. For the minimal-window confidence, there is no reason not to consider all minimal occurrences.
+
+A naive approach to a confidence measure based on minimal windows, could be to define the confidence of $ \alpha \Rightarrow \beta $ as
+\begin{align*}
+\frac{| mw(\beta) |}{| mw(\alpha) |}
+\end{align*}
+similarly to the fixed-window confidence. However, we're trying to express the probability of finding $ \beta $, given that we've found $ \alpha $. If a minimal window of $ \beta $ contains multiple minimal windows of $ \alpha $, the above expression does not represent the intended meaning. Instead, for each minimal window of $ \alpha $ it is determined whether or not it is contained within a minimal window of $ \beta $.
 
 \begin{definition}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that
@@ -817,10 +831,10 @@ ext_m(\boldsymbol{s}[a, b), \alpha, \beta) = 1
 If such a window doesn't exist, we define $ ext_m(\boldsymbol{s}[a,b)) = 0 $.
 \end{definition}
 
-In simple terms, the minimal-extensibility tells us whether or not a minimal window of an episode $ \alpha $ is contained in a minimal window of another episode $ \beta $.
+Now the minimal-window confidence is defined by the percentage of minimal windows of $ \alpha $ that are contained within a minimal window of $ \beta $.
 
 \begin{definition}
-Given episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we define the \emph{minimal-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_m(\alpha \Rightarrow \beta) $, to be the proportion of windows of $ \alpha $ that are contained within a minimal window of $ \beta $:
+Given episodes $ \alpha $ and $ \beta $ such that $ \alpha \subset \beta $, we define the \emph{minimal-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_m(\alpha \Rightarrow \beta) $, to be:
 \begin{align*}
 c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \beta)}{| mw(\alpha) |}
 \end{align*}
@@ -840,9 +854,7 @@ If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymb
 
 The inverse of the weighted-extensibility tells us how much we need to enlarge a minimal occurrence of $ \alpha $ to find a minimal occurrence of $ \beta $.
 
-% TODO rewrite the thing about the weighted-extensibility
-
-The following definition (from~\citep{cule2014marbles}) introduces another method for determining the confidence of association rules, taking into account the size of the minimal windows.
+Using the weighted-extensibility, the weighted-window confidence is defined very similarly to the minimal-window confidence.
 
 \begin{definition} \label{def:weighted-window-confidence}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we define the \emph{weighted-window confidence} of the association rule $ \alpha \Rightarrow \beta $, denoted $ c_w(\alpha \Rightarrow \beta) $, to be the average weighted-extensibility of an occurrence of $ \alpha $ into an occurrence of $ \beta $:

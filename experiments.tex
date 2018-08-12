@@ -48,9 +48,7 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \label{table:datasets-numbers}
 \end{table}
 
-We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for texts. In \emph{trains}, too, there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
-
-Table~\ref{table:most-frequent-event-types} contains the most frequent words (event types) in datasets \emph{abstract} and \emph{tolstoy}, including the exact number of times they appear in the sequence. This information already gives a sense of which event types are most frequent, and we can expect to see them appear in episodes.
+We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains}, too, there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 \begin{figure}
 \centering
@@ -135,41 +133,6 @@ Table~\ref{table:most-frequent-event-types} contains the most frequent words (ev
 \label{fig:alphabet-frequencies}
 \end{figure}
 
-\iffalse
-\begin{table}
-\centering
-
-\begin{tabulary}{\textwidth}{L|L}
-
-\emph{abstract} & \emph{tolstoy} \\
-\hline
-research (1289) & levin (1629) \\
-studi (708) & vronski (865) \\
-project (588) & anna (823) \\
-student (563) & kitti (672) \\
-program (439) & thought (663) \\
-provid (372) & time (651) \\
-investig (369) & hand (651) \\
-develop (360) & smile (632) \\
-work (345) & alexei (632) \\
-univers (344) & face (598) \\
-system (308) & love (595) \\
-problem (307) & alexandrovitch (571) \\
-model (306) & ey (570) \\
-theori (296) & man (565) \\
-support (288) & feel (561) \\
-area (271) & felt (555) \\
-experi (264) & don (553) \\
-structur (251) & stepan (548) \\
-group (251) & arkadyevitch (548) \\
-includ (250) & good (507) \\
-
-\end{tabulary}
-
-\caption{The most frequent words (event types) for \emph{abstract} and \emph{trains}, and their frequency in parentheses.}
-\label{table:most-frequent-event-types}
-\end{table}
-\fi
 
 \section{Performance}
 \label{sec:performance}
@@ -180,12 +143,10 @@ The performance experiments were ran as follows. For specified episode classes, 
 
 \begin{itemize}
 \item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold. For example, with a multiplier of 0.90, the next threshold is always 10\% smaller than the last.
-\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequenciy thresholds for that combination of episode class, frequency measure, and window width are skipped, as they will take at least as much time and memory as the current threshold.
+\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequency thresholds for that combination of episode class, frequency measure, and window width are skipped, as they will take at least as much time and memory as the current threshold.
 \end{itemize}
 
-Because it turned wasn't trivial to limit memory directly, we experimentally settled on a limit to the number of candidates that should be considered at once. For the machine we ran the experiments on, it turned out that after about 2.5~million candidates the system would start suffering under memory pressure.
-
-All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. Model that comes with 2.7 GHz processor; memory manually upgraded to 12~GB. Running macOS 10.13.5. All C++ code compiled with Clang~900.0.39.2 from LLVM~9.0. All Java code ran with Java~SE~1.8.}.
+All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. 2.7 GHz model; memory manually upgraded to 12~GB. Running macOS 10.13.5. All C++ code compiled with clang-900.0.39.2 from LLVM~9.0. All Java code run with Java~SE~1.8.}.
 
 
 \subsection{Episodes}
@@ -251,7 +212,7 @@ All performance experiments were run on the same machine; the full specification
 
 Figure~\ref{fig:runtimes-rules-trains-900} shows runtimes for generating association rules from \emph{trains} using different episode classes, as a function of the number of frequent episodes. Some weird results though % TODO fix
 
-As we saw in algorithm~\ref{alg:association-rules-top-level}, for each frequent episode $ \beta $, all $ \alpha \Rightarrow \beta $ with $ \alpha \subset \beta $ are considered.
+As we saw in algorithm~\ref{alg:association-rules-top-level}, for each frequent episode $ \beta $, all $ \alpha \Rightarrow \beta $ with $ \alpha \subset \beta $ are considered. In our experiments, the association mining process usually took a small fraction of the duration of the episode mining process. But, assuming an injective $ lab $-function (an event type appears at most once), the number of subepisodes of an episode is exponential in the size of the episode. So, when there was many large episodes, mining association rules started to take significant time.
 
 \begin{figure}
 
@@ -489,11 +450,15 @@ In sequential pattern mining, sequences are expected to be very long. Therefore 
 
 Alongside the performance experiments, we ran the closed episode miner on some of the same parameter configurations.
 
+% TODO do some runs and write about them (refer back to earlier experiments)
+
 \section{Correctness}
 
-Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation. We did find, however, a possible bug in the closed episode miner. We didn't deeply investigate the issue, but we'll report what we found.
+Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation. We did find, however, a possible bug in the closed episode miner.
 
 When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
+
+Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1), (a, 3), (a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
 
 \begin{table}
 \centering
@@ -516,46 +481,48 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 In this section, we will do a qualitative analysis. We compare the top-ranked results across the different frequency measures we implemented, and those of cohesion-based interestingness measures, as we will explain later.
 
-\section{Comparing the frequency measures on a toy example}
+
+\iffalse
+\subsection{Comparing the frequency measures on a toy example}
 
 We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
+\fi
 
-\section{Analysis of episodes mined from \emph{tolstoy} dataset}
+% TODO not do?
+
+\subsection{Analysis of episodes mined from \emph{tolstoy} dataset}
 
 \begin{table}
 
-% TODO add more frequency measures
+\begin{tabulary}{\textwidth}{R|L|L|L}
 
-\begin{tabulary}{\textwidth}{L|L|L}
-
-fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
+\# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
 \hline
-& $ \{ \text{levin} \} $ (1629) & $ \{ \text{levin} \} $ (1629) \\
-& $ \{ \text{vronski} \} $ (865) & $ \{ \text{vronski} \} $ (865) \\
-& $ \{ \text{anna} \} $ (823) & $ \{ \text{anna} \} $ (823) \\
-& $ \{ \text{kitti} \} $ (672) & $ \{ \text{kitti} \} $ (672) \\
-& $ \{ \text{thought} \} $ (663) & $ \{ \text{thought} \} $ (663) \\
-& $ \{ \text{time} \} $ (651) & $ \{ \text{time} \} $ (651) \\
-& $ \{ \text{hand} \} $ (651) & $ \{ \text{hand} \} $ (651) \\
-& $ \{ \text{smile} \} $ (632) & $ \{ \text{smile} \} $ (632) \\
-& $ \{ \text{alexei} \} $ (632) & $ \{ \text{alexei} \} $ (632) \\
-& $ \{ \text{face} \} $ (598) & $ \{ \text{face} \} $ (598) \\
-& $ \{ \text{love} \} $ (595) & $ \{ \text{love} \} $ (595) \\
-& $ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{alexandrovitch} \} $ (571) \\
-& $ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{ey} \} $ (570) \\
-& $ \{ \text{ey} \} $ (570) & $ \{ \text{man} \} $ (565) \\
-& $ \{ \text{man} \} $ (565) & $ \{ \text{feel} \} $ (561) \\
+1 & $ \{ \text{levin} \} $ (20913) & $ \{ \text{levin} \} $ (1629) & $ \{ \text{levin} \} $ (1629) \\
+2 & $ \{ \text{vronski} \} $ (11165) & $ \{ \text{vronski} \} $ (865) & $ \{ \text{vronski} \} $ (865) \\
+3 & $ \{ \text{anna} \} $ (10699) & $ \{ \text{anna} \} $ (823) & $ \{ \text{anna} \} $ (823) \\
+4 & $ \{ \text{thought} \} $ (8994) & $ \{ \text{kitti} \} $ (672) & $ \{ \text{kitti} \} $ (672) \\
+5 & $ \{ \text{time} \} $ (8948) & $ \{ \text{thought} \} $ (663) & $ \{ \text{thought} \} $ (663) \\
+6 & $ \{ \text{kitti} \} $ (8826) & $ \{ \text{time} \} $ (651) & $ \{ \text{time} \} $ (651) \\
+7 & $ \{ \text{hand} \} $ (8645) & $ \{ \text{hand} \} $ (651) & $ \{ \text{hand} \} $ (651) \\
+8 & $ \{ \text{alexei} \} $ (8619) & $ \{ \text{smile} \} $ (632) & $ \{ \text{smile} \} $ (632) \\
+9 & $ \{ \text{smile} \} $ (8549) & $ \{ \text{alexei} \} $ (632) & $ \{ \text{alexei} \} $ (632) \\
+10 & $ \{ \text{face} \} $ (8315) & $ \{ \text{face} \} $ (598) & $ \{ \text{face} \} $ (598) \\
+11 & $ \{ \text{ey} \} $ (8062) & $ \{ \text{love} \} $ (595) & $ \{ \text{love} \} $ (595) \\
+12 & $ \{ \text{alexandrovitch} \} $ (7842) & $ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{alexandrovitch} \} $ (571) \\
+13 & $ \{ \text{felt} \} $ (7753) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) & $ \{ \text{ey} \} $ (570) \\
+14 & $ \{ \text{man} \} $ (7751) & $ \{ \text{ey} \} $ (570) & $ \{ \text{man} \} $ (565) \\
+15 & $ \{ \text{feel} \} $ (7596) & $ \{ \text{man} \} $ (565) & $ \{ \text{feel} \} $ (561) \\
 
 \end{tabulary}
 
 \caption{The top 15 parallel episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
-\label{table:fmw-tolstoy-top-15-all-episodes}
+\label{table:fmw-tolstoy-top-15-parallel-episodes}
 \end{table}
 
-
-As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (table~\ref{table:fmw-tolstoy-top-15-all-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
+As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (table~\ref{table:fmw-tolstoy-top-15-parallel-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
 
 \begin{itemize}
 \item We learn of many characters' names---either first or last, but we don't know many characters' first and last name.
@@ -564,73 +531,70 @@ As we would expect, if we rank the output by frequency, the top contains mostly 
 
 \end{itemize}
 
-
 \begin{table}
 
-% TODO add more frequency measures
+\begin{tabulary}{\textwidth}{R|L|L|L}
 
-\begin{tabulary}{\textwidth}{L|L|L}
-
-fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
+\# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
 \hline
-& $ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{alexei}, \text{alexandrovitch} \} $ (286) \\
-& $ \{ \text{stepan}, \text{arkadyevitch} \} $ (547) & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (274) \\
-& $ \{ \text{levin}, \text{levin} \} $ (395) & $ \{ \text{sergei}, \text{ivanovitch} \} $ (146) \\
-& $ \{ \text{sergei}, \text{ivanovitch} \} $ (291) & $ \{ \text{darya}, \text{alexandrovna} \} $ (102) \\
-& $ \{ \text{darya}, \text{alexandrovna} \} $ (205) & $ \{ \text{levin}, \text{levin} \} $ (61.6) \\
-& $ \{ \text{levin}, \text{kitti} \} $ (202) & $ \{ \text{lidia}, \text{ivanovna} \} $ (54) \\
-& $ \{ \text{stepan}, \text{levin} \} $ (199) & $ \{ \text{anna}, \text{vronski} \} $ (45.1) \\
-& $ \{ \text{arkadyevitch}, \text{levin} \} $ (197) & $ \{ \text{smile}, \text{levin} \} $ (41.3) \\
-& $ \{ \text{vronski}, \text{vronski} \} $ (191) & $ \{ \text{levin}, \text{kitti} \} $ (41.1) \\
-& $ \{ \text{anna}, \text{vronski} \} $ (180) & $ \{ \text{room}, \text{draw} \} $ (40.6) \\
-& $ \{ \text{smile}, \text{levin} \} $ (171) & $ \{ \text{countess}, \text{lidia} \} $ (39.4) \\
-& $ \{ \text{anna}, \text{anna} \} $ (170) & $ \{ \text{thought}, \text{levin} \} $ (39.3) \\
-& $ \{ \text{time}, \text{levin} \} $ (159) & $ \{ \text{love}, \text{love} \} $ (38.2) \\
-& $ \{ \text{good}, \text{levin} \} $ (153) & $ \{ \text{arkadyevitch}, \text{levin} \} $ (37.2) \\
-& $ \{ \text{brother}, \text{levin} \} $ (149) & $ \{ \text{agafea}, \text{mihalovna} \} $ (37) \\
+1 & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (7416) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (286) \\
+2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (7117) & $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (547) & $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (274) \\
+3 & $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (3763) & $ \{ \text{levin},\allowbreak\text{levin} \} $ (395) & $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (146) \\
+4 & $ \{ \text{levin},\allowbreak\text{levin} \} $ (3348) & $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (291) & $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (102) \\
+5 & $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (2739) & $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (205) & $ \{ \text{levin},\allowbreak\text{levin} \} $ (61.6) \\
+6 & $ \{ \text{levin},\allowbreak\text{kitti} \} $ (2039) & $ \{ \text{levin},\allowbreak\text{kitti} \} $ (202) & $ \{ \text{lidia},\allowbreak\text{ivanovna} \} $ (54) \\
+7 & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (1942) & $ \{ \text{stepan},\allowbreak\text{levin} \} $ (199) & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (45.1) \\
+8 & $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (1896) & $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (197) & $ \{ \text{smile},\allowbreak\text{levin} \} $ (41.3) \\
+9 & $ \{ \text{stepan},\allowbreak\text{levin} \} $ (1887) & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{levin} \} $ (195) & $ \{ \text{levin},\allowbreak\text{kitti} \} $ (41.1) \\
+10 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{levin} \} $ (1784) & $ \{ \text{vronski},\allowbreak\text{vronski} \} $ (191) & $ \{ \text{room},\allowbreak\text{draw} \} $ (40.6) \\
+11 & $ \{ \text{smile},\allowbreak\text{levin} \} $ (1778) & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (180) & $ \{ \text{countess},\allowbreak\text{lidia} \} $ (39.4) \\
+12 & $ \{ \text{vronski},\allowbreak\text{vronski} \} $ (1722) & $ \{ \text{smile},\allowbreak\text{levin} \} $ (171) & $ \{ \text{thought},\allowbreak\text{levin} \} $ (39.3) \\
+13 & $ \{ \text{time},\allowbreak\text{levin} \} $ (1597) & $ \{ \text{anna},\allowbreak\text{anna} \} $ (170) & $ \{ \text{love},\allowbreak\text{love} \} $ (38.2) \\
+14 & $ \{ \text{brother},\allowbreak\text{levin} \} $ (1558) & $ \{ \text{time},\allowbreak\text{levin} \} $ (159) & $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (37.2) \\
+15 & $ \{ \text{anna},\allowbreak\text{anna} \} $ (1531) & $ \{ \text{good},\allowbreak\text{levin} \} $ (153) & $ \{ \text{agafea},\allowbreak\text{mihalovna} \} $ (37) \\
 
 \end{tabulary}
 
-\caption{The top 15 parallel 2-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
-\label{table:fmw-tolstoy-top-15-2-episodes}
+\caption{The top 15 parallel episodes found by our algorithm, excluding 1-episodes, with $ \rho = 15 $, and for the three frequency measures.}
+\label{table:fmw-tolstoy-top-15-parallel->1-episodes}
 \end{table}
 
 \begin{table}
 
-% TODO add more frequency measures
+\begin{tabulary}{\textwidth}{R|L|L|L}
 
-\begin{tabulary}{\textwidth}{L|L}
-
-disjoint-window fr. & weighted-window fr. \\
+\# & disjoint-window fr. & weighted-window fr. \\
 \hline
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{levin} \} $ (195) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{levin} \} $ (31.5) \\
-$ \{ \text{levin}, \text{sergei}, \text{ivanovitch} \} $ (113) & $ \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (25.7) \\
-$ \{ \text{alexei}, \text{alexei}, \text{alexandrovitch} \} $ (110) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{smile} \} $ (18.2) \\
-$ \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (107) & $ \{ \text{anna}, \text{alexei}, \text{alexandrovitch} \} $ (16.6) \\
-$ \{ \text{anna}, \text{alexei}, \text{alexandrovitch} \} $ (104) & $ \{ \text{levin}, \text{sergei}, \text{ivanovitch} \} $ (15.9) \\
-$ \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (92) & $ \{ \text{wife}, \text{alexei}, \text{alexandrovitch} \} $ (13.6) \\
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (92) & $ \{ \text{hand}, \text{alexei}, \text{alexandrovitch} \} $ (13.6) \\
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{smile} \} $ (92) & $ \{ \text{alexei}, \text{alexei}, \text{alexandrovitch} \} $ (12.5) \\
-$ \{ \text{wife}, \text{alexei}, \text{alexandrovitch} \} $ (85) & $ \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (12.1) \\
-$ \{ \text{hand}, \text{alexei}, \text{alexandrovitch} \} $ (78) & $ \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (11.8) \\
-$ \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (78) & $ \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (11.8) \\
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{good} \} $ (68) & $ \{ \text{brother}, \text{sergei}, \text{ivanovitch} \} $ (11.3) \\
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (67) & $ \{ \text{ey}, \text{alexei}, \text{alexandrovitch} \} $ (10.3) \\
-$ \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (66) & $ \{ \text{face}, \text{alexei}, \text{alexandrovitch} \} $ (10.2) \\
-$ \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} $ (64) & $ \{ \text{time}, \text{alexei}, \text{alexandrovitch} \} $ (9.73) \\
+1 & $ \text{alexei} \to \text{alexandrovitch} $ (7401) & $ \text{alexei} \to \text{alexandrovitch} $ (571) & $ \text{alexei} \to \text{alexandrovitch} $ (286) \\
+2 & $ \text{stepan} \to \text{arkadyevitch} $ (7106) & $ \text{stepan} \to \text{arkadyevitch} $ (547) & $ \text{stepan} \to \text{arkadyevitch} $ (274) \\
+3 & $ \text{sergei} \to \text{ivanovitch} $ (3758) & $ \text{levin} \to \text{levin} $ (395) & $ \text{sergei} \to \text{ivanovitch} $ (146) \\
+4 & $ \text{levin} \to \text{levin} $ (3348) & $ \text{sergei} \to \text{ivanovitch} $ (291) & $ \text{darya} \to \text{alexandrovna} $ (102) \\
+5 & $ \text{darya} \to \text{alexandrovna} $ (2734) & $ \text{darya} \to \text{alexandrovna} $ (205) & $ \text{levin} \to \text{levin} $ (61.6) \\
+6 & $ \text{vronski} \to \text{vronski} $ (1722) & $ \text{vronski} \to \text{vronski} $ (191) & $ \text{lidia} \to \text{ivanovna} $ (54) \\
+7 & $ \text{anna} \to \text{anna} $ (1531) & $ \text{anna} \to \text{anna} $ (170) & $ \text{draw} \to \text{room} $ (40.5) \\
+8 & $ \text{lidia} \to \text{ivanovna} $ (1438) & $ \text{alexandrovitch} \to \text{alexei} $ (145) & $ \text{countess} \to \text{lidia} $ (39.1) \\
+9 & $ \text{love} \to \text{love} $ (1411) & $ \text{kitti} \to \text{kitti} $ (144) & $ \text{love} \to \text{love} $ (38.2) \\
+10 & $ \text{arkadyevitch} \to \text{levin} $ (1245) & $ \text{love} \to \text{love} $ (140) & $ \text{agafea} \to \text{mihalovna} $ (37) \\
+11 & $ \text{kitti} \to \text{kitti} $ (1200) & $ \text{arkadyevitch} \to \text{levin} $ (137) & $ \text{levin} \to \text{felt} $ (32) \\
+12 & $ \text{levin} \to \text{kitti} $ (1160) & $ \text{levin} \to \text{kitti} $ (136) & $ \text{vronski} \to \text{vronski} $ (31.3) \\
+13 & $ \text{vronski} \to \text{anna} $ (1137) & $ \text{stepan} \to \text{levin} $ (132) & $ \text{good} \to \text{humor} $ (29.1) \\
+14 & $ \text{levin} \to \text{felt} $ (1130) & $ \text{stepan} \to \text{arkadyevitch} \to \text{levin} $ (132) & $ \text{anna} \to \text{arkadyevna} $ (28.5) \\
+15 & $ \text{draw} \to \text{room} $ (1126) & $ \text{kitti} \to \text{levin} $ (131) & $ \text{vronski} \to \text{anna} $ (28.1) \\
 
 \end{tabulary}
 
-\caption{The top 15 parallel 3-episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
-\label{table:fmw-tolstoy-top-15-3-episodes}
+\caption{The top 15 serial episodes found by our algorithm, excluding 1-episodes, with $ \rho = 15 $, and for the three frequency measures.}
+\label{table:fmw-tolstoy-top-15-serial->1-episodes}
 \end{table}
 
-From studying table~\ref{table:fmw-tolstoy-top-15-all-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. One simple way to counter the problem of smaller episodes having an advantage over larger episodes, is to group by size before ranking. Table~\ref{table:fmw-tolstoy-top-15-2-episodes} and table~\ref{table:fmw-tolstoy-top-15-3-episodes} show the rankings of 2-episodes and 3-episodes, respectively.
+From studying table~\ref{table:fmw-tolstoy-top-15-all-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. We should at least filter out the 1-episodes, as those don't give any more information than counting the support of each word that appears in the text. Table~\ref{table:fmw-tolstoy-top-15-parallel->1-episodes} and table~\ref{table:fmw-tolstoy-top-15-serial->1-episodes} show the rankings of greater-than-1-episodes, for parallel and serial episodes respectively. If we want to highlight even larger episodes, we can group episodes by size.
 
-% TODO analyze 2-episodes and 3-episodes
-
-
-
+After removing 1-episodes we learn some more things:
+\begin{itemize}
+\item We find full names---Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna---all are characters' full names. With serial episodes, we find their order as well---\emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
+\item We also find the most important couples, since naturally their names are often mentioned close to each other---Kitty and Levin, Anna and Vronski.
+\item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $, which isn't included in the top 15 of the other measures. The phrase may not be mentioned as often, but the weighted-window frequency ranks it highly because of the noun \emph{drawing room}, making for many minimal windows of great weight.
+\end{itemize}
 
 \section{Comparing the different confidence measures}
 
@@ -638,16 +602,59 @@ The algorithm always uses the associated frequency and confidence measures toget
 
 \begin{table}
 
-\begin{tabulary}{\textwidth}{L|L}
+\begin{tabulary}{\textwidth}{R|L}
 
-
+\# & weighted-window confidence \\
+\hline
+1 & $ \{ \text{arkadyevitch}, \text{arkadyevitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (1) \\
+2 & $ \{ \text{alexandrovitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (1) \\
+3 & $ \{ \text{stepan}, \text{stepan} \} \Rightarrow \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (1) \\
+4 & $ \{ \text{countess}, \text{ivanovna} \} \Rightarrow \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (0.943) \\
+5 & $ \{ \text{arkadyevitch}, \text{alexei} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (0.937) \\
+6 & $ \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.937) \\
+7 & $ \{ \text{stepan}, \text{alexei}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.935) \\
+8 & $ \{ \text{stepan}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{alexei}, \text{alexandrovitch} \} $ (0.934) \\
+9 & $ \{ \text{stepan}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} $ (0.934) \\
+10 & $ \{ \text{stepan}, \text{good} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{good} \} $ (0.933) \\
+11 & $ \{ \text{arkadyevitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.933) \\
+12 & $ \{ \text{stepan}, \text{alexei} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (0.931) \\
+13 & $ \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.927) \\
+14 & $ \{ \text{alexandrovitch}, \text{ivanovna} \} \Rightarrow \{ \text{alexandrovitch}, \text{lidia}, \text{ivanovna} \} $ (0.926) \\
+15 & $ \{ \text{arkadyevitch}, \text{alexei} \} \Rightarrow \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.925) \\
 
 \end{tabulary}
 
+\caption{Top 15 parallel association rules, by the weighted-window confidence.}
 \end{table}
 
-Table~\ref{table:tolstoy-rules} shows the top 15 association rules found in an experiment.
+Table~\ref{table:tolstoy-rules} shows the top 15 association rules consisting of parallel episodes.
 
+\begin{table}
+
+\begin{tabulary}{\textwidth}{R|L}
+
+\# & weighted-window confidence \\
+\hline
+1 & $ \text{sergei} \to \text{levin} \Rightarrow \text{sergei} \to \text{ivanovitch} \to \text{levin} $ (1) \\
+2 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+3 & $ \text{stepan} \to \text{levin} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{levin} $ (1) \\
+4 & $ \text{stepan} \to \text{smile} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{smile} $ (1) \\
+5 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+6 & $ \text{stepan} \to \text{stepan} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{stepan} $ (1) \\
+7 & $ \text{countess} \to \text{ivanovna} \Rightarrow \text{countess} \to \text{lidia} \to \text{ivanovna} $ (1) \\
+8 & $ \text{levin} \to \text{arkadyevitch} \Rightarrow \text{levin} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
+9 & $ \text{arkadyevitch} \to \text{arkadyevitch} \Rightarrow \text{arkadyevitch} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
+10 & $ \text{alexei} \to \text{alexei} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.984) \\
+11 & $ \text{alexei} \to \text{alexei} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} $ (0.898) \\
+12 & $ \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.846) \\
+13 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.846) \\
+14 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} $ (0.846) \\
+15 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.833) \\
+
+\end{tabulary}
+
+\caption{Top 15 serial association rules, by the weighted-window confidence.}
+\end{table}
 
 
 
@@ -663,7 +670,7 @@ Anti-monotonic freausncy measures inherently put larger episodes at a disadvanta
 We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds, especially with parallel episodes and fixed-window frequency (figure~\ref{fig:episode-frequencies-by-size-parallel-fwi}), where at the lowest threshold, the number of 5-episodes exceeds the number of 1-episodes. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
 
 
-We can make some more observations about the plots in figure~\ref{fig:episodes-frequencies-by-size}. % oh yeah? we'll see about that
+We can make some more observations about the plots in figure~\ref{fig:episode-frequencies-by-size}. % oh yeah? we'll see about that
 
 For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
 
@@ -708,7 +715,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 
 \end{tikzpicture}
 \caption{serial, fixed windows}
-\label{fig:episode-frequencies-by-size-parallel-mwi}
+\label{fig:episode-frequencies-by-size-serial-fwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -717,7 +724,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 
 \end{tikzpicture}
 \caption{parallel, minimal windows}
-\label{fig:episode-frequencies-by-size-serial-mwi}
+\label{fig:episode-frequencies-by-size-parallel-mwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -726,7 +733,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 
 \end{tikzpicture}
 \caption{serial, minimal windows}
-\label{fig:episode-frequencies-by-size-parallel-wwi}
+\label{fig:episode-frequencies-by-size-serial-mwi}
 \end{subfigure}
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -744,7 +751,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 
 \end{tikzpicture}
 \caption{serial, weighted windows}
-\label{fig:episode-frequencies-by-size-parallel-fwi}
+\label{fig:episode-frequencies-by-size-serial-wwi}
 \end{subfigure}
 \caption{A plot of the number of episodes found across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
 \label{fig:episode-frequencies-by-size}
@@ -794,59 +801,32 @@ For the quality experiments, we ran our implementation with a window width of 15
 \begin{table}
 \centering
 
-\begin{tabulary}{\textwidth}{L|L}
+\begin{tabulary}{\textwidth}{R|L|L}
 
-disjoint-window frequency & cohesion \\
+\# & cohesion & quantile-based cohesion \\
 \hline
-$ \{ \text{levin} \} $ (1629) & $ \{ \text{agafea}, \text{mihalovna} \} $ (1) \\
-$ \{ \text{vronski} \} $ (865) & $ \{ \text{\_char}, \text{banc\_} \} $ (1) \\
-$ \{ \text{anna} \} $ (823) & $ \{ \text{pinc}, \text{nez} \} $ (1) \\
-$ \{ \text{kitti} \} $ (672) & $ \{ \text{\_bell}, \text{soeur\_} \} $ (1) \\
-$ \{ \text{thought} \} $ (663) & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (0.915) \\
-$ \{ \text{hand} \} $ (651) & $ \{ \text{nativ}, \text{tribe} \} $ (0.523) \\
-$ \{ \text{time} \} $ (651) & $ \{ \text{lizaveta}, \text{petrovna} \} $ (0.408) \\
-$ \{ \text{alexei} \} $ (632) & $ \{ \text{ivanovna}, \text{lidia} \} $ (0.137) \\
-$ \{ \text{smile} \} $ (632) & $ \{ \text{alexandrovitch}, \text{alexei} \} $ (0.05) \\
-$ \{ \text{face} \} $ (598) & $ \{ \text{sergei}, \text{ivanovitch} \} $ (0.0428) \\
-$ \{ \text{love} \} $ (595) & $ \{ \text{darya}, \text{alexandrovna} \} $ (0.0363) \\
-$ \{ \text{alexei}, \text{alexandrovitch} \} $ (571) & $ \{ \text{bezzubov}, \text{landau} \} $ (0.0351) \\
-$ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{gladiat}, \text{frou} \} $ (0.0326) \\
-$ \{ \text{ey} \} $ (570) & $ \{ \text{partnership}, \text{ryezunov} \} $ (0.0303) \\
-$ \{ \text{man} \} $ (565) & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) \\
+1 & $ \{ \text{agafea}, \text{mihalovna} \} $ (1) & $ \text{stepan} \to \text{arkadyevitch} $ (0.998, 1096) \\
+2 & $ \{ \text{char}, \text{banc} \} $ (1) & $ \text{alexei} \to \text{alexandrovitch} $ (0.95, 1203) \\
+3 & $ \{ \text{pinc}, \text{nez} \} $ (1) & $ \text{sergei} \to \text{ivanovitch} $ (0.965, 603) \\
+4 & $ \{ \text{bell}, \text{soeur} \} $ (1) & $ \text{agafea} \to \text{mihalovna} $ (1, 148) \\
+5 & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (0.915) & $ \text{darya} \to \text{alexandrovna} $ (0.967, 424) \\
+6 & $ \{ \text{nativ}, \text{tribe} \} $ (0.523) & $ \text{lidia} \to \text{ivanovna} $ (0.977, 221) \\
+7 & $ \{ \text{lizaveta}, \text{petrovna} \} $ (0.408) & $ \text{lizaveta} \to \text{petrovna} $ (0.98, 49) \\
+8 & $ \{ \text{ivanovna}, \text{lidia} \} $ (0.137) & $ \text{nativ} \to \text{tribe} $ (0.966, 29) \\
+9 & $ \{ \text{alexandrovitch}, \text{alexei} \} $ (0.05) & $ \text{liza} \to \text{merkalova} $ (0.706, 34) \\
+10 & $ \{ \text{sergei}, \text{ivanovitch} \} $ (0.0428) & $ \text{marya} \to \text{nikolaevna} $ (0.673, 98) \\
+11 & $ \{ \text{darya}, \text{alexandrovna} \} $ (0.0363) & $ \text{countess} \to \text{lidia} \to \text{ivanovna} $ (0.586, 389) \\
+12 & $ \{ \text{bezzubov}, \text{landau} \} $ (0.0351) & $ \text{vassili} \to \text{lukitch} $ (0.588, 51) \\
+13 & $ \{ \text{gladiat}, \text{frou} \} $ (0.0326) & $ \text{countess} \to \text{lidia} $ (0.557, 280) \\
+14 & $ \{ \text{partnership}, \text{ryezunov} \} $ (0.0303) & $ \text{countess} \to \text{ivanovna} $ (0.549, 277) \\
+15 & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) & $ \text{madam} \to \text{stahl} $ (0.55, 171) \\
 
 \end{tabulary}
 
-\caption{The top 15 patterns mined from~\emph{tolstoy} using the disjoint-window frequency (parallel, $ \rho = 15 $) and \textsc{Fci} (minimum support 5, maximal length 5).}
+\caption{The top 15 patterns mined from~\emph{tolstoy} using cohesion (\textsc{Fci}, minimum support 5, maximal size 5) and quantile-based cohesion (\textsc{Qcsp}, minimum support 7, maximal size 5).}
+\label{table:cohesive-patterns}
 \end{table}
 
-Since \textsc{Fci} outputs patterns of size 2 and greater---any event type satisfying minimum support would end up as a cohesive pattern, which isn't too useful---we'll first filter out all 1-episodes from our algorithm as well.
 
-Table~\ref{table:compare-top-episodes} shows the 15 most frequent parallel episodes by the disjoint-window frequency, and the 15 most cohesive patterns mined from \textsc{Fci}.
 
-\begin{table}
-\centering
-
-\begin{tabulary}{\textwidth}{L|L}
-
-disjoint-window frequency & quantile-based cohesion \\
-\hline \\
-$ \text{levin} $ (1629) & $ \text{stepan} \to \text{arkadyevitch} $ (0.998, 1096) \\
-$ \text{vronski} $ (865) & $ \text{alexei} \to \text{alexandrovitch} $ (0.95, 1203) \\
-$ \text{anna} $ (823) & $ \text{sergei} \to \text{ivanovitch} $ (0.965, 603) \\
-$ \text{kitti} $ (672) & $ \text{agafea} \to \text{mihalovna} $ (1, 148) \\
-$ \text{thought} $ (663) & $ \text{darya} \to \text{alexandrovna} $ (0.967, 424) \\
-$ \text{hand} $ (651) & $ \text{lidia} \to \text{ivanovna} $ (0.977, 221) \\
-$ \text{time} $ (651) & $ \text{lizaveta} \to \text{petrovna} $ (0.98, 49) \\
-$ \text{alexei} $ (632) & $ \text{nativ} \to \text{tribe} $ (0.966, 29) \\
-$ \text{smile} $ (632) & $ \text{liza} \to \text{merkalova} $ (0.706, 34) \\
-$ \text{face} $ (598) & $ \text{marya} \to \text{nikolaevna} $ (0.673, 98) \\
-$ \text{love} $ (595) & $ \text{countess} \to \text{lidia} \to \text{ivanovna} $ (0.586, 389) \\
-$ \text{alexei} \to \text{alexandrovitch} $ (571) & $ \text{vassili} \to \text{lukitch} $ (0.588, 51) \\
-$ \text{alexandrovitch} $ (571) & $ \text{countess} \to \text{lidia} $ (0.557, 280) \\
-$ \text{ey} $ (570) & $ \text{countess} \to \text{ivanovna} $ (0.549, 277) \\
-$ \text{man} $ (565) & $ \text{madam} \to \text{stahl} $ (0.55, 171) \\
-
-\end{tabulary}
-
-\caption{The top 15 patterns mined from~\emph{tolstoy} using the disjoint-window frequency (serial, $ \rho = 15 $) and \textsc{Fci} (minimum support 7, maximal length 5).}
-\end{table}
+Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two differerent definitions of cohesion.

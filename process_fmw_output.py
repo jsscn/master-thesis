@@ -41,17 +41,17 @@ if any_rules:
     rules = j['association-rules']
 
     if args.rank or args.top_k:
-        rules.sort(key=lambda rule: rule['confidence', reverse=True])
+        rules.sort(key=lambda rule: rule['confidence'], reverse=True)
 
     if args.top_k is not None:
         rules = rules[:args.top_k]
 
 
 
-if any_rules:
-    json.dump({'episodes': episodes, 'association-rules': rules}, fout, indent=2)
-elif rules_only:
+if args.rules_only:
     json.dump(rules, fout, indent=2)
+elif any_rules:
+    json.dump({'episodes': episodes, 'association-rules': rules}, fout, indent=2)
 else:
     json.dump(episodes, fout, indent=2)
 

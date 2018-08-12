@@ -2,7 +2,7 @@ import sys
 import json
 import argparse
 
-def latexify_episode(episode, args, measures=['frequency']):
+def latexify_episode(episode, args, measures=['frequency'], **kwargs):
     if not isinstance(episode, dict):
         return None
     if not 'event-types' in episode:
@@ -15,11 +15,12 @@ def latexify_episode(episode, args, measures=['frequency']):
         else elements
 
     if args.c == "parallel":
-        latexified = "\\{{ {} \\}}".format(", ".join(elements_it))
+        latexified = "\\{{ {} \\}}".format(",\\allowbreak".join(elements_it))
     else:
         latexified = " \\to ".join(elements_it)
 
-    latexified = "$ {} $".format(latexified)
+    if not kwargs.get('no_math_mode_delimiters'):
+        latexified = "$ {} $".format(latexified)
 
     if not args.no_frequencies and len(measures) > 0:
         latexified = "{} ({})".format(
@@ -33,11 +34,15 @@ def latexify_rule(rule, args):
         return None
 
     latexified = '{} \\Rightarrow {}'.format(
-        latexify_episode(rule['antecedent'], args, []),
-        latexify_episode(rule['consequent'], args, []))
+        latexify_episode(rule['antecedent'], args, [], no_math_mode_delimiters=True),
+        latexify_episode(rule['consequent'], args, [], no_math_mode_delimiters=True))
+
+    latexified = '$ {} $'.format(latexified)
 
     if 'confidence' in rule:
-        latexified = '{} ({})'.format(latexified, rule['confinence'])
+        confidence = rule['confidence']
+        latexified = '{} ({})'.format(latexified,
+            '{:.3g}'.format(confidence) if confidence != int(confidence) else '{}'.format(int(confidence)))
 
     return latexified
 
