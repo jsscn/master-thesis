@@ -2,13 +2,15 @@
 
 % TODO something here? something about data science in general again?
 
-After an introduction to sequential pattern mining, including various measures of interestingness of patterns, ranging from long-established approaches to more novel ones, we implemented an algorithm for mining frequent episodes and confident association rules, according to those interestingness measures. While the general strategy for mining episodes is consistent across these episode classes and frequency measures---breadth-first search, Apriori-style pruning---quite a few specialized subalgorithms were needed. Many of the subalgorithms were based on preexisting algorithms, though most needed some adaptation for our purposes.
+After an introduction to sequential pattern mining, and after defining various measures of interestingness of patterns, ranging from long-established approaches to more novel ones, we devised and implemented an algorithm for mining frequent episodes and confident association rules. While the general strategy for mining episodes is consistent across all episode classes and frequency measures---breadth-first approach, Apriori-style pruning---quite a few specialized subalgorithms were needed. Many of these subalgorithms were based on preexisting algorithms, though most needed some adaptation for our purposes.
 
 % TODO ^ expand introduction to conclusion ^
 
-We saw that each of these interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes in less time, since the amount of bookkeeping in a database pass is smaller compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed. However, 
+We were certainly able to find interesting patterns using these measures.
 
-The measures based on minimal windows performed slower, but they produce more natural frequency values.
+We saw that each of the interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes in less time, since the amount of bookkeeping in a database pass is smaller compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed. However, 
+
+Our implementation performed slower for the measures based on minimal windows than the fixed-window measures, since they are inherently more complex, but we saw that they produce more natural frequency values. We saw that the weighted-window frequency is able to surface patterns that occur very close together
 
 % TODO ^ more advantages, disadvantages ^
 
@@ -27,7 +29,7 @@ efficiency: episodes (classes, frequency measures, window widths), association r
 
 output quality: better with closed and stuff (need redundancy-eliminating techniques)
 
-need techniques not to disadvantage larger episodes as much
+need techniques not to disadvantage larger episodes as much, such as...
 
 We saw that the computationally less complex interestingness measures often performed better in terms of output size, which can be advantageous when trying to lower the frequency threshold as much as possible. However, more complex measures certainly have advantages of their own: they often make more careful considerations when deciding the fate of a poor episode.
 

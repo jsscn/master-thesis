@@ -34,7 +34,7 @@ Though the main goal of finding patterns remains equivalent, the mining techniqu
 Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}. If one wants to assess the interestingness of an episode by how frequently it appears in the sequence, then the search space can be pruned in much the same way that Apriori does in frequent pattern mining.
 
 In chapter~\ref{sec:problem-statement} we begin by formally defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
-And how do we quantify how interesting a pattern is in an event sequence?
+And how do we quantify how interesting a pattern is in regard to an event sequence?
 
 Then, in chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
 
@@ -42,5 +42,7 @@ In chapter~\ref{sec:experiments} we experiment to make an assessment of the impl
 
 \begin{enumerate}
 \item the performance: how efficient is the implementation with a variety of datasets and parameters?
-\item the quality of the output: can we find interesting patterns in different datasets? How does our implementation stack up to other implementations which use other interestingness measures and classes of episodes?
+\item the quality of the output: can we find interesting patterns in different datasets? How does our implementation compare to other implementations which use other interestingness measures and classes of episodes?
 \end{enumerate}
+
+To make such an evaluation, we will use a number of datasets of different kinds, fit them into event sequences, study the runtime of the algorithm across a range of parameters, and judge the quality of the output.

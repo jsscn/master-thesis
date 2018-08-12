@@ -1,21 +1,54 @@
 \chapter{Experiments}
 \label{sec:experiments}
 
+In this section, we perform experiments to answer the research question we posed in the introduction. Consisely put, we want to know whether we can find patterns in long sequences in a reasonable time, and whether there are interesting patterns to be found.
+
+After choosing a number of datasets and showing some of their basic characteristics, we assess the performance of the implementation by running it on datasets of different kinds, and varying the parameter.
+
+First, we'll briefly discuss how we ensured the correctness of our implementation.
+
+\section{Correctness}
+
 A big point of comparison while implementing our algorithms was a closed episode miner\footnote{http://adrem.ua.ac.be/mining-closed-strict-episodes}. It allowed us to verify the correctness of our implementation. The closed episode miner differs in a few ways from our implementation:
 
 \begin{itemize}
-\item It generates general episodes, not just parallel and serial episodes.
-\item It generates closed episodes. Closed episodes are episodes that have no superepisodes of the same frequency. Mining only closed episodes helps in reducing the amount of output. The implementation has options to mine non-closed episodes as well, though, which allows us to compare with our implementation.
+\item It mines general episodes, not just parallel and serial episodes.
+\item It mines closed episodes. An episode is closed if there are no superepisodes of the same frequency. Mining only closed episodes helps reduce the amount of output, by excluding non-closed episodes. The closed episode miner has options to mine non-closed episodes as well, which allows us to compare the output of both implementations.
 \item While our implementation finds episodes of one class at a time, as specified by the user---parallel or serial---the closed episode miner finds episodes of all classes at once---parallel, serial and general.
 \end{itemize}
 
-Given the above, in order to compare the two implementations in terms of their output, we have to enable the options that cause the closed episode miner to find non-closed episodes, since our implementation finds non-closed episodes as well; and we have to filter out those episodes which don't match the class of episodes we're currently mining.
+Given the above, in order to compare the two implementations in terms of their output, we have to enable the options that cause the closed episode miner to find non-closed episodes, since our implementation does not exclude non-closed episodes; and we have to filter out those episodes which don't match the class of episodes we're currently mining.
 
+\iffalse
 Mining general episodes is of higher complexity than parallel and serial episodes.
 
 Parallel episodes can only ``grow'' by adding a new node, and serial episodes grow in much the same way: by adding a node and an edge at the same time. Pattern explosion is a bigger concern with general episodes: additionally, they can grow by adding only an edge. So, ideally, our implementation should be faster than the closed episode miner.
 
-% ^ terrible ^
+% TODO include this somehow?
+\fi
+
+We validated the output of our implementation with the output of the closed episode miner, running the closed episode miner alongside our implementation on the same datasets and parameter configurations, then parsing and comparing the results. Thanks to the closed episode miner we were able to eliminate quite a few errors in our implementation.
+
+We did find, however, a possible bug in the closed episode miner. When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
+
+Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1), (a, 3), (a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
+
+\begin{table}
+\centering
+
+\begin{tabulary}{\textwidth}{ C|C|C }
+
+$ \alpha $ & $ fr_w(\alpha) $ (ours) & $ fr_w(\alpha) $ (closed episode miner) \\
+\hline
+$ \{ b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.166 \ldots $ ($ 1/6 $) \\
+$ \{ a, b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.142857 \ldots $ ($ 1/7 $) \\
+$ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
+
+\end{tabulary}
+
+\caption{Differing weighted-window frequency values between two implementations, mining the example sequence from figure~\ref{fig:event-sequence}.}
+\label{table:closepi-frequency-difference}
+\end{table}
 
 \section{Datasets}
 
@@ -48,22 +81,19 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \label{table:datasets-numbers}
 \end{table}
 
-We see that the textual and \emph{trains} datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains}, too, there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
+We see that all of the datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 \begin{figure}
-\centering
 
 \def\testwidth{6cm}
 \def\testheight{5cm}
 
-\begin{subfigure}[b]{\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
-    width=\testwidth,
-    height=\testheight,
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
     % ymode=log
@@ -78,17 +108,12 @@ We see that the textual and \emph{trains} datasets have quite large alphabets. F
 \caption{The frequency of the 300 most frequent events in \emph{abstract}.}
 \label{fig:frequency-plot-nsf}
 \end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}[b]{\textwidth}
+\begin{subfigure}[b]{0.5\textwidth}
 \centering
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
-    width=\testwidth,
-    height=\testheight,
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
     % ymode=log
@@ -109,11 +134,9 @@ We see that the textual and \emph{trains} datasets have quite large alphabets. F
 \begin{subfigure}[b]{\textwidth}
 \centering
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
-    width=\testwidth,
-    height=\testheight,
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
     % ymode=log
@@ -137,7 +160,9 @@ We see that the textual and \emph{trains} datasets have quite large alphabets. F
 \section{Performance}
 \label{sec:performance}
 
-To assess the efficiency of the algorithm, we inspect the runtime for different input parameters: comparing both episode classes, the frequency measures, while varying the window width and the frequency and confidence thresholds.
+To assess the efficiency of the algorithm, we inspect the runtime for different input parameters: comparing both episode classes, the frequency measures, while varying
+% the window width and
+the frequency and confidence thresholds.
 
 The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
 
@@ -151,6 +176,180 @@ All performance experiments were run on the same machine; the full specification
 
 \subsection{Episodes}
 \label{sec:performance-episodes}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{abstract} using a window width of 8.}
+\label{fig:runtimes-nsf-8}
+\end{figure}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=north west},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=north west},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{tolstoy} using a window width of 8.}
+\label{fig:runtimes-tolstoy-15}
+\end{figure}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=north west},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 8.}
+\label{fig:runtimes-trains-900}
+\end{figure}
+
+The graph in figure~\ref{fig:runtimes-nsf-8} shows runtimes for mining episodes from \emph{abstract}. We see that, for parallel episodes, the fixed-window frequency takes significantly less time to generate a given amount of episodes than the other measures. The disjoint-window frequency and the weighted-window frequency are very close until approximately one thousand episodes are found; then they start to diverge, and the the weighted-window frequency takes significantly more time than the other two.
+
+For serial episodes, the fixed-window frequency has much less of an advantage. In fact, the disjoint-window frequency seems to overtake the fixed-window frequency for large amounts of episodes produced. Again the weighted-window frequency is slower, but the difference is lower this time. Also note that for all measures, runtimes for serial episodes were generally higher---since the experiments were time-constrained, the graph stops around the order of $ 10^5 $ for parallel episodes, and around $ 10^3 $ for serial episodes.
+
+Figure~\ref{fig:runtimes-tolstoy-15} shows the results for \emph{tolstoy}.
+\ref{fig:runtimes-tolstoy-15}
+
+
 
 
 \iffalse
@@ -277,111 +476,7 @@ Figure~\ref{fig:runtimes-nsf-8} shows such plots for both parallel and serial ep
 
 For serial episodes, the fixed-window frequency has less of an advantage, and at a certain point the minimal-window frequency produces more episodes for in less time. This could be explained by the fact that the data pass algorithm that finds minimal windows of serial episodes is slightly simpler than the algorithm that determines the fixed-window frequency for serial episodes. While the weighted-window frequency algorithm uses the same data pass algorithms as the disjoint-window frequency, selecting the optimal selection of non-overlapping windows is more complex, explaining its higher runtimes.
 
-\begin{figure}
 
-\begin{subfigure}[b]{0.5\textwidth}
-\centering
-
-\begin{tikzpicture}[scale=0.65]
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=south east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-8.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{parallel episodes}
-\end{subfigure}
-\begin{subfigure}[b]{0.5\textwidth}
-\centering
-
-\begin{tikzpicture}[scale=0.65]
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=south east},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-8.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-8.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{serial episodes}
-\end{subfigure}
-
-\caption{Runtimes for finding episodes in dataset \emph{abstract} using a window width of 8.}
-\label{fig:runtimes-nsf-8}
-\end{figure}
-
-\begin{figure}
-
-\begin{subfigure}[b]{0.5\textwidth}
-\centering
-
-\begin{tikzpicture}[scale=0.65]
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=north west},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-    xmode=log,
-    ymode=log,
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{parallel episodes}
-\end{subfigure}
-\begin{subfigure}[b]{0.5\textwidth}
-\centering
-
-\begin{tikzpicture}[scale=0.65]
-
-\begin{axis}[
-    legend entries={fixed windows,minimal windows,weighted windows},
-    legend style={legend pos=north west},
-    xlabel={number of frequent episodes},
-    ylabel={runtime (s)},
-    xmode=log,
-    ymode=log,
-]
-
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
-\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
-
-\end{axis}
-
-\end{tikzpicture}
-
-\caption{serial episodes}
-\end{subfigure}
-
-\caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 8.}
-\label{fig:runtimes-trains-900}
-\end{figure}
 
 
 
@@ -452,30 +547,7 @@ Alongside the performance experiments, we ran the closed episode miner on some o
 
 % TODO do some runs and write about them (refer back to earlier experiments)
 
-\section{Correctness}
 
-Throughout implementing our episode miner, we validated the output of our implementation with that of the closed episode miner, automatically running the closed episode miner alongside our implementation, then parsing and comparing its results. Thanks to this closed episode miner we were able to solve quite a few errors in our implementation. We did find, however, a possible bug in the closed episode miner.
-
-When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
-
-Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1), (a, 3), (a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
-
-\begin{table}
-\centering
-
-\begin{tabulary}{\textwidth}{ C|C|C }
-
-$ \alpha $ & $ fr_w(\alpha) $ (ours) & $ fr_w(\alpha) $ (closed episode miner) \\
-\hline
-$ \{ b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.166 \ldots $ ($ 1/6 $) \\
-$ \{ a, b, d \} $ & $ 0.2 $ ($ 1/5 $) & $ 0.142857 \ldots $ ($ 1/7 $) \\
-$ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
-
-\end{tabulary}
-
-\caption{Differing weighted-window frequency values between two implementations, mining the example sequence from figure~\ref{fig:event-sequence}.}
-\label{table:closepi-frequency-difference}
-\end{table}
 
 \section{Quality}
 
@@ -589,14 +661,14 @@ As we would expect, if we rank the output by frequency, the top contains mostly 
 
 From studying table~\ref{table:fmw-tolstoy-top-15-all-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. We should at least filter out the 1-episodes, as those don't give any more information than counting the support of each word that appears in the text. Table~\ref{table:fmw-tolstoy-top-15-parallel->1-episodes} and table~\ref{table:fmw-tolstoy-top-15-serial->1-episodes} show the rankings of greater-than-1-episodes, for parallel and serial episodes respectively. If we want to highlight even larger episodes, we can group episodes by size.
 
-After removing 1-episodes we learn some more things:
+After filtering out 1-episodes we learn some more things:
 \begin{itemize}
 \item We find full names---Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna---all are characters' full names. With serial episodes, we find their order as well---\emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
 \item We also find the most important couples, since naturally their names are often mentioned close to each other---Kitty and Levin, Anna and Vronski.
-\item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $, which isn't included in the top 15 of the other measures. The phrase may not be mentioned as often, but the weighted-window frequency ranks it highly because of the noun \emph{drawing room}, making for many minimal windows of great weight.
+\item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $ at positions 10 and 7, respecitvely. The fixed-window confidence ranked $ \{ \text{draw}, \text{room} \} $ at position 30, and the disjoint-window frequency ranked it at position 90. The weighted-window frequency ranks it highly because of the noun \emph{drawing room} (those two words always directly following each other), making for many minimal windows of great weight.
 \end{itemize}
 
-\section{Comparing the different confidence measures}
+\subsection{Analysis of association rules mined from \emph{tolstoy} dataset}
 
 The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by the disjoint-window frequency will generate association rules according to the minimal-window confidence.
 
@@ -735,6 +807,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 \caption{serial, minimal windows}
 \label{fig:episode-frequencies-by-size-serial-mwi}
 \end{subfigure}
+\iffalse%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
@@ -755,6 +828,7 @@ For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \
 \end{subfigure}
 \caption{A plot of the number of episodes found across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
 \label{fig:episode-frequencies-by-size}
+\fi
 \end{figure}
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
@@ -826,7 +900,5 @@ For the quality experiments, we ran our implementation with a window width of 15
 \caption{The top 15 patterns mined from~\emph{tolstoy} using cohesion (\textsc{Fci}, minimum support 5, maximal size 5) and quantile-based cohesion (\textsc{Qcsp}, minimum support 7, maximal size 5).}
 \label{table:cohesive-patterns}
 \end{table}
-
-
 
 Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two differerent definitions of cohesion.

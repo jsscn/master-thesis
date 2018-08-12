@@ -1,0 +1,13 @@
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	percentage-frequent-of-candidates
+0.16212391599998402	serial	minimal-windows	1000.0	8051	1	success	15	1	0	0	0	0	0	0.00012420817289777666
+0.18352970899999801	serial	minimal-windows	750.0	8059	3	success	15	3	0	0	0	0	0	0.0003722546221615585
+0.291822461000009	serial	minimal-windows	562.0	8246	15	success	15	14	1	0	0	0	0	0.001819063788503517
+0.5535641249999791	serial	minimal-windows	421.0	8726	28	success	15	26	2	0	0	0	0	0.0032088012835205133
+1.2925670869999801	serial	minimal-windows	315.0	10076	48	success	15	45	3	0	0	0	0	0.004763795156808257
+2.789150964000015	serial	minimal-windows	236.0	12540	71	success	15	67	4	0	0	0	0	0.005661881977671451
+4.414178561	serial	minimal-windows	177.0	19933	115	success	15	109	6	0	0	0	0	0.0057693272462750215
+7.197000270999979	serial	minimal-windows	132.0	32396	170	success	15	156	13	1	0	0	0	0.005247561427336708
+15.849777503000013	serial	minimal-windows	99.0	63324	272	success	15	235	30	6	1	0	0	0.0042953698439770075
+25.09019692199999	serial	minimal-windows	74.0	121074	418	success	15	336	68	12	2	0	0	0.003452434048598378
+37.06426674000002	serial	minimal-windows	55.0	243752	673	success	15	485	169	17	2	0	0	0.002761002986642161
+64.173402453	serial	minimal-windows	41.0	424464	1048	timeout	15	644	365	34	5	0	0	0.0024689961928455652
