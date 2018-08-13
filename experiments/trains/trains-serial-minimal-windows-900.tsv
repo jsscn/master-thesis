@@ -1,9 +1,8 @@
-duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	num-frequent-7-episodes	num-frequent-8-episodes	num-frequent-9-episodes	num-frequent-10-episodes	num-frequent-11-episodes	num-frequent-12-episodes	num-frequent-13-episodes	num-frequent-14-episodes	num-frequent-15-episodes	percentage-frequent-of-candidates
-0.189559271999996	serial	minimal-windows	25.0	1305	5	success	900	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.0038314176245210726
-0.470053806000009	serial	minimal-windows	18.0	11684	109	success	900	102	7	0	0	0	0	0	0	0	0	0	0	0	0	0	0.009328996918863403
-2.564402911000002	serial	minimal-windows	13.0	82414	761	success	900	284	435	42	0	0	0	0	0	0	0	0	0	0	0	0	0.009233868032130462
-7.822181792000009	serial	minimal-windows	9.0	288435	3574	success	900	528	1692	1291	63	0	0	0	0	0	0	0	0	0	0	0	0.01239100663927748
-17.108675763999997	serial	minimal-windows	6.0	585180	16310	success	900	736	3853	8484	3056	178	3	0	0	0	0	0	0	0	0	0	0.02787176595235654
-33.220856329000014	serial	minimal-windows	4.0	986121	67921	success	900	910	6832	24386	27286	7744	737	26	0	0	0	0	0	0	0	0	0.0688769430931904
-46.775202766999996	serial	minimal-windows	3.0	1359445	197259	success	900	989	9613	42916	79442	49565	12947	1695	92	0	0	0	0	0	0	0	0.14510259701569392
-180.21171312	serial	minimal-windows	2.0	2840074	1188459	timeout	900	1107	14613	85616	260462	366095	272472	129737	44293	11453	2258	323	29	1	0	0	0.4184605753230374
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	num-frequent-7-episodes	num-frequent-8-episodes	num-frequent-9-episodes	num-frequent-10-episodes	num-frequent-11-episodes	num-frequent-12-episodes	num-frequent-13-episodes	num-frequent-14-episodes	num-frequent-15-episodes	duration-rules-0.9	num-confident-rules-0.9	percentage-frequent-of-candidates
+0.18932533699995702	serial	minimal-windows	25.0	1305	5	success	900	5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1.6900000332498166e-06	0	0.0038314176245210726
+0.531342080000001	serial	minimal-windows	18.0	11684	109	success	900	102	7	0	0	0	0	0	0	0	0	0	0	0	0	0	3.166400000509384e-05	10	0.009328996918863403
+3.791153630999986	serial	minimal-windows	13.0	82414	761	success	900	284	435	42	0	0	0	0	0	0	0	0	0	0	0	0	0.0013889950000134377	82	0.009233868032130462
+11.657114605000004	serial	minimal-windows	9.0	288435	3574	success	900	528	1692	1291	63	0	0	0	0	0	0	0	0	0	0	0	0.011305214000003616	657	0.01239100663927748
+20.276101154999992	serial	minimal-windows	6.0	585180	16310	success	900	736	3853	8484	3056	178	3	0	0	0	0	0	0	0	0	0	0.11858425200000511	3167	0.02787176595235654
+37.70970016399997	serial	minimal-windows	4.0	986121	67921	success	900	910	6832	24386	27286	7744	737	26	0	0	0	0	0	0	0	0	1.2912880679999716	41598	0.0688769430931904
+69.34788679499997	serial	minimal-windows	3.0	1359445	197259	timeout	900	989	9613	42916	79442	49565	12947	1695	92	0	0	0	0	0	0	0	9.23918104500001	363063	0.14510259701569392

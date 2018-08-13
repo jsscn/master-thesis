@@ -1,6 +1,6 @@
 [
   {
-    "duration-s": 0.70212325,
+    "duration-s": 0.668625296,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1000.0,
@@ -16,12 +16,18 @@
       44,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0005154099999999939,
+        "num-confident-rules": 88
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.026768912,
+    "duration-s": 1.047703233,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 750.0,
@@ -37,12 +43,18 @@
       110,
       6
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0013870099999999663,
+        "num-confident-rules": 245
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.54475148,
+    "duration-s": 1.6229507639999998,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 562.0,
@@ -60,12 +72,18 @@
       12,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0021700069999996963,
+        "num-confident-rules": 516
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 2.299994411,
+    "duration-s": 2.378441777,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 421.0,
@@ -83,12 +101,18 @@
       33,
       3
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0037613470000001925,
+        "num-confident-rules": 1141
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 3.5818331070000005,
+    "duration-s": 3.6534475230000005,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 315.0,
@@ -106,12 +130,18 @@
       67,
       5
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.006849767000000284,
+        "num-confident-rules": 2232
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 5.331425476,
+    "duration-s": 5.391146801,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 236.0,
@@ -129,12 +159,18 @@
       144,
       10
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.01307636199999962,
+        "num-confident-rules": 4170
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 7.304072328,
+    "duration-s": 7.571218467999998,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 177.0,
@@ -154,12 +190,18 @@
       14,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.023726202999998947,
+        "num-confident-rules": 7539
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 10.817920664000003,
+    "duration-s": 10.671217245000005,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 132.0,
@@ -179,12 +221,18 @@
       25,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.04302725299999821,
+        "num-confident-rules": 13603
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 15.730910909000002,
+    "duration-s": 15.161061332000003,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 99.0,
@@ -204,12 +252,18 @@
       53,
       3
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.09111977399999915,
+        "num-confident-rules": 23852
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 24.990514948999994,
+    "duration-s": 24.630678122999996,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 74.0,
@@ -229,12 +283,18 @@
       116,
       5
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.19248136000000216,
+        "num-confident-rules": 42166
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 38.587819138,
+    "duration-s": 39.111898411,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 55.0,
@@ -256,12 +316,18 @@
       25,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.28144153899999935,
+        "num-confident-rules": 76373
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 63.126509768999995,
+    "duration-s": 62.73924068000001,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 41.0,
@@ -283,12 +349,18 @@
       72,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.49259832399999937,
+        "num-confident-rules": 141421
+      }
+    ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.259212709,
+    "duration-s": 0.227447112,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 1000.0,
@@ -302,12 +374,18 @@
       1,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 4.249000000011716e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.196329188,
+    "duration-s": 0.21474714,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 750.0,
@@ -321,12 +399,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.6718999999998374e-05,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.27030274499999996,
+    "duration-s": 0.27527133300000006,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 562.0,
@@ -340,12 +424,18 @@
       14,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.7602999999997166e-05,
+        "num-confident-rules": 2
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.44841034999999996,
+    "duration-s": 0.434935564,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 421.0,
@@ -359,12 +449,18 @@
       26,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.67500000000043e-05,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.8160019279999999,
+    "duration-s": 0.749826485,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 315.0,
@@ -380,12 +476,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 8.989499999989548e-05,
+        "num-confident-rules": 5
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.2024029630000002,
+    "duration-s": 1.2984906969999999,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 236.0,
@@ -401,12 +503,18 @@
       4,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00012440800000002028,
+        "num-confident-rules": 7
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 2.412391244,
+    "duration-s": 2.623988139,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 177.0,
@@ -422,12 +530,18 @@
       10,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00027502999999917677,
+        "num-confident-rules": 24
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 4.092632138999999,
+    "duration-s": 4.106956982000001,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 132.0,
@@ -443,12 +557,18 @@
       23,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0004899480000002399,
+        "num-confident-rules": 47
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 7.7202571110000004,
+    "duration-s": 8.008645842,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 99.0,
@@ -466,12 +586,18 @@
       5,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0013371560000017269,
+        "num-confident-rules": 130
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 14.008469235,
+    "duration-s": 14.376831969000001,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 74.0,
@@ -489,12 +615,18 @@
       11,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.002465138999994565,
+        "num-confident-rules": 322
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 23.310805970999997,
+    "duration-s": 23.543058371999997,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 55.0,
@@ -512,12 +644,18 @@
       28,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.011208717999998896,
+        "num-confident-rules": 805
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 42.102378261,
+    "duration-s": 43.15007623100001,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 41.0,
@@ -535,12 +673,18 @@
       63,
       6
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.01025935100000197,
+        "num-confident-rules": 1705
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 71.579451608,
+    "duration-s": 73.101882143,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 30.0,
@@ -560,12 +704,18 @@
       14,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.027733380000000807,
+        "num-confident-rules": 3501
+      }
+    ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.244095364,
+    "duration-s": 0.216250391,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1000.0,
@@ -579,12 +729,18 @@
       1,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 7.172999999999208e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.22293216999999999,
+    "duration-s": 0.192554618,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 750.0,
@@ -598,12 +754,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.108000000004665e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.284328114,
+    "duration-s": 0.28206802499999994,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 562.5,
@@ -617,12 +779,18 @@
       14,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.486299999997609e-05,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.45920395700000005,
+    "duration-s": 0.4525669159999999,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 421.875,
@@ -636,12 +804,18 @@
       26,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.3200000000000998e-05,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.6848641799999999,
+    "duration-s": 0.7284708049999999,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 316.40625,
@@ -655,12 +829,18 @@
       44,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.613999999996231e-05,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.221771703,
+    "duration-s": 1.185871851,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 237.3046875,
@@ -674,12 +854,18 @@
       66,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00015732899999987282,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 2.403236488,
+    "duration-s": 2.583643248,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 177.978515625,
@@ -693,12 +879,18 @@
       108,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0006555670000008007,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 4.085318211,
+    "duration-s": 4.124502692,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 133.48388671875,
@@ -712,12 +904,18 @@
       154,
       3
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.000195888000000366,
+        "num-confident-rules": 6
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 7.498120281999999,
+    "duration-s": 7.583757287000001,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 100.1129150390625,
@@ -731,12 +929,18 @@
       230,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00027430900000169345,
+        "num-confident-rules": 8
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 13.205595201999998,
+    "duration-s": 14.141007616,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 75.08468627929688,
@@ -750,12 +954,18 @@
       324,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0003186170000013533,
+        "num-confident-rules": 8
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 22.347432754000003,
+    "duration-s": 21.052695049999997,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 56.313514709472656,
@@ -771,12 +981,18 @@
       5,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0027683520000039152,
+        "num-confident-rules": 9
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 38.074930944,
+    "duration-s": 37.574129877,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 42.23513603210449,
@@ -792,12 +1008,18 @@
       7,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0008053050000000894,
+        "num-confident-rules": 13
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 57.586055895,
+    "duration-s": 57.02173509399999,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 31.67635202407837,
@@ -813,12 +1035,18 @@
       20,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.004243819999999232,
+        "num-confident-rules": 38
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 66.60912348600002,
+    "duration-s": 69.161492146,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 23.757264018058777,
@@ -834,12 +1062,18 @@
       45,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.002720133999986274,
+        "num-confident-rules": 97
+      }
+    ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 26.526714198,
+    "duration-s": 26.789467153,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1000.0,
@@ -855,12 +1089,18 @@
       22,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.343000000086363e-05,
+        "num-confident-rules": 44
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 51.064570329,
+    "duration-s": 54.468715823,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 750.0,
@@ -876,12 +1116,18 @@
       49,
       3
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00013657700000635487,
+        "num-confident-rules": 105
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 88.770505296,
+    "duration-s": 87.604498041,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 562.0,
@@ -899,12 +1145,18 @@
       10,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0003447080000000824,
+        "num-confident-rules": 259
+      }
+    ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.16212391599998455,
+    "duration-s": 0.1776864240000009,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 1000.0,
@@ -918,12 +1170,18 @@
       1,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.423000012186094e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.18352970899999832,
+    "duration-s": 0.195652315999979,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 750.0,
@@ -937,12 +1195,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.201000000923159e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.2918224610000095,
+    "duration-s": 0.2763366129999838,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 562.0,
@@ -956,12 +1220,18 @@
       14,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.6034000026365902e-05,
+        "num-confident-rules": 2
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.5535641249999799,
+    "duration-s": 0.5352503189999993,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 421.0,
@@ -975,12 +1245,18 @@
       26,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.680800000121053e-05,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.2925670869999806,
+    "duration-s": 1.1631528490000278,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 315.0,
@@ -996,12 +1272,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 5.830199998513308e-05,
+        "num-confident-rules": 5
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 2.789150964000015,
+    "duration-s": 2.4078903620000176,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 236.0,
@@ -1017,12 +1299,18 @@
       4,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 7.318800001598902e-05,
+        "num-confident-rules": 7
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 4.414178561,
+    "duration-s": 4.205748542999999,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 177.0,
@@ -1038,12 +1326,18 @@
       6,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.602900000984846e-05,
+        "num-confident-rules": 10
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 7.197000270999979,
+    "duration-s": 7.360012240999993,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 132.0,
@@ -1059,12 +1353,18 @@
       13,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00015900299999316303,
+        "num-confident-rules": 27
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 15.849777503000013,
+    "duration-s": 15.094000625000007,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 99.0,
@@ -1082,12 +1382,18 @@
       6,
       1
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.000441985999998451,
+        "num-confident-rules": 91
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 25.09019692199999,
+    "duration-s": 25.061055501,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 74.0,
@@ -1105,12 +1411,18 @@
       12,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0009900850000121864,
+        "num-confident-rules": 198
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 37.06426674000002,
+    "duration-s": 36.925257233999986,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 55.0,
@@ -1128,12 +1440,18 @@
       17,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0025985579999883157,
+        "num-confident-rules": 419
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 64.173402453,
+    "duration-s": 64.86270259500003,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 41.0,
@@ -1151,12 +1469,18 @@
       34,
       5
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.002853442000002815,
+        "num-confident-rules": 926
+      }
+    ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.20840079799998534,
+    "duration-s": 0.20122761799999012,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1000.0,
@@ -1170,12 +1494,18 @@
       1,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.002999991645993e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.1985682719999886,
+    "duration-s": 0.20758485400000382,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 750.0,
@@ -1189,12 +1519,18 @@
       3,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.322000000276603e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.3340103999999826,
+    "duration-s": 0.30822762799999737,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 562.5,
@@ -1208,12 +1544,18 @@
       14,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.4770000070238893e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.5893621019999955,
+    "duration-s": 0.6106432949999885,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 421.875,
@@ -1227,12 +1569,18 @@
       26,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 5.697999995391001e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 1.0684318189999829,
+    "duration-s": 1.0700222899999972,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 316.40625,
@@ -1246,12 +1594,18 @@
       44,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.446999983225396e-06,
+        "num-confident-rules": 0
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 2.488187327999981,
+    "duration-s": 1.8762413910000078,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 237.3046875,
@@ -1265,12 +1619,18 @@
       66,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.080100000829589e-05,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 4.090776513000009,
+    "duration-s": 3.6805926749999855,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 177.978515625,
@@ -1284,12 +1644,18 @@
       108,
       2
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.6993000009033494e-05,
+        "num-confident-rules": 4
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 7.944179651999974,
+    "duration-s": 7.497023715999973,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 133.48388671875,
@@ -1303,12 +1669,18 @@
       154,
       3
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 4.109799999696406e-05,
+        "num-confident-rules": 6
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 15.219424118999996,
+    "duration-s": 14.351246941999989,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 100.1129150390625,
@@ -1322,12 +1694,18 @@
       230,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 4.929700000388948e-05,
+        "num-confident-rules": 8
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 22.025003885000018,
+    "duration-s": 22.686896766000018,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 75.08468627929688,
@@ -1341,12 +1719,18 @@
       324,
       4
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 5.0705000006701084e-05,
+        "num-confident-rules": 8
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 34.690535263000015,
+    "duration-s": 35.4071634,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 56.313514709472656,
@@ -1362,12 +1746,18 @@
       5,
       0
     ],
-    "rules": [],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 7.615500004476417e-05,
+        "num-confident-rules": 9
+      }
+    ],
     "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 59.46984224099998,
+    "duration-s": 62.564679694000006,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 42.23513603210449,
@@ -1383,28 +1773,13 @@
       6,
       0
     ],
-    "rules": [],
-    "status": "success",
-    "window-width": 15
-  },
-  {
-    "duration-s": 79.93930352399997,
-    "episode-class": "serial",
-    "frequency-measure": "weighted-windows",
-    "frequency-threshold": 31.67635202407837,
-    "num-candidates": 711974,
-    "num-candidates-of-size": [
-      8050,
-      703921,
-      3
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00015066600002455743,
+        "num-confident-rules": 11
+      }
     ],
-    "num-frequent-episodes": 850,
-    "num-frequent-episodes-of-size": [
-      839,
-      11,
-      0
-    ],
-    "rules": [],
     "status": "timeout",
     "window-width": 15
   }

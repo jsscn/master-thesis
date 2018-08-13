@@ -8,32 +8,14 @@ After an introduction to sequential pattern mining, and after defining various m
 
 We were certainly able to find interesting patterns using these measures.
 
-We saw that each of the interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes in less time, since the amount of bookkeeping in a database pass is smaller compared to the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed. However, 
+We saw that each of the interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes for a given amount of time, since it requires less bookkeeping in a database pass than the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed.
 
-Our implementation performed slower for the measures based on minimal windows than the fixed-window measures, since they are inherently more complex, but we saw that they produce more natural frequency values. We saw that the weighted-window frequency is able to surface patterns that occur very close together
+The minimal-windows-based measures produced more natural frequency values. Where the disjoint-window frequency takes a step back from the fixed-window frequency in the sense that smaller minimal occurrences should be valued more highly, the weighted-window frequency is successful in solving that flaw, while keeping the advantages of the minimal-windows-based approach.
 
 % TODO ^ more advantages, disadvantages ^
 
-There are downsides to our implementation.
-- efficiency often worse than closed episode miner
-- no closed episodes
-- no general episodes
-- no association rules from both parallel and serial episodes at once
-- output quality suffers due to redundancy (closedness plays into this as well)
+While our implementation is most often able to find adequate output in reasonable amounts of time, the closed episode miner often completed a task in significantly less time, despite the fact that we have a computational advantage in that the search space is more restricted.
 
-recap algorithms; different algorithms for both episode classes
+For the frequency-based measures, it was clear that we need techniques not to disadvantage larger episodes as much, such as excluding 1-episodes---they dominate the top of the rankings, yet are trivial to compute. One option, as we stated, is to group episodes by size, and rank each of the groups. Another possibility is to account for the size of the episode in the definition of the measure itself, as is the case for cohesion.
 
-experiments
-
-efficiency: episodes (classes, frequency measures, window widths), association rules
-
-output quality: better with closed and stuff (need redundancy-eliminating techniques)
-
-need techniques not to disadvantage larger episodes as much, such as...
-
-We saw that the computationally less complex interestingness measures often performed better in terms of output size, which can be advantageous when trying to lower the frequency threshold as much as possible. However, more complex measures certainly have advantages of their own: they often make more careful considerations when deciding the fate of a poor episode.
-
-with fixed window frequency easy to generate very many parallel episodes and association rules.
-
-fixed-window frequency/confidence have theoretical disadvantages but practical advantages
-other measures more theoretically advantageous but less practically feasible
+Possible avenues for future work include further optimizing the performance of the implementation. Though we tried our best to do so---see the \emph{notes on the timplementation} sections---we aren't experts at optimizing code, so there should be opportunities. Furthermore, it could be useful to conduct analysis with more varied datasets, to get an even better picture of the capabilities and the limitations of the measures and of the algorithm. Finally, finding more techniques of increasing the value of the output may be rewarding, such as preventing larger episodes from being inherently at a disadvantage, or exploring options to reduce redundancy.
