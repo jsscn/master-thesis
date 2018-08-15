@@ -627,6 +627,7 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
+
 \begin{tikzpicture}[scale=0.65]
 
 \begin{axis}[
@@ -640,9 +641,6 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-fixed-windows.dat};
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-minimal-windows.dat};
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-weighted-windows.dat};
-% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-fixed-windows.dat};
-% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-minimal-windows.dat};
-% \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-weighted-windows.dat};
 
 \end{axis}
 
@@ -659,12 +657,14 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
     legend entries={fixed windows,minimal windows,weighted windows},
     xlabel={portion of the whole sequence},
     ylabel={runtime (s)},
+    xmode=log,
     ymode=log,
 ]
 
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-fixed-windows.dat};
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-minimal-windows.dat};
 \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-parallel-weighted-windows.dat};
+
 % \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-fixed-windows.dat};
 % \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-minimal-windows.dat};
 % \addplot table [x=portion,y=duration-s] {experiments/length/tolstoy-lengths-serial-weighted-windows.dat};
@@ -680,7 +680,11 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \label{fig:tolstoy-runtime-vs-length}
 \end{figure}
 
-In sequential pattern mining, sequences are expected to be very long. Therefore we would like to have an idea of how the length of the sequence affects the performance. We measured the runtime of the algorithm for different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures. The results can be seen in figure~\ref{fig:tolstoy-runtime-vs-length}. The general progression is fairly similar for all of the measures. While unfortunately the progression is not linear (figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}) it doesn't seem to be exponential---if that were the case, we would see straight lines on a graph with a logarithmic scale (figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}).
+In sequential pattern mining, sequences are expected to be very long. Therefore we would like to have an idea of how the length of the sequence affects the performance. We measured the runtime of the algorithm for different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures. The results for parallel episodes can be seen in figure~\ref{fig:tolstoy-runtime-vs-length}. (The results for serial episodes were similar.)
+
+An important note for the interpretation of these plots: all the runs for a given measure used equal frequency thresholds, but the thresholds for each of the measures were chosen independently. They were chosen such that the runtime of each experiment was at most 30 seconds; that's why the data points meet up at the full sequence. So only the progressions are important here.
+
+The general progression is fairly similar for all of the measures, although the minimal-windows-based measures rise quicker than the fixed-window frequency. While unfortunately the complexity is worse than linear (figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}), judging by the mostly straight lines in the log--log plot (figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}) it does seem to be polynomial.
 
 \subsection{Comparing performance with the closed episode miner}
 
