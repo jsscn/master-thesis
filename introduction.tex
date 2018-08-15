@@ -6,9 +6,9 @@ In data mining, the goal is generally to extract useful information from dataset
 
 One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions---each transaction consisting of a (relatively small) set of items---is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur within transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is an item that a customer bought during a visit to the store.
 
-A well-known algorithm for mining itemsets in such a transactional database is Apriori~\citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets, allowing the search space to be pruned heavily. It uses a breadth-first approach---first finding all 1-sized itemsets, then all 2-sized itemsets, and so on---generating larger candidates from smaller itemsets that are known to be frequent.
+A well-known algorithm for mining itemsets in such a transactional database is Apriori~\citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets, allowing the search space to be pruned heavily. It uses a breadth-first approach---first finding all 1-sized itemsets, then all 2-sized itemsets, and so on---gen\-er\-at\-ing larger candidates from smaller itemsets that are known to be frequent.
 
-From itemsets that have been found frequent (or otherwise interesting), correlations between items can be found using \emph{association rules~\cite{agrawal1994fast}}, where the occurrence of one itemset can be a good predictor of another.
+From itemsets that have been found frequent (or otherwise interesting), \emph{association rules}~\cite{agrawal1994fast}, to find sets of items where the occurrence of one set can be a good predictor of another.
 
 % Other techniques, depth first. (?)
 

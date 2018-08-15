@@ -31,7 +31,7 @@ We validated the output of our implementation with the output of the closed epis
 
 We did find, however, a possible bug in the closed episode miner. When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
 
-Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1), (a, 3), (a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
+Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1),\allowbreak(a, 3),\allowbreak(a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
 
 \begin{table}
 \centering
@@ -107,7 +107,7 @@ We see that all of the datasets have quite large alphabets. Figures~\ref{fig:fre
 
 \caption{The frequency of the 300 most frequent events in \emph{abstract}.}
 \label{fig:frequency-plot-nsf}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -202,7 +202,7 @@ All performance experiments were run on the same machine; the full specification
 \end{tikzpicture}
 
 \caption{parallel episodes}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -257,7 +257,7 @@ All performance experiments were run on the same machine; the full specification
 \end{tikzpicture}
 
 \caption{parallel episodes}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -312,7 +312,7 @@ All performance experiments were run on the same machine; the full specification
 \end{tikzpicture}
 
 \caption{parallel episodes}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -385,7 +385,7 @@ Note that significantly more episodes are found in the \emph{trains} dataset---u
 \end{tikzpicture}
 \caption{\emph{abstract}}
 \label{fig:episode-frequencies-by-size-abstract}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
@@ -459,7 +459,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \end{tikzpicture}
 
 \caption{rules consisting of parallel episodes}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -486,7 +486,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \end{subfigure}
 
 \caption{Runtimes for finding association rules from episodes generated from \emph{tolstoy} (confidence threshold of 0; same experiment as figure~\ref{fig:runtimes-tolstoy-15}) as a function of the number of frequent episodes.}
-\label{fig:runtimes-rules-trains-900}
+\label{fig:runtimes-rules-tolstoy-15}
 \end{figure}
 
 \begin{figure}
@@ -514,7 +514,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \end{tikzpicture}
 
 \caption{rules consisting of parallel episodes}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 
@@ -647,7 +647,7 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \end{tikzpicture}
 \caption{linear scale}
 \label{fig:tolstoy-runtime-vs-length-linear-scale}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
 \begin{tikzpicture}[scale=0.65]
@@ -672,7 +672,7 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \end{axis}
 
 \end{tikzpicture}
-\caption{logaritmic scale}
+\caption{log--log scale}
 \label{fig:tolstoy-runtime-vs-length-log-scale}
 \end{subfigure}
 
@@ -711,9 +711,7 @@ We'll generate all episodes using all of the frequency measures we implemented.
 \subsection{Analysis of episodes mined from \emph{tolstoy} dataset}
 
 \begin{table}
-
-\begin{tabulary}{\textwidth}{R|L|L|L}
-
+\begin{tabulary}{\textwidth}{R|L|L|L}%
 \# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
 \hline
 1 & $ \{ \text{levin} \} $ (20913) & $ \{ \text{levin} \} $ (1629) & $ \{ \text{levin} \} $ (1629) \\
@@ -731,9 +729,7 @@ We'll generate all episodes using all of the frequency measures we implemented.
 13 & $ \{ \text{felt} \} $ (7753) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) & $ \{ \text{ey} \} $ (570) \\
 14 & $ \{ \text{man} \} $ (7751) & $ \{ \text{ey} \} $ (570) & $ \{ \text{man} \} $ (565) \\
 15 & $ \{ \text{feel} \} $ (7596) & $ \{ \text{man} \} $ (565) & $ \{ \text{feel} \} $ (561) \\
-
-\end{tabulary}
-
+\end{tabulary}%
 \caption{The top 15 parallel episodes found by our algorithm, with $ \rho = 15 $, and for the three frequency measures.}
 \label{table:fmw-tolstoy-top-15-parallel-episodes}
 \end{table}
@@ -748,9 +744,7 @@ As we would expect, if we rank the output by frequency, the top contains mostly 
 \end{itemize}
 
 \begin{table}
-
-\begin{tabulary}{\textwidth}{R|L|L|L}
-
+\begin{tabulary}{\textwidth}{R|L|L|L}%
 \# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
 \hline
 1 & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (7416) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (286) \\
@@ -768,9 +762,7 @@ As we would expect, if we rank the output by frequency, the top contains mostly 
 13 & $ \{ \text{time},\allowbreak\text{levin} \} $ (1597) & $ \{ \text{anna},\allowbreak\text{anna} \} $ (170) & $ \{ \text{love},\allowbreak\text{love} \} $ (38.2) \\
 14 & $ \{ \text{brother},\allowbreak\text{levin} \} $ (1558) & $ \{ \text{time},\allowbreak\text{levin} \} $ (159) & $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (37.2) \\
 15 & $ \{ \text{anna},\allowbreak\text{anna} \} $ (1531) & $ \{ \text{good},\allowbreak\text{levin} \} $ (153) & $ \{ \text{agafea},\allowbreak\text{mihalovna} \} $ (37) \\
-
-\end{tabulary}
-
+\end{tabulary}%
 \caption{The top 15 parallel episodes found by our algorithm, excluding 1-episodes, with $ \rho = 15 $, and for the three frequency measures.}
 \label{table:fmw-tolstoy-top-15-parallel->1-episodes}
 \end{table}
@@ -815,34 +807,30 @@ After filtering out 1-episodes we learn some more things:
 \subsection{Analysis of association rules mined from \emph{tolstoy} dataset}
 
 \begin{table}
-
 \begin{tabulary}{\textwidth}{R|L}
 
-\# & weighted-window confidence \\
+\# & association rule (weighted-window confidence) \\
 \hline
 1 & $ \{ \text{arkadyevitch}, \text{arkadyevitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{arkadyevitch} \} $ (1) \\
 2 & $ \{ \text{alexandrovitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{alexei}, \text{alexandrovitch}, \text{alexandrovitch} \} $ (1) \\
 3 & $ \{ \text{stepan}, \text{stepan} \} \Rightarrow \{ \text{stepan}, \text{stepan}, \text{arkadyevitch} \} $ (1) \\
 4 & $ \{ \text{countess}, \text{ivanovna} \} \Rightarrow \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (0.943) \\
 5 & $ \{ \text{arkadyevitch}, \text{alexei} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (0.937) \\
-6 & $ \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.937) \\
-7 & $ \{ \text{stepan}, \text{alexei}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.935) \\
-8 & $ \{ \text{stepan}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{alexei}, \text{alexandrovitch} \} $ (0.934) \\
-9 & $ \{ \text{stepan}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexandrovitch} \} $ (0.934) \\
-10 & $ \{ \text{stepan}, \text{good} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{good} \} $ (0.933) \\
-11 & $ \{ \text{arkadyevitch}, \text{alexandrovitch} \} \Rightarrow \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.933) \\
-12 & $ \{ \text{stepan}, \text{alexei} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (0.931) \\
-13 & $ \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.927) \\
-14 & $ \{ \text{alexandrovitch}, \text{ivanovna} \} \Rightarrow \{ \text{alexandrovitch}, \text{lidia}, \text{ivanovna} \} $ (0.926) \\
-15 & $ \{ \text{arkadyevitch}, \text{alexei} \} \Rightarrow \{ \text{arkadyevitch}, \text{alexei}, \text{alexandrovitch} \} $ (0.925) \\
 
+\end{tabulary}%
+\begin{tabulary}{\textwidth}{R|L}
+\# & association rule (fixed-window confidence) \\
+1 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+3 & $ \{ \text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+4 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+5 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
 \end{tabulary}
-
-\caption{Top 15 parallel association rules, by the weighted-window confidence.}
+\caption{Top 5 parallel association rules, by the weighted-window confidence.}
+\label{table:tolstoy-parallel-rules}
 \end{table}
 
 \begin{table}
-
 \begin{tabulary}{\textwidth}{R|L}
 
 \# & weighted-window confidence \\
@@ -852,26 +840,17 @@ After filtering out 1-episodes we learn some more things:
 3 & $ \text{stepan} \to \text{levin} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{levin} $ (1) \\
 4 & $ \text{stepan} \to \text{smile} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{smile} $ (1) \\
 5 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
-6 & $ \text{stepan} \to \text{stepan} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{stepan} $ (1) \\
-7 & $ \text{countess} \to \text{ivanovna} \Rightarrow \text{countess} \to \text{lidia} \to \text{ivanovna} $ (1) \\
-8 & $ \text{levin} \to \text{arkadyevitch} \Rightarrow \text{levin} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
-9 & $ \text{arkadyevitch} \to \text{arkadyevitch} \Rightarrow \text{arkadyevitch} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
-10 & $ \text{alexei} \to \text{alexei} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.984) \\
-11 & $ \text{alexei} \to \text{alexei} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} $ (0.898) \\
-12 & $ \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.846) \\
-13 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.846) \\
-14 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} $ (0.846) \\
-15 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (0.833) \\
 
 \end{tabulary}
-
-\caption{Top 15 serial association rules, by the weighted-window confidence.}
+\caption{Top 5 serial association rules, by the weighted-window confidence.}
 \label{table:tolstoy-serial-rules}
 \end{table}
 
 % The algorithm always uses the associated frequency and confidence measures together. For instance, association rules mined by the disjoint-window frequency will generate association rules according to the minimal-window confidence.
 
-Table~\ref{table:tolstoy-parallel-rules} shows the top 15 association rules consisting of parallel episodes, and table~\ref{table:tolstoy-serial-episodes} contains the top 15 serial association rules.
+Table~\ref{table:tolstoy-parallel-rules} shows the top 15 association rules consisting of parallel episodes, and table~\ref{table:tolstoy-serial-rules} contains the top 15 serial association rules.
+
+For the fixed-window confidence, there are a lot of rules of confidence 1. In fact, in this experiment, there were 129 association rules consisting of parallel episodes that had a confidence of 1. This poses a problem for top-k techniques.
 
 From these highly-rated association rules we mostly learn that for certain characters, the full names are always used.
 
@@ -889,17 +868,17 @@ From these highly-rated association rules we mostly learn that for certain chara
 
 We'll carry out a comparative study with two implementations of mining algorithms that use interestingness measures not based on frequency.
 
-Anti-monotonic freausncy measures inherently put larger episodes at a disadvantage, since an episode is never more frequent than any of its subepisodes. This has a few effects:
+Anti-monotonic frequency measures inherently put larger episodes at a disadvantage, since an episode is never more frequent than any of its subepisodes. This has a few effects:
 \begin{itemize}
 \item $ (l + 1) $-episodes will generally score lower than $ l $-episodes, so larger episodes will tend to be ranked lower than smalles ones.
 \item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
 \end{itemize}
-We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds, especially with parallel episodes and fixed-window frequency (figure~\ref{fig:episode-frequencies-by-size-parallel-fwi}), where at the lowest threshold, the number of 5-episodes exceeds the number of 1-episodes. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
+We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
 
 
-We can make some more observations about the plots in figure~\ref{fig:episode-frequencies-by-size}. % oh yeah? we'll see about that
+% We can make some more observations about the plots in figure~\ref{fig:episode-frequencies-by-size}. % oh yeah? we'll see about that
 
-For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
+% For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
 
 
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.

@@ -1205,7 +1205,11 @@ While finding the minimal windows of parallel episodes was slightly more complic
 
 Algorithm~\ref{alg:rec-ser-mwi} accomplishes recognition of serial episodes using the minimal window frequency measure.
 
-Once an automaton instance for an episode $ \alpha $ has reached state $ | \alpha | $, we know immediately where a minimal window starts and ends---it starts at the point where the automaton was initialized, and ends at the front of the current sliding window: $ \boldsymbol{s}[\alpha \text{.initialized}[| \alpha |], \allowbreak \text{start} + \rho) $. So, in contrast to the situation for fixed windows, now there is no second phase in which to keep track of the displacement of the sliding window, and therefore the \emph{in\_window} variable isn't needed.
+Once an automaton instance for an episode $ \alpha $ has reached state $ | \alpha | $, we know immediately where a minimal window starts and ends---it starts at the point where the automaton was initialized, and ends at the front of the current sliding window:
+\begin{align*}
+\boldsymbol{s}[\alpha \text{.initialized}[| \alpha |], \allowbreak \text{start} + \rho)
+\end{align*}
+So, in contrast to the situation for fixed windows, now there is no second phase in which to keep track of the displacement of the sliding window, and therefore the \emph{in\_window} variable isn't needed.
 
 In this adaptation, old events are removed before new ones are processed, because the situation explained in footnote~\ref{footnote:false-recognition} on page~\pageref{footnote:false-recognition} would become a problem when the frequency isn't determined by the displacement of the sliding window anymore.
 

@@ -30,6 +30,7 @@
 \usepackage{graphicx}
 \usepackage[toc]{appendix}
 \usepackage{tabulary}
+\usepackage{longtable}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri,decorations.pathreplacing}
@@ -38,7 +39,7 @@
     accolade/.style={decorate,decoration={brace,amplitude=10pt}},
     enoughdamnvspace/.style={font=\vphantom{$ f $}},
     smallnode/.style={circle,fill,inner sep=0,minimum size=5pt}}
-\usepackage{pgfplots}
+\usepackage{pgfplots, pgfplotstable}
 \pgfplotsset{compat=1.16}
 
 \usepackage{subcaption}
@@ -77,6 +78,7 @@
 % \theoremstyle{mydef}
 % \newtheorem{definition}{Definition}
 
+\setlength{\tymin}{20pt}
 \setlength{\parindent}{0em}
 \setlength{\parskip}{0.5em}
 % \renewcommand{\baselinestretch}{1.25}
@@ -84,6 +86,10 @@
 \AtBeginEnvironment{algorithmic}{\linespread{1.0}\selectfont}
 
 \hyphenation{time-stamp}
+\hyphenation{ep-is-ode}
+\hyphenation{ep-is-od-es}
+\hyphenation{iv-an-ov-itch}
+\hyphenation{al-ex-andr-ov-itch}
 
 \begin{document}
 
@@ -153,5 +159,7 @@ University of Antwerp
 
 % \bibliographystyle{plainnat}
 \printbibliography[heading=bibintoc]
+
+\input{appendices}
 
 \end{document}
