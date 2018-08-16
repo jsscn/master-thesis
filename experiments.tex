@@ -357,7 +357,7 @@ Note that significantly more episodes are found in the \emph{trains} dataset---u
 \newcommand\nsfepisodefrequenciesbysizeaxis[1]{%
 \begin{axis}[
     legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes,6-episodes,7-episodes,8-episodes},
-    legend style={legend pos=north east,legend style={nodes={scale=0.75}},fill opacity=0.7,text opacity=1},
+    legend style={legend pos=north east,legend style={nodes={scale=0.75}}},
     xlabel={frequency threshold},
     ylabel={number of frequent $ l $-episodes},
     xmode=log,
@@ -392,7 +392,7 @@ Note that significantly more episodes are found in the \emph{trains} dataset---u
 
 \begin{axis}[
     legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes,6-episodes,7-episodes,8-episodes,9-episodes,10-episodes,11-episodes,12-episodes,13-episodes,14-episodes,15-episodes},
-    legend style={legend pos=outer north east,legend style={nodes={scale=0.75}},fill opacity=0.7,text opacity=1},
+    legend style={legend pos=outer north east,legend style={nodes={scale=0.75}}},
     xlabel={frequency threshold},
     ylabel={number of frequent $ l $-episodes},
     xmode=log,
@@ -616,8 +616,6 @@ We would like to compare the efficiency for the different frequency measures acr
 Figure~\ref{fig:runtimes-nsf-8} shows such plots for both parallel and serial episodes, using the \emph{abstracts} dataset. We see that the fixed-window frequency performs significantly better than the other measures for parallel episodes. The weighted-window frequency runs up against the timeout very quickly in comparison.
 
 For serial episodes, the fixed-window frequency has less of an advantage, and at a certain point the minimal-window frequency produces more episodes for in less time. This could be explained by the fact that the data pass algorithm that finds minimal windows of serial episodes is slightly simpler than the algorithm that determines the fixed-window frequency for serial episodes. While the weighted-window frequency algorithm uses the same data pass algorithms as the disjoint-window frequency, selecting the optimal selection of non-overlapping windows is more complex, explaining its higher runtimes.
-
-
 
 
 
