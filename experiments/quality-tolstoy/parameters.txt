@@ -3,7 +3,7 @@ QCSP: minsup 5 alpha 2 maxlen 7 ......
 wwi: t 5 w 15 parallel
 fwi-parallel: t 15 w 15 c 0.95
 fwi-serial: t 150 w 15 c 0.8
-mwi-parallel: t 7 w 15
-mwi-serial t 10 w 15
+mwi-parallel: t 7 w 15 c 0
+mwi-serial t 10 w 15 c 0
 wwi-parallel: t 7 w 15 c 0
 wwi-serial: t 10 w 15 c 0

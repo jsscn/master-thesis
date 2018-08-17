@@ -1,7 +1,7 @@
 \chapter{Experiments}
 \label{sec:experiments}
 
-In this section, we perform experiments to answer the research question we posed in the introduction. Consisely put, we want to know whether we can find patterns in long sequences in a reasonable time, and whether there are interesting patterns to be found.
+In this section, we perform experiments to answer the research question we posed in the introduction. Concisely put, we want to know whether we can find patterns in long sequences in a reasonable time, and whether there are interesting patterns to be found.
 
 After choosing a number of datasets and showing some of their basic characteristics, we assess the performance of the implementation by running it on datasets of different kinds, and varying the parameter.
 
@@ -14,7 +14,7 @@ A big point of comparison while implementing our algorithms was a closed episode
 \begin{itemize}
 \item It mines general episodes, not just parallel and serial episodes.
 \item It mines closed episodes. An episode is closed if there are no superepisodes of the same frequency. Mining only closed episodes helps reduce the amount of output, by excluding non-closed episodes. The closed episode miner has options to mine non-closed episodes as well, which allows us to compare the output of both implementations.
-\item While our implementation finds episodes of one class at a time, as specified by the user---parallel or serial---the closed episode miner finds episodes of all classes at once---parallel, serial and general.
+\item While our implementation finds episodes of one class at a time, as specified by the user --- parallel or serial --- the closed episode miner finds episodes of all classes at once --- parallel, serial and general.
 \end{itemize}
 
 Given the above, in order to compare the two implementations in terms of their output, we have to enable the options that cause the closed episode miner to find non-closed episodes, since our implementation does not exclude non-closed episodes; and we have to filter out those episodes which don't match the class of episodes we're currently mining.
@@ -29,9 +29,9 @@ Parallel episodes can only ``grow'' by adding a new node, and serial episodes gr
 
 We validated the output of our implementation with the output of the closed episode miner, running the closed episode miner alongside our implementation on the same datasets and parameter configurations, then parsing and comparing the results. Thanks to the closed episode miner we were able to eliminate quite a few errors in our implementation.
 
-We did find, however, a possible bug in the closed episode miner. When mining parallel episodes in the example sequence (figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
+We did find, however, a possible bug in the closed episode miner. When mining parallel episodes in the example sequence (Figure~\ref{fig:event-sequence}), using the weighted-window frequency and with a window width of 8, the frequencies for a few episodes differed, as shown in table~\ref{table:closepi-frequency-difference}. Observing the sequence, each of these episodes has two overlapping minimal windows, of which the second one has a greater weight. Our implementation seems to correctly select the window with the higher weight, while the closed episode miner seems to choose the first window.
 
-Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1),\allowbreak(a, 3),\allowbreak(a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it undisputably selected $ [1, 4) $.
+Further distilling the issue, we tested a simpler example: the sequence $ \langle (a, 1),\allowbreak(a, 3),\allowbreak(a, 4) \rangle $, episode $ \{ a, a \} $, and a window width of at least 3. The weighted-window frequency is clearly $ 1 / 2 $, being the weight of the minimal window $ [3, 5) $, but the closed episode miner reported $ 1 / 3 $, so it indisputably selected $ [1, 4) $.
 
 \begin{table}
 \centering
@@ -46,7 +46,7 @@ $ \{ a, b, e \} $ & $ 0.25 $ ($ 1/4 $) & $ 1.66 \ldots $ ($ 1/6 $) \\
 
 \end{tabulary}
 
-\caption{Differing weighted-window frequency values between two implementations, mining the example sequence from figure~\ref{fig:event-sequence}.}
+\caption{Differing weighted-window frequency values between two implementations, mining the example sequence from Figure~\ref{fig:event-sequence}.}
 \label{table:closepi-frequency-difference}
 \end{table}
 
@@ -57,7 +57,7 @@ We will conduct experiments using a number of datasets:
 \begin{itemize}
 \item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence\footnote{\url{http://kdd.ics.uci.edu/databases/nsfabs/nsfawards.html}}.
 \item \emph{tolstoy}: Leo Tolstoy's novel Anna Karenina, from Project Gutenberg\footnote{\url{https://www.gutenberg.org/ebooks/1399}}.
-\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able derive any meaning from the patterns, but it it an interesting dataset nonetheless, because contrary to the textual datasets, \emph{trains} is sparse.
+\item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able derive any meaning from the patterns, but it it an interesting dataset nonetheless, because contrary to the textual datasets, \emph{trains} contains sparse, real-time data. The time interval between two subsequent timestamps represents one second.
 \end{itemize}
 
 The textual datasets were preprocessed by lemmatizing using the Porter stemmer\footnote{\url{https://tartarus.org/martin/PorterStemmer}} and stop words were removed.
@@ -81,12 +81,9 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \label{table:datasets-numbers}
 \end{table}
 
-We see that all of the datasets have quite large alphabets. Figures~\ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-nsf} and \ref{fig:frequency-plot-tolstoy} show the number of occurrences of the most frequent event types, ordered by frequency. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
+We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 \begin{figure}
-
-\def\testwidth{6cm}
-\def\testheight{5cm}
 
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -164,7 +161,7 @@ To assess the efficiency of the algorithm, we inspect the runtime for different 
 % the window width and
 the frequency and confidence thresholds.
 
-The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the cartesian product of all these parameters, within time and memory constraints. A few particularities:
+The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the Cartesian product of all these parameters, within time and memory constraints. A few particularities:
 
 \begin{itemize}
 \item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold. For example, with a multiplier of 0.90, the next threshold is always 10\% smaller than the last.
@@ -342,15 +339,15 @@ All performance experiments were run on the same machine; the full specification
 \label{fig:runtimes-trains-900}
 \end{figure}
 
-The graph in figure~\ref{fig:runtimes-nsf-8} shows runtimes for mining episodes from \emph{abstract}. We see that, for parallel episodes, the fixed-window frequency takes significantly less time to generate a given amount of episodes than the other measures. The disjoint-window frequency and the weighted-window frequency are very close until approximately one thousand episodes are found; then they start to diverge, and the the weighted-window frequency takes significantly more time than the other two.
+The graph in Figure~\ref{fig:runtimes-nsf-8} shows runtimes for mining episodes from \emph{abstract}. We see that, for parallel episodes, the fixed-window frequency takes significantly less time to generate a given amount of episodes than the other measures. The disjoint-window frequency and the weighted-window frequency are very close until approximately one thousand episodes are found; then they start to diverge, and the the weighted-window frequency takes significantly more time than the other two.
 
-For serial episodes, the fixed-window frequency has much less of an advantage. In fact, the disjoint-window frequency seems to overtake the fixed-window frequency for large amounts of episodes produced. Again the weighted-window frequency is slower, but the difference is lower this time. Also note that for all measures, runtimes for serial episodes were generally higher---since the experiments were time-constrained, the graph stops around the order of $ 10^5 $ for parallel episodes, and around $ 10^3 $ for serial episodes.
+For serial episodes, the fixed-window frequency has much less of an advantage. In fact, the disjoint-window frequency seems to overtake the fixed-window frequency for large amounts of episodes produced. Again the weighted-window frequency is slower, but the difference is lower this time. Also note that for all measures, runtimes for serial episodes were generally higher --- since the experiments were time-constrained, the graph stops around the order of $ 10^5 $ for parallel episodes, and around $ 10^3 $ for serial episodes.
 
 Figure~\ref{fig:runtimes-tolstoy-15} shows the results for \emph{tolstoy}. Though \emph{tolstoy} is approximately twice as long as \emph{abstract}, the progression for both serial and parallel is very similar.
 
-The results for the sparse dataset \emph{trains} are a bit different (figure~\ref{fig:runtimes-trains-900}). For parallel episodes, the fixed-window frequency still has the advantage. Curiously, the time consumption for the weighted-window frequency increases steadily, until around $ 10^3 $ episodes or so, when it plateaus, and eventually matches the disjoint-window frequency. For serial episodes, the weighted-window frequency shows a similar plateau, after which it even beats the fixed-window frequency and the disjoint-window frequency for some runs. We have no explanation for this interesting behaviour.
+The results for the sparse dataset \emph{trains} are a bit different (Figure~\ref{fig:runtimes-trains-900}). For parallel episodes, the fixed-window frequency still has the advantage. Curiously, the time consumption for the weighted-window frequency increases steadily, until around $ 10^3 $ episodes or so, when it plateaus, and eventually matches the disjoint-window frequency. For serial episodes, the weighted-window frequency shows a similar plateau, after which it even beats the fixed-window frequency and the disjoint-window frequency for some runs. We have no explanation for this interesting behaviour.
 
-Note that significantly more episodes are found in the \emph{trains} dataset---up to the order of $ 10^6 $. This is most likely due to the fact that \emph{trains} is considerably smaller than \emph{abstract} and \emph{tolstoy}, in both alphabet size and number of events. Perhaps, if given more time, the progression would look similar for \emph{abstract} and \emph{tolstoy}.
+Note that significantly more episodes are found in the \emph{trains} dataset --- up to the order of $ 10^6 $. This is most likely due to the fact that \emph{trains} is considerably smaller than \emph{abstract} and \emph{tolstoy}, in both alphabet size and number of events. Perhaps, if given more time, the progression would look similar for \emph{abstract} and \emph{tolstoy}.
 
 \begin{figure}
 
@@ -426,9 +423,9 @@ Note that significantly more episodes are found in the \emph{trains} dataset---u
 \label{fig:episode-frequencies-by-size}
 \end{figure}
 
-Besides runtime comparisons, it might also be useful to know how many episodes of each size are produced. As we will expand on later, there is a quality angle to this as well. In figure~\ref{fig:episode-frequencies-by-size} we see that each time the threshold is lowered by a certain factor, the amount of another size class of episodes rises significantly. For \emph{abstract} we find up to 8-episodes and for \emph{trains} we even find up to 15-episodes.
+Besides runtime comparisons, it might also be useful to know how many episodes of each size are produced. As we will expand on later, there is a quality angle to this as well. In Figure~\ref{fig:episode-frequencies-by-size} we see that each time the threshold is lowered by a certain factor, the amount of another size class of episodes rises significantly. For \emph{abstract} we find up to 8-episodes and for \emph{trains} we even find up to 15-episodes.
 
-Plots for the other kinds of episodes and frequency measures showed similar results, though less extreme---perhaps that can be explained by the fact that all experiments were run under the same time constraints.
+Plots for the other kinds of episodes and frequency measures showed similar results, though less extreme --- perhaps that can be explained by the fact that all experiments were run under the same time constraints.
 
 
 
@@ -485,7 +482,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \caption{rules consisting of serial episodes}
 \end{subfigure}
 
-\caption{Runtimes for finding association rules from episodes generated from \emph{tolstoy} (confidence threshold of 0; same experiment as figure~\ref{fig:runtimes-tolstoy-15}) as a function of the number of frequent episodes.}
+\caption{Runtimes for finding association rules from episodes generated from \emph{tolstoy} (confidence threshold of 0; same experiment as Figure~\ref{fig:runtimes-tolstoy-15}) as a function of the number of frequent episodes.}
 \label{fig:runtimes-rules-tolstoy-15}
 \end{figure}
 
@@ -538,6 +535,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \end{tikzpicture}
 
 \caption{rules consisting of serial episodes}
+\label{fig:runtimes-rules-trains-900}
 \end{subfigure}
 
 \caption{Runtimes for finding association rules from episodes generated from \emph{trains} (confidence threshold of 0.9; same experiment as figure~\ref{fig:runtimes-trains-900}) as a function of the number of frequent episodes.}
@@ -546,7 +544,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 
 As we saw in algorithm~\ref{alg:association-rules-top-level}, for each frequent episode $ \beta $, all $ \alpha \Rightarrow \beta $ with $ \alpha \subset \beta $ are considered. Assuming $ \beta $ has an injective $ lab $-function (an event type appears at most once), the number of subepisodes of an episode is exponential in the size of the episode; and so the same holds for the number of association rules to be considered.
 
-Figure~\ref{fig:runtimes-rules-tolstoy-15} shows runtimes for generating association rules from \emph{tolstoy} using different episode classes, as a function of the number of frequent episodes. Despite the concerns we expressed in the previous paragraph, the runtime seems to be mostly polynomial---indicating that the number frequent episodes remains the most important factor for these experiments. Finding the association rules from parallel episodes in \emph{trains} using the fixed-window frequency started to take significant time for the lowest frequency thresholds, but we think that must be mostly due to the large number of episodes generated.
+Figure~\ref{fig:runtimes-rules-tolstoy-15} shows runtimes for generating association rules from \emph{tolstoy} using different episode classes, as a function of the number of frequent episodes. Despite the concerns we expressed in the previous paragraph, the runtime seems to be mostly polynomial --- indicating that the number of frequent episodes remains the most important factor for these experiments. Finding the association rules from parallel episodes in \emph{trains} using the fixed-window frequency started to take significant time for the lowest frequency thresholds, but we think that must be mostly due to the large number of episodes generated.
 
 We mentioned earlier that computing the fixed-window confidence is trivial, given the frequency of the episodes; and yet for some of the experiments here, finding the confident association rules took longer than the weighted-window confidence. This can be explained by the overhead of storing the rules that turned out to be confident, requiring more time if there are  more confident rules.
 
@@ -606,7 +604,7 @@ We mentioned earlier that computing the fixed-window confidence is trivial, give
 \end{tikzpicture}
 % --- ---
 
-The database passes are an expensive---if not the most expensive---part of the mining algorithm. Plotting the number of frequent episodes in the output and the number of candidates that were considered in a pass over the sequence gives us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
+The database passes are an expensive --- if not the most expensive --- part of the mining algorithm. Plotting the number of frequent episodes in the output and the number of candidates that were considered in a pass over the sequence gives us an idea of the amount of internal work the algorithms deal with for the output that gets produced.
 \fi
 
 \subsection{Comparing the frequency measures}
@@ -678,11 +676,11 @@ For serial episodes, the fixed-window frequency has less of an advantage, and at
 \label{fig:tolstoy-runtime-vs-length}
 \end{figure}
 
-In sequential pattern mining, sequences are expected to be very long. Therefore we would like to have an idea of how the length of the sequence affects the performance. We measured the runtime of the algorithm for different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures. The results for parallel episodes can be seen in figure~\ref{fig:tolstoy-runtime-vs-length}. (The results for serial episodes were similar.)
+In sequential pattern mining, sequences are expected to be very long. Therefore we would like to have an idea of how the length of the sequence affects the performance. We measured the runtime of the algorithm for different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures. The results for parallel episodes can be seen in Figure~\ref{fig:tolstoy-runtime-vs-length}. (The results for serial episodes were similar.)
 
 An important note for the interpretation of these plots: all the runs for a given measure used equal frequency thresholds, but the thresholds for each of the measures were chosen independently. They were chosen such that the runtime of each experiment was at most 30 seconds; that's why the data points meet up at the full sequence. So only the progressions are important here.
 
-The general progression is fairly similar for all of the measures, although the minimal-windows-based measures rise quicker than the fixed-window frequency. While unfortunately the complexity is worse than linear (figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}), judging by the mostly straight lines in the log--log plot (figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}) it does seem to be polynomial.
+The general progression is fairly similar for all of the measures, although the minimal-windows-based measures rise quicker than the fixed-window frequency. While unfortunately the complexity is worse than linear (Figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}), judging by the mostly straight lines in the log--log plot (Figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}) it does seem to be polynomial.
 
 \subsection{Comparing performance with the closed episode miner}
 
@@ -699,7 +697,7 @@ In this section, we will do a qualitative analysis of the output of our algorith
 \iffalse
 \subsection{Comparing the frequency measures on a toy example}
 
-We consider the example sequence of the example in figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency thresold.
+We consider the example sequence of the example in Figure~\ref{fig:event-sequence}, which was used as an example throughout chapter~\ref{sec:problem-statement}. A small sequence is interesting to analyze because we have a full overview of the dataset, and can therefore provide insight into how the frequency and confidence values came to be. Also, it is possible to generate all episodes that cover the sequence for a certain window size, using a low frequency threshold.
 
 We'll generate all episodes using all of the frequency measures we implemented.
 \fi
@@ -735,7 +733,7 @@ We'll generate all episodes using all of the frequency measures we implemented.
 As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (table~\ref{table:fmw-tolstoy-top-15-parallel-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
 
 \begin{itemize}
-\item We learn of many characters' names---either first or last, but we don't know many characters' first and last name.
+\item We learn of many characters' names --- either first or last, but we don't know many characters' first and last name.
 \item Looking at the column for the disjoint-window frequency, we see that two names are mentioned together frequently: $ \{ \text{alexei}, \text{alexandrovitch} \} $. From this information it is likely that a character named \emph{Alexei Alexandrovitch} appears often in the book. (This is indeed the case.) Moreover, we see that $ \{ \text{alexei}, \text{alexandrovitch} \} $ is just as frequent as subepisode $ \{ \text{alexandrovitch} \} $. So wherever the first name \emph{Alexei} is mentioned, the last name \emph{Alexandrovitch} is mentioned nearby (within at most within 15 words).
 \item Common words like \emph{thought}, \emph{smile}, \emph{face}, \emph{love}, \emph{eye} (stemmed to \emph{ey}), \emph{feel} can give some indication of genre. At least it seems clear that the sequence does not represent a research paper in computer science.
 
@@ -797,12 +795,25 @@ From studying table~\ref{table:fmw-tolstoy-top-15-parallel-episodes} it is clear
 
 After filtering out 1-episodes we learn some more things:
 \begin{itemize}
-\item We find full names---Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna---all are characters' full names. With serial episodes, we find their order as well---\emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
-\item We also find the most important couples, since naturally their names are often mentioned close to each other---Kitty and Levin, Anna and Vronski.
+\item We find full names --- Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna --- all are characters' full names. With serial episodes, we find their order as well --- \emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
+\item We also find the most important couples, since naturally their names are often mentioned close to each other --- Kitty and Levin, Anna and Vronski.
 \item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $ at positions 10 and 7, respecitvely. The fixed-window confidence ranked $ \{ \text{draw}, \text{room} \} $ at position 30, and the disjoint-window frequency ranked it at position 90. The weighted-window frequency ranks it highly because of the noun \emph{drawing room} (those two words always directly following each other), making for many minimal windows of great weight.
 \end{itemize}
 
 \subsection{Analysis of association rules mined from \emph{tolstoy} dataset}
+
+\begin{table}
+\begin{tabulary}{\textwidth}{R|L}
+\# & association rule (fixed-window confidence) \\
+1 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+3 & $ \{ \text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+4 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+5 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
+\end{tabulary}
+\caption{Top 5 parallel association rules, by the fixed-window confidence.}
+\label{table:tolstoy-parallel-rules}
+\end{table}
 
 \begin{table}
 \begin{tabulary}{\textwidth}{R|L}
@@ -815,18 +826,10 @@ After filtering out 1-episodes we learn some more things:
 4 & $ \{ \text{countess}, \text{ivanovna} \} \Rightarrow \{ \text{countess}, \text{lidia}, \text{ivanovna} \} $ (0.943) \\
 5 & $ \{ \text{arkadyevitch}, \text{alexei} \} \Rightarrow \{ \text{stepan}, \text{arkadyevitch}, \text{alexei} \} $ (0.937) \\
 
-\end{tabulary}%
-\begin{tabulary}{\textwidth}{R|L}
-\# & association rule (fixed-window confidence) \\
-1 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
-2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
-3 & $ \{ \text{arkadyevitch},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
-4 & $ \{ \text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
-5 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} \Rightarrow \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{ey},\allowbreak\text{love},\allowbreak\text{youth},\allowbreak\text{gallant},\allowbreak\text{steed},\allowbreak\text{token},\allowbreak\text{declaim} \} $ (1) \\
 \end{tabulary}
 \caption{Top 5 parallel association rules, by the weighted-window confidence.}
-\label{table:tolstoy-parallel-rules}
 \end{table}
+
 
 \begin{table}
 \begin{tabulary}{\textwidth}{R|L}
@@ -871,19 +874,19 @@ Anti-monotonic frequency measures inherently put larger episodes at a disadvanta
 \item $ (l + 1) $-episodes will generally score lower than $ l $-episodes, so larger episodes will tend to be ranked lower than smalles ones.
 \item As a consequence of the preceding, and because we mine according to a fixed frequency threshold, the number of $ l $-episodes found decreases strongly as $ l $ grows.
 \end{itemize}
-We can clearly see the second effect if we plot the number of frequent episodes grouped by size: figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
+We can clearly see the second effect if we plot the number of frequent episodes grouped by size: Figure~\ref{fig:episode-frequencies-by-size} gives the numbers for one of the experiments performed in section~\ref{sec:performance-episodes}). We do see, however, that it helps to choose thresholds as low as possible, since the number greater-than-1-episodes rises significantly near the lowest thresholds. Still, larger episodes generally won't score highly compared to their subepisodes, and so they won't do well when episodes are ranked.
 
 
-% We can make some more observations about the plots in figure~\ref{fig:episode-frequencies-by-size}. % oh yeah? we'll see about that
+% We can make some more observations about the plots in Figure~\ref{fig:episode-frequencies-by-size}. % oh yeah? we'll see about that
 
-% For serial episodes (figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
+% For serial episodes (Figures~\ref{fig:episode-frequencies-by-size-serial-fwi}, \ref{fig:episode-frequencies-by-size-serial-mwi}, \ref{fig:episode-frequencies-by-size-serial-wwi}) the number of % WHAT??
 
 
 \citep{cule2016efficient} introduced an interestingness measure called \emph{cohesion}. The cohesiveness of an episode expresses how closely the events of its occurrences are to each other, that is, the distance between events is taken into account.
 
 An episode is deemed cohesive in regard to a sequence if the events that constitute an occurrence are close to each other; in other words, its minimal minimal windows are small on average.
 
-Recall that the weighted-window frequency also takes into account the size of the minimal windows---it lends more weight to smaller windows. There is an important distinction, though:
+Recall that the weighted-window frequency also takes into account the size of the minimal windows --- it lends more weight to smaller windows. There is an important distinction, though:
 \begin{itemize}
 \item The weighted-window frequency assigns a weight to each minimal window (the inverse of its width) and sums the weights.
 \item The cohesion is inversely proportional to the average width of the windows.
@@ -950,10 +953,10 @@ For the quality experiments, we ran our implementation with a window width of 15
 \label{table:cohesive-patterns}
 \end{table}
 
-Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two differerent definitions of cohesion. The implementation of the quantile-based cohesion sorts episodes according to a linear combination of the cohesion and the support.
+Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two different definitions of cohesion. The implementation of the quantile-based cohesion sorts episodes according to a linear combination of the cohesion and the support.
 
 Some of these patterns are both frequent and cohesive; as we already encountered them in the output of our implementation. We see some of the characters' names reappear. But we also see many patterns that we haven't seen before.
 
-Interestingly, for the regular cohesion, there are some \emph{very} cohesive patterns consisting of words that don't appear on their own anywhere else---such as \emph{belle-soeur}, which appears only five times in the book, just satisfying our support threshold---after which the cohesion drops sharply.
+Interestingly, for the regular cohesion, there are some \emph{very} cohesive patterns consisting of words that don't appear on their own anywhere else --- such as \emph{belle-soeur}, which appears only five times in the book, just satisfying our support threshold --- after which the cohesion drops sharply.
 
 [TODO highlight some more patterns, draw conclusion]

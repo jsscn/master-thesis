@@ -1,7 +1,7 @@
-\chapter{Problem Statement}
+\chapter{Problem statement}
 \label{sec:problem-statement}
 
-In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets---\emph{event sequences} composed of \emph{events}, each event occurring at a certain point in time.
+In this chapter we expound the fundamentals of what we'll be working on in later chapters. We begin by defining the structure of the datasets --- \emph{event sequences} composed of \emph{events}, each event occurring at a certain point in time.
 
 Next, we define patterns, named \emph{episodes} in sequential pattern mining, and cover the classes of episodes we will be mining. We define several \emph{frequency measures} proposed by different researchers, which quantify how interesting an episode is, with the goal of finding the most interesting episodes in a sequence.
 
@@ -24,7 +24,7 @@ With $ \boldsymbol{s}_i $ we refer to the pair $ (A_i, t_i) $ in $ s $.
 
 $ T_s $ and $ T_e $ are timestamps such that $ T_s \leq t_1 $ and $ t_n < T_e $. They mark the beginning and the end of the sequence, respectively.
 
-If a sequence event $ (A, t) $ is in $ s $, we say that the event \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
+If a sequence event $ (A, t) $ is in $ s $, we say that event $ A $ \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
 \end{definition}
 
 Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
@@ -101,7 +101,7 @@ we define a \emph{window} on $ \boldsymbol{s} $ to be an event sequence $ \bolds
 
 Note that in the previous definition, $ t_s $ and $ t_e $ do not have to be within the sequence itself. A window on a sequence can thus start before the sequence starts, or end after the sequence ends. This will be important for some of the algorithms.
 
-Figure~\ref{fig:windows} illustrates a window on the sequence of figure~\ref{fig:event-sequence}.
+Figure~\ref{fig:windows} illustrates a window on the sequence of Figure~\ref{fig:event-sequence}.
 
 \begin{figure}[h]
 \centering
@@ -170,15 +170,15 @@ Episodes $ \alpha $ and $ \beta $ are said to be \emph{equivalent} if each seque
 
 In this thesis, we'll be limiting ourselves to two subcategories of episodes:
 \begin{itemize}
-\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur in a sequence. An example is shown in figure~\ref{fig:episode-graphs-parallel}, and figure~\ref{fig:occurrences} (right) shows an occurrence in a sequence. In text we'll write parallel episodes by their event types using the following notation:
+\item \textbf{Parallel episodes.} A parallel episode is an episode for which the set of edges is empty. As such, no constraints are placed on the order in which event types occur in a sequence. An example is shown in Figure~\ref{fig:episode-graphs-parallel}. In text we'll write parallel episodes by their event types using the following notation:
 \begin{align*}
     \{ A_1, A_2, \ldots, A_n \}
 \end{align*}
 by which we mean a parallel episode with $ n $ nodes, and event types $ A_1 $ through $ A_n $. Note that though the notation reminds strongly of the notation for a mathematical set, it does not actually represent a set: a parallel episode $ \{ a, a, b, c \} $ is not equivalent to an episode $ \{ a, b, c \} $.
 
-\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example, and figure~\ref{fig:occurrences} (left) shows an occurrence in a sequence.
+\item \textbf{Serial episodes.} A serial episode is an episode for which the edges cause the nodes to have a total order. That way, in any occurrence of a serial episode in a sequence, the event types appear in the same order. Figure~\ref{fig:episode-graphs-serial} shows an example.
 
-% Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in figure~\ref{fig:episode-graphs-serial}.
+% Sometimes it is useful to describe serial episodes in their strict form, in which there is a direct edge between any two nodes. Figure~\ref{fig:episode-graphs-serial-strict} shows a strict episode which is equivalent to the episode in Figure~\ref{fig:episode-graphs-serial}.
 
 % While serial episodes have a different graph in this form, their meaning is the same, since they enforce the same order on the occurrence of events in the sequence to satisfy an occurrence of a serial episode.
 
@@ -212,10 +212,10 @@ where $ A_i $ is the event type of the $ i $-th node, and a node of event type $
 \centering
 \begin{tikzpicture}
 
-\node (n 1) [circly,label={$ b $},enoughdamnvspace] at (-3,0) {$ v_1 $};
-\node (n 2) [circly,label={$ a $},enoughdamnvspace] at (-1,0) {$ v_2 $};
-\node (n 3) [circly,label={$ c $},enoughdamnvspace] at ( 1,0) {$ v_3 $};
-\node (n 4) [circly,label={$ d $},enoughdamnvspace] at ( 3,0) {$ v_4 $};
+\node (n 1) [circly,label={$ a $},enoughdamnvspace] at (-3,0) {$ v_1 $};
+\node (n 2) [circly,label={$ c $},enoughdamnvspace] at (-1,0) {$ v_2 $};
+\node (n 3) [circly,label={$ b $},enoughdamnvspace] at ( 1,0) {$ v_3 $};
+\node (n 4) [circly,label={$ a $},enoughdamnvspace] at ( 3,0) {$ v_4 $};
 
 \draw [->] (n 1) -- (n 2);
 \draw [->] (n 2) -- (n 3);
@@ -293,20 +293,22 @@ where $ A_i $ is the event type of the $ i $-th node, and a node of event type $
 
 \end{tikzpicture}
 
-\caption{Showing an occurrence of a serial episode $ c \to f \to b $ and an occurrence of a parallel episode $ \{ b, c, e, e \} $ in the sequence of figure~\ref{fig:event-sequence}.}
+\caption{Showing an occurrence of a serial episode $ c \to f \to b $ and an occurrence of a parallel episode $ \{ b, c, e, e \} $ in the sequence of Figure~\ref{fig:event-sequence}.}
 \label{fig:occurrences}
 \end{figure}
 
-Note that episodes that consist of one node are both parallel and serial.
+Note that episodes which consist of only one node are both parallel and serial.
 
-Because we only consider parallel and serial episodes, it is easy to represent an episode in a data structure---we don't need to explicitly store a graph with nodes and edges:
+Figure~\ref{fig:occurrences} shows an example of two occurrences of episodes in a sequence --- on the left an occurrence of serial episode $ c \to f \to b $, and on the right an occurrence of a parallel episode $ \{ b, c, e, e \} $.
+
+Because we only consider parallel and serial episodes, it is easy to represent an episode in a data structure --- we don't need to explicitly store a graph with nodes and edges:
 \begin{itemize}
 \item Parallel episodes can be stored in an array, where each element is simply the event type of the episode. Strictly speaking, the order of the elements in the array doesn't matter, but it can be useful for them to follow some order on the set of event types. In that way each parallel episode has a unique array representation. Figure~\ref{fig:parallel-representation} shows the representation visually.
 
 \tikzset{circly/.style={draw,circle,minimum size=1cm},
     arraycell/.style={draw,rectangle,minimum size=1cm,node distance=0}}
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 
 \begin{tikzpicture}
@@ -316,7 +318,7 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 \node (n 3) [circly,label=above:$ b $] at ( 1,-3pt) {$ v_3 $};
 \node (n 4) [circly,label=above:$ a $] at ( 3, 3pt) {$ v_4 $};
 
-\node [left=of n 1] {episode graph};
+\node (episodegraphtext) [left=of n 1] {episode graph};
 
 \draw [->] (0,-1) -- node [left=0.5cm] {sort the event types into an array} +(0,-1.5);
 
@@ -324,6 +326,8 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 \node (a 2) [arraycell,right=of a 1,enoughdamnvspace] {$ a $};
 \node (a 3) [arraycell,right=of a 2,enoughdamnvspace] {$ b $};
 \node (a 4) [arraycell,right=of a 3,enoughdamnvspace] {$ c $};
+
+\node at (episodegraphtext |- a 1) {array representation};
 
 \end{tikzpicture}
 
@@ -335,7 +339,7 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 \item Serial episodes can also be stored in an array, but here the order of the elements is defined by the edges of the episode. That is, the event types are ordered according to a topological sort of the nodes. Figure~\ref{fig:serial-representation} shows this visually.
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 
 \begin{tikzpicture}
@@ -350,12 +354,14 @@ Because we only consider parallel and serial episodes, it is easy to represent a
 
 \node [left=of n 1] {episode graph};
 
-\draw [->] (0,-1) -- node [left=0.5cm,align=right] {store event types into array,\\preserving toplogical ordering} +(0,-1.5);
+\draw [->] (0,-1) -- node [left=0.5cm,align=right] {store event types into array,\\preserving topological ordering} +(0,-1.5);
 
 \node (a 1) [arraycell,enoughdamnvspace] at (-2, -3.5) {$ a $};
 \node (a 2) [arraycell,right=of a 1,enoughdamnvspace] {$ c $};
 \node (a 3) [arraycell,right=of a 2,enoughdamnvspace] {$ b $};
 \node (a 4) [arraycell,right=of a 3,enoughdamnvspace] {$ a $};
+
+\node at (episodegraphtext |- a 1) {array representation};
 
 \end{tikzpicture}
 
@@ -380,7 +386,7 @@ Of course, considering all event sequences that cover an episode is an impossibl
 \item A serial episode $ \alpha $ is a subepisode of a serial episode $ \beta $ if:
 \begin{enumerate}
 \item the conditions for parallel episodes are satisfied, and additionally
-\item if node $ v $ is an anchestor of node $ u $ in $ \alpha $, then there exist nodes $ u', v' $ in $ \beta $ such that $ u' $ is an anchestor of $ v' $ in $ \beta $ and $ lab(u) = lab(u') $ and $ lab(v) = lab(v') $. Put more simply, the ordering of event types must be preserved.
+\item if node $ v $ is an ancestor of node $ u $ in $ \alpha $, then there exist nodes $ u', v' $ in $ \beta $ such that $ v' $ is an ancestor of $ u' $ in $ \beta $ and $ lab(u) = lab(u') $ and $ lab(v) = lab(v') $. Put more simply, the ordering of event types must be preserved.
 \end{enumerate}
 \end{itemize}
 
@@ -415,18 +421,18 @@ fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol
 \end{align*}
 \end{definition}
 
-Using this definition, we can find the probability of finding an occurrence of the episode in an randomly chosen window of width $ \rho $:
+Using this definition, we can find the probability of finding an occurrence of the episode in a randomly chosen window of width $ \rho $:
 \begin{align*}
 \frac{fr_f(\alpha, \boldsymbol{s})}{| \{ \boldsymbol{s}[t, t + \rho) \mid t \in [T_s - \rho + 1, T_e] \} |}
 \end{align*}
 
-For a visual example of the fixed-window frequency of an episode, see figure~\ref{fig:fwi-example}. It shows all of the windows of width 8 that cover the episodes shown in figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $.
+For a visual example of the fixed-window frequency of an episode, see Figure~\ref{fig:fwi-example}. It shows all of the windows of width 8 that cover the episodes shown in Figure~\ref{fig:occurrences}. We observe that $ fr_f(\{ b, c, e, e \}) = 6 $, and $ fr_f(c \to f \to b) = 3 $.
 
 In event sequence mining, it is desirable for a frequency measure to give more weight to an occurrence that spans a shorter time range. The farther apart the events composing an occurrence, the more likely it is that the occurrence is accidental. Figure~\ref{fig:fwi-example} shows that the events for the serial episode are close together, such that a larger number of windows cover it, giving it a higher score than the parallel episode, where the events giving rise to the occurrence are more spread out, such that fewer windows cover the episode. So, the fixed-window frequency does have this appealing trait.
 
-Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width---even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in one window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. This makes for frequency values that aren't easily interpretable.
+Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width --- even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in one window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. This makes for frequency values that aren't easily interpretable.
 
-Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal in \ref{fig:many-events} and \ref{fig:few-events}, even though one would naturally say that the episode occurs at least twice as often in figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
+Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of Figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal in \ref{fig:many-events} and \ref{fig:few-events}, even though one would naturally say that the episode occurs at least twice as often in Figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
 
 \begin{figure}
 \centering
@@ -533,6 +539,64 @@ Requirement~\ref{min-win-requirement-window-width-limit} puts a limit on the wid
 
 If we mention a \emph{minimal occurrence} of an episode, we refer to the occurrence that gives rise to a minimal window of the episode.
 
+To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in Figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode --- with a different occurrence --- and so the larger window is not a minimal window of the episode.
+
+\begin{figure}
+\centering
+
+\begin{tikzpicture}
+
+\sequencetickmarks{8}{-5.5}{0}
+\sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b};
+
+% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
+%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-2.75,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t35);
+
+% windows
+
+\windowthingy{(-4.5,-10pt)}{4}
+
+\end{tikzpicture}
+
+\caption{A window for episode $ c \to f \to b $ that minimally covers a certain occurrence, yet is not a minimal window.}
+\label{fig:mwi-non-minimal-window}
+\end{figure}
+
+Minimal windows of an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $. They cannot overlap arbitrarily, though: given two minimal windows for an episode $ [a, b) $ and $ [c, d) $, (without loss of generality) it holds that $ a < c \Leftrightarrow b < d $. If this wasn't the case, then one could be contained in the other, contradicting the initial assumption that both windows are minimal.
+
+Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is computationally undesirable.
+
+As proven in the previous example, an episode may have more minimal windows than one of its subepisodes. This is due to the fact that minimal windows can overlap --- the minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied for the example. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
+
+\begin{definition}
+The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
+\begin{align*}
+fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
+\end{align*}
+\end{definition}
+
+The disjoint-window frequency is monotonically decreasing, allowing for Apriori-style pruning. By the non-overlapping requirement, it effectively disallows events from contributing multiple times towards the frequency of an episode.
+
+Compared to the fixed-window frequency, the disjoint-window frequency expresses the frequency of an episode in a sequence more naturally. Consider the example in Figure~\ref{fig:many-vs-few-events}, where the fixed-window frequency didn't distinguish between the two cases at all, above a certain window width. For any $ \rho \geq 2 $, the disjoint-window frequency of $ \{ a, b \} $ is 2 for the sequence in Figure~\ref{fig:few-events}, and 5 for the sequence in Figure~\ref{fig:many-events}. So the disjoint-window frequency does not suffer the information loss problem for larger $ \rho $ described in section~\ref{sec:fixed-window-frequency}.
+
+Moreover, with the disjoint-window frequency, once the window width $ \rho $ employed by an algorithm is large enough to discover a certain minimal minimal window $ [a, b) $, the contribution of that occurrence to the disjoint-window frequency is constant for all $ \rho \geq b - a $. This wasn't the case for the fixed-window frequency, as illustrated in section~\ref{sec:fixed-window-frequency}.
+
+The disjoint-window frequency does have a disadvantage compared to the fixed-window frequency as well. The width of a minimal window is unaccounted for. So a small minimal window contributes just as much to the disjoint-window frequency as a large one. As we explained in section~\ref{sec:fixed-window-frequency}, occurrences spanning a short time range are more likely to be significant than ones spanning a long range. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in Figure~\ref{fig:fwi-example}. Where the fixed-window frequency assigned a greater frequency to the shorter occurrence, the disjoint-window frequency treats them both equally. Thus here, again, $ \rho $ should be carefully chosen, as to not include minimal windows that are too large to be meaningful.
+
 \begin{figure}
 \centering
 
@@ -578,64 +642,6 @@ If we mention a \emph{minimal occurrence} of an episode, we refer to the occurre
 \label{fig:mwi-example}
 \end{figure}
 
-To further illustrate the requirements for a window being minimal, consider the following example. For serial episode $ c \to f \to b $, observe the occurrence in figure~\ref{fig:mwi-non-minimal-window}: instead of picking the first $ b $, now we chose the second $ b $. While this is a valid occurrence for the episode, the smallest window covering this particular occurrence contains an even smaller window that still covers the episode---with a different occurrence---and so the larger window is not a minimal window of the episode.
-
-\begin{figure}
-\centering
-
-\begin{tikzpicture}
-
-\sequencetickmarks{8}{-5.5}{0}
-\sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b};
-
-% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
-%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
-
-%% draw occurrence proofs again
-% serial episode
-
-\node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
-\node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
-\node (serB) at (-2.75,2.5) [smallnode,label={$ b $}] {};
-
-\draw [->,very thick] (serC) -- (serF);
-\draw [->,very thick] (serF) -- (serB);
-
-\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
-\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
-\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t35);
-
-% windows
-
-\windowthingy{(-4.5,-10pt)}{4}
-
-\end{tikzpicture}
-
-\caption{A window for episode $ c \to f \to b $ that minimally covers a certain occurrence, yet is not a minimal window.}
-\label{fig:mwi-non-minimal-window}
-\end{figure}
-
-Minimal windows of an episode can still overlap, however. As a very simple example consider the sequence $ a\;b\;a $ and episode $ \{ a, b \} $. Then both $ [1, 3) $ and $ [2, 4) $ are minimal windows of $ \{ a, b \} $. They cannot overlap arbitrarily, though: given two minimal windows for an episode $ [a, b) $ and $ [c, d) $, (without loss of generality) it holds that $ a < c \Leftrightarrow b < d $. If this wasn't the case, then one could be contained in the other, contradicting the initial assumption that both windows are minimal.
-
-Simply defining $ fr_m(\alpha) = | mw(\alpha) | $ is not a viable option for efficiently mining episodes, because it doesn't satisfy the monotonicity property. As an example, take the sequence $ a\;b\;a\;c\;b\;c $, and serial episode $ a \to b \to c $. The minimal windows of the episode in the sequence are $ mw(a \to b \to c) = \{ [1, 5), [3, 7) \} $, while subepisode $ a \to c $ has only one minimal window: $ mw(a \to c) = \{ [3, 5) \} $. So for this sequence, $ a \to b \to c $ would have a greater frequency than one of its subepisodes $ a \to c $. As stated before, this is computationally undesirable.
-
-As proven in the previous example, an episode may have more minimal windows than one of its subepisodes. This is due to the fact that minimal windows can overlap---the minimal window of $ a \to c $ is contained within two minimal windows of $ a \to b \to c $. If we forced ourselves to drop either of the two minimal windows of $ a \to b \to c $, the monotonicity property would be satisfied for the example. This leads us to the disjoint-window frequency \citep{laxman2005discovering}.
-
-\begin{definition}
-The \emph{disjoint-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_m(\alpha) $, is defined as the maximal number of non-overlapping minimal windows within $ \boldsymbol{s} $ that contain episode $ \alpha $. Formally:
-\begin{align*}
-fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
-\end{align*}
-\end{definition}
-
-The disjoint-window frequency is monotonically decreasing, allowing for Apriori-style pruning. By the non-overlapping requirement, it effectively disallows events from contributing multiple times towards the frequency of an episode.
-
-Compared to the fixed-window frequency, the disjoint-window frequency expresses the frequency of an episode in a sequence more naturally. Consider the example in figure~\ref{fig:many-vs-few-events}, where the fixed-window frequency didn't distinguish between the two cases at all, above a certain window width. For any $ \rho \geq 2 $, the disjoint-window frequency of $ \{ a, b \} $ is 2 for the sequence in figure~\ref{fig:few-events}, and 5 for the sequence in figure~\ref{fig:many-events}. So the disjoint-window frequency does not suffer the information loss problem for larger $ \rho $ described in section~\ref{sec:fixed-window-frequency}.
-
-Moreover, with the disjoint-window frequency, once the window width $ \rho $ employed by an algorithm is large enough to discover a certain minimal minimal window $ [a, b) $, the contribution of that occurrence to the disjoint-window frequency is constant for all $ \rho \geq a - b $. This wasn't the case for the fixed-window frequency, as illustrated in section~\ref{sec:fixed-window-frequency}.
-
-The disjoint-window frequency does have a disadvantage compared to the fixed-window frequency as well. The width of a minimal window is unaccounted for. So a small minimal window contributes just as much to the disjoint-window frequency as a large one. As we explained in section~\ref{sec:fixed-window-frequency}, occurrences spanning a short time range are more likely to be significant than ones spanning a long range. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in figure~\ref{fig:fwi-example}. Where the fixed-window frequency assigned a greater frequency to the shorter occurrence, the disjoint-window frequency treats them both equally. Thus here, again, $ \rho $ should be carefully chosen, as to not include minimal windows that are too large to be meaningful.
-
 \subsection{Weighted-window frequency}
 
 In the preceding sections we studied some of the characteristics of the fixed-window frequency and the disjoint-window frequency. We liked that the fixed-window frequency rates closely-packed occurrences higher than ones which are spread out a lot; but we also liked the way the disjoint-window frequency considers specific occurrences more attentively. The weighted-window frequency is based on minimal windows, but considers the value of a minimal window to be inversely proportional to its width.
@@ -654,10 +660,10 @@ The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alp
 \begin{align*}
 fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right \}
 \end{align*}
-In words, the weighted-window frequency is the sum weight of a set of disjoint minimal windows that maximizes the total weight.
+In words, the weighted-window frequency is the sum of weights of a set of disjoint minimal windows that maximizes the total weight.
 \end{definition}
 
-The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode---which is to say, not very much for large $ \rho $.
+The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode --- which is to say, not very much for large $ \rho $.
 
 
 
@@ -675,16 +681,16 @@ If we state that $ \alpha \Rightarrow \beta $ holds in the context of a sequence
 
 The purpose of the search for confident association rules is to find episodes $ \alpha $ which are good predictors of superepisodes $ \beta $.
 
-Typical algorithms (including ours) only consider association rules consisting of episodes that are frequent in the sequence---episodes that were mined from the sequence. It should be noted, though, that association rules consisting of infrequent episodes can be confident as well. But those are much harder to find. The main reason for only considering frequent episodes is to limit the number of candidates to make mining algorithms tractable. Therefore we work under the assumption that association rules are only interesting if they consist of interesting episodes.
+Typical algorithms (including ours) only consider association rules consisting of episodes that are frequent in the sequence --- episodes that were mined from the sequence. It should be noted, though, that association rules consisting of infrequent episodes can be confident as well. But those are much harder to find. The main reason for only considering frequent episodes is to limit the number of candidates to make mining algorithms tractable. Therefore we work under the assumption that association rules are only interesting if they consist of interesting episodes.
 
 \section{Confidence measures for association rules}
 \label{sec:interestingness-measures-association-rules}
 
-\subsection{Fixed-window confidence}
-
-Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, $ c(\alpha \Rightarrow \beta) $ rule should express the probability of finding an occurrence of $ \beta $ ``surrounding''---and containing---the occurrence of $ \alpha $.
+Given an association rule $ \alpha \Rightarrow \beta $, we can define a confidence value $ c(\alpha \Rightarrow \beta) $, which expresses the likelihood of finding an occurrence of $ \beta $, given an occurrence of $ \alpha $ in a sequence. So, intuitively, if we've found an occurrence of $ \alpha $ in the sequence, $ c(\alpha \Rightarrow \beta) $ rule should express the probability of finding an occurrence of $ \beta $ ``surrounding'' --- and containing --- the occurrence of $ \alpha $.
 
 We will present three methods to measure the confidence of an association rule, each based on its equivalent frequency measure defined in section~\ref{sec:interestingness-measures-episodes}.
+
+\subsection{Fixed-window confidence}
 
 A first method is to use the fixed-window frequency of episodes \citep{mannila1997discovery}.
 
@@ -699,12 +705,11 @@ Intuitively, this measure of confidence expresses the amount of windows that con
 
 At first sight, this seems like a sensible approach. However, in section~\ref{sec:fixed-window-frequency} we established that the frequency values produced by the fixed-window frequency, are unintuitive, in part because they heavily depend on the chosen window width. That being so, and given that the fixed-window confidence is based directly on the fixed-window frequency, the fixed-window confidence cannot be expected to produce very meaningful results either.
 
-% TODO maybe expand
-
+% TODO definitely expand
 
 
 \iffalse
-Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of figure~\ref{fig:fwi-example}. In figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:occurrences spanning a long time range are more likely to be coincidental than short occurrences
+Consider again the occurrence of the parallel episode $ \{ b, c, e, e \} $ of Figure~\ref{fig:fwi-example}. In Figure~\ref{fig:fwi-assoc-example}, all of the windows of width $ 8 $ that cover the episode are shown for a certain sequence, as well as the windows covering two of its subepisodes. With $ \rho = 8 $ as in the Figure, $ fr_f(\{ e, e \}) = 6 $, and $ fr_f(\{ b, c \}) = 3 $. Now:occurrences spanning a long time range are more likely to be coincidental than short occurrences
 \begin{itemize}
 \item $ c_f(\{ e, e \} \Rightarrow \{ b, c, e, e \}) = \frac12 $, and
 \item $ c_f(\{ b, c \}) \Rightarrow \{ b, c, e, e \} = 1 $.
@@ -824,7 +829,7 @@ similarly to the fixed-window confidence. However, we're trying to express the p
 
 \begin{definition}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that
-$ [c, d) \supseteq [a, b) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $
+$ [a, b) \subset [c, d) $, we define the \emph{minimal-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $
 \begin{align*}
 ext_m(\boldsymbol{s}[a, b), \alpha, \beta) = 1
 \end{align*}
@@ -845,7 +850,7 @@ c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \
 In order to calculate the confidence of association rules based on weighted windows \citep{cule2014marbles}, we first define the weighted-extensibility.
 
 \begin{definition} \label{def:weighted-extensibility}
-Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [a, b) \supseteq [c, d) $, and that this is the smallest window that contains both $ \beta $ and $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. Assume that there exists a minimal window $ \boldsymbol{s}[c, d) $ such that $ [a, b) \subset [c, d) $, and that this is the smallest window that contains $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
 \begin{align*}
 ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
 \end{align*}

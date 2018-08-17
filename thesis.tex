@@ -3,6 +3,7 @@
   twoside,
   % openright,
   abstract=on,
+  appendixprefix,
 ]{scrreprt}
 
 \usepackage[automark,headsepline]{scrlayer-scrpage}
@@ -12,7 +13,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage{ragged2e}
+\usepackage[toc,titletoc,title]{appendix}
 
 % \usepackage[bibfile=mybib.bib,bibstyle=authoryear]{cleanthesis}
 
@@ -33,7 +34,6 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[toc]{appendix}
 \usepackage{tabulary}
 \usepackage{longtable}
 
@@ -52,14 +52,15 @@
 \pgfplotsset{cycle list={
     {thick,MidnightBlue,mark=*},
     {mark options=solid,dashed,thick,OrangeRed,mark=square*},
-    {Fuchsia,mark=diamond*},
-    {thick,LimeGreen,mark=asterisk*},
-    {mark options=solid,dashed,thick,Peach,mark=x},
+    {thick,YellowOrange,mark=diamond*},
+    {thick,Fuchsia,mark=asterisk},
+    {mark options=solid,dashed,thick,ForestGreen,mark=x},
     {thick,Turquoise,mark=square*},
-    {thick,Periwinkle,mark=triangle*},
+    {Black,mark=triangle*},
     {mark options=solid,dashed,thick,RedViolet,mark=diamond*},
-    {ForestGreen,mark=square*}
+    {LimeGreen,mark=square*}
 }}
+\pgfset{/pgf/number format/1000 sep={\,}}
 
 \usepackage{subcaption}
 \usepackage{caption} % to remove colon from figures with no caption
