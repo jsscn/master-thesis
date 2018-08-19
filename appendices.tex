@@ -1,12 +1,9 @@
-\appendix
-
 \begin{appendices}
-
-% \renewcommand\thechapter{\appendixname\space\Alph{chapter}}
+\addtocontents{toc}{\setcounter{tocdepth}{-1}}
 
 \chapter{%
-%Most confident association rules from \emph{tolstoy} dataset
-small title%
+Most confident association rules from \emph{tolstoy} dataset
+% small title%
 }
 
 The top 15 association rules mines from the \emph{tolstoy} dataset, for each of the episode classes and confidence measures.
@@ -76,7 +73,28 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 14 & $ \{ \text{kitti},\allowbreak\text{agafea},\allowbreak\text{agafea},\allowbreak\text{mihalovna} \} \Rightarrow \{ \text{kitti},\allowbreak\text{agafea},\allowbreak\text{agafea},\allowbreak\text{mihalovna},\allowbreak\text{mihalovna} \} $ (1) \\
 15 & $ \{ \text{kitti},\allowbreak\text{agafea},\allowbreak\text{agafea} \} \Rightarrow \{ \text{kitti},\allowbreak\text{agafea},\allowbreak\text{agafea},\allowbreak\text{mihalovna},\allowbreak\text{mihalovna} \} $ (1) \\
 \end{longtable}
+
 \section{Serial, minimal-window confidence}
+
+\begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
+\# & minimal-window confidence \\
+\hline
+1 & $ \text{countess} \to \text{ivanovna} \to \text{alexei} \Rightarrow \text{countess} \to \text{lidia} \to \text{ivanovna} \to \text{alexei} $ (1) \\
+2 & $ \text{sergei} \to \text{ivanovitch} \to \text{ivanovitch} \Rightarrow \text{sergei} \to \text{ivanovitch} \to \text{sergei} \to \text{ivanovitch} $ (1) \\
+3 & $ \text{levin} \to \text{stepan} \to \text{levin} \Rightarrow \text{levin} \to \text{stepan} \to \text{arkadyevitch} \to \text{levin} $ (1) \\
+4 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexei} \to \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+5 & $ \text{stepan} \to \text{arkadyevitch} \to \text{alexandrovitch} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+6 & $ \text{stepan} \to \text{alexandrovitch} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+7 & $ \text{stepan} \to \text{stepan} \to \text{arkadyevitch} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
+8 & $ \text{stepan} \to \text{arkadyevitch} \to \text{arkadyevitch} \Rightarrow \text{stepan} \to \text{arkadyevitch} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
+9 & $ \text{vronski} \to \text{alexandrovitch} \Rightarrow \text{vronski} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+10 & $ \text{sergei} \to \text{brother} \Rightarrow \text{sergei} \to \text{ivanovitch} \to \text{brother} $ (1) \\
+11 & $ \text{sergei} \to \text{put} \Rightarrow \text{sergei} \to \text{ivanovitch} \to \text{put} $ (1) \\
+12 & $ \text{fellow} \to \text{arkadyevitch} \Rightarrow \text{fellow} \to \text{stepan} \to \text{arkadyevitch} $ (1) \\
+13 & $ \text{alexandrovitch} \to \text{ivanovna} \Rightarrow \text{alexandrovitch} \to \text{lidia} \to \text{ivanovna} $ (1) \\
+14 & $ \text{alexandrovitch} \to \text{alexandrovitch} \Rightarrow \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (1) \\
+15 & $ \text{alexei} \to \text{ivanovna} \Rightarrow \text{alexei} \to \text{lidia} \to \text{ivanovna} $ (1) \\
+\end{longtable}
 
 \section{Parallel, weighted-window confidence}
 
@@ -145,6 +163,5 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 \fi
 
-\chapter{another appendix?}
-
+\addtocontents{toc}{\setcounter{tocdepth}{2}}
 \end{appendices}
