@@ -1,0 +1,11 @@
+tolstoy
+-w15
+
+ours:
+par-fwi: -t15 - 296 s - cancelled (> 10 GB memory)
+ser-fwi: -t150 - 216 s - 8.67 s
+par-mwi: -t7 417 s - 24.8 s
+ser-mwi: -t10 417 s - 14.966
+par-wwi: -t7 127 s - 9.59 s
+ser-wwi: -t10 300 s - 6.65 s
+
