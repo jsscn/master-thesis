@@ -330,7 +330,7 @@ Each episode $ \alpha $ is associated with a value \emph{block\_start}, which is
 \label{fig:block-values}
 \end{figure}
 
-The algorithm constructs this block structure while generating candidates of size $ l + 1 $, but it also uses the blocks of the $ l $-sized episodes given as input. So it is important that they are preserved and maintained in between different runs of algorithm~\ref{alg:cand-gen}. Section~\ref{sec:maintain-blocks} goes into more detail about this.
+The algorithm constructs this block structure while generating candidates of size $ l + 1 $, but it also uses the blocks of the $ l $-sized episodes given as input. So it is important that they are preserved and maintained in between different runs of Algorithm~\ref{alg:cand-gen}. Section~\ref{sec:maintain-blocks} goes into more detail about this.
 
 We mentioned earlier that in the array representation of parallel episodes, elements are sorted according to event type. We would like to construct parallel candidates for which this is the case as well. We know that the input array of frequent episodes is sorted, and that all episodes in a block share an $ (l - 1) $-prefix. Consequently, for any two episodes $ \mathcal{C}[i] $ and $ \mathcal{F}[j] $ in a block such that $ i \leq j $, it holds that $ \mathcal{F}[i][l] \leq \mathcal{F}[j][l] $.
 Now, if we always construct a new candidate $ \alpha $ as $ \langle \mathcal{F}[i][1], \ldots,\allowbreak\mathcal{F}[i][l],\allowbreak\mathcal{F}[j][l] \rangle $ and choose $ i $ and $ j $ such that $ i \leq j $, then $ \alpha $'s array representation is sorted by construction. This explains the nested-loop structure of the algorithm (lines~\ref{alglin:cand-gen:i-loop} and~\ref{alglin:cand-gen:j-loop}), where the inner array index $ j $ is always greater than or equal to the outer index $ i $.
@@ -518,7 +518,7 @@ To prevent having to consider a special case for the beginning and the end of th
 \node [below=10pt of n-66] {$ T_e $};
 
 \end{tikzpicture}
-\caption{Visualization of the way algorithm~\ref{alg:rec-par-fwi} and further algorithms pass a sliding window over the sequence. Black dots represent timestamps that belong to the sequence, regardless of whether events occur at that timestamp.}
+\caption{Visualization of the way Algorithm~\ref{alg:rec-par-fwi} and further algorithms pass a sliding window over the sequence. Black dots represent timestamps that belong to the sequence, regardless of whether events occur at that timestamp.}
 \label{fig:sliding-window}
 \end{figure}
 
@@ -528,7 +528,7 @@ Recognition is accomplished as follows. For each event type $ A $, a counter $ A
 
 When an event of type $ A $ leaves the window (line~\ref{alglin:rec-par-fwi:old-events} and further), for all episodes $ \alpha $ with $ A \text{.count} $ nodes of event type $ A $, if $ \alpha \text{.event\_count} = | \alpha | $, then $ \alpha $ has been contained in a number of windows, but is now no longer. The episode was covered by $ (\text{start} - \alpha \text{.in\_window}) $ subsequent windows, and so $ \alpha \text{.freq\_count} $ gets updated accordingly. After performing this for all relevant episodes, $ A \text{.count} $ gets decreased by $ 1 $ to reflect the fact that an event of type $ A $ has left the sliding window.
 
-Figure~\ref{fig:parallel-recognition} illustrates this the recognition of a parallel episode by algorithm~\ref{alg:rec-par-fwi}.
+Figure~\ref{fig:parallel-recognition} illustrates this the recognition of a parallel episode by Algorithm~\ref{alg:rec-par-fwi}.
 
 \begin{figure}[t]
 \centering
@@ -615,11 +615,11 @@ The \emph{contains} data structure requires some sort of key-value storage. Typi
 \section{Determining the fixed-window frequency for serial episodes}
 \label{sec:rec-ser-fwi}
 
-Algorithm~\ref{alg:rec-ser-fwi} determines the fixed-window frequency of serial episodes in a sequence. By definition serial episodes impose a total order on the nodes, and consequently on the events in the sequence in order to satisfy an occurrence of an episode. Serial episodes are therefore recognized using simple automata, instances of which advance state as events are encountered. Just like the algorithm for recognizing parallel episodes, algorithm~\ref{alg:rec-ser-fwi} (adapted from~\cite{mannila1997discovery}) iterates over the sequence once.
+Algorithm~\ref{alg:rec-ser-fwi} determines the fixed-window frequency of serial episodes in a sequence. By definition serial episodes impose a total order on the nodes, and consequently on the events in the sequence in order to satisfy an occurrence of an episode. Serial episodes are therefore recognized using simple automata, instances of which advance state as events are encountered. Just like the algorithm for recognizing parallel episodes, Algorithm~\ref{alg:rec-ser-fwi} (adapted from~\cite{mannila1997discovery}) iterates over the sequence once.
 
 Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. For an episode $ (\{ v_1, \ldots, v_n \}, \{ (v_i, v_j) \mid i < j \}, lab) $, state $ j $ refers to node $ v_j $. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j < n $ and upon encountering an event $ (A, t) $ such that $ A = lab(v_{j + 1}) $, the instance will transition to state $ j + 1 $.
 
-When an automaton instance of $ \alpha $ reaches state $ | \alpha | $, the episode has been successfully recognized, and from that point on, the episode will occur in a number of windows as the sliding window slides over the sequence. Once recognized, determining the occurrence's contribution to the frequency count happens in much the same way as it does in algorithm~\ref{alg:rec-par-fwi} --- store the point in time at which the episode first occurred within the sliding window, and when the occurrence leaves the sliding window, determine the displacement of the sliding window since the stored timestamp.
+When an automaton instance of $ \alpha $ reaches state $ | \alpha | $, the episode has been successfully recognized, and from that point on, the episode will occur in a number of windows as the sliding window slides over the sequence. Once recognized, determining the occurrence's contribution to the frequency count happens in much the same way as it does in Algorithm~\ref{alg:rec-par-fwi} --- store the point in time at which the episode first occurred within the sliding window, and when the occurrence leaves the sliding window, determine the displacement of the sliding window since the stored timestamp.
 
 Regardless of the state an automaton instance reached, the instance is removed when the timestamp at which the instance was initialized falls out of the sliding window.
 
@@ -770,7 +770,7 @@ With the data structures just described in mind, we will go through the algorith
 
 The initialization is rather straightforward. One thing to note is that the permanent pairs of the \emph{waits} sets are constructed (line~\ref{alglin:rec-ser-fwi:fill-waits-init}). As stated before, for each episode $ \alpha $, $ \text{waits}(\alpha[1]) $ contains $ (\alpha, 1) $ from the start, and throughout the algorithm, to initialize a new automaton instance for $ \alpha $ any time an event of type $ \alpha[1] $ occurs.
 
-Then a sliding window is passed over the sequence, in the same manner algorithm~\ref{alg:rec-par-fwi} does (line~\ref{alglin:rec-ser-fwi:iterate-sequence}). Each time the sliding window is advanced, first the events that just came into the window are processed (line~\ref{alglin:rec-ser-fwi:iterate-new-events}), at time $ (\text{start} + \rho - 1) $. Say an event of type $ A $ came in. Thanks to the \emph{waits} data structure, all automaton instances that should make a state transition are found efficiently. For each of the pairs $ (\alpha, j) $ in $ \text{waits}(A) $, the following steps are performed:
+Then a sliding window is passed over the sequence, in the same manner Algorithm~\ref{alg:rec-par-fwi} does (line~\ref{alglin:rec-ser-fwi:iterate-sequence}). Each time the sliding window is advanced, first the events that just came into the window are processed (line~\ref{alglin:rec-ser-fwi:iterate-new-events}), at time $ (\text{start} + \rho - 1) $. Say an event of type $ A $ came in. Thanks to the \emph{waits} data structure, all automaton instances that should make a state transition are found efficiently. For each of the pairs $ (\alpha, j) $ in $ \text{waits}(A) $, the following steps are performed:
 
 \begin{enumerate}
 \item Lines~\ref{alglin:rec-ser-fwi:mark-enter} and further: If the automaton instance has reached state $ | \alpha | $, that is, the episode now occurs within the sliding window,\footnote{Again, as explained in footnote~\ref{footnote:false-recognition} on page~\pageref{footnote:false-recognition}, this statement needs to be nuanced. The same exact reasoning applies here.} then $ \alpha \text{.in\_window} $ gets set to \emph{start} to mark the time at which the episode entered the sliding window. Except if another instance is already in state $ | \alpha | $, then $ \alpha \text{.in\_window} $ was already set. If we would overwrite the value in that case, the windows covering the previous occurrence would not be counted.
@@ -790,7 +790,7 @@ After applying the state transitions, the events no longer in the window are dro
 
 \subsection{Adapting the algorithm presented in~\citep{mannila1997discovery}}
 
-While implementing this algorithm we found an oversight in~\citep{mannila1997discovery} for the pseudocode of algorithm~\ref{alg:rec-ser-fwi} (algorithm~5 in~\citep{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. Note that in~\citep{mannila1997discovery}, the update to \emph{begins\_at} of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2} are missing. (In their version of the algorithm, these statements should appear in between lines 26 and 27.)
+While implementing this algorithm we found an oversight in~\citep{mannila1997discovery} for the pseudocode of Algorithm~\ref{alg:rec-ser-fwi} (Algorithm~5 in~\citep{mannila1997discovery}), related to multiple instances of an episode's automaton reaching a common state. Note that in~\citep{mannila1997discovery}, the update to \emph{begins\_at} of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2} are missing. (In their version of the algorithm, these statements should appear in between lines 26 and 27.)
 
 In lines~\ref{alglin:rec-ser-fwi:transition-begin} through \ref{alglin:rec-ser-fwi:transition-end}, a transition of an automaton instance is being applied. The \emph{initialized} array gets updated, potentially overwriting a previous instance in the same state. \emph{begins\_at} gets updated with the new state, but without the statements of lines~\ref{alglin:rec-ser-fwi:added-line-1} and \ref{alglin:rec-ser-fwi:added-line-2}, the information about the potentially overwritten instance does not get removed from \emph{begins\_at}. We'll illustrate how this affects the output with an example.
 
@@ -835,7 +835,7 @@ Collecting all transitions to be performed at a given timestamp before executing
 
 \subsection{Notes on the implementation}
 
-Like algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in order to be able to look up information efficiently. More specifically for \emph{waits}. Again, lookup is important, traversal is not. Therefore, again, a hash-based data structure is the best choice.
+Like Algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in order to be able to look up information efficiently. More specifically for \emph{waits}. Again, lookup is important, traversal is not. Therefore, again, a hash-based data structure is the best choice.
 
 While at first sight, the \emph{begins\_at} data structure might seem best-suited for key-value storage as well, note that it only needs to contain information about the subsequent timestamps currently in the window $ [\text{start} - 1, \text{start} + \rho) $. So, the $ \rho + 1 $ sets can be accessed in constant-time complexity using a circular array\footnote{\url{https://en.wikipedia.org/wiki/Circular_buffer}}. Each time the sliding window is advanced, the oldest information is dropped to make room for new information. With a 1-indexed buffer, $ \text{begins\_at}(t) $ can be accessed with index $ (t - \text{start} + 2) $.
 
@@ -845,8 +845,8 @@ While at first sight, the \emph{begins\_at} data structure might seem best-suite
 
 Algorithms for finding the disjoint-window frequency of parallel and serial episodes were presented by~\cite{laxman2007fast}. Their algorithms find only the disjoint-window frequency, however. We also want to be able to determine the minimal-window confidence of association rules, and so we also need minimal windows themselves --- including overlapping windows. Therefore, we determine the disjoint-window frequency in two steps:
 \begin{enumerate}
-\item \label{enum-item:find-all-minimal-windows} First, we find all minimal windows, with algorithms~\ref{alg:rec-par-mwi} (in section~\ref{sec:rec-par-mwi}) and \ref{alg:rec-ser-mwi} (in section~\ref{sec:rec-ser-mwi}).
-\item \label{enum-item:find-disjoint-window-frequency} Given those minimal windows, algorithm~\ref{alg:disjoint-window-frequency} (in this section) finds the disjoint-window frequency.
+\item \label{enum-item:find-all-minimal-windows} First, we find all minimal windows, with Algorithm~\ref{alg:rec-par-mwi} (in section~\ref{sec:rec-par-mwi}) and Algorithm~\ref{alg:rec-ser-mwi} (in section~\ref{sec:rec-ser-mwi}).
+\item \label{enum-item:find-disjoint-window-frequency} Given those minimal windows, Algorithm~\ref{alg:disjoint-window-frequency} (in this section) finds the disjoint-window frequency.
 \end{enumerate}
 
 Later, the minimal windows found in step~\ref{enum-item:find-all-minimal-windows} can be reused to generate association rules.
@@ -1005,7 +1005,7 @@ Thanks to the requirement that all minimal windows have a width of at most $ \rh
 \item If so, where does the minimal window start: what is $ a $?
 \end{enumerate}
 
-Since minimal windows will often be smaller than the fixed-width sliding window, a previously recognized minimal window may still be within the sliding window several timestamps after it has been recognized. We need some way of excluding that previous minimal window from consideration, on a per-episode basis. Also, we need to be able to find the start of a new minimal window efficiently. It should be clear, then, that we need to keep more information than we did in algorithm~\ref{alg:rec-par-fwi}, where we just kept the number of events of each type currently in the sliding window, and for each episode, those event types for which there are enough events in the window to satisfy an occurrence anywhere in the sliding window.
+Since minimal windows will often be smaller than the fixed-width sliding window, a previously recognized minimal window may still be within the sliding window several timestamps after it has been recognized. We need some way of excluding that previous minimal window from consideration, on a per-episode basis. Also, we need to be able to find the start of a new minimal window efficiently. It should be clear, then, that we need to keep more information than we did in Algorithm~\ref{alg:rec-par-fwi}, where we just kept the number of events of each type currently in the sliding window, and for each episode, those event types for which there are enough events in the window to satisfy an occurrence anywhere in the sliding window.
 
 Any newly discovered minimal window has to start \emph{after} the start of the previous one, because:
 \begin{enumerate}
@@ -1202,7 +1202,7 @@ Output: All episodes in $ \mathcal{C} $, along with all minimal windows of each 
 \label{alg:rec-ser-mwi}
 \end{algorithm}
 
-While finding the minimal windows of parallel episodes was slightly more complicated than finding their fixed-window frequency, finding the minimal windows of serial episodes is actually simpler than finding their fixed-window frequency, and can be accomplished with small changes to algorithm~\ref{alg:rec-ser-fwi}.
+While finding the minimal windows of parallel episodes was slightly more complicated than finding their fixed-window frequency, finding the minimal windows of serial episodes is actually simpler than finding their fixed-window frequency, and can be accomplished with small changes to Algorithm~\ref{alg:rec-ser-fwi}.
 
 Algorithm~\ref{alg:rec-ser-mwi} accomplishes recognition of serial episodes using the minimal window frequency measure.
 
@@ -1248,7 +1248,7 @@ Output: $ fr_w(\alpha) $
 
 For the weighted-window frequency, selecting the non-overlapping minimal windows such that total weight is maximal, is a bit more involved than selecting the largest possible number of non-overlapping minimal windows for the disjoint-window frequency (section~\ref{sec:disjoint-window-frequency}).
 
-In algorithm~\ref{alg:wwi} (from~\cite{cule2014marbles}), lines~\ref{alglin:wwi:begin-next-disjoint-window} through~\ref{alglin:wwi:end-next-disjoint-window}, for each minimal window $ [a_i, b_i) $ the \emph{next} window disjoint from $ [a, b) $ is determined, and referred to by $ d_i $. More precisely, $ d_i $ refers to the window $ [a_j, b_j) $ with the smallest $ a_j $ such that $ a_j \geq b_i $.
+In Algorithm~\ref{alg:wwi} (from~\cite{cule2014marbles}), lines~\ref{alglin:wwi:begin-next-disjoint-window} through~\ref{alglin:wwi:end-next-disjoint-window}, for each minimal window $ [a_i, b_i) $ the \emph{next} window disjoint from $ [a, b) $ is determined, and referred to by $ d_i $. More precisely, $ d_i $ refers to the window $ [a_j, b_j) $ with the smallest $ a_j $ such that $ a_j \geq b_i $.
 
 Then, in lines~\ref{alglin:wwi:begin-wwi-calculation} through~\ref{alglin:wwi:end-wwi-calculation}, the weighted-window frequency is determined through a backwards pass over the minimal windows. Each $ c_i $ is the optimal choice of windows $ i $ through $ n $. If all $ c_j $ with $ j > i $ are known, then $ c_i $ can be calculated as
 \begin{align*}
@@ -1312,7 +1312,7 @@ Output: $ \{ (\alpha \Rightarrow \beta, c(\alpha \Rightarrow \beta)) \mid \beta 
 
 \begin{algorithmic}[1]
 
-\LineComment{Find frequent episodes (algorithm~\ref{alg:episodes-top-level})}
+\LineComment{Find frequent episodes (Algorithm~\ref{alg:episodes-top-level})}
 \State compute $ \mathcal{F}(\boldsymbol{s}, \rho, \text{min\_fr}) $
 \LineComment{Generate rules}
 \ForAll{$ \beta \in \mathcal{F}(\boldsymbol{s}, \rho, \text{min\_fr}) $}
@@ -1395,7 +1395,7 @@ If it turns out that $ ext_m([a, b), \alpha, \beta) = 1 $ for a minimal window $
 
 \subsection{Adapting the original algorithm presented in~\cite{cule2014marbles}}
 
-In~\citep{cule2014marbles}, there is a small mistake in algorithm~\ref{alg:minimal-window-confidence} (algorithm~1 in~\citep{cule2014marbles}), regarding the comparison of the end timestamps of two windows. In the condition for the \emph{while}-statement, $ W $ is traversed until a window with an end timestamp \emph{strictly} greater than the end timestamp of the window in $ V $ currently being considered. However, one window can be a subwindow of another if their end timestamps are equal. If implemented as written in~\cite{cule2014marbles}, then a minimal window in $ W $ could be skipped erroneously.
+In~\citep{cule2014marbles}, there is a small mistake in Algorithm~\ref{alg:minimal-window-confidence} (Algorithm~1 in~\citep{cule2014marbles}), regarding the comparison of the end timestamps of two windows. In the condition for the \emph{while}-statement, $ W $ is traversed until a window with an end timestamp \emph{strictly} greater than the end timestamp of the window in $ V $ currently being considered. However, one window can be a subwindow of another if their end timestamps are equal. If implemented as written in~\cite{cule2014marbles}, then a minimal window in $ W $ could be skipped erroneously.
 
 
 
@@ -1439,16 +1439,16 @@ Output: $ c_w(\alpha \Rightarrow \beta) $
 
 The calculation of the weighted-window confidence of an association rule can be done in a similar vein as the minimal-window confidence (section~\ref{sec:minimal-window-confidence}). The main difference is that now, not only do we have to determine whether or not there exists a window in $ W $ contains a given $ [a_k, b_k) \in V $; if such windows exist, we have to find the \emph{smallest} one in order to compute $ ext_w([a_i, b_i), \alpha, \beta) $, given definition~\ref{def:weighted-extensibility}.
 
-This is what happens in the second \emph{while}-loop in algorithm~\ref{alg:weighted-window-confidence} (line~\ref{alglin:weighted-window-confidence:find-smallest-while}, algorithm adapted from~\cite{cule2014marbles}). After the first minimal window $ [p_i, q_i) \supset [a_k, b_k) $ has been found, all subsequent windows $ [p_j, q_j) \supset [a_k, b_k) $ are checked for their length. The index $ j $ for which the weight $ (q_j - p_j)^{-1} $ is maximal, is stored in $ i $, and the corresponding window contributes towards the weighted-window confidence.
+This is what happens in the second \emph{while}-loop in Algorithm~\ref{alg:weighted-window-confidence} (line~\ref{alglin:weighted-window-confidence:find-smallest-while}, algorithm adapted from~\cite{cule2014marbles}). After the first minimal window $ [p_i, q_i) \supset [a_k, b_k) $ has been found, all subsequent windows $ [p_j, q_j) \supset [a_k, b_k) $ are checked for their length. The index $ j $ for which the weight $ (q_j - p_j)^{-1} $ is maximal, is stored in $ i $, and the corresponding window contributes towards the weighted-window confidence.
 
 \subsection{Adapting the algorithm presented in~\citep{cule2014marbles}}
 
-Algorithm 3 from~\citep{cule2014marbles} --- which algorithm~\ref{alg:weighted-window-confidence} was based on --- does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
+Algorithm 3 from~\citep{cule2014marbles} --- which Algorithm~\ref{alg:weighted-window-confidence} was based on --- does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
 
 \iffalse
 \section{Finding all subepisodes of a parallel episode}
 
-While generating association rules in algorithm~\ref{alg:association-rules-top-level}, we need to consider all subepisodes $ \alpha $ of each frequent episode $ \beta $. For serial episodes, we take all possible combinations of leaving out nodes from the episode graph. Using this approach, the number of subepisodes to be considered is exponential This will sometimes produce equivalent episodes, namely when the same event type occurs multiple times. Take, for instance the episode $ a \to a $.
+While generating association rules in Algorithm~\ref{alg:association-rules-top-level}, we need to consider all subepisodes $ \alpha $ of each frequent episode $ \beta $. For serial episodes, we take all possible combinations of leaving out nodes from the episode graph. Using this approach, the number of subepisodes to be considered is exponential This will sometimes produce equivalent episodes, namely when the same event type occurs multiple times. Take, for instance the episode $ a \to a $.
 \fi
 
 % TODO consider dropping this...
