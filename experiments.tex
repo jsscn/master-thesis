@@ -307,6 +307,7 @@ All performance experiments were run on the same machine; the full specification
 \end{tikzpicture}
 
 \caption{parallel episodes}
+\label{fig:runtimes-trains-900-parallel}
 \end{subfigure}%
 \begin{subfigure}[b]{0.5\textwidth}
 \centering
@@ -331,6 +332,7 @@ All performance experiments were run on the same machine; the full specification
 \end{tikzpicture}
 
 \caption{serial episodes}
+\label{fig:runtimes-trains-900-serial}
 \end{subfigure}
 
 \caption{Runtimes for finding episodes in dataset \emph{trains} using a window width of 900.}
@@ -345,7 +347,31 @@ For serial episodes, the fixed-window frequency has much less of an advantage. I
 
 Figure~\ref{fig:runtimes-tolstoy-15} shows the results for \emph{tolstoy}. Though \emph{tolstoy} is approximately twice as long as \emph{abstract}, the progression for both serial and parallel is very similar.
 
-The results for the sparse dataset \emph{trains} are a bit different (Figure~\ref{fig:runtimes-trains-900}). For parallel episodes, the fixed-window frequency still has the advantage. Curiously, the time consumption for the weighted-window frequency increases steadily, until around $ 10^3 $ episodes or so, when it plateaus, and eventually matches the disjoint-window frequency. For serial episodes, the weighted-window frequency shows a similar plateau, after which it even beats the fixed-window frequency and the disjoint-window frequency for some runs. We have no explanation for this interesting behaviour.
+The results for the sparse dataset \emph{trains} are a bit different (Figure~\ref{fig:runtimes-trains-900}). For parallel episodes, the fixed-window frequency still has the advantage. Curiously, the time consumption for the weighted-window frequency increases steadily, until around $ 10^3 $ episodes or so, when it plateaus, and eventually matches the disjoint-window frequency. For serial episodes, the weighted-window frequency shows a similar plateau, after which it even beats the fixed-window frequency and the disjoint-window frequency for some runs.
+% We have no explanation for this interesting behaviour.
+Figure~\ref{fig:candidates-trains-900} provides some insight: the number of candidates 
+
+\begin{figure}
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend entries={parallel episodes,serial episodes},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={number of candidates},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=num-candidates] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=num-candidates] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{The number of candidates compared to the number of frequent episodes, for weighted windows in the experiment in figure~\ref{fig:runtimes-trains-900}.}
+\label{fig:candidates-trains-900}
+\end{figure}
 
 Note that significantly more episodes are found in the \emph{trains} dataset --- up to the order of $ 10^6 $. This is most likely due to the fact that \emph{trains} is considerably smaller than \emph{abstract} and \emph{tolstoy}, in both alphabet size and number of events. Perhaps, if given more time, the progression would look similar for \emph{abstract} and \emph{tolstoy}.
 
