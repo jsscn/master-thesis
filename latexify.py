@@ -15,7 +15,7 @@ def latexify_episode(episode, args, measures=['frequency'], **kwargs):
         else elements
 
     if args.c == "parallel":
-        latexified = "\\{{ {} \\}}".format(",\\allowbreak".join(elements_it))
+        latexified = "\\{{ {} \\}}".format(",\\allowbreak ".join(elements_it))
     else:
         latexified = " \\to ".join(elements_it)
 

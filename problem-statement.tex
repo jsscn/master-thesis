@@ -825,7 +825,11 @@ A naive approach to a confidence measure based on minimal windows, could be to d
 \begin{align*}
 \frac{| mw(\beta) |}{| mw(\alpha) |}
 \end{align*}
-similarly to the fixed-window confidence. However, we're trying to express the probability of finding $ \beta $, given that we've found $ \alpha $. If a minimal window of $ \beta $ contains multiple minimal windows of $ \alpha $, the above expression does not represent the intended meaning. Instead, for each minimal window of $ \alpha $ it is determined whether or not it is contained within a minimal window of $ \beta $.
+similarly to the fixed-window confidence. However, we're trying to express the probability of finding $ \beta $, given that we've found $ \alpha $. If a minimal window of $ \beta $ contains multiple minimal windows of $ \alpha $, the above expression does not represent the intended meaning.
+
+Take for example the rule $ \{ a \} \Rightarrow \{ a, a \} $. Each minimal window of the tail contains at least two minimal windows of the head. Using the naive approach, this rule would have a confidence of at most $ 1 / 2 $.
+
+Instead, for each minimal window of $ \alpha $ it is determined whether or not it is contained within a minimal window of $ \beta $.
 
 \begin{definition}
 Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, and a minimal window $ \boldsymbol{s}[a, b) $ of episode $ \alpha $. If there exists a minimal window $ \boldsymbol{s}[c, d) $ of $ \beta $ such that

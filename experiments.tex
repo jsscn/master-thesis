@@ -8,6 +8,7 @@ After choosing a number of datasets and showing some of their basic characterist
 First, we'll briefly discuss how we ensured the correctness of our implementation.
 
 \section{Correctness}
+\label{sec:experiments-correctness}
 
 A big point of comparison while implementing our algorithms was a closed episode miner\footnote{http://adrem.ua.ac.be/mining-closed-strict-episodes}. It allowed us to verify the correctness of our implementation. The closed episode miner differs in a few ways from our implementation:
 
@@ -161,12 +162,9 @@ To assess the efficiency of the algorithm, we inspect the runtime for different 
 % the window width and
 the frequency and confidence thresholds.
 
-The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the Cartesian product of all these parameters, within time and memory constraints. A few particularities:
+The performance experiments were ran as follows. For specified episode classes, frequency measures, a list of window widths, and a range of frequency thresholds, an experiment would run the Cartesian product of all these parameters, within time and memory constraints.
 
-\begin{itemize}
-\item The range of frequency thresholds has an exponentially decreasing nature: it is specified by a (high) starting threshold, a multiplier $ \in (0, 1) $, and a lower bound. Each iteration, the current frequency threshold is multiplied with the multiplier to obtain the next frequency threshold. For example, with a multiplier of 0.90, the next threshold is always 10\% smaller than the last.
-\item For each combination of episode class, frequency measure, and window width, a thread is run with progressively lower frequency thresholds, as described above. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequency thresholds for that combination of episode class, frequency measure, and window width are skipped, as they will take at least as much time and memory as the current threshold.
-\end{itemize}
+For each configuration of episode class, frequency measure, and window width, the frequency threshold is lowered exponentially, using a multiplier $ \in (0, 1) $. For example, with a multiplier of 0.9, the next threshold is always 10\% smaller than the last. If memory runs out or the timeout is exceeded before reaching the lower bound, all lower frequency thresholds for that configuration are skipped, as they will take at least as much time and memory as the current threshold.
 
 All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. 2.7 GHz model; memory manually upgraded to 12~GB. Running macOS 10.13.5. All C++ code compiled with clang-900.0.39.2 from LLVM~9.0. All Java code run with Java~SE~1.8.}.
 
@@ -678,13 +676,23 @@ The general progression is fairly similar for all of the measures, although the 
 
 \subsection{Comparing performance with the closed episode miner}
 
-Alongside the performance experiments, we ran the closed episode miner on some of the same parameter configurations.
+In section~\ref{table:experiments-correctness} we explained that our implementation computes a subset of the closed episode miner, if the closed episode miner is configured not to restrict its output to closed episodes. Besides comparing the output of both implementations to ensure the correctness, we can also compare the runtimes.
 
-[TODO write results]
+Table~\ref{table:closepi-comparison} shows the results. It is not a good look for our implementation.
 
-% TODO do some runs and write about them (refer back to earlier experiments)
-
-
+\begin{table}
+\begin{tabulary}{\textwidth}{L|l|R|R|R}
+episode class & frequency measure & frequency threshold & runtime (s) ours & runtime (s) Closepi \\
+\hline
+parallel & fixed-window fr. & 15 & 296 & --- \\
+serial & fixed-window fr. & 150 & 216 & 8.67 \\
+parallel & disjoint-window fr. & 7 & 417 & 24.8 \\
+serial & disjoint-window fr. & 10 & 417 & 15.0 \\
+parallel & weighted-window fr. & 7 & 127 & 9.59 \\
+serial & weighted-window fr. & 10 & 300 & 6.65 \\
+\end{tabulary}
+\caption{Runtimes for mining episodes with our implementation (\emph{ours}) and the closed episode miner (\emph{Closepi}). $ \rho = 15 $}
+\end{table}
 
 \section{Quality}
 
@@ -930,7 +938,7 @@ The mining algorithm from~\cite{cule2016efficient}, called \textsc{Fci}, mines p
 \item The minimal cohesion that any pattern must have.
 \end{itemize}
 
-In~\cite{cule2016efficient}, the cohesion of a pattern is defined using the mean width of the minimal windows. The mean has a number of downsides, though; one of which is that the mean of a distribution is unstable if there are outliers. So for instance, if one window is significantly larger or smaller than the others, the cohesion may be greatly affected. Therefore, a quantile-based approach was proposed in~\citep{feremans2018mining}. Here, the minimal occurrences are grouped by width using a threshold. The quantile-based cohesion is then defined as the percentage of minimal occurrences that are smaller than the threshold. The threshold is proportional to the size of the episode, again in an effort not to disadvantage larger patterns.
+In~\cite{cule2016efficient}, the cohesion of a pattern is defined using the mean width of the minimal windows. The mean has a number of downsides, though; one of which is that the mean of a distribution is unstable if there are outliers. So if one window is significantly larger or smaller than the others, the cohesion may be greatly affected. \citep{feremans2018mining} proposes a quantile-based approach. Here, the minimal occurrences are divided into two groups based on a width threshold. The quantile-based cohesion is then defined as the percentage of minimal occurrences that are smaller than the threshold. The threshold is proportional to the size of the episode, again in an effort not to disadvantage larger patterns.
 
 Their mining method \textsc{Qcsp} mines serial episodes, and takes the following parameters:
 \begin{itemize}
@@ -939,6 +947,8 @@ Their mining method \textsc{Qcsp} mines serial episodes, and takes the following
 \item A minimal-window width threshold (as mentioned above, which gets multiplied by the size of each episode being considered).
 \item $ k $. The algorithm reports only the $ k $ patterns with the greatest cohesion.
 \end{itemize}
+
+Again we refer to the paper for more details \cite{feremans2018mining}.
 
 We ran \textsc{Fci} with a minimum support of 5, a maximal pattern size of 5, and a minimal cohesion of 0.014 (a lower threshold started to take significantly more time); and \textsc{Qcsp} with a minimum support of 5, a maximal pattern size of 7 and a window-width threshold of 2.
 
@@ -975,8 +985,12 @@ We ran \textsc{Fci} with a minimum support of 5, a maximal pattern size of 5, an
 
 Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two different definitions of cohesion. The implementation of the quantile-based cohesion sorts episodes according to a linear combination of the cohesion and the support.
 
-Some of these patterns are both frequent and cohesive; as we already encountered them in the output of our implementation. We see some of the characters' names reappear. But we also see many patterns that we haven't seen before.
+Some of these patterns are both frequent and cohesive --- we see some of the characters' names reappear. But we also see many patterns that we haven't seen before.
 
-Interestingly, for the regular cohesion, there are some \emph{very} cohesive patterns consisting of words that don't appear on their own anywhere else --- such as \emph{belle-soeur}, which appears only five times in the book, just satisfying our support threshold --- after which the cohesion drops sharply.
+The algorithms find some very cohesive patterns consisting of multiple-word nouns, for which each of the words don't appear on their own anywhere else, such as \emph{char-à-banc} (7 occurrences) \emph{pince-nez} (6 occurrences) \emph{belle-soeur} (5 occurrences, just satisfying the support threshold).
+
+For the disjoint-window frequency, $ \{ char,\allowbreak banc \} $ appears at position $ 30\,203 $.
+
+For the weighted-window frequency, $ \{ nativ, tribe \} $ appears at position $ 3658 $.
 
 [TODO highlight some more patterns, draw conclusion]

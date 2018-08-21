@@ -1,6 +1,6 @@
 [
   {
-    "duration-s": 0.156156047,
+    "duration-s": 0.117837525,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 20000.0,
@@ -17,7 +17,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.0655999999997778e-05,
+        "duration-s": 1.0045000000000193e-05,
         "num-confident-rules": 0
       }
     ],
@@ -25,7 +25,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.16868248599999996,
+    "duration-s": 0.123836046,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 15000.0,
@@ -42,7 +42,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00011095399999999644,
+        "duration-s": 8.416099999999926e-05,
         "num-confident-rules": 0
       }
     ],
@@ -50,7 +50,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.30650049199999996,
+    "duration-s": 0.22236989999999998,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 11250.0,
@@ -69,7 +69,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00047616800000005455,
+        "duration-s": 0.00034737600000001034,
         "num-confident-rules": 0
       }
     ],
@@ -77,7 +77,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.50713963,
+    "duration-s": 0.380308973,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 8437.0,
@@ -98,7 +98,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0028908279999999564,
+        "duration-s": 0.002166482000000025,
         "num-confident-rules": 6
       }
     ],
@@ -106,7 +106,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.7739398449999999,
+    "duration-s": 0.578543821,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 6327.0,
@@ -129,7 +129,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.02428162399999989,
+        "duration-s": 0.014390648999999867,
         "num-confident-rules": 128
       }
     ],
@@ -137,7 +137,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 1.160723182,
+    "duration-s": 0.8087881029999999,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 4745.0,
@@ -162,7 +162,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.1129668180000003,
+        "duration-s": 0.07613445700000021,
         "num-confident-rules": 1114
       }
     ],
@@ -170,7 +170,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 1.840573575,
+    "duration-s": 1.255197301,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 3558.0,
@@ -199,7 +199,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.5383782699999999,
+        "duration-s": 0.35476513200000026,
         "num-confident-rules": 6274
       }
     ],
@@ -207,7 +207,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 2.846074644999999,
+    "duration-s": 1.8344940150000002,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 2668.0,
@@ -238,7 +238,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 2.1385062680000004,
+        "duration-s": 1.4976626570000002,
         "num-confident-rules": 27530
       }
     ],
@@ -246,7 +246,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 4.7080763,
+    "duration-s": 3.2130306919999994,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 2001.0,
@@ -279,7 +279,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 9.911219596999999,
+        "duration-s": 5.9491608020000015,
         "num-confident-rules": 112336
       }
     ],
@@ -287,7 +287,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 9.821775615999996,
+    "duration-s": 6.201857883999999,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1500.0,
@@ -322,7 +322,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 38.885433032,
+        "duration-s": 20.689560827,
         "num-confident-rules": 405797
       }
     ],
@@ -330,7 +330,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 21.739458098,
+    "duration-s": 12.977438561999996,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1125.0,
@@ -367,7 +367,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 154.701016301,
+        "duration-s": 78.47673824200001,
         "num-confident-rules": 1466793
       }
     ],
@@ -375,7 +375,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 46.410196789999986,
+    "duration-s": 29.086227154,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 843.0,
@@ -416,7 +416,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 522.2738770149999,
+        "duration-s": 304.92009494,
         "num-confident-rules": 5249686
       }
     ],
@@ -424,7 +424,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 78.63307064000003,
+    "duration-s": 64.78618335800002,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 632.0,
@@ -467,7 +467,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1469.142566817,
+        "duration-s": 1214.568036245,
         "num-confident-rules": 19252993
       }
     ],
@@ -475,7 +475,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.1448146560000001,
+    "duration-s": 0.09777299999996103,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 25.0,
@@ -492,7 +492,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 7.257000000038261e-06,
+        "duration-s": 5.454999836729257e-06,
         "num-confident-rules": 0
       }
     ],
@@ -500,7 +500,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.41194413500000016,
+    "duration-s": 0.2557658219998302,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 18.0,
@@ -521,7 +521,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0007089219999998342,
+        "duration-s": 0.0005530910000288713,
         "num-confident-rules": 168
       }
     ],
@@ -529,7 +529,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 2.166595396,
+    "duration-s": 1.2084318839999924,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 13.0,
@@ -556,7 +556,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.18432298000000014,
+        "duration-s": 0.11819673600007263,
         "num-confident-rules": 14954
       }
     ],
@@ -564,7 +564,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 16.478411811,
+    "duration-s": 9.583537651000142,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 9.0,
@@ -597,7 +597,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 9.859871795,
+        "duration-s": 5.8227101760001005,
         "num-confident-rules": 467914
       }
     ],
@@ -605,7 +605,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 155.215266738,
+    "duration-s": 87.10752339600003,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 6.0,
@@ -642,7 +642,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 244.82722561399999,
+        "duration-s": 134.82084413400003,
         "num-confident-rules": 4519075
       }
     ],
@@ -650,7 +650,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.1458253949999999,
+    "duration-s": 0.10036163700010547,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 26.757100734755568,
@@ -667,7 +667,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 4.367999999921324e-06,
+        "duration-s": 3.409000100873527e-06,
         "num-confident-rules": 0
       }
     ],
@@ -675,7 +675,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.15880337899999963,
+    "duration-s": 0.1084803810001631,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 20.067825551066676,
@@ -692,7 +692,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 2.4169000000018315e-05,
+        "duration-s": 1.9878000102835358e-05,
         "num-confident-rules": 0
       }
     ],
@@ -700,7 +700,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.5241673420000001,
+    "duration-s": 0.2822377320001124,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 15.050869163300007,
@@ -717,7 +717,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0001526050000002499,
+        "duration-s": 0.0001029009999911068,
         "num-confident-rules": 0
       }
     ],
@@ -725,7 +725,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 1.3972950429999997,
+    "duration-s": 0.8311682609999025,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 11.288151872475005,
@@ -742,7 +742,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0012930410000002723,
+        "duration-s": 0.00019359799989615567,
         "num-confident-rules": 0
       }
     ],
@@ -750,7 +750,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 3.0470214989999995,
+    "duration-s": 1.6985261710001396,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 8.466113904356254,
@@ -767,7 +767,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00042303399999976676,
+        "duration-s": 0.000303280000025552,
         "num-confident-rules": 0
       }
     ],
@@ -775,7 +775,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 4.078501779,
+    "duration-s": 2.480148875000168,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 6.34958542826719,
@@ -792,7 +792,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.000495155999999497,
+        "duration-s": 0.0003813289999925473,
         "num-confident-rules": 0
       }
     ],
@@ -800,7 +800,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 5.679412507,
+    "duration-s": 3.3619307129999925,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 4.7621890712003925,
@@ -817,7 +817,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0006637620000020661,
+        "duration-s": 0.0004781610000463843,
         "num-confident-rules": 0
       }
     ],
@@ -825,7 +825,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 6.879380039000001,
+    "duration-s": 3.9274710289998893,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 3.5716418034002944,
@@ -842,7 +842,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0006654739999980563,
+        "duration-s": 0.0005348039999262255,
         "num-confident-rules": 0
       }
     ],
@@ -850,7 +850,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 7.687309814999999,
+    "duration-s": 4.409996726999907,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 2.678731352550221,
@@ -867,7 +867,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0009739089999989403,
+        "duration-s": 0.0006127780002316285,
         "num-confident-rules": 0
       }
     ],
@@ -875,7 +875,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 9.256159875000002,
+    "duration-s": 4.424884007999935,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 2.0090485144126657,
@@ -892,7 +892,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0007425229999995508,
+        "duration-s": 0.0006292690000009316,
         "num-confident-rules": 0
       }
     ],
@@ -900,7 +900,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 9.157463220000004,
+    "duration-s": 5.170602273999975,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1.5067863858094994,
@@ -917,7 +917,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0008136370000002557,
+        "duration-s": 0.0007025140002951957,
         "num-confident-rules": 0
       }
     ],
@@ -925,7 +925,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 9.313400910999995,
+    "duration-s": 5.149040280999998,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1.1300897893571245,
@@ -942,7 +942,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.002862784999997814,
+        "duration-s": 0.0007238250000227708,
         "num-confident-rules": 0
       }
     ],
@@ -950,7 +950,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.40924555800001,
+    "duration-s": 6.117510266999943,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.8475673420178433,
@@ -967,7 +967,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0014393710000035753,
+        "duration-s": 0.0009525179998490785,
         "num-confident-rules": 1
       }
     ],
@@ -975,7 +975,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 12.189850081999992,
+    "duration-s": 6.1461905860001025,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.6356755065133826,
@@ -994,7 +994,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0012777689999978747,
+        "duration-s": 0.001006948999929591,
         "num-confident-rules": 1
       }
     ],
@@ -1002,7 +1002,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.087803805000007,
+    "duration-s": 6.160684574999777,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.4767566298850369,
@@ -1021,7 +1021,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.008480591999997955,
+        "duration-s": 0.0012949909996677889,
         "num-confident-rules": 1
       }
     ],
@@ -1029,7 +1029,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.53981364500001,
+    "duration-s": 6.1600029950000135,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.3575674724137777,
@@ -1048,7 +1048,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0071230420000034655,
+        "duration-s": 0.001519748000191612,
         "num-confident-rules": 1
       }
     ],
@@ -1056,7 +1056,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.592964148000007,
+    "duration-s": 6.147954002000006,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.26817560431033327,
@@ -1075,7 +1075,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0027698319999984733,
+        "duration-s": 0.001955732000169519,
         "num-confident-rules": 1
       }
     ],
@@ -1083,7 +1083,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.673925609000008,
+    "duration-s": 6.240620274999856,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.20113170323274995,
@@ -1104,7 +1104,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0036939839999945434,
+        "duration-s": 0.0026389479999124887,
         "num-confident-rules": 2
       }
     ],
@@ -1112,7 +1112,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 12.470105748999998,
+    "duration-s": 6.21961893300022,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.15084877742456246,
@@ -1133,7 +1133,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0049969849999911276,
+        "duration-s": 0.003564217999610264,
         "num-confident-rules": 3
       }
     ],
@@ -1141,7 +1141,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.517636933000006,
+    "duration-s": 6.2136416819998885,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.11313658306842184,
@@ -1162,7 +1162,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.007038757999993095,
+        "duration-s": 0.00483323400021618,
         "num-confident-rules": 5
       }
     ],
@@ -1170,7 +1170,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.764635634000001,
+    "duration-s": 6.239735393000046,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.08485243730131638,
@@ -1191,7 +1191,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.011191800999995394,
+        "duration-s": 0.007191239999883692,
         "num-confident-rules": 14
       }
     ],
@@ -1199,7 +1199,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 12.713630268000003,
+    "duration-s": 6.310659398000098,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.06363932797598729,
@@ -1220,7 +1220,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.018450384999994185,
+        "duration-s": 0.010539332000007562,
         "num-confident-rules": 29
       }
     ],
@@ -1228,7 +1228,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 13.244049523000001,
+    "duration-s": 6.489563318000364,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.047729495981990465,
@@ -1251,7 +1251,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.043773692999991454,
+        "duration-s": 0.017913892000251508,
         "num-confident-rules": 74
       }
     ],
@@ -1259,7 +1259,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 12.67055110199999,
+    "duration-s": 6.63545883300003,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.03579712198649285,
@@ -1282,7 +1282,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.06735523000000398,
+        "duration-s": 0.03915981899990584,
         "num-confident-rules": 207
       }
     ],
@@ -1290,7 +1290,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 13.72955324100002,
+    "duration-s": 7.189108673999726,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.026847841489869635,
@@ -1317,7 +1317,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.1902660719999858,
+        "duration-s": 0.11865855800033387,
         "num-confident-rules": 1253
       }
     ],
@@ -1325,7 +1325,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 16.710447539,
+    "duration-s": 8.605956761000016,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.020135881117402228,
@@ -1354,7 +1354,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.6853180420000058,
+        "duration-s": 0.4993881999998848,
         "num-confident-rules": 8601
       }
     ],
@@ -1362,7 +1362,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 26.817535378000002,
+    "duration-s": 13.170889697000348,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.015101910838051671,
@@ -1393,7 +1393,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 4.589053975000013,
+        "duration-s": 2.507313692000025,
         "num-confident-rules": 53047
       }
     ],
@@ -1401,7 +1401,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 52.174729238,
+    "duration-s": 27.51108803599982,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.011326433128538753,
@@ -1436,7 +1436,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 24.27255482299995,
+        "duration-s": 13.527078233999873,
         "num-confident-rules": 291696
       }
     ],
@@ -1444,7 +1444,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 131.019396362,
+    "duration-s": 72.41559257500012,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.008494824846404065,
@@ -1481,7 +1481,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 120.10412886499995,
+        "duration-s": 75.90224540999998,
         "num-confident-rules": 1548554
       }
     ],
@@ -1489,7 +1489,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.197824525,
+    "duration-s": 0.15535429300007308,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 20000.0,
@@ -1506,7 +1506,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.717000000012181e-06,
+        "duration-s": 1.6199996935029048e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1514,7 +1514,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.46751362800000007,
+    "duration-s": 0.3141237849999925,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 15000.0,
@@ -1531,7 +1531,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 5.114999999999981e-06,
+        "duration-s": 3.6470000850385986e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1539,7 +1539,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 1.6213031,
+    "duration-s": 0.9269167899997228,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 11250.0,
@@ -1556,7 +1556,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.4175000000005156e-05,
+        "duration-s": 9.898999905999517e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1564,7 +1564,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 4.614479019,
+    "duration-s": 2.0782774360000076,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 8437.0,
@@ -1583,7 +1583,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 6.744199999975109e-05,
+        "duration-s": 5.207599997447687e-05,
         "num-confident-rules": 0
       }
     ],
@@ -1591,7 +1591,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 6.926570891000001,
+    "duration-s": 3.2623299830001997,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 6327.0,
@@ -1610,7 +1610,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0004309009999996505,
+        "duration-s": 0.00031428199963556835,
         "num-confident-rules": 0
       }
     ],
@@ -1618,7 +1618,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.530686311000002,
+    "duration-s": 4.73912439500009,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 4745.0,
@@ -1639,7 +1639,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0015927669999982186,
+        "duration-s": 0.0009108039998864115,
         "num-confident-rules": 8
       }
     ],
@@ -1647,7 +1647,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 16.440582344,
+    "duration-s": 6.634436225000172,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 3558.0,
@@ -1668,7 +1668,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00397948700000228,
+        "duration-s": 0.0027617600003395637,
         "num-confident-rules": 32
       }
     ],
@@ -1676,7 +1676,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 18.830554975,
+    "duration-s": 7.786590607999642,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 2668.0,
@@ -1699,7 +1699,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.013637901000002728,
+        "duration-s": 0.008457657000235486,
         "num-confident-rules": 115
       }
     ],
@@ -1707,7 +1707,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 21.083190004000002,
+    "duration-s": 8.274518747999991,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 2001.0,
@@ -1730,7 +1730,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.04754651400000398,
+        "duration-s": 0.024636944999656407,
         "num-confident-rules": 594
       }
     ],
@@ -1738,7 +1738,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 29.321956672000013,
+    "duration-s": 10.65868816200009,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1500.0,
@@ -1763,7 +1763,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.1209586739999935,
+        "duration-s": 0.07328657400012162,
         "num-confident-rules": 2687
       }
     ],
@@ -1771,7 +1771,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 35.163869301000005,
+    "duration-s": 12.596621503999813,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1125.0,
@@ -1798,7 +1798,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.4510401199999876,
+        "duration-s": 0.2612575919997653,
         "num-confident-rules": 15194
       }
     ],
@@ -1806,7 +1806,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 48.337574558,
+    "duration-s": 18.140316502000132,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 843.0,
@@ -1835,7 +1835,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.9872843889999956,
+        "duration-s": 1.086282151999967,
         "num-confident-rules": 75057
       }
     ],
@@ -1843,7 +1843,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 74.01816748300001,
+    "duration-s": 29.294524806000027,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 632.0,
@@ -1878,15 +1878,66 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 20.114822883999977,
+        "duration-s": 11.843673398000192,
         "num-confident-rules": 1398826
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 77.94973832300002,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 474.0,
+    "num-candidates": 3495810,
+    "num-candidates-of-size": [
+      1280,
+      1638400,
+      288557,
+      463134,
+      387839,
+      296433,
+      211902,
+      123411,
+      56980,
+      20615,
+      5798,
+      1245,
+      195,
+      20,
+      1
+    ],
+    "num-frequent-episodes": 1427799,
+    "num-frequent-episodes-of-size": [
+      1280,
+      20495,
+      103978,
+      257641,
+      330030,
+      294213,
+      211897,
+      123411,
+      56980,
+      20615,
+      5798,
+      1245,
+      195,
+      20,
+      1
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.9,
+        "duration-s": 816.4385029130003,
+        "num-confident-rules": 58948493
       }
     ],
     "status": "timeout",
     "window-width": 900
   },
   {
-    "duration-s": 0.18932533699995702,
+    "duration-s": 0.13310050300015064,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 25.0,
@@ -1903,7 +1954,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.6900000332498166e-06,
+        "duration-s": 1.2999998943996616e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1911,7 +1962,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.5313420800000017,
+    "duration-s": 0.25502920600001744,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 18.0,
@@ -1928,7 +1979,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 3.166400000509384e-05,
+        "duration-s": 1.9927999801439e-05,
         "num-confident-rules": 10
       }
     ],
@@ -1936,7 +1987,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 3.791153630999986,
+    "duration-s": 1.2617073290002736,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 13.0,
@@ -1955,7 +2006,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0013889950000134377,
+        "duration-s": 0.000730381999801466,
         "num-confident-rules": 82
       }
     ],
@@ -1963,7 +2014,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 11.657114605000004,
+    "duration-s": 4.257842379000067,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 9.0,
@@ -1986,7 +2037,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.011305214000003616,
+        "duration-s": 0.00835388099994816,
         "num-confident-rules": 657
       }
     ],
@@ -1994,7 +2045,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 20.276101154999992,
+    "duration-s": 8.371097566000117,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 6.0,
@@ -2019,7 +2070,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.11858425200000511,
+        "duration-s": 0.0718178409997563,
         "num-confident-rules": 3167
       }
     ],
@@ -2027,7 +2078,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 37.70970016399997,
+    "duration-s": 15.192106821999914,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 4.0,
@@ -2054,7 +2105,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.2912880679999716,
+        "duration-s": 0.7209484949999023,
         "num-confident-rules": 41598
       }
     ],
@@ -2062,7 +2113,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 69.34788679499997,
+    "duration-s": 27.12621609100006,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 3.0,
@@ -2091,15 +2142,62 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 9.23918104500001,
+        "duration-s": 5.715310414000214,
         "num-confident-rules": 363063
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 107.11057918300003,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 2.0,
+    "num-candidates": 2840074,
+    "num-candidates-of-size": [
+      1280,
+      1225449,
+      200127,
+      469157,
+      475405,
+      280511,
+      129788,
+      44293,
+      11453,
+      2258,
+      323,
+      29,
+      1
+    ],
+    "num-frequent-episodes": 1188459,
+    "num-frequent-episodes-of-size": [
+      1107,
+      14613,
+      85616,
+      260462,
+      366095,
+      272472,
+      129737,
+      44293,
+      11453,
+      2258,
+      323,
+      29,
+      1
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.9,
+        "duration-s": 439.7059649890002,
+        "num-confident-rules": 18319875
       }
     ],
     "status": "timeout",
     "window-width": 900
   },
   {
-    "duration-s": 0.19372474099998271,
+    "duration-s": 0.1399892629997339,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 26.757100734755568,
@@ -2116,7 +2214,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.4169999644764175e-06,
+        "duration-s": 1.3030003174208105e-06,
         "num-confident-rules": 0
       }
     ],
@@ -2124,7 +2222,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 0.204673836999973,
+    "duration-s": 0.14824259099987103,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 20.067825551066676,
@@ -2141,7 +2239,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 2.260999963255017e-06,
+        "duration-s": 2.023999513767194e-06,
         "num-confident-rules": 0
       }
     ],
@@ -2149,7 +2247,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 1.0582309239999859,
+    "duration-s": 0.5249253439997119,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 15.050869163300007,
@@ -2166,7 +2264,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 5.548999979509972e-06,
+        "duration-s": 4.464000085135922e-06,
         "num-confident-rules": 0
       }
     ],
@@ -2174,7 +2272,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 3.2640125409999996,
+    "duration-s": 1.7467734829997426,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 11.288151872475005,
@@ -2191,7 +2289,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.0191000001213979e-05,
+        "duration-s": 8.377000085602049e-06,
         "num-confident-rules": 0
       }
     ],
@@ -2199,7 +2297,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 7.883052795000026,
+    "duration-s": 4.127853659999346,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 8.466113904356254,
@@ -2216,7 +2314,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.489899995021915e-05,
+        "duration-s": 1.0789999578264542e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2224,7 +2322,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 10.464896711999984,
+    "duration-s": 5.981823617999908,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 6.34958542826719,
@@ -2241,7 +2339,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.9689999987804185e-05,
+        "duration-s": 1.510499987489311e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2249,7 +2347,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 14.718850318000023,
+    "duration-s": 8.062586551000095,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 4.7621890712003925,
@@ -2266,7 +2364,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 2.27480000489777e-05,
+        "duration-s": 2.054800006590085e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2274,7 +2372,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 17.770716479000043,
+    "duration-s": 10.200234087000354,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 3.5716418034002944,
@@ -2291,7 +2389,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 3.881999998611718e-05,
+        "duration-s": 1.729199993860675e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2299,7 +2397,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 19.02108759800001,
+    "duration-s": 11.618690741999671,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 2.678731352550221,
@@ -2316,7 +2414,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 2.9117000053702213e-05,
+        "duration-s": 2.1538000510190614e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2324,7 +2422,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 19.7375276329999,
+    "duration-s": 11.808478210999965,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 2.0090485144126657,
@@ -2341,7 +2439,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 3.436500003317633e-05,
+        "duration-s": 1.8835000446415506e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2349,7 +2447,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.344691120999983,
+    "duration-s": 13.69728440399922,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1.5067863858094994,
@@ -2366,7 +2464,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 3.307899999072106e-05,
+        "duration-s": 2.0915999812132213e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2374,7 +2472,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 24.432223158000056,
+    "duration-s": 13.478508601000613,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 1.1300897893571245,
@@ -2391,7 +2489,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 3.724900000179332e-05,
+        "duration-s": 2.1281999579514377e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2399,7 +2497,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 27.890599941999994,
+    "duration-s": 16.3990053360003,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.8475673420178433,
@@ -2416,7 +2514,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 4.551900008209486e-05,
+        "duration-s": 2.8217999897606205e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2424,7 +2522,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 21.82524027799991,
+    "duration-s": 16.407814809999763,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.6356755065133826,
@@ -2441,7 +2539,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 4.466899997623841e-05,
+        "duration-s": 3.547400046954863e-05,
         "num-confident-rules": 0
       }
     ],
@@ -2449,7 +2547,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 22.237984681000057,
+    "duration-s": 15.972312424999473,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.4767566298850369,
@@ -2466,7 +2564,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00018407799996111862,
+        "duration-s": 0.00013451699942379491,
         "num-confident-rules": 0
       }
     ],
@@ -2474,7 +2572,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.04251509900007,
+    "duration-s": 16.391193185000702,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.3575674724137777,
@@ -2493,7 +2591,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00018028499994215963,
+        "duration-s": 0.00017597500027477508,
         "num-confident-rules": 0
       }
     ],
@@ -2501,7 +2599,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.21173355199994,
+    "duration-s": 16.203650085000845,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.26817560431033327,
@@ -2520,7 +2618,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.000289146999989498,
+        "duration-s": 0.0003550179999365355,
         "num-confident-rules": 0
       }
     ],
@@ -2528,7 +2626,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.597481742000014,
+    "duration-s": 15.8928949809997,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.20113170323274995,
@@ -2547,7 +2645,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.00047263499993732694,
+        "duration-s": 0.00044618299943977036,
         "num-confident-rules": 1
       }
     ],
@@ -2555,7 +2653,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.694888544000037,
+    "duration-s": 15.837342783999702,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.15084877742456246,
@@ -2574,7 +2672,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0008835160000444375,
+        "duration-s": 0.0006293749993346864,
         "num-confident-rules": 2
       }
     ],
@@ -2582,7 +2680,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 24.89984575599999,
+    "duration-s": 15.916609668999627,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.11313658306842184,
@@ -2601,7 +2699,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0013346790000241526,
+        "duration-s": 0.001118205999773636,
         "num-confident-rules": 5
       }
     ],
@@ -2609,7 +2707,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 24.666768612000055,
+    "duration-s": 16.08567064699946,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.08485243730131638,
@@ -2630,7 +2728,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0020643750000317596,
+        "duration-s": 0.0016549889996895217,
         "num-confident-rules": 17
       }
     ],
@@ -2638,7 +2736,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 24.038942653999925,
+    "duration-s": 16.011835188000077,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.06363932797598729,
@@ -2659,7 +2757,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.003216059999999743,
+        "duration-s": 0.00214530100038246,
         "num-confident-rules": 28
       }
     ],
@@ -2667,7 +2765,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 29.678222691999963,
+    "duration-s": 16.075830879999558,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.047729495981990465,
@@ -2690,7 +2788,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.0037687730000470765,
+        "duration-s": 0.0033647969994490268,
         "num-confident-rules": 63
       }
     ],
@@ -2698,7 +2796,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 20.066020040000012,
+    "duration-s": 16.199720192999848,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.03579712198649285,
@@ -2721,7 +2819,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.005048157000032916,
+        "duration-s": 0.004966942000464769,
         "num-confident-rules": 95
       }
     ],
@@ -2729,7 +2827,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 21.644544832000065,
+    "duration-s": 16.51324077299978,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.026847841489869635,
@@ -2752,7 +2850,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.009472383000002083,
+        "duration-s": 0.008186291000129131,
         "num-confident-rules": 175
       }
     ],
@@ -2760,7 +2858,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 22.027889065999943,
+    "duration-s": 16.848142558999825,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.020135881117402228,
@@ -2783,7 +2881,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.018159308999997847,
+        "duration-s": 0.01618607399996108,
         "num-confident-rules": 412
       }
     ],
@@ -2791,7 +2889,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 23.002999743000032,
+    "duration-s": 17.67307249300029,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.015101910838051671,
@@ -2814,7 +2912,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.04160696500002814,
+        "duration-s": 0.03471704499952466,
         "num-confident-rules": 926
       }
     ],
@@ -2822,7 +2920,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 24.434407411000052,
+    "duration-s": 18.48214564799946,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.011326433128538753,
@@ -2847,7 +2945,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.09409777899998062,
+        "duration-s": 0.07618845500019233,
         "num-confident-rules": 2296
       }
     ],
@@ -2855,7 +2953,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 29.81465876300001,
+    "duration-s": 21.07241450299989,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.008494824846404065,
@@ -2882,7 +2980,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 0.30214640200006215,
+        "duration-s": 0.24139285599994764,
         "num-confident-rules": 7487
       }
     ],
@@ -2890,7 +2988,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 35.60270465200006,
+    "duration-s": 27.125557123000362,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.006371118634803049,
@@ -2917,7 +3015,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 1.0025980000000345,
+        "duration-s": 0.7919519439992655,
         "num-confident-rules": 27821
       }
     ],
@@ -2925,7 +3023,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 48.32545673899995,
+    "duration-s": 34.21673640800054,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.004778338976102287,
@@ -2956,7 +3054,7 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 4.417570689000058,
+        "duration-s": 3.4361216719998993,
         "num-confident-rules": 174005
       }
     ],
@@ -2964,7 +3062,7 @@
     "window-width": 900
   },
   {
-    "duration-s": 81.71807345499997,
+    "duration-s": 51.85971392800002,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
     "frequency-threshold": 0.0035837542320767152,
@@ -2999,8 +3097,55 @@
     "rules": [
       {
         "confidence-threshold": 0.9,
-        "duration-s": 32.44734850400005,
+        "duration-s": 23.816122887000347,
         "num-confident-rules": 1326981
+      }
+    ],
+    "status": "success",
+    "window-width": 900
+  },
+  {
+    "duration-s": 99.80624194499978,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 0.0026878156740575364,
+    "num-candidates": 3269291,
+    "num-candidates-of-size": [
+      1280,
+      1638400,
+      299790,
+      533686,
+      426668,
+      218319,
+      99813,
+      37179,
+      11124,
+      2566,
+      421,
+      43,
+      2
+    ],
+    "num-frequent-episodes": 1092094,
+    "num-frequent-episodes-of-size": [
+      1280,
+      20500,
+      107136,
+      275736,
+      323520,
+      212797,
+      99790,
+      37179,
+      11124,
+      2566,
+      421,
+      43,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.9,
+        "duration-s": 264.341058471,
+        "num-confident-rules": 12477015
       }
     ],
     "status": "timeout",
