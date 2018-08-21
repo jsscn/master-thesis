@@ -13,13 +13,13 @@ Since the data format is similar to that of typical frequent pattern mining, min
 
 Later, a new kind of setting was introduced for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
 
-Such sequences may represent different kinds of data:
+Such sequences may represent different kinds of data. A few examples:
 \begin{itemize}
-\item activity logs: whether or not a pattern of activity is cause for alarm \cite{mannila1997discovery}.
-\item machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
-\item any kind of text: books, articles, tweets, transcripts, \ldots
-\item logs of user behaviour: What patterns do gamblers exhibit when playing video poker? How does a person use a graphical user interface?
-\item sequential data in biology \cite{biosequences}
+\item Activity logs: whether or not a pattern of activity is cause for alarm \cite{mannila1997discovery}.
+\item Machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
+\item Any kind of text: books, articles, tweets, transcripts, \ldots
+\item Logs of user behaviour: How does a person use a graphical user interface? What patterns do gamblers exhibit when playing video poker?
+\item Biosequences \cite{biosequences}
 \end{itemize}
 
 Though the main goal of finding patterns remains equivalent, the mining techniques used for these kinds of data stray further from those in the transactional setting. In sequential pattern mining, the main bottleneck is the length of the sequence, rather than the number of transactions.

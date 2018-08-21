@@ -140,7 +140,7 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of Figure~\ref{fig
 
 \section{Episodes}
 
-Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to define \emph{interesting} is how often it occurs in the sequence. While other interpretations of \emph{interestingness} exist, we will mainly focus on \emph{frequency measures}, some of which we'll discuss in section~\ref{sec:interestingness-measures-episodes}. First we formally define patterns.
+Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to define \emph{interesting} is how often it occurs in the sequence. While other interpretations of interestingness exist, we will mainly focus on \emph{frequency measures}, some of which we'll discuss in section~\ref{sec:interestingness-measures-episodes}. First we formally define patterns.
 
 % TODO ^ cite Geoff Webb maybe? ^
 
@@ -395,9 +395,9 @@ Of course, considering all event sequences that cover an episode is an impossibl
 
 Now that we have defined patterns on event sequences, we would like to be to be able to quantify how interesting a pattern is in regard to a sequence.
 
-Traditionally, the most common interpretation of \emph{interestingness} is frequency, which expresses how often an episode occurs in the sequence. The more often an episode occurs, the more interesting it is considered to be.
+Traditionally, the most common interpretation of interestingness is frequency, which intends to express how often an episode occurs in the sequence. The more often an episode occurs, the more interesting it is considered to be.
 
-Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear. We will present three methods to measure the frequency of an episode. In a later section, we implement a mining algorithm based on them.
+Exactly how the frequency of an episode in a sequence should be defined, is not immediately clear. We will present three methods to measure the frequency of an episode. In a later chapter, we implement a mining algorithm based on them.
 
 In data mining, the main challenge is to find ways of mining information efficiently. In particular, exponential pattern growth is problematic. For itemset mining, the Apriori algorithm \cite{agrawal1994fast} was able to prune large amounts of itemsets because an itemset can only be frequent if all of its subsets are frequent. In sequential pattern mining, the search space is even larger, because an event type can occur any number of times in an episode. However, we can employ a similar technique if we define \emph{monotonically decreasing} frequency measures on episodes.
 
@@ -595,7 +595,7 @@ Compared to the fixed-window frequency, the disjoint-window frequency expresses 
 
 Moreover, with the disjoint-window frequency, once the window width $ \rho $ employed by an algorithm is large enough to discover a certain minimal minimal window $ [a, b) $, the contribution of that occurrence to the disjoint-window frequency is constant for all $ \rho \geq b - a $. This wasn't the case for the fixed-window frequency, as illustrated in section~\ref{sec:fixed-window-frequency}.
 
-The disjoint-window frequency does have a disadvantage compared to the fixed-window frequency as well. The width of a minimal window is unaccounted for. So a small minimal window contributes just as much to the disjoint-window frequency as a large one. As we explained in section~\ref{sec:fixed-window-frequency}, occurrences spanning a short time range are more likely to be significant than ones spanning a long range. Figure~\ref{fig:mwi-example} shows the minimal windows in the same example as in Figure~\ref{fig:fwi-example}. Where the fixed-window frequency assigned a greater frequency to the shorter occurrence, the disjoint-window frequency treats them both equally. Thus here, again, $ \rho $ should be carefully chosen, as to not include minimal windows that are too large to be meaningful.
+The disjoint-window frequency does have a disadvantage compared to the fixed-window frequency as well. The width of a minimal window is unaccounted for. So a small minimal window contributes just as much to the disjoint-window frequency as a large one. As we explained in section~\ref{sec:fixed-window-frequency}, occurrences spanning a short time range are more likely to be significant than ones spanning a long range. Figure~\ref{fig:mwi-example} shows the minimal windows for the same example as Figure~\ref{fig:fwi-example}. Where the fixed-window frequency assigned a greater frequency to the shorter occurrence, the disjoint-window frequency treats them both equally. Thus here, again, $ \rho $ should be carefully chosen, as to not include minimal windows that are too large to be meaningful.
 
 \begin{figure}
 \centering
@@ -664,6 +664,8 @@ In words, the weighted-window frequency is the sum of weights of a set of disjoi
 \end{definition}
 
 The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode --- which is to say, not very much for large $ \rho $.
+
+A disadvantage of the disjoint-window frequency is that it will disadvantage large episodes more so than the other frequency measures, because generally, larger episodes naturally require larger --- less-weighted --- windows.
 
 
 
