@@ -42,13 +42,21 @@ if 'rules' in df:
 
     rules_only = defaultdict(list)
     for run in j:
-        for rules_run in run['rules']:
-            threshold = round(float(rules_run['confidence-threshold']), 3)
-            rules_only['duration-rules-{}'.format(threshold)].append(rules_run['duration-s'])
-            rules_only['num-confident-rules-{}'.format(threshold)].append(rules_run['num-confident-rules'])
+        if run['status'] == 'too-many-candidates':
+            # note: if very first experiment is too many candidates, this won't work (rules_only won't have been initialized properly yet)
+            for k, l in rules_only.items():
+                l.append(0)
+        else:
+            for rules_run in run['rules']:
+                threshold = round(float(rules_run['confidence-threshold']), 3)
+                rules_only['duration-rules-{}'.format(threshold)].append(rules_run['duration-s'])
+                rules_only['num-confident-rules-{}'.format(threshold)].append(rules_run['num-confident-rules'])
 
     new_columns = pd.DataFrame(rules_only)
     
+    print(new_columns)
+    print(df)
+
     df = pd.concat([df, new_columns], axis=1)
 
 f.close()

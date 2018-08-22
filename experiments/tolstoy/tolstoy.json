@@ -1,6 +1,214 @@
 [
   {
-    "duration-s": 0.668625296,
+    "duration-s": 0.10095182800000001,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 10000.0,
+    "num-candidates": 8056,
+    "num-candidates-of-size": [
+      8050,
+      6
+    ],
+    "num-frequent-episodes": 3,
+    "num-frequent-episodes-of-size": [
+      3,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.379000000000801e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09924549400000002,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 7500.0,
+    "num-candidates": 8203,
+    "num-candidates-of-size": [
+      8050,
+      153
+    ],
+    "num-frequent-episodes": 17,
+    "num-frequent-episodes-of-size": [
+      17,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.3233000000001383e-05,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.099529486,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 5625.0,
+    "num-candidates": 8515,
+    "num-candidates-of-size": [
+      8050,
+      465
+    ],
+    "num-frequent-episodes": 32,
+    "num-frequent-episodes-of-size": [
+      30,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.250599999998771e-05,
+        "num-confident-rules": 4
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.10451555499999998,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 4218.0,
+    "num-candidates": 9085,
+    "num-candidates-of-size": [
+      8050,
+      1035
+    ],
+    "num-frequent-episodes": 47,
+    "num-frequent-episodes-of-size": [
+      45,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 4.035199999996575e-05,
+        "num-confident-rules": 4
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.15585061900000002,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 3163.0,
+    "num-candidates": 10466,
+    "num-candidates-of-size": [
+      8050,
+      2415,
+      1
+    ],
+    "num-frequent-episodes": 73,
+    "num-frequent-episodes-of-size": [
+      69,
+      4,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 6.27280000000674e-05,
+        "num-confident-rules": 7
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.17043029899999995,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 2372.0,
+    "num-candidates": 14492,
+    "num-candidates-of-size": [
+      8050,
+      6441,
+      1
+    ],
+    "num-frequent-episodes": 118,
+    "num-frequent-episodes-of-size": [
+      113,
+      5,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 9.13390000000236e-05,
+        "num-confident-rules": 9
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.191609496,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1779.0,
+    "num-candidates": 22251,
+    "num-candidates-of-size": [
+      8050,
+      14196,
+      5
+    ],
+    "num-frequent-episodes": 178,
+    "num-frequent-episodes-of-size": [
+      168,
+      9,
+      1
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.00015911800000001364,
+        "num-confident-rules": 23
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.23787121999999994,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1334.0,
+    "num-candidates": 38695,
+    "num-candidates-of-size": [
+      8050,
+      30628,
+      17
+    ],
+    "num-frequent-episodes": 268,
+    "num-frequent-episodes-of-size": [
+      247,
+      20,
+      1
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0002698500000000159,
+        "num-confident-rules": 42
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.37203783700000015,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1000.0,
@@ -19,7 +227,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0005154099999999939,
+        "duration-s": 0.000432275000000093,
         "num-confident-rules": 88
       }
     ],
@@ -27,7 +235,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.047703233,
+    "duration-s": 0.6415089089999999,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 750.0,
@@ -46,7 +254,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0013870099999999663,
+        "duration-s": 0.0009177390000001395,
         "num-confident-rules": 245
       }
     ],
@@ -54,7 +262,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.6229507639999998,
+    "duration-s": 1.170309392,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 562.0,
@@ -75,7 +283,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0021700069999996963,
+        "duration-s": 0.0014066179999998596,
         "num-confident-rules": 516
       }
     ],
@@ -83,7 +291,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 2.378441777,
+    "duration-s": 1.633786439,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 421.0,
@@ -104,7 +312,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0037613470000001925,
+        "duration-s": 0.0027864510000004117,
         "num-confident-rules": 1141
       }
     ],
@@ -112,7 +320,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 3.6534475230000005,
+    "duration-s": 2.6435746920000005,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 315.0,
@@ -133,7 +341,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.006849767000000284,
+        "duration-s": 0.006276257999999757,
         "num-confident-rules": 2232
       }
     ],
@@ -141,7 +349,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 5.391146801,
+    "duration-s": 3.829310799,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 236.0,
@@ -162,7 +370,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.01307636199999962,
+        "duration-s": 0.009122022999999757,
         "num-confident-rules": 4170
       }
     ],
@@ -170,7 +378,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 7.571218467999998,
+    "duration-s": 5.29581877,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 177.0,
@@ -193,7 +401,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.023726202999998947,
+        "duration-s": 0.021074037999998296,
         "num-confident-rules": 7539
       }
     ],
@@ -201,7 +409,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 10.671217245000005,
+    "duration-s": 8.202492048,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 132.0,
@@ -224,7 +432,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.04302725299999821,
+        "duration-s": 0.038313898999998486,
         "num-confident-rules": 13603
       }
     ],
@@ -232,7 +440,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 15.161061332000003,
+    "duration-s": 12.322563934000001,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 99.0,
@@ -255,7 +463,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.09111977399999915,
+        "duration-s": 0.06252756200000675,
         "num-confident-rules": 23852
       }
     ],
@@ -263,7 +471,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 24.630678122999996,
+    "duration-s": 16.550017744999998,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 74.0,
@@ -286,7 +494,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.19248136000000216,
+        "duration-s": 0.08864232900000246,
         "num-confident-rules": 42166
       }
     ],
@@ -294,7 +502,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 39.111898411,
+    "duration-s": 25.538895433999997,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 55.0,
@@ -319,7 +527,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.28144153899999935,
+        "duration-s": 0.16641669900000977,
         "num-confident-rules": 76373
       }
     ],
@@ -327,7 +535,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 62.73924068000001,
+    "duration-s": 43.25999270199999,
     "episode-class": "parallel",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 41.0,
@@ -352,15 +560,53 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.49259832399999937,
+        "duration-s": 0.32783322900000655,
         "num-confident-rules": 141421
       }
     ],
-    "status": "timeout",
+    "status": "success",
     "window-width": 15
   },
   {
-    "duration-s": 0.227447112,
+    "duration-s": 43.25999270199999,
+    "episode-class": "parallel",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 30.0,
+    "num-candidates": 0,
+    "num-candidates-of-size": [],
+    "num-frequent-episodes": 0,
+    "num-frequent-episodes-of-size": [],
+    "rules": [],
+    "status": "too-many-candidates",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09698240499999145,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 1334.0,
+    "num-candidates": 8051,
+    "num-candidates-of-size": [
+      8050,
+      1
+    ],
+    "num-frequent-episodes": 1,
+    "num-frequent-episodes-of-size": [
+      1,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.4700000099974204e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.09640884699999219,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 1000.0,
@@ -377,7 +623,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 4.249000000011716e-06,
+        "duration-s": 3.285999994773192e-06,
         "num-confident-rules": 0
       }
     ],
@@ -385,7 +631,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.21474714,
+    "duration-s": 0.10366066599999613,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 750.0,
@@ -402,7 +648,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 1.6718999999998374e-05,
+        "duration-s": 4.626000006169306e-06,
         "num-confident-rules": 0
       }
     ],
@@ -410,7 +656,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.27527133300000006,
+    "duration-s": 0.1388830469999931,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 562.0,
@@ -427,7 +673,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.7602999999997166e-05,
+        "duration-s": 3.605200001288722e-05,
         "num-confident-rules": 2
       }
     ],
@@ -435,7 +681,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.434935564,
+    "duration-s": 0.21948220699999865,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 421.0,
@@ -452,7 +698,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 6.67500000000043e-05,
+        "duration-s": 4.640100002006875e-05,
         "num-confident-rules": 4
       }
     ],
@@ -460,7 +706,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.749826485,
+    "duration-s": 0.40955779399999415,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 315.0,
@@ -479,7 +725,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 8.989499999989548e-05,
+        "duration-s": 7.073999998397085e-05,
         "num-confident-rules": 5
       }
     ],
@@ -487,7 +733,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.2984906969999999,
+    "duration-s": 0.6552772070000117,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 236.0,
@@ -506,7 +752,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00012440800000002028,
+        "duration-s": 8.989500000211592e-05,
         "num-confident-rules": 7
       }
     ],
@@ -514,7 +760,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 2.623988139,
+    "duration-s": 1.1992554839999912,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 177.0,
@@ -533,7 +779,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00027502999999917677,
+        "duration-s": 0.0002120590000060929,
         "num-confident-rules": 24
       }
     ],
@@ -541,7 +787,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 4.106956982000001,
+    "duration-s": 1.9728860209999937,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 132.0,
@@ -560,7 +806,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0004899480000002399,
+        "duration-s": 0.0003858210000089457,
         "num-confident-rules": 47
       }
     ],
@@ -568,7 +814,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 8.008645842,
+    "duration-s": 3.656117518000002,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 99.0,
@@ -589,7 +835,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0013371560000017269,
+        "duration-s": 0.0008358380000004217,
         "num-confident-rules": 130
       }
     ],
@@ -597,7 +843,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 14.376831969000001,
+    "duration-s": 6.555726977999996,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 74.0,
@@ -618,7 +864,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.002465138999994565,
+        "duration-s": 0.001739102999977149,
         "num-confident-rules": 322
       }
     ],
@@ -626,7 +872,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 23.543058371999997,
+    "duration-s": 12.207254503000001,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 55.0,
@@ -647,7 +893,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.011208717999998896,
+        "duration-s": 0.003936296000006223,
         "num-confident-rules": 805
       }
     ],
@@ -655,7 +901,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 43.15007623100001,
+    "duration-s": 19.51599799799999,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 41.0,
@@ -676,7 +922,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.01025935100000197,
+        "duration-s": 0.007415199000007533,
         "num-confident-rules": 1705
       }
     ],
@@ -684,7 +930,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 73.101882143,
+    "duration-s": 33.065401511999994,
     "episode-class": "parallel",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 30.0,
@@ -707,18 +953,80 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.027733380000000807,
+        "duration-s": 0.013987677000017129,
         "num-confident-rules": 3501
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 55.28106509,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 22.0,
+    "num-candidates": 762901,
+    "num-candidates-of-size": [
+      8050,
+      731445,
+      23281,
+      122,
+      3
+    ],
+    "num-frequent-episodes": 4068,
+    "num-frequent-episodes-of-size": [
+      1209,
+      2537,
+      301,
+      18,
+      3
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.025984171999994032,
+        "num-confident-rules": 6885
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 92.52075110599998,
+    "episode-class": "parallel",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 16.0,
+    "num-candidates": 1281164,
+    "num-candidates-of-size": [
+      8050,
+      1216020,
+      56703,
+      385,
+      6
+    ],
+    "num-frequent-episodes": 7182,
+    "num-frequent-episodes-of-size": [
+      1559,
+      4852,
+      716,
+      50,
+      5
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.05124289200000476,
+        "num-confident-rules": 14159
       }
     ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.216250391,
+    "duration-s": 0.09991897300000119,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 1000.0,
+    "frequency-threshold": 1334.8388671875,
     "num-candidates": 8051,
     "num-candidates-of-size": [
       8050,
@@ -732,7 +1040,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 7.172999999999208e-06,
+        "duration-s": 3.9180000044325425e-06,
         "num-confident-rules": 0
       }
     ],
@@ -740,10 +1048,35 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.192554618,
+    "duration-s": 0.09989474599996129,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 750.0,
+    "frequency-threshold": 1001.129150390625,
+    "num-candidates": 8051,
+    "num-candidates-of-size": [
+      8050,
+      1
+    ],
+    "num-frequent-episodes": 1,
+    "num-frequent-episodes-of-size": [
+      1,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 3.4159999700023036e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.10199150900001541,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 750.8468627929688,
     "num-candidates": 8056,
     "num-candidates-of-size": [
       8050,
@@ -757,7 +1090,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 6.108000000004665e-06,
+        "duration-s": 4.4039999806955166e-06,
         "num-confident-rules": 0
       }
     ],
@@ -765,10 +1098,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.28206802499999994,
+    "duration-s": 0.14120980699999564,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 562.5,
+    "frequency-threshold": 563.1351470947266,
     "num-candidates": 8155,
     "num-candidates-of-size": [
       8050,
@@ -782,7 +1115,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 1.486299999997609e-05,
+        "duration-s": 1.1638999978913489e-05,
         "num-confident-rules": 0
       }
     ],
@@ -790,10 +1123,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.4525669159999999,
+    "duration-s": 0.218076386000007,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 421.875,
+    "frequency-threshold": 422.3513603210449,
     "num-candidates": 8401,
     "num-candidates-of-size": [
       8050,
@@ -807,7 +1140,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.3200000000000998e-05,
+        "duration-s": 1.8125999986295938e-05,
         "num-confident-rules": 0
       }
     ],
@@ -815,10 +1148,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.7284708049999999,
+    "duration-s": 0.3823947399999952,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 316.40625,
+    "frequency-threshold": 316.7635202407837,
     "num-candidates": 9040,
     "num-candidates-of-size": [
       8050,
@@ -832,7 +1165,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.613999999996231e-05,
+        "duration-s": 2.986200001942052e-05,
         "num-confident-rules": 0
       }
     ],
@@ -840,10 +1173,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.185871851,
+    "duration-s": 0.6287288839999974,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 237.3046875,
+    "frequency-threshold": 237.57264018058777,
     "num-candidates": 10261,
     "num-candidates-of-size": [
       8050,
@@ -857,7 +1190,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00015732899999987282,
+        "duration-s": 7.972500003461391e-05,
         "num-confident-rules": 4
       }
     ],
@@ -865,24 +1198,24 @@
     "window-width": 15
   },
   {
-    "duration-s": 2.583643248,
+    "duration-s": 1.1483728470000187,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 177.978515625,
-    "num-candidates": 13936,
+    "frequency-threshold": 178.17948013544083,
+    "num-candidates": 13828,
     "num-candidates-of-size": [
       8050,
-      5886
+      5778
     ],
-    "num-frequent-episodes": 110,
+    "num-frequent-episodes": 109,
     "num-frequent-episodes-of-size": [
-      108,
+      107,
       2
     ],
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0006555670000008007,
+        "duration-s": 0.00010007399998812616,
         "num-confident-rules": 4
       }
     ],
@@ -890,10 +1223,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 4.124502692,
+    "duration-s": 1.918001772000025,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 133.48388671875,
+    "frequency-threshold": 133.63461010158062,
     "num-candidates": 19985,
     "num-candidates-of-size": [
       8050,
@@ -907,7 +1240,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.000195888000000366,
+        "duration-s": 0.00014100499998903615,
         "num-confident-rules": 6
       }
     ],
@@ -915,10 +1248,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 7.583757287000001,
+    "duration-s": 3.4364949120000006,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 100.1129150390625,
+    "frequency-threshold": 100.22595757618546,
     "num-candidates": 34615,
     "num-candidates-of-size": [
       8050,
@@ -932,7 +1265,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00027430900000169345,
+        "duration-s": 0.0001882189999946604,
         "num-confident-rules": 8
       }
     ],
@@ -940,10 +1273,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 14.141007616,
+    "duration-s": 6.087883251999983,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 75.08468627929688,
+    "frequency-threshold": 75.1694681821391,
     "num-candidates": 60700,
     "num-candidates-of-size": [
       8050,
@@ -957,7 +1290,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0003186170000013533,
+        "duration-s": 0.0002397330000007969,
         "num-confident-rules": 8
       }
     ],
@@ -965,10 +1298,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 21.052695049999997,
+    "duration-s": 10.915813939999964,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 56.313514709472656,
+    "frequency-threshold": 56.377101136604324,
     "num-candidates": 118266,
     "num-candidates-of-size": [
       8050,
@@ -984,7 +1317,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0027683520000039152,
+        "duration-s": 0.0003359509999540933,
         "num-confident-rules": 9
       }
     ],
@@ -992,10 +1325,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 37.574129877,
+    "duration-s": 16.56398626500004,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 42.23513603210449,
+    "frequency-threshold": 42.28282585245324,
     "num-candidates": 200561,
     "num-candidates-of-size": [
       8050,
@@ -1011,7 +1344,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0008053050000000894,
+        "duration-s": 0.00044579600000815844,
         "num-confident-rules": 13
       }
     ],
@@ -1019,10 +1352,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 57.02173509399999,
+    "duration-s": 25.297066415000018,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 31.67635202407837,
+    "frequency-threshold": 31.712119389339932,
     "num-candidates": 360442,
     "num-candidates-of-size": [
       8050,
@@ -1038,7 +1371,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.004243819999999232,
+        "duration-s": 0.0007674440000187133,
         "num-confident-rules": 38
       }
     ],
@@ -1046,10 +1379,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 69.161492146,
+    "duration-s": 38.02147848300001,
     "episode-class": "parallel",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 23.757264018058777,
+    "frequency-threshold": 23.78408954200495,
     "num-candidates": 644839,
     "num-candidates-of-size": [
       8050,
@@ -1065,15 +1398,277 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.002720133999986274,
+        "duration-s": 0.0012543640000330925,
         "num-confident-rules": 97
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 51.935031837,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 17.838067156503712,
+    "num-candidates": 1031336,
+    "num-candidates-of-size": [
+      8050,
+      1023165,
+      121
+    ],
+    "num-frequent-episodes": 1534,
+    "num-frequent-episodes-of-size": [
+      1430,
+      101,
+      3
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0020269589999770687,
+        "num-confident-rules": 212
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 66.10117428399997,
+    "episode-class": "parallel",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 13.378550367377784,
+    "num-candidates": 1483319,
+    "num-candidates-of-size": [
+      8050,
+      1474903,
+      366
+    ],
+    "num-frequent-episodes": 1934,
+    "num-frequent-episodes-of-size": [
+      1717,
+      210,
+      7
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0033811039999136483,
+        "num-confident-rules": 446
       }
     ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 26.789467153,
+    "duration-s": 0.06472609999991619,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 10000.0,
+    "num-candidates": 8059,
+    "num-candidates-of-size": [
+      8050,
+      9
+    ],
+    "num-frequent-episodes": 3,
+    "num-frequent-episodes-of-size": [
+      3,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.396000016029575e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.12489245699998719,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 7500.0,
+    "num-candidates": 8339,
+    "num-candidates-of-size": [
+      8050,
+      289
+    ],
+    "num-frequent-episodes": 17,
+    "num-frequent-episodes-of-size": [
+      17,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.7920000345839071e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.23243432100002792,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 5625.0,
+    "num-candidates": 8950,
+    "num-candidates-of-size": [
+      8050,
+      900
+    ],
+    "num-frequent-episodes": 32,
+    "num-frequent-episodes-of-size": [
+      30,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 8.189000027414295e-06,
+        "num-confident-rules": 4
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.44161009100002957,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 4218.0,
+    "num-candidates": 10075,
+    "num-candidates-of-size": [
+      8050,
+      2025
+    ],
+    "num-frequent-episodes": 47,
+    "num-frequent-episodes-of-size": [
+      45,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 7.63500008815754e-06,
+        "num-confident-rules": 4
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.764915741999971,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 3163.0,
+    "num-candidates": 12812,
+    "num-candidates-of-size": [
+      8050,
+      4761,
+      1
+    ],
+    "num-frequent-episodes": 73,
+    "num-frequent-episodes-of-size": [
+      69,
+      4,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.1636999943220872e-05,
+        "num-confident-rules": 7
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 1.6295592919999535,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 2372.0,
+    "num-candidates": 20820,
+    "num-candidates-of-size": [
+      8050,
+      12769,
+      1
+    ],
+    "num-frequent-episodes": 118,
+    "num-frequent-episodes-of-size": [
+      113,
+      5,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.37239999276062e-05,
+        "num-confident-rules": 9
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 3.1223291369999515,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1779.0,
+    "num-candidates": 36275,
+    "num-candidates-of-size": [
+      8050,
+      28224,
+      1
+    ],
+    "num-frequent-episodes": 173,
+    "num-frequent-episodes-of-size": [
+      168,
+      5,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.3958999943497474e-05,
+        "num-confident-rules": 9
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 5.772447776999911,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 1334.0,
+    "num-candidates": 69063,
+    "num-candidates-of-size": [
+      8050,
+      61009,
+      4
+    ],
+    "num-frequent-episodes": 256,
+    "num-frequent-episodes-of-size": [
+      247,
+      9,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 2.134700002898171e-05,
+        "num-confident-rules": 14
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 10.576876379000055,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 1000.0,
@@ -1092,7 +1687,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 6.343000000086363e-05,
+        "duration-s": 4.408600000260776e-05,
         "num-confident-rules": 44
       }
     ],
@@ -1100,7 +1695,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 54.468715823,
+    "duration-s": 18.504642408999985,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 750.0,
@@ -1119,7 +1714,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00013657700000635487,
+        "duration-s": 8.930100000270613e-05,
         "num-confident-rules": 105
       }
     ],
@@ -1127,7 +1722,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 87.604498041,
+    "duration-s": 29.319376798999997,
     "episode-class": "serial",
     "frequency-measure": "fixed-windows",
     "frequency-threshold": 562.0,
@@ -1148,15 +1743,98 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0003447080000000824,
+        "duration-s": 0.00022249399989959784,
         "num-confident-rules": 259
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 46.969257277999986,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 421.0,
+    "num-candidates": 804337,
+    "num-candidates-of-size": [
+      8050,
+      795664,
+      619,
+      4
+    ],
+    "num-frequent-episodes": 1139,
+    "num-frequent-episodes-of-size": [
+      892,
+      227,
+      18,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.000393877999954384,
+        "num-confident-rules": 533
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 78.22170913299999,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 315.0,
+    "num-candidates": 1423841,
+    "num-candidates-of-size": [
+      8050,
+      1413721,
+      2065,
+      5
+    ],
+    "num-frequent-episodes": 1668,
+    "num-frequent-episodes-of-size": [
+      1189,
+      449,
+      28,
+      2
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.0007198380000090765,
+        "num-confident-rules": 1014
       }
     ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.1776864240000009,
+    "duration-s": 0.06579172099998232,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 1334.0,
+    "num-candidates": 8051,
+    "num-candidates-of-size": [
+      8050,
+      1
+    ],
+    "num-frequent-episodes": 1,
+    "num-frequent-episodes-of-size": [
+      1,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.3400000398178236e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.06573527199998352,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 1000.0,
@@ -1173,7 +1851,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.423000012186094e-06,
+        "duration-s": 1.3970000054541742e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1181,7 +1859,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.195652315999979,
+    "duration-s": 0.07189421299995047,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 750.0,
@@ -1198,7 +1876,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.201000000923159e-06,
+        "duration-s": 1.3559999842982506e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1206,7 +1884,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.2763366129999838,
+    "duration-s": 0.1270105629999989,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 562.0,
@@ -1223,7 +1901,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 1.6034000026365902e-05,
+        "duration-s": 1.0825999993357982e-05,
         "num-confident-rules": 2
       }
     ],
@@ -1231,7 +1909,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.5352503189999993,
+    "duration-s": 0.2558161360000213,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 421.0,
@@ -1248,7 +1926,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.680800000121053e-05,
+        "duration-s": 1.7619000004742702e-05,
         "num-confident-rules": 4
       }
     ],
@@ -1256,7 +1934,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.1631528490000278,
+    "duration-s": 0.5232741559999567,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 315.0,
@@ -1275,7 +1953,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 5.830199998513308e-05,
+        "duration-s": 3.623600002811145e-05,
         "num-confident-rules": 5
       }
     ],
@@ -1283,7 +1961,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 2.4078903620000176,
+    "duration-s": 0.9761006550000957,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 236.0,
@@ -1302,7 +1980,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 7.318800001598902e-05,
+        "duration-s": 3.8790000076005526e-05,
         "num-confident-rules": 7
       }
     ],
@@ -1310,7 +1988,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 4.205748542999999,
+    "duration-s": 2.0818663530000094,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 177.0,
@@ -1329,7 +2007,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 6.602900000984846e-05,
+        "duration-s": 5.381199991916219e-05,
         "num-confident-rules": 10
       }
     ],
@@ -1337,7 +2015,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 7.360012240999993,
+    "duration-s": 3.6527178830000366,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 132.0,
@@ -1356,7 +2034,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00015900299999316303,
+        "duration-s": 0.00013099899990720587,
         "num-confident-rules": 27
       }
     ],
@@ -1364,7 +2042,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 15.094000625000007,
+    "duration-s": 7.357984239000075,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 99.0,
@@ -1385,7 +2063,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.000441985999998451,
+        "duration-s": 0.0003623580000748916,
         "num-confident-rules": 91
       }
     ],
@@ -1393,7 +2071,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 25.061055501,
+    "duration-s": 13.627267112000027,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 74.0,
@@ -1414,7 +2092,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0009900850000121864,
+        "duration-s": 0.0007379520000085904,
         "num-confident-rules": 198
       }
     ],
@@ -1422,7 +2100,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 36.925257233999986,
+    "duration-s": 25.690802531999907,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 55.0,
@@ -1443,7 +2121,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.0025985579999883157,
+        "duration-s": 0.001426142000013897,
         "num-confident-rules": 419
       }
     ],
@@ -1451,7 +2129,7 @@
     "window-width": 15
   },
   {
-    "duration-s": 64.86270259500003,
+    "duration-s": 43.55881458199997,
     "episode-class": "serial",
     "frequency-measure": "minimal-windows",
     "frequency-threshold": 41.0,
@@ -1472,18 +2150,47 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.002853442000002815,
+        "duration-s": 0.0028241779999689243,
         "num-confident-rules": 926
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 77.58901225500006,
+    "episode-class": "serial",
+    "frequency-measure": "minimal-windows",
+    "frequency-threshold": 30.0,
+    "num-candidates": 808444,
+    "num-candidates-of-size": [
+      8050,
+      793881,
+      6500,
+      13
+    ],
+    "num-frequent-episodes": 1786,
+    "num-frequent-episodes-of-size": [
+      891,
+      813,
+      74,
+      8
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.005559877999985474,
+        "num-confident-rules": 2083
       }
     ],
     "status": "timeout",
     "window-width": 15
   },
   {
-    "duration-s": 0.20122761799999012,
+    "duration-s": 0.1530091210000819,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 1000.0,
+    "frequency-threshold": 1334.8388671875,
     "num-candidates": 8051,
     "num-candidates-of-size": [
       8050,
@@ -1497,7 +2204,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.002999991645993e-06,
+        "duration-s": 1.3670000953425188e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1505,10 +2212,35 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.20758485400000382,
+    "duration-s": 0.12947021200000108,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 750.0,
+    "frequency-threshold": 1001.129150390625,
+    "num-candidates": 8051,
+    "num-candidates-of-size": [
+      8050,
+      1
+    ],
+    "num-frequent-episodes": 1,
+    "num-frequent-episodes-of-size": [
+      1,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 1.317999931416125e-06,
+        "num-confident-rules": 0
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 0.11072097600003872,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 750.8468627929688,
     "num-candidates": 8059,
     "num-candidates-of-size": [
       8050,
@@ -1522,7 +2254,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 2.322000000276603e-06,
+        "duration-s": 1.3330000001587905e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1530,10 +2262,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.30822762799999737,
+    "duration-s": 0.1579550000000154,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 562.5,
+    "frequency-threshold": 563.1351470947266,
     "num-candidates": 8246,
     "num-candidates-of-size": [
       8050,
@@ -1547,7 +2279,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.4770000070238893e-06,
+        "duration-s": 1.6899999764063978e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1555,10 +2287,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 0.6106432949999885,
+    "duration-s": 0.2915628079999806,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 421.875,
+    "frequency-threshold": 422.3513603210449,
     "num-candidates": 8726,
     "num-candidates-of-size": [
       8050,
@@ -1572,7 +2304,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 5.697999995391001e-06,
+        "duration-s": 1.919999931487837e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1580,10 +2312,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.0700222899999972,
+    "duration-s": 0.5724343460000227,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 316.40625,
+    "frequency-threshold": 316.7635202407837,
     "num-candidates": 9986,
     "num-candidates-of-size": [
       8050,
@@ -1597,7 +2329,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.446999983225396e-06,
+        "duration-s": 2.2360000002663583e-06,
         "num-confident-rules": 0
       }
     ],
@@ -1605,10 +2337,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 1.8762413910000078,
+    "duration-s": 1.0103244560000348,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 237.3046875,
+    "frequency-threshold": 237.57264018058777,
     "num-candidates": 12406,
     "num-candidates-of-size": [
       8050,
@@ -1622,7 +2354,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.080100000829589e-05,
+        "duration-s": 3.0121999998300453e-05,
         "num-confident-rules": 4
       }
     ],
@@ -1630,24 +2362,24 @@
     "window-width": 15
   },
   {
-    "duration-s": 3.6805926749999855,
+    "duration-s": 2.0794102549999707,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 177.978515625,
-    "num-candidates": 19714,
+    "frequency-threshold": 178.17948013544083,
+    "num-candidates": 19499,
     "num-candidates-of-size": [
       8050,
-      11664
+      11449
     ],
-    "num-frequent-episodes": 110,
+    "num-frequent-episodes": 109,
     "num-frequent-episodes-of-size": [
-      108,
+      107,
       2
     ],
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 3.6993000009033494e-05,
+        "duration-s": 2.6803999958247005e-05,
         "num-confident-rules": 4
       }
     ],
@@ -1655,10 +2387,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 7.497023715999973,
+    "duration-s": 3.5554797770000732,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 133.48388671875,
+    "frequency-threshold": 133.63461010158062,
     "num-candidates": 31766,
     "num-candidates-of-size": [
       8050,
@@ -1672,7 +2404,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 4.109799999696406e-05,
+        "duration-s": 3.424999999879219e-05,
         "num-confident-rules": 6
       }
     ],
@@ -1680,10 +2412,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 14.351246941999989,
+    "duration-s": 7.132462672999964,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 100.1129150390625,
+    "frequency-threshold": 100.22595757618546,
     "num-candidates": 60950,
     "num-candidates-of-size": [
       8050,
@@ -1697,7 +2429,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 4.929700000388948e-05,
+        "duration-s": 4.0456999954585626e-05,
         "num-confident-rules": 8
       }
     ],
@@ -1705,10 +2437,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 22.686896766000018,
+    "duration-s": 12.830810853999992,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 75.08468627929688,
+    "frequency-threshold": 75.1694681821391,
     "num-candidates": 113026,
     "num-candidates-of-size": [
       8050,
@@ -1722,7 +2454,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 5.0705000006701084e-05,
+        "duration-s": 4.1564999946785974e-05,
         "num-confident-rules": 8
       }
     ],
@@ -1730,10 +2462,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 35.4071634,
+    "duration-s": 24.124001002,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 56.313514709472656,
+    "frequency-threshold": 56.377101136604324,
     "num-candidates": 228012,
     "num-candidates-of-size": [
       8050,
@@ -1749,7 +2481,7 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 7.615500004476417e-05,
+        "duration-s": 7.067900003221439e-05,
         "num-confident-rules": 9
       }
     ],
@@ -1757,10 +2489,10 @@
     "window-width": 15
   },
   {
-    "duration-s": 62.564679694000006,
+    "duration-s": 40.04166740799985,
     "episode-class": "serial",
     "frequency-measure": "weighted-windows",
-    "frequency-threshold": 42.23513603210449,
+    "frequency-threshold": 42.28282585245324,
     "num-candidates": 392451,
     "num-candidates-of-size": [
       8050,
@@ -1776,8 +2508,35 @@
     "rules": [
       {
         "confidence-threshold": 0.0,
-        "duration-s": 0.00015066600002455743,
+        "duration-s": 7.608700002492697e-05,
         "num-confident-rules": 11
+      }
+    ],
+    "status": "success",
+    "window-width": 15
+  },
+  {
+    "duration-s": 67.45486294500006,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 31.712119389339932,
+    "num-candidates": 711974,
+    "num-candidates-of-size": [
+      8050,
+      703921,
+      3
+    ],
+    "num-frequent-episodes": 850,
+    "num-frequent-episodes-of-size": [
+      839,
+      11,
+      0
+    ],
+    "rules": [
+      {
+        "confidence-threshold": 0.0,
+        "duration-s": 0.000126959999988685,
+        "num-confident-rules": 20
       }
     ],
     "status": "timeout",
