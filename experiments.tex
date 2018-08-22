@@ -100,7 +100,12 @@ The textual datasets were preprocessed by lemmatizing using the Porter stemmer\f
 
 Table~\ref{table:datasets-numbers} shows some statistics about each dataset, where $ | \Sigma | $ is the size of the alphabet, $ | s | $ is the number of events, and $ T_e - T_s $ is the time range of the sequence. For dense sequences, $ T_e - T_s = | s | $. For sparse sequences, a window of $ \rho $ contains on average $ | s | \frac\rho{T_e - T_s} $ events.
 
-\begin{table}
+
+
+We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For trains \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
+
+
+\begin{table}[t]
 \centering
 
 \begin{tabulary}{\textwidth}{ L|RRRC }
@@ -109,17 +114,14 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \hline
 \emph{abstract} & $ 51\,346 $ & $ 67\,828 $ & $ 67\,828 $ & dense \\
 \emph{tolstoy} & $ 95\,623 $ & $ 124\,627 $ & $ 124\,627 $ & dense \\
-\emph{trains} & $ 7\,874 $ & $ 10\,115 $ & $ 26\,626\,667 $ & sparse \\
+\emph{trains} & $ 1\,280 $ & $ 10\,115 $ & $ 26\,626\,667 $ & sparse \\
 
 \end{tabulary}
 
 \caption{Some properties of the datasets $ (s, T_s, T_e) $.}
 \label{table:datasets-numbers}
 \end{table}
-
-We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, which is common for natural-language texts. In \emph{trains} there is a similar progression, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. Note that the graphs don't even show all event types, although for \emph{abstract} and \emph{trains} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
-
-\begin{figure}
+\begin{figure}[t]
 
 \begin{subfigure}[b]{0.48\textwidth}
 \centering
@@ -175,17 +177,17 @@ We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alph
     % ymode=log
 ]
 
-\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency-300.dat};
+\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency.tsv};
 
 \end{axis}
 
 \end{tikzpicture}
 
-\caption{The frequency of the 300 most frequent events in \emph{trains}.}
+\caption{The frequency of the event types in \emph{trains}.}
 \label{fig:frequency-plot-trains}
 \end{subfigure}
 
-\caption{The frequency of the most frequent event types in the datasets.}
+\caption{The frequency of event types in the datasets.}
 \label{fig:alphabet-frequencies}
 \end{figure}
 
@@ -386,7 +388,7 @@ The results for the sparse dataset \emph{trains} are a bit different (Figure~\re
 
 Curiously, the time consumption for the weighted-window frequency increases steadily, until around $ 10^3 $ episodes or so, when it plateaus, and eventually matches the disjoint-window frequency. For serial episodes, the weighted-window frequency shows a similar plateau.
 
-Figure~\ref{fig:candidates-trains-900} provides some insight: the number of candidates shows a very similar progression as the runtime. So the runtime seems to be closely related to the number of candidates.
+Figure~\ref{fig:investigate-trains-runtimes} provides some insight: the number of candidates shows a very similar progression as the runtime. So the runtime seems to be closely related to the number of candidates.
 
 If we plot the runtime as a function of the frequency threshold, we see that the runtime plateaus around a frequency threshold of 1. On the right hand plot, we see that for thresholds less than 1, the number of 1-episodes doesn't increase. That's because all possible 1-episodes (the entire alphabet) are now frequent. This means that the number of 2-candidates does not increase anymore. Further lowering the thresholds, more of those 2-episodes start becoming frequent at no extra cost. Only after a number of 2-episodes starts becoming frequent, does the runtime increase significantly again; when a significant amount of greater-than-2-episodes starts becoming frequent.
 
@@ -527,7 +529,7 @@ Note that significantly more episodes are found in the \emph{trains} dataset ---
 \caption{\emph{trains}}
 \label{fig:episode-frequencies-by-size-trains}
 \end{subfigure}
-\caption{Plots of the number of parallel episodes found in \emph{abstract} and \emph{trains} for the fixed-window frequency across different thresholds, episodes grouped by size. Episodes mined from dataset \emph{abstract} using the fixed-window frequency measure.}
+\caption{Number of parallel episodes found in \emph{abstract} and \emph{trains} for the fixed-window frequency across different thresholds, episodes grouped by size.}
 \label{fig:episode-frequencies-by-size}
 \end{figure}
 
@@ -590,7 +592,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \caption{rules consisting of serial episodes}
 \end{subfigure}
 
-\caption{Runtimes for finding association rules from episodes generated from \emph{tolstoy} as a function of the number of frequent episodes.}
+\caption{Runtimes for finding association rules using episodes generated from \emph{tolstoy} as a function of the number of frequent episodes.}
 \label{fig:runtimes-rules-tolstoy-15}
 \end{figure}
 
@@ -647,7 +649,7 @@ Plots for the other kinds of episodes and frequency measures showed similar resu
 \label{fig:runtimes-rules-trains-900-serial}
 \end{subfigure}
 
-\caption{Runtimes for finding association rules from episodes generated from \emph{trains} as a function of the number of frequent episodes.}
+\caption{Runtimes for finding association rules using episodes generated from \emph{trains} as a function of the number of frequent episodes.}
 \label{fig:runtimes-rules-trains-900}
 \end{figure}
 
@@ -655,7 +657,7 @@ Besides episodes, we would also like to have a sense of the runtimes for associa
 
 As we saw in Algorithm~\ref{alg:association-rules-top-level}, for each frequent episode $ \beta $, all $ \alpha \Rightarrow \beta $ with $ \alpha \subset \beta $ are considered. Assuming $ \beta $ has an injective $ lab $-function (an event type appears at most once), the number of subepisodes of an episode is exponential in the size of the episode; and so the same holds for the number of association rules to be considered.
 
-For a given set of episodes, the choice of the confidence threshold mostly depends on space requirements --- time less so. That is because the number of association rules that needs to be considered does not depend on the chosen threshold, and the time cost for choosing a low confidence threshold is in the fact that more episodes will need to be stored. The space cost, however, can increase dramatically. Experimentally, we found that it was feasible to store all association rules generated from the episodes found frequent for \emph{tolstoy}, but not those for \emph{trains}. So, for \emph{tolstoy} we ran with a confidence threshold of 0 --- further filtering could be applied in post-processing if desired --- and for \emph{trains} we chose a threshold of 0.9.
+For a given set of episodes, the choice of the confidence threshold mostly depends on space requirements --- time less so. That is because the number of association rules that needs to be considered does not depend on the chosen threshold, and the time cost for choosing a low confidence threshold is in the fact that more episodes will need to be stored. The space cost, however, can increase dramatically. Experimentally, we found that it was feasible to store all association rules generated from the episodes found frequent for \emph{tolstoy}, but not those for \emph{trains}. So, for \emph{tolstoy} we ran with a confidence threshold of 0 --- further filtering could be applied in post-processing if desired --- and for \emph{trains} a threshold of 0.9 turned out to be reasonable in terms of storage.
 
 Figure~\ref{fig:runtimes-rules-tolstoy-15} shows runtimes for generating association rules from \emph{tolstoy} using different episode classes, as a function of the number of frequent episodes. Despite the concerns we expressed in the previous paragraph, the runtime seems to be polynomial --- indicating that the number of frequent episodes remains the most important factor for these experiments.
 
@@ -800,7 +802,7 @@ We ran both implementations on the \emph{tolstoy} dataset with a window width of
 
 Table~\ref{table:closepi-comparison} shows the results. For one of the experiments, the closed episode miner ran out of memory (marked with a dash), when it used over 10~GB of memory after a couple of minutes. The other results are not a great look for our implementation. Even though we are at an advantage in the sense that we only mine one class of episodes at a time, the closed episode miner runs significantly faster.
 
-We think that there must be opportunities left for improving the performance of our implementation. We are not experts at optimizing code for speed, although we tried to do our best given our knowledge.
+We think that there must be opportunities left for improving the performance of our implementation. We are not experts at optimizing code for speed, although we tried to do our best.
 
 % the choice of data structures, implementing specialized data structures,
 

@@ -53,9 +53,6 @@ if 'rules' in df:
                 rules_only['num-confident-rules-{}'.format(threshold)].append(rules_run['num-confident-rules'])
 
     new_columns = pd.DataFrame(rules_only)
-    
-    print(new_columns)
-    print(df)
 
     df = pd.concat([df, new_columns], axis=1)
 
