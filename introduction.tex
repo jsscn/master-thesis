@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-In data mining, the goal is generally to extract useful information from datasets that are too large for a person to draw conclusions from by just looking at the data, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods.
+In data mining, the goal is generally to extract useful information from datasets that are too large for a person to draw conclusions from without studying the data extensively, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods.
 
 One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions --- each transaction consisting of a (relatively small) set of items --- is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur within transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is an item that a customer bought during a visit to the store.
 
@@ -19,7 +19,7 @@ Such sequences may represent different kinds of data. A few examples:
 \item Machine logs, where the goal of mining data could be to predict failures beforehand and perform maintenance as needed.
 \item Any kind of text: books, articles, tweets, transcripts, \ldots
 \item Logs of user behaviour: How does a person use a graphical user interface? What patterns do gamblers exhibit when playing video poker?
-\item Biosequences \cite{biosequences}
+\item Biosequences \cite{biosequences}.
 \end{itemize}
 
 Though the main goal of finding patterns remains equivalent, the mining techniques used for these kinds of data stray further from those in the transactional setting. In sequential pattern mining, the main bottleneck is the length of the sequence, rather than the number of transactions.

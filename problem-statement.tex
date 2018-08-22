@@ -665,7 +665,7 @@ In words, the weighted-window frequency is the sum of weights of a set of disjoi
 
 The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode --- which is to say, not very much for large $ \rho $.
 
-A disadvantage of the disjoint-window frequency is that it will disadvantage large episodes more so than the other frequency measures, because generally, larger episodes naturally require larger --- less-weighted --- windows.
+A drawback of the disjoint-window frequency, similarly to the fixed-window frequecy, is that it will disadvantage large episodes more so than the disjoint-window frequency, because generally, larger episodes naturally require larger --- less-weighted --- windows.
 
 
 
