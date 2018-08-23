@@ -1,0 +1,6 @@
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	num-frequent-7-episodes	num-frequent-8-episodes	num-frequent-9-episodes	num-frequent-10-episodes	percentage-frequent-of-candidates
+23.533466967000003	serial	minimal-windows	23	406187	741	success	3	632	95	14	0	0	0	0	0	0	0	0.001824282904179602
+24.339768374	serial	minimal-windows	23	406742	1010	success	6	632	250	80	34	12	2	0	0	0	0	0.0024831465646527775
+26.105412177999995	serial	minimal-windows	23	408188	1505	success	9	632	476	204	124	55	13	1	0	0	0	0.0036870265661900887
+28.17157552900001	serial	minimal-windows	23	410750	2678	success	12	632	690	416	385	309	172	61	12	1	0	0.006519780888618381
+28.706447562999998	serial	minimal-windows	23	415084	5228	success	15	632	912	766	896	911	657	325	106	21	2	0.012595041003748638

@@ -1,0 +1,6 @@
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	num-frequent-4-episodes	num-frequent-5-episodes	num-frequent-6-episodes	num-frequent-7-episodes	num-frequent-8-episodes	num-frequent-9-episodes	num-frequent-10-episodes	percentage-frequent-of-candidates
+2.573062197999999	parallel	minimal-windows	9	140945	594	success	180	528	66	0	0	0	0	0	0	0	0	0.004214409876192841
+2.733452198	parallel	minimal-windows	9	141708	1181	success	360	528	510	136	7	0	0	0	0	0	0	0.00833403900979479
+3.046087772	parallel	minimal-windows	9	145660	3552	success	540	528	1073	1336	541	73	1	0	0	0	0	0.02438555540299327
+4.484469287	parallel	minimal-windows	9	161456	15196	success	720	528	1672	4291	5013	2782	798	102	9	1	0	0.09411852145476167
+10.046035538999998	parallel	minimal-windows	9	224758	68143	success	900	528	2273	8705	18013	19885	12544	4842	1183	161	9	0.3031838688722982

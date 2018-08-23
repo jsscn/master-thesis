@@ -837,7 +837,7 @@ Collecting all transitions to be performed at a given timestamp before executing
 
 Like Algorithm~\ref{alg:rec-par-fwi}, this algorithm needs key-value storage in order to be able to look up information efficiently. More specifically for \emph{waits}. Again, lookup is important, traversal is not. Therefore, again, a hash-based data structure is the best choice.
 
-While at first sight, the \emph{begins\_at} data structure might seem best-suited for key-value storage as well, note that it only needs to contain information about the subsequent timestamps currently in the window $ [\text{start} - 1, \text{start} + \rho) $. So, the $ \rho + 1 $ sets can be accessed in constant-time complexity using a circular array\footnote{\url{https://en.wikipedia.org/wiki/Circular_buffer}}. Each time the sliding window is advanced, the oldest information is dropped to make room for new information. With a 1-indexed buffer, $ \text{begins\_at}(t) $ can be accessed with index $ (t - \text{start} + 2) $.
+While at first sight, the \emph{begins\_at} data structure might seem best-suited for key-value storage as well, note that it only needs to contain information about the subsequent timestamps currently in the window $ [\text{start} - 1, \text{start} + \rho) $. So, the $ \rho + 1 $ sets can be accessed in constant-time complexity using a circular array. Each time the sliding window is advanced, the oldest information is dropped to make room for new information. With a 1-indexed buffer, $ \text{begins\_at}(t) $ can be accessed with index $ (t - \text{start} + 2) $.
 
 
 \section{Determining the disjoint-window frequency}

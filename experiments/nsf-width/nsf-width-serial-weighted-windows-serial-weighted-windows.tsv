@@ -1,0 +1,6 @@
+duration-s	episode-class	frequency-measure	frequency-threshold	num-candidates	num-frequent-episodes	status	window-width	num-frequent-1-episodes	num-frequent-2-episodes	num-frequent-3-episodes	percentage-frequent-of-candidates
+43.045255339	serial	weighted-windows	14.5	867905	963	success	3	928	34	1	0.0011095684435508495
+44.529923367	serial	weighted-windows	14.5	867949	985	success	6	928	55	2	0.0011348593062495606
+49.230678017	serial	weighted-windows	14.5	867980	994	success	9	928	64	2	0.0011451876771354178
+50.04654907600002	serial	weighted-windows	14.5	868000	999	success	12	928	69	2	0.0011509216589861752
+52.04594304599999	serial	weighted-windows	14.5	868005	1001	success	15	928	71	2	0.0011532191634840813

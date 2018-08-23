@@ -1,7 +1,7 @@
 \chapter{Experiments}
 \label{sec:experiments}
 
-In this section, we perform experiments to answer the research question we posed in the introduction. Concisely put, we want to know whether we can find patterns in long sequences in a reasonable time, and whether there are interesting patterns to be found.
+In this chapter, we perform experiments to answer the research question we posed in the introduction. Concisely put, we want to know whether we can find patterns in long sequences in a reasonable time, and whether there are interesting patterns to be found.
 
 After choosing a number of datasets and showing some of their basic characteristics, we assess the performance of the implementation by running it on datasets of different kinds, and varying the parameter.
 
@@ -59,7 +59,7 @@ Table~\ref{table:datasets-numbers} shows some statistics about each dataset, whe
 
 
 
-We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail\footnote{\url{https://en.wikipedia.org/wiki/Long_tail}} for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
+We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
 
 
 \begin{table}[t]
@@ -163,6 +163,7 @@ For each configuration of episode class, frequency measure, and window width, th
 
 All performance experiments were run on the same machine; the full specifications of which can be found online\footnote{The specifications can be found at \url{https://support.apple.com/kb/sp623}. 2.7 GHz model; memory manually upgraded to 12~GB. Running macOS 10.13.5. All C++ code compiled with clang-900.0.39.2 from LLVM~9.0. All Java code run with Java~SE~1.8.}.
 
+% TODO maybe use window width 15 (re-run experiment with different multiplier probably)
 
 \subsection{Episodes}
 \label{sec:performance-episodes}
@@ -678,20 +679,160 @@ The database passes are an expensive --- if not the most expensive --- part of t
 
 \subsection{Window width}
 
-[TODO]
+The window width places an upper bound on the maximal distance between two events that are part of an occurrence of an episode. Consequently this also limits the number of candidate patterns. We know that the number of candidate episodes is exponential in the number of nodes. Luckily the window width usually doesn't need to be dramatically high, such that it doesn't become a real problem. Still, it can be good to know how the window width affects the runtimes.
 
+From our previous experiments generating episodes (Section~\ref{sec:performance-episodes}), for each combination of episode class and frequency measure, we decided on a threshold which finishes in a reasonable amount of time for the window width we chose for the respective datasets --- 15 for \emph{abstract} and 900 for \emph{trains}. Then we varied the window width --- 3, 6, 9, 12, 15 for \emph{abstract} and 180, 360, 540, 720, 900 for \emph{trains}. Because of this, the absolute values are of no importance; only the progression.
+
+The results for \emph{abstract} are shown in Figure~\ref{fig:abstract-window-width}. For parallel episodes, the fixed-window frequency seems to be affected the most. We saw that for lower thresholds, the fixed-window frequency produced large amounts of large episodes. The weighted-window frequency didn't seem to be affected much at all. This is likely due to the fact that it naturally produces fewer large episodes, given its preference for small minimal windows.
+
+Figure~\ref{fig:trains-window-width} shows the results for \emph{trains}. Interestingly, the runtimes for parallel episodes and fixed-window frequency remain quite stable until a window width of 720, after which it jumps upwards significantly. For some reason the number of frequent episodes grew over eight times as large. Perhaps the sparse nature of the \emph{trans} dataset gives rise to significantly more The weighted-window frequency is also noticeably less stable than with \emph{abstract}.
+
+While these results give an indication of the influence of the window width on the runtime, they are not conclusive, because since the experiments are time-consuming, they don't cover very large window widths, nor very low thresholds.
+
+For reference, Table~\ref{table:window-width-parameters} shows the frequency thresholds that were used.
+
+\begin{figure}
+\begin{subfigure}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=north west,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={window width},
+    ylabel={runtime (s)},
+    ymax=90,
+    % xmode=log,
+    % ymode=log,
+]
+
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-parallel-fixed-windows-parallel-fixed-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-parallel-minimal-windows-parallel-minimal-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-parallel-weighted-windows-parallel-weighted-windows.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{parallel episodes}
+\end{subfigure}\hfill%
+\begin{subfigure}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=south east,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={window width},
+    ylabel={runtime (s)},
+    % xmode=log,
+    % ymode=log,
+]
+
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-serial-fixed-windows-serial-fixed-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-serial-minimal-windows-serial-minimal-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/nsf-width/nsf-width-serial-weighted-windows-serial-weighted-windows.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{serial episodes}
+\end{subfigure}
+\caption{Runtimes for mining episodes from \emph{abstract}, varying the window width.}
+\label{fig:abstract-window-width}
+\end{figure}
+
+\begin{figure}
+\begin{subfigure}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=north west,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={window width},
+    ylabel={runtime (s)},
+    % xmode=log,
+    % ymode=log,
+]
+
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-parallel-fixed-windows-parallel-fixed-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-parallel-minimal-windows-parallel-minimal-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-parallel-weighted-windows-parallel-weighted-windows.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{parallel episodes}
+\end{subfigure}\hfill%
+\begin{subfigure}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    legend pos=north west,
+    legend entries={fixed windows,minimal windows,weighted windows},
+    xlabel={window width},
+    ylabel={runtime (s)},
+    % xmode=log,
+    % ymode=log,
+]
+
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-serial-fixed-windows-serial-fixed-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-serial-minimal-windows-serial-minimal-windows.tsv};
+\addplot table [x=window-width,y=duration-s] {experiments/trains-width/trains-width-serial-weighted-windows-serial-weighted-windows.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{serial episodes}
+\end{subfigure}
+\caption{Runtimes for mining episodes from \emph{trains}, varying the window width.}
+\label{fig:trains-window-width}
+\end{figure}
+
+\begin{table}
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabulary}{\textwidth}{L|L|R}
+episode class & frequency measure & frequency threshold \\
+\hline
+parallel & fixed-window frequency & 29 \\
+parallel & disjoint-window frequency & 23 \\
+parallel & weighted-window frequency & 4.11 \\
+serial & fixed-window frequency & 246 \\
+serial & disjoint-window frequency & 23 \\
+serial & weighted-window frequency & 14.5 \\
+\end{tabulary}
+\caption{\emph{abstract}}
+\end{subtable}
+
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabulary}{\textwidth}{L|L|R}
+episode class & frequency measure & frequency threshold \\
+\hline
+parallel & fixed-window frequency & 843 \\
+parallel & disjoint-window frequency & 9 \\
+parallel & weighted-window frequency & 0.0113 \\
+serial & fixed-window frequency & 632 \\
+serial & disjoint-window frequency & 3 \\
+serial & weighted-window frequency & 0.00358 \\
+\end{tabulary}
+\caption{\emph{trains}}
+\end{subtable}
+\caption{The frequency thresholds used for the results of Figure~\ref{fig:abstract-window-width} and Figure~\ref{fig:trains-window-width}}.
+\label{table:window-width-parameters}
+\end{table}
 
 \subsection{Sequence length}
 
 In sequential pattern mining, sequences are expected to be very long. Therefore we would like to know how the length of the sequence affects the performance. We measured the runtime for mining episodes from different-sized prefixes of the \emph{tolstoy} dataset for all episode classes and frequency measures, using a window width of 15. The results for parallel episodes can be seen in Figure~\ref{fig:tolstoy-runtime-vs-length}. The results for serial episodes were similar.
 
-% TODO put frequency thresholds in here
-
 An important note for the interpretation of these plots: all the runs for a given measure used equal frequency thresholds, but the thresholds for each of the measures were chosen independently. They were chosen such that the runtime of each experiment was at most 30 seconds; that's why the data points meet up at the full sequence. So only the progressions are important here.
 
 The general progression is fairly similar for all of the measures, although the minimal-windows-based measures rise quicker than the fixed-window frequency. While unfortunately the complexity is worse than linear (Figure~\ref{fig:tolstoy-runtime-vs-length-linear-scale}), judging by the mostly straight lines in the log--log plot (Figure~\ref{fig:tolstoy-runtime-vs-length-log-scale}) it does seem to be polynomial.
 
-
+For reference, Table~\ref{table:tolstoy-runtime-vs-length-thresholds} shows the frequency thresholds that were used.
 
 \begin{figure}
 
@@ -750,6 +891,22 @@ The general progression is fairly similar for all of the measures, although the 
 \label{fig:tolstoy-runtime-vs-length}
 \end{figure}
 
+\begin{table}
+\centering
+\begin{tabulary}{\textwidth}{L|L|R}
+episode class & frequency measure & frequency threshold \\
+\hline
+parallel & fixed-window frequency & 74 \\
+parallel & disjoint-window frequency & 55 \\
+parallel & weighted-window frequency & 56.3 \\
+serial & fixed-window frequency & 1000 \\
+serial & disjoint-window frequency & 74 \\
+serial & weighted-window frequency & 75.1 \\
+\end{tabulary}
+\caption{The frequency thresholds used for the results of Figure~\ref{fig:tolstoy-runtime-vs-length}}
+\label{table:tolstoy-runtime-vs-length-thresholds}
+\end{table}
+
 
 \subsection{Performance comparison closed episode miner}
 
@@ -760,6 +917,10 @@ We ran both implementations on the \emph{tolstoy} dataset with a window width of
 Table~\ref{table:closepi-comparison} shows the results. For one of the experiments, the closed episode miner ran out of memory (marked with a dash), when it used over 10~GB of memory after a couple of minutes. The other results are not a great look for our implementation. Even though we are at an advantage in the sense that we only mine one class of episodes at a time, the closed episode miner runs significantly faster.
 
 We think that there must be opportunities left for improving the performance of our implementation. Although we tried to do our best, we are not experts at optimizing code for speed. Often our algorithm had to deal with millions of candidates, and combined with the long sequences, optimization was not an easy task.
+
+Doesn't mean that our implementation is unusably slow.
+
+% TODO ^ finish this ^
 
 % the choice of data structures, implementing specialized data structures,
 
@@ -1119,7 +1280,7 @@ While \textsc{Qcsp} found few greater-than-2-episodes, in our opinion the 2-epis
 \label{table:quantile-cohesion-selection}
 \end{table}
 
-As we stated in the beginning of this section, all of the frequency-based measures we discusses had some notion of cohesion. And the cohesion-based measures had some notion of frequency as well. So it seems that, whichever interestingness criterion a measure chooses to emphasize, a bit of both is useful.
+At the beginning of this section, we saw that all of the frequency-based measures we discussed had some notion of cohesion. And the cohesion-based measures had some notion of frequency as well. So it seems that, whichever interestingness criterion a measure emphasizes, a bit of both is useful.
 
 In conclusion, we can say that the cohesion-based frequency measures certainly have their merit. Using the algorithms we were able to find some interesting patterns that weren't ranked anywhere near the top of the frequency-based rankings.
 

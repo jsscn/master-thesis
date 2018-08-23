@@ -1,0 +1,107 @@
+[
+  {
+    "duration-s": 43.045255339,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 14.5,
+    "num-candidates": 867905,
+    "num-candidates-of-size": [
+      6718,
+      861184,
+      3
+    ],
+    "num-frequent-episodes": 963,
+    "num-frequent-episodes-of-size": [
+      928,
+      34,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 3
+  },
+  {
+    "duration-s": 44.529923367,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 14.5,
+    "num-candidates": 867949,
+    "num-candidates-of-size": [
+      6718,
+      861184,
+      47
+    ],
+    "num-frequent-episodes": 985,
+    "num-frequent-episodes-of-size": [
+      928,
+      55,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 6
+  },
+  {
+    "duration-s": 49.230678017,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 14.5,
+    "num-candidates": 867980,
+    "num-candidates-of-size": [
+      6718,
+      861184,
+      78
+    ],
+    "num-frequent-episodes": 994,
+    "num-frequent-episodes-of-size": [
+      928,
+      64,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 9
+  },
+  {
+    "duration-s": 50.04654907600002,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 14.5,
+    "num-candidates": 868000,
+    "num-candidates-of-size": [
+      6718,
+      861184,
+      98
+    ],
+    "num-frequent-episodes": 999,
+    "num-frequent-episodes-of-size": [
+      928,
+      69,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 12
+  },
+  {
+    "duration-s": 52.04594304599999,
+    "episode-class": "serial",
+    "frequency-measure": "weighted-windows",
+    "frequency-threshold": 14.5,
+    "num-candidates": 868005,
+    "num-candidates-of-size": [
+      6718,
+      861184,
+      103
+    ],
+    "num-frequent-episodes": 1001,
+    "num-frequent-episodes-of-size": [
+      928,
+      71,
+      2
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  }
+]

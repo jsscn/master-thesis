@@ -6,10 +6,12 @@ import sys
 import os
 import itertools
 from collections import defaultdict
+from functools import reduce
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('file_path')
+parser.add_argument('--no-split-windows', action='store_true')
 
 args = parser.parse_args()
 
@@ -64,12 +66,18 @@ df['percentage-frequent-of-candidates'] = df.apply(lambda frame: frame['num-freq
 
 (name, ext) = os.path.splitext(args.file_path)
 
-for (episode_class, frequency_measure, window_width) in \
-        itertools.product(df['episode-class'].unique(), df['frequency-measure'].unique(), df['window-width'].unique()):
+parameter_types = \
+    ['episode-class', 'frequency-measure'] if args.no_split_windows else \
+    ['episode-class', 'frequency-measure', 'window-width']
 
-    subdf = df[(df['episode-class'] == episode_class) & (df['frequency-measure'] == frequency_measure) & (df['window-width'] == window_width)]
 
-    subdf.to_csv('{}-{}-{}-{}.tsv'.format(name, episode_class, frequency_measure, window_width), index=False, sep='\t')
+for parameters in \
+        itertools.product(*(df[ptype].unique() for ptype in parameter_types)):
+
+    subdf = reduce(lambda df, p: df[df[p[0]] == p[1]], zip(parameter_types, parameters), df)
+    # subdf = df[(df['episode-class'] == episode_class) & (df['frequency-measure'] == frequency_measure) & (df['window-width'] == window_width)]
+
+    subdf.to_csv('{}-{}.tsv'.format(name, '-'.join(str(p) for p in parameters)), index=False, sep='\t')
 
 # df.to_csv('out.dat', index=False, sep='\t')
 

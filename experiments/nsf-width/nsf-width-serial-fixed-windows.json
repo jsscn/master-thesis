@@ -1,0 +1,117 @@
+[
+  {
+    "duration-s": 1.590624811,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 246.0,
+    "num-candidates": 28034,
+    "num-candidates-of-size": [
+      6718,
+      21316
+    ],
+    "num-frequent-episodes": 147,
+    "num-frequent-episodes-of-size": [
+      146,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 3
+  },
+  {
+    "duration-s": 7.317083193,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 246.0,
+    "num-candidates": 132755,
+    "num-candidates-of-size": [
+      6718,
+      126025,
+      12
+    ],
+    "num-frequent-episodes": 372,
+    "num-frequent-episodes-of-size": [
+      355,
+      16,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 6
+  },
+  {
+    "duration-s": 13.973500001999998,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 246.0,
+    "num-candidates": 288801,
+    "num-candidates-of-size": [
+      6718,
+      281961,
+      121,
+      1
+    ],
+    "num-frequent-episodes": 618,
+    "num-frequent-episodes-of-size": [
+      531,
+      81,
+      5,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 9
+  },
+  {
+    "duration-s": 19.904594188999997,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 246.0,
+    "num-candidates": 444372,
+    "num-candidates-of-size": [
+      6718,
+      436921,
+      724,
+      8,
+      1
+    ],
+    "num-frequent-episodes": 967,
+    "num-frequent-episodes-of-size": [
+      661,
+      266,
+      33,
+      6,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 12
+  },
+  {
+    "duration-s": 25.23818217200001,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 246.0,
+    "num-candidates": 654086,
+    "num-candidates-of-size": [
+      6718,
+      644809,
+      2493,
+      54,
+      11,
+      1
+    ],
+    "num-frequent-episodes": 1582,
+    "num-frequent-episodes-of-size": [
+      803,
+      576,
+      148,
+      43,
+      11,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 15
+  }
+]

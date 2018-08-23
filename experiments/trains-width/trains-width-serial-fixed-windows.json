@@ -1,0 +1,141 @@
+[
+  {
+    "duration-s": 11.827055509000001,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 632.0,
+    "num-candidates": 829384,
+    "num-candidates-of-size": [
+      1280,
+      828100,
+      4
+    ],
+    "num-frequent-episodes": 958,
+    "num-frequent-episodes-of-size": [
+      910,
+      48,
+      0
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 180
+  },
+  {
+    "duration-s": 17.136275659,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 632.0,
+    "num-candidates": 1233976,
+    "num-candidates-of-size": [
+      1280,
+      1225449,
+      7238,
+      9
+    ],
+    "num-frequent-episodes": 3521,
+    "num-frequent-episodes-of-size": [
+      1107,
+      2219,
+      194,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 360
+  },
+  {
+    "duration-s": 19.341810955,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 632.0,
+    "num-candidates": 1275777,
+    "num-candidates-of-size": [
+      1280,
+      1225449,
+      45078,
+      3914,
+      55,
+      1
+    ],
+    "num-frequent-episodes": 13954,
+    "num-frequent-episodes-of-size": [
+      1107,
+      6044,
+      5859,
+      895,
+      48,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 540
+  },
+  {
+    "duration-s": 26.656959908,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 632.0,
+    "num-candidates": 1812542,
+    "num-candidates-of-size": [
+      1280,
+      1638400,
+      112696,
+      54675,
+      4978,
+      463,
+      47,
+      3
+    ],
+    "num-frequent-episodes": 58162,
+    "num-frequent-episodes-of-size": [
+      1280,
+      11104,
+      25149,
+      16491,
+      3630,
+      458,
+      47,
+      3
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 720
+  },
+  {
+    "duration-s": 36.605969521,
+    "episode-class": "serial",
+    "frequency-measure": "fixed-windows",
+    "frequency-threshold": 632.0,
+    "num-candidates": 2258822,
+    "num-candidates-of-size": [
+      1280,
+      1638400,
+      220940,
+      259105,
+      100929,
+      28510,
+      7720,
+      1654,
+      258,
+      25,
+      1
+    ],
+    "num-frequent-episodes": 310661,
+    "num-frequent-episodes-of-size": [
+      1280,
+      17219,
+      68372,
+      112317,
+      73845,
+      27970,
+      7720,
+      1654,
+      258,
+      25,
+      1
+    ],
+    "rules": [],
+    "status": "success",
+    "window-width": 900
+  }
+]
