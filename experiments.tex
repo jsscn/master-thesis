@@ -55,12 +55,11 @@ We will conduct experiments using a number of datasets:
 
 The textual datasets were preprocessed by lemmatizing using the Porter stemmer\footnote{\url{https://tartarus.org/martin/PorterStemmer}} and stop words were removed.
 
-Table~\ref{table:datasets-numbers} shows some statistics about each dataset, where $ | \Sigma | $ is the size of the alphabet, $ | s | $ is the number of events, and $ T_e - T_s $ is the time range of the sequence. For dense sequences, $ T_e - T_s = | s | $. For sparse sequences, a window of $ \rho $ contains on average $ | s | \frac\rho{T_e - T_s} $ events.
+Table~\ref{table:datasets-numbers} shows some statistics about each dataset, where $ | \Sigma | $ is the size of the alphabet, $ | s | $ is the number of events, and $ T_e - T_s $ is the time range of the sequence. For dense sequences, $ T_e - T_s = | s | $. For sparse sequences, a window of $ \rho $ contains on average $ | s | \frac\rho{T_e - T_s} $ events. For instance, a window of 900 in \emph{trains} (15 minutes) contains approximately 3.42 events on average. Also, its timespan of over 2.66~million seconds converts to over 730~hours.
 
+We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10~times.
 
-
-We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10 times.
-
+Figure~\ref{fig:trains-cumulative} shows the cumulative distribution of event types in the \emph{trains} dataset. We see that some periods of time are more noticeably more active than others, so some windows will contain more information than others. With some imagination, in Figure~\ref{fig:trains-cumulative-part} one might be able to discern rush hour from quieter periods, and day from night --- perhaps even weekdays from the weekend.
 
 \begin{table}[t]
 \centering
@@ -71,7 +70,7 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \hline
 \emph{abstract} & $ 51\,346 $ & $ 67\,828 $ & $ 67\,828 $ & dense \\
 \emph{tolstoy} & $ 95\,623 $ & $ 124\,627 $ & $ 124\,627 $ & dense \\
-\emph{trains} & $ 1\,280 $ & $ 10\,115 $ & $ 26\,626\,667 $ & sparse \\
+\emph{trains} & $ 1\,280 $ & $ 10\,115 $ & $ 2\,662\,667 $ & sparse \\
 
 \end{tabulary}
 
@@ -88,6 +87,8 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \begin{axis}[
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
+    xmin=-10,
+    ymin=-50,
     % ymode=log
 ]
 
@@ -108,6 +109,8 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \begin{axis}[
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
+    xmin=-100,
+    ymin=-50,
     % ymode=log
 ]
 
@@ -131,6 +134,8 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 \begin{axis}[
     xlabel={event types ordered by frequency},
     ylabel={number of occurrences},
+    xmin=-50,
+    ymin=-1,
     % ymode=log
 ]
 
@@ -146,6 +151,49 @@ dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \
 
 \caption{The frequency of event types in the datasets.}
 \label{fig:alphabet-frequencies}
+\end{figure}
+
+\begin{figure}
+\begin{subfigure}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    xlabel={timestamp},
+    ylabel={cumulative events},
+    % xmin=-10,
+    % ymin=-50,
+    % ymode=log
+]
+
+\addplot table [x=time,y=count,mark=none] {experiments/trains-cumulative.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{The whole sequence.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\begin{tikzpicture}[scale=0.65]
+
+\begin{axis}[
+    xlabel={timestamp},
+    ylabel={cumulative events},
+    % xmin=-10,
+    % ymin=-50,
+    % ymode=log
+]
+
+\addplot table [x=time,y=count,mark=none] {experiments/trains-cumulative-part.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{A period of one week.}
+\label{fig:trains-cumulative-part}
+\end{subfigure}
+\caption{The cumulative distribution of events in the sparse event sequence \emph{trains}.}
+\label{fig:trains-cumulative}
 \end{figure}
 
 
@@ -685,7 +733,7 @@ From our previous experiments generating episodes (Section~\ref{sec:performance-
 
 The results for \emph{abstract} are shown in Figure~\ref{fig:abstract-window-width}. For parallel episodes, the fixed-window frequency seems to be affected the most. We saw that for lower thresholds, the fixed-window frequency produced large amounts of large episodes. The weighted-window frequency didn't seem to be affected much at all. This is likely due to the fact that it naturally produces fewer large episodes, given its preference for small minimal windows.
 
-Figure~\ref{fig:trains-window-width} shows the results for \emph{trains}. Interestingly, the runtimes for parallel episodes and fixed-window frequency remain quite stable until a window width of 720, after which it jumps upwards significantly. For some reason the number of frequent episodes grew over eight times as large. Perhaps the sparse nature of the \emph{trans} dataset gives rise to significantly more The weighted-window frequency is also noticeably less stable than with \emph{abstract}.
+Figure~\ref{fig:trains-window-width} shows the results for \emph{trains}. Interestingly, the runtimes for parallel episodes and fixed-window frequency remain quite stable until a window width of 720, after which it jumps upwards significantly. For some reason the number of frequent episodes grew over eight times as large. In the same interval, the runtimes for the disjoint-window frequency increased quite a bit, whereas it progressed more stable in the other graphs. Perhaps the sparse nature of the \emph{trans} dataset gives rise to significantly more The weighted-window frequency is also noticeably less stable than with \emph{abstract}.
 
 While these results give an indication of the influence of the window width on the runtime, they are not conclusive, because since the experiments are time-consuming, they don't cover very large window widths, nor very low thresholds.
 
@@ -702,6 +750,7 @@ For reference, Table~\ref{table:window-width-parameters} shows the frequency thr
     xlabel={window width},
     ylabel={runtime (s)},
     ymax=90,
+    ymin=0,
     % xmode=log,
     % ymode=log,
 ]
@@ -724,6 +773,7 @@ For reference, Table~\ref{table:window-width-parameters} shows the frequency thr
     legend entries={fixed windows,minimal windows,weighted windows},
     xlabel={window width},
     ylabel={runtime (s)},
+    ymin=0,
     % xmode=log,
     % ymode=log,
 ]
@@ -751,6 +801,7 @@ For reference, Table~\ref{table:window-width-parameters} shows the frequency thr
     legend entries={fixed windows,minimal windows,weighted windows},
     xlabel={window width},
     ylabel={runtime (s)},
+    ymin=0,
     % xmode=log,
     % ymode=log,
 ]
@@ -773,6 +824,7 @@ For reference, Table~\ref{table:window-width-parameters} shows the frequency thr
     legend entries={fixed windows,minimal windows,weighted windows},
     xlabel={window width},
     ylabel={runtime (s)},
+    ymin=0,
     % xmode=log,
     % ymode=log,
 ]
@@ -846,6 +898,7 @@ For reference, Table~\ref{table:tolstoy-runtime-vs-length-thresholds} shows the 
     legend entries={fixed windows,minimal windows,weighted windows},
     xlabel={portion of the whole sequence},
     ylabel={runtime (s)},
+    ymin=0,
     % ymode=log,
 ]
 
@@ -958,6 +1011,14 @@ For the qualitative analysis of the output of our algorithm, we compare the top-
 \subsection{Analysis of episodes mined from \emph{tolstoy} dataset}
 \label{sec:experiments-quality-episodes}
 
+As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (Table~\ref{table:fmw-tolstoy-top-15-parallel-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
+
+\begin{itemize}
+\item We learn of many characters' names, as obviously those are mentioned often, but since we see mostly 1-episodes we can't connect many characters' first name and surname.
+\item Looking at the column for the disjoint-window frequency, we see that two names are frequently mentioned together: $ \{ \text{alexei}, \text{alexandrovitch} \} $. From this information it is likely that a character named \emph{Alexei Alexandrovitch} appears often in the book. (This is indeed the case.) Moreover, we see that $ \{ \text{alexei}, \text{alexandrovitch} \} $ is just as frequent as subepisode $ \{ \text{alexandrovitch} \} $. So wherever the last name \emph{Alexandrovitch} is mentioned, the first name \emph{Alexei} is mentioned nearby (within at most 15 words).
+\item Common words like \emph{thought}, \emph{smile}, \emph{face}, \emph{love}, \emph{eye} (stemmed to \emph{ey}), \emph{feel} can give some indication of genre. At least it seems clear that the sequence does not represent a research paper in computer science.
+\end{itemize}
+
 \begin{table}\mytablesize
 \begin{tabulary}{\textwidth}{R|L|L|L}%
 \# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
@@ -982,12 +1043,13 @@ For the qualitative analysis of the output of our algorithm, we compare the top-
 \label{table:fmw-tolstoy-top-15-parallel-episodes}
 \end{table}
 
-As we would expect, if we rank the output by frequency, the top contains mostly just episodes of size 1 (Table~\ref{table:fmw-tolstoy-top-15-parallel-episodes}). It does give us some information about the text, though not much more than when we simply count the occurrences of all words.
+From studying Table~\ref{table:fmw-tolstoy-top-15-parallel-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. We should at least filter out the 1-episodes, as those don't give any more information than counting the support of each word that appears in the text. Table~\ref{table:fmw-tolstoy-top-15-parallel->1-episodes} and Table~\ref{table:fmw-tolstoy-top-15-serial->1-episodes} show the rankings of greater-than-1-episodes, for parallel and serial episodes respectively.
 
+After filtering out 1-episodes we learn some more things:
 \begin{itemize}
-\item We learn of many characters' names, as obviously those are mentioned often, but since we see mostly 1-episodes we can't connect many characters' first name and surname.
-\item Looking at the column for the disjoint-window frequency, we see that two names are frequently mentioned together: $ \{ \text{alexei}, \text{alexandrovitch} \} $. From this information it is likely that a character named \emph{Alexei Alexandrovitch} appears often in the book. (This is indeed the case.) Moreover, we see that $ \{ \text{alexei}, \text{alexandrovitch} \} $ is just as frequent as subepisode $ \{ \text{alexandrovitch} \} $. So wherever the last name \emph{Alexandrovitch} is mentioned, the first name \emph{Alexei} is mentioned nearby (within at most 15 words).
-\item Common words like \emph{thought}, \emph{smile}, \emph{face}, \emph{love}, \emph{eye} (stemmed to \emph{ey}), \emph{feel} can give some indication of genre. At least it seems clear that the sequence does not represent a research paper in computer science.
+\item We find full names --- Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna --- all are characters' full names. With serial episodes, we find their order as well --- \emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
+\item We also find the most important couples, since naturally their names are often mentioned close to each other --- Kitty and Levin, Anna and Vronski.
+\item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $ at positions 10 and 7, respectively. The fixed-window confidence ranked $ \{ \text{draw}, \text{room} \} $ at position 30, and the disjoint-window frequency ranked it at position 90. The weighted-window frequency ranks it highly because of the noun \emph{drawing room}. Those two words often follow each other directly, making for many minimal windows of great weight.
 \end{itemize}
 
 \begin{table}\mytablesize
@@ -1037,15 +1099,6 @@ As we would expect, if we rank the output by frequency, the top contains mostly 
 \caption{The top 15 serial episodes found by our algorithm, excluding 1-episodes, with $ \rho = 15 $, and for the three frequency measures.}
 \label{table:fmw-tolstoy-top-15-serial->1-episodes}
 \end{table}
-
-From studying Table~\ref{table:fmw-tolstoy-top-15-parallel-episodes} it is clear that simply ranking episodes by frequency is not a good strategy for getting the most out of our algorithm. We should at least filter out the 1-episodes, as those don't give any more information than counting the support of each word that appears in the text. Table~\ref{table:fmw-tolstoy-top-15-parallel->1-episodes} and Table~\ref{table:fmw-tolstoy-top-15-serial->1-episodes} show the rankings of greater-than-1-episodes, for parallel and serial episodes respectively.
-
-After filtering out 1-episodes we learn some more things:
-\begin{itemize}
-\item We find full names --- Alexei Alexandrovitch, Stepan Arkadyevitch, Sergei Ivanovitch, Lidia Ivanovna, Darya Alexandrovna, Agafea Mihalovna --- all are characters' full names. With serial episodes, we find their order as well --- \emph{alexei} usually precedes \emph{alexandrovitch} closely, so $ \text{alexei} \to \text{alexandrovitch} $ is rated more highly than $ \text{alexandrovitch} \to \text{alexei} $.
-\item We also find the most important couples, since naturally their names are often mentioned close to each other --- Kitty and Levin, Anna and Vronski.
-\item The weighted-window frequency finds $ \{ \text{draw}, \text{room} \} $ and $ \text{draw} \to \text{room} $ at positions 10 and 7, respectively. The fixed-window confidence ranked $ \{ \text{draw}, \text{room} \} $ at position 30, and the disjoint-window frequency ranked it at position 90. The weighted-window frequency ranks it highly because of the noun \emph{drawing room}. Those two words often follow each other directly, making for many minimal windows of great weight.
-\end{itemize}
 
 % TODO elaborate on anti-monotonic frequency measures disadvantageing larger episodes, etc
 As we have seen, just showing a limited number of top-ranked results does not suffice to find the most interesting patterns. This is a problem inherent to anti-monotonic frequency measures --- they put larger episodes at a disadvantage, since an episode is never more frequent than any of its subepisodes. $ (l + 1) $-episodes generally score lower than $ l $-episodes, and as a consequence, larger episodes tend to be ranked lower than smaller ones.
