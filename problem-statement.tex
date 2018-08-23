@@ -430,9 +430,9 @@ For a visual example of the fixed-window frequency of an episode, see Figure~\re
 
 In event sequence mining, it is desirable for a frequency measure to give more weight to an occurrence that spans a shorter time range. The farther apart the events composing an occurrence, the more likely it is that the occurrence is accidental. Figure~\ref{fig:fwi-example} shows that the events for the serial episode are close together, such that a larger number of windows cover it, giving it a higher score than the parallel episode, where the events giving rise to the occurrence are more spread out, such that fewer windows cover the episode. So, the fixed-window frequency does have this appealing trait.
 
-Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width --- even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in one window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. This makes for frequency values that aren't easily interpretable.
+Upon closer inspection, the frequency values themselves are often counterintuitive, as they don't reflect very well how many occurrences there really are. For instance, the fixed-window frequency is highly dependent on the chosen window width --- even the contribtion of a single occurrence towards the whole frequency. If an episode has $ n $ occurrences sufficiently far apart (such that no two occurrences appear in one window) increasing $ \rho $ by 1 causes the fixed-window frequency to increase by $ n $, while the total number of windows covering the sequence increases by only 1. This amplifies the frequency of already-frequent episodes, compared to less frequent ones. And it makes for frequency values that aren't easily interpretable.
 
-Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of Figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ is equal in \ref{fig:many-events} and \ref{fig:few-events}, even though one would naturally say that the episode occurs at least twice as often in Figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
+Another consideration is that a lot of information about the contents of the windows is lost. Take the toy example of Figure~\ref{fig:many-vs-few-events}. With a window size of 9 or more, the fixed-window frequency of $ \{ a, b \} $ in Figure~\ref{fig:many-events} and Figure~\ref{fig:few-events} is equal, even though one would naturally say that the episode occurs at least twice as often in Figure~\ref{fig:many-events}. Therefore $ \rho $ should be carefully chosen.
 
 \begin{figure}
 \centering
@@ -643,6 +643,7 @@ The disjoint-window frequency does have a disadvantage compared to the fixed-win
 \end{figure}
 
 \subsection{Weighted-window frequency}
+\label{sec:weighted-window-frequency}
 
 In the preceding sections we studied some of the characteristics of the fixed-window frequency and the disjoint-window frequency. We liked that the fixed-window frequency rates closely-packed occurrences higher than ones which are spread out a lot; but we also liked the way the disjoint-window frequency considers specific occurrences more attentively. The weighted-window frequency is based on minimal windows, but considers the value of a minimal window to be inversely proportional to its width.
 
