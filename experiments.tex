@@ -1227,7 +1227,7 @@ where $ \overline{W}(\alpha) $ is the average width of the minimal windows of $ 
 
 This definition makes an effort not to disadvantage larger patterns --- as anti-monotonic frequency measures inherently do for computational reasons --- by defining the cohesiveness of an episode to be proportional to the size of the episode. The paper describes a method for mining episodes according to this non-monotonic measure, using other techniques of pruning the search space, which are beyond the scope of this thesis.
 
-Also, to prevent including patterns that are too infrequent to bear any kind of significance, \cite{cule2016efficient} places a frequency constraint as well: the event types that make up a cohesive episode should occur often enough by themselves, given some support threshold. Event types that don't have enough support won't appear in any pattern.
+Also, to prevent including patterns that are too infrequent to bear any kind of significance, \cite{cule2016efficient} places a frequency constraint as well: the event types that make up a cohesive episode should occur often enough by themselves, given some support threshold. Event types that don't have enough support won't appear in any pattern, but there are no frequency requirements for episodes as a whole.
 
 The mining algorithm from~\cite{cule2016efficient}, called FCI\textsubscript{SEQ}, mines parallel episodes with an injective $ lab $-function, meaning that each event type appears at most once. The algorithm takes the following parameters:
 \begin{itemize}
@@ -1288,29 +1288,37 @@ These are all quite infrequent. For the disjoint-window frequency, $ \{ \text{ch
 
 For the weighted-window frequency, $ \{ \text{nativ}, \text{tribe} \} $ appears at position $ 3658 $.
 
-Interestingly, there are no 3-episodes in the top 15, despite the efforts not to disadvantage larger episodes. However, the first 3-episode appears at position 17, and the first 4-episode at position 21. Further down the rankings, many episodes are composed of mostly the same few event types, such as \emph{eye}, \emph{face}, \emph{smile}, \emph{time}, \emph{hand}, \emph{thought}.
+Interestingly, there are no 3-episodes in the top 15, despite the efforts not to disadvantage larger episodes. However, the first 3-episode appears at position 17, and the first 4-episode at position 21. Further down the rankings, many larger episodes start to appear.
 
-The mean-based cohesion starts decreasing very quickly. $ \{ \text{nativ}, \text{tribe} \} $ has a mean-based cohesion of 0.523. The phrase \emph{Native Tribes} occurs 14 times in the book, and the word \emph{tribe} occurs only once on its own. If that occurrence wasn't there, the cohesion of $ \{ \text{nativ}, \text{tribe} \} $ would equal 1. So the mean-based cohesion punishes any unrelated occurrences quite harshly; likely because of the instability to outliers that the mean suffers. Intuitively, given that one lone occurrence, we would still consider the episode to be quite cohesive. While $ \{ \text{nativ}, \text{tribe} \} $ is ranked lower for the quantile-based cohesion, its cohesion value is closer to what we would intuitively expect. We see that cohesion values decrease far less quickly.
+The mean-based cohesion values start to decrease very quickly. The phrase \emph{Native Tribes} occurs 14 times in the book, and the word \emph{tribe} occurs on its own only once. Intuitively, given that one lone occurrence, we would still consider the episode to be quite cohesive --- if that occurrence wasn't there, the cohesion of $ \{ \text{nativ}, \text{tribe} \} $ would equal 1. Yet, $ \{ \text{nativ}, \text{tribe} \} $ has a mean-based cohesion of 0.523. It seems like the mean-based cohesion punishes any unrelated occurrences quite harshly; likely because of the instability to outliers that the mean suffers, as we mentioned earlier. For the quantile-based cohesion, episode $ \{ \text{nativ}, \text{tribe} \} $ is valued 0.966, which is closer to what we would intuitively expect.
 
-Many of these are patterns that we wouldn't have found at the top of the output of any frequency-based measures, for they are quite infrequent. Nevertheless, they are valid patterns, since we can recognize nouns and phrases.
+One more thing we noticed for the mean-based cohesion, is that beyond the 30 or so most cohesive episodes, we see the same words appearing over and over again, all with similarly low cohesion values; among others: \emph{time} (present in 56\% of episodes), \emph{hand} (49\%), \emph{eye} (46\%), \emph{feel} (39\%). To illustrate our point, Table~\ref{table:mean-cohesion-selection} shows ten consecutive episodes, which are quite representative of the following 100 episodes.
 
-While QCSP found few greater-than-2-episodes, in our opinion the 2-episodes it did find were more interesting overall. In Table~\ref{table:quantile-cohesion-selection} we give a selection of patterns from the top 150. For the mean-based cohesion we chose ten consecutive patterns which are quite representative of the top 150 beyond the first 30 patterns. The quantile-based cohesion contained much more varied results the top 150. So, at least for this dataset, we think the quantile-based cohesion measure is the better option.
+% Many of these are patterns that we wouldn't have found at the top of the output of any frequency-based measures, for they are quite infrequent. Nevertheless, they are valid patterns, since we can recognize nouns and phrases.
+
+% TODO ^ place this somewhere else?
+
+For the mean-based cohesion we chose ten consecutive patterns which are quite representative of the top 150 beyond the first 30 patterns. The quantile-based cohesion contained much more varied results the top 150. So, at least for this dataset, we think the quantile-based cohesion measure is the better option.
+
+While QCSP found few greater-than-2-episodes, in our opinion the 2-episodes it did find were more interesting overall. In Table~\ref{table:quantile-cohesion-selection} we give a selection of patterns from the top 150 in which we recognize nouns, expressions, or otherwise related words.
 
 \begin{table}\mytablesize
 \centering
 \begin{tabulary}{\textwidth}{R|L}
+\# & mean-based cohesion (cohesion, support) \\
+\hline
+40 & $ \{ \text{ey},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0164) \\
+41 & $ \{ \text{feel},\allowbreak \text{ey},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0164) \\
+42 & $ \{ \text{feel},\allowbreak \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0161) \\
+43 & $ \{ \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand},\allowbreak \text{thought} \} $ (0.0161) \\
+44 & $ \{ \text{chapter},\allowbreak \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0161) \\
 45 & $ \{ \text{chapter},\allowbreak \text{felt},\allowbreak \text{feel},\allowbreak \text{time},\allowbreak \text{thought} \} $ (0.0161) \\
 46 & $ \{ \text{chapter},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.016) \\
 47 & $ \{ \text{troth},\allowbreak \text{bridal} \} $ (0.016) \\
 48 & $ \{ \text{ey},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.016) \\
 49 & $ \{ \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0159) \\
-50 & $ \{ \text{chapter},\allowbreak \text{ey},\allowbreak \text{face},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0159) \\
-51 & $ \{ \text{feel},\allowbreak \text{time} \} $ (0.0159) \\
-52 & $ \{ \text{look},\allowbreak \text{feel},\allowbreak \text{ey},\allowbreak \text{face},\allowbreak \text{hand} \} $ (0.0159) \\
-53 & $ \{ \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0159) \\
-54 & $ \{ \text{ey},\allowbreak \text{face},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0159) \\
 \end{tabulary}
-\caption{Ten consecutive patterns from the top-ranked patterns by FCI\textsubscript{SEQ} (mean-based cohesion).}
+\caption{Ten consecutive patterns from the top 50 patterns by FCI\textsubscript{SEQ} (mean-based cohesion).}
 \label{table:mean-cohesion-selection}
 \end{table}
 
@@ -1319,18 +1327,19 @@ While QCSP found few greater-than-2-episodes, in our opinion the 2-episodes it d
 \begin{tabulary}{\textwidth}{R|L}
 \# & quantile-based cohesion (cohesion, support) \\
 \hline
-26 & $ \text{bridal} \to \text{pair} $ (0.5, 20) \\
-39 & $ \text{wag} \to \text{tail} $ (0.4, 20) \\
-43 & $ \text{roast} \to \text{beef} $ (0.4, 10) \\
-52 & $ \text{lightn} \to \text{thunder} $ (0.364, 11) \\
-77 & $ \text{unbutton} \to \text{waistcoat} $ (0.3, 20) \\
-83 & $ \text{butter} \to \text{salt} $ (0.294, 17) \\
-89 & $ \text{summer} \to \text{villa} $ (0.281, 64) \\
-107 & $ \text{quicken} \to \text{pace} $ (0.267, 45) \\
-112 & $ \text{beaten} \to \text{track} $ (0.267, 15) \\
-123 & $ \text{railwai} \to \text{station} $ (0.253, 79) \\
+27 & $ \text{bridal} \to \text{pair} $ (0.5, 20) \\
+45 & $ \text{wag} \to \text{tail} $ (0.4, 20) \\
+46 & $ \text{unbutton} \to \text{waistcoat} $ (0.3, 20) \\
+62 & $ \text{lightn} \to \text{thunder} $ (0.364, 11) \\
+67 & $ \text{hall} \to \text{porter} $ (0.344, 128) \\
+91 & $ \text{hawk} \to \text{hover} $ (0.308, 13) \\
+84 & $ \text{district} \to \text{council} $ (0.325, 77)
+110 & $ \text{butter} \to \text{salt} $ (0.294, 17) \\
+116 & $ \text{lime} \to \text{tree} $ (0.282, 71) \\
+122 & $ \text{summer} \to \text{villa} $ (0.281, 64) \\
+131 & $ \text{carpent} \to \text{harrow} \to \text{repair} $ (0.25, 32) \\
 \end{tabulary}
-\caption{Ten patterns selected from the top 150 patterns by QCSP (quantile-based cohesion).}
+\caption{A selection of patterns from the top 150 patterns by QCSP (quantile-based cohesion).}
 \label{table:quantile-cohesion-selection}
 \end{table}
 
