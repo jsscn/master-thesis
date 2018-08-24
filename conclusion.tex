@@ -8,11 +8,9 @@ After an introduction to sequential pattern mining, and after defining various m
 
 We were certainly able to find interesting patterns using these measures.
 
-We saw that each of the interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes for a given amount of time, since it requires less bookkeeping in a database pass than the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed.
+We saw that each of the interestingness measures had advantages and disadvantages. The implementation of the fixed-window frequency often produced larger amounts of parallel episodes for a given amount of time, since it requires less bookkeeping in a database pass than the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, given the frequency of the episodes from which the rule is composed. While it is suitable for ranking purposes, the fixed-window frequency values are counterintuitive, and depend highly on the chosen window width. Therefore the values themselves should always be interpreted within the context of the chosen window width.
 
-The minimal-windows-based measures produced more natural frequency values. Where the disjoint-window frequency takes a step back from the fixed-window frequency in the sense that smaller minimal occurrences should be valued more highly, the weighted-window frequency is successful in solving that flaw, while keeping the advantages of the minimal-windows-based approach.
-
-% TODO ^ more advantages, disadvantages ^
+The minimal-windows-based measures produced more natural frequency values. The disjoint-window frequency values minimal windows of all sizes equally, at the risk of finding meaningless patterns if the window width is too large. The weighted-window frequency values smaller minimal windows more highly, which makes it less likely to find spurious patterns, but causes it to be less favourable towards potentially meaningful larger episodes.
 
 While our implementation is most often able to find adequate output in reasonable amounts of time, the closed episode miner often completed a task in significantly less time, despite the fact that we have a computational advantage in that the search space is more restricted.
 

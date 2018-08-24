@@ -60,7 +60,7 @@
     {mark options=solid,dashed,thick,RedViolet,mark=diamond*},
     {LimeGreen,mark=square*}
 }}
-\pgfplotsset{axis lines=left}
+\pgfplotsset{axis lines=left,grid}
 % \pgfset{/pgf/number format/1000 sep={\,}}
 
 \usepackage{subcaption}
@@ -146,6 +146,8 @@ University of Antwerp
 \thispagestyle{empty}
 
 \input{title-page}
+\cleardoublepage
+
 
 \tableofcontents
 \thispagestyle{empty}
@@ -155,10 +157,8 @@ University of Antwerp
 % \end{abstract}
 
 \input{introduction}
+% \clearpage
 
-
-
-\clearpage
 
 \input{problem-statement}
 % \cleardoublepage
@@ -181,6 +181,6 @@ University of Antwerp
 % \bibliographystyle{plainnat}
 \printbibliography[heading=bibintoc]
 
-% \input{appendices}
+\input{appendices}
 
 \end{document}

@@ -1,14 +1,60 @@
 \begin{appendices}
 \addtocontents{toc}{\setcounter{tocdepth}{-1}}
 
+\iffalse
+\chapter{Most frequent episodes from \emph{tolstoy} sequence using weighted-window frequency}
+
+\section{Parallel episodes}
+
+\begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
+\# & episode (weighted-window frequency) \\
+\hline
+1 &  $ \{ \text{stepan},\allowbreak \text{arkadyevitch},\allowbreak \text{levin} \} $ (31.5) \\
+2 &  $ \{ \text{countess},\allowbreak \text{lidia},\allowbreak \text{ivanovna} \} $ (25.7) \\
+3 &  $ \{ \text{stepan},\allowbreak \text{arkadyevitch},\allowbreak \text{smile} \} $ (18.2) \\
+4 &  $ \{ \text{anna},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (16.6) \\
+5 &  $ \{ \text{levin},\allowbreak \text{sergei},\allowbreak \text{ivanovitch} \} $ (15.9) \\
+6 &  $ \{ \text{wife},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (13.6) \\
+7 &  $ \{ \text{hand},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (13.6) \\
+8 &  $ \{ \text{alexei},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (12.5) \\
+9 &  $ \{ \text{alexei},\allowbreak \text{alexandrovitch},\allowbreak \text{alexandrovitch} \} $ (12.1) \\
+10 & $ \{ \text{stepan},\allowbreak \text{stepan},\allowbreak \text{arkadyevitch} \} $ (11.8) \\
+11 & $ \{ \text{stepan},\allowbreak \text{arkadyevitch},\allowbreak \text{arkadyevitch} \} $ (11.8) \\
+12 & $ \{ \text{brother},\allowbreak \text{sergei},\allowbreak \text{ivanovitch} \} $ (11.3) \\
+13 & $ \{ \text{ey},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (10.3) \\
+14 & $ \{ \text{face},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (10.2) \\
+15 & $ \{ \text{time},\allowbreak \text{alexei},\allowbreak \text{alexandrovitch} \} $ (9.73) \\
+\end{longtable}
+
+\section{Serial episodes}
+
+\begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
+\# & \\
+\hline
+1 & $ \text{countess} \to \text{lidia} \to \text{ivanovna} $ (25.3) \\
+2 & $ \text{stepan} \to \text{arkadyevitch} \to \text{levin} $ (21.9) \\
+3 & $ \text{levin} \to \text{stepan} \to \text{arkadyevitch} $ (16.7) \\
+4 & $ \text{stepan} \to \text{arkadyevitch} \to \text{smile} $ (13.2) \\
+5 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexei} $ (12.4) \\
+6 & $ \text{alexandrovitch} \to \text{alexei} \to \text{alexandrovitch} $ (12.1) \\
+7 & $ \text{stepan} \to \text{arkadyevitch} \to \text{stepan} $ (11.8) \\
+8 & $ \text{arkadyevitch} \to \text{stepan} \to \text{arkadyevitch} $ (11.8) \\
+9 & $ \text{sergei} \to \text{ivanovitch} \to \text{levin} $ (10.7) \\
+10 & $ \text{alexei} \to \text{alexei} \to \text{alexandrovitch} $ (10.6) \\
+11 & $ \text{alexei} \to \text{alexandrovitch} \to \text{alexandrovitch} $ (10.3) \\
+\end{longtable}
+\fi
+
 \chapter{%
-Most confident association rules from \emph{tolstoy} dataset
+Most confident association rules from \emph{tolstoy} sequence
 % small title%
 }
+\label{appendix:confident-association-rules}
 
-The top 15 association rules mines from the \emph{tolstoy} dataset, for each of the episode classes and confidence measures.
+The top 15 association rules mines from the \emph{tolstoy} dataset, for each of the episode classes and confidence measures. Generated for analysis in Section~\ref{sec:experiments-quality-rules}.
 
 \section{Parallel, fixed-window confidence}
+\label{appendix:rules-par-fwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-\tabcolsep-20pt\relax}}
 \# & association rule (fixed-window confidence) \\
@@ -31,6 +77,7 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 
 \section{Serial, fixed-window confidence}
+\label{appendix:rules-ser-fwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
 \# & association rule (fixed-window confidence) \\
@@ -53,6 +100,7 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 
 \section{Parallel, minimal-window confidence}
+\label{appendix:rules-par-mwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
 \# & \\
@@ -75,6 +123,7 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 
 \section{Serial, minimal-window confidence}
+\label{appendix:rules-ser-mwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
 \# & minimal-window confidence \\
@@ -97,6 +146,7 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 
 \section{Parallel, weighted-window confidence}
+\label{appendix:rules-par-wwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
 \# & association rule (weighted-window confidence) \\
@@ -119,6 +169,7 @@ The top 15 association rules mines from the \emph{tolstoy} dataset, for each of 
 \end{longtable}
 
 \section{Serial, weighted-window confidence}
+\label{appendix:rules-ser-fwi}
 
 \begin{longtable}{p{20pt}|p{\dimexpr\textwidth-20pt-\tabcolsep\relax}}
 \# & association rule (weighted-window confidence) \\
