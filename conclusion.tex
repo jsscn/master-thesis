@@ -1,10 +1,6 @@
 \chapter{Conclusion}
 
-% TODO something here? something about data science in general again?
-
 After an introduction to sequential pattern mining, and after defining various measures of interestingness of patterns, ranging from long-established approaches to more novel ones, we devised and implemented an algorithm for mining frequent episodes and confident association rules. While the general strategy for mining episodes was consistent across all episode classes and frequency measures --- breadth-first approach, Apriori-style pruning --- quite a few specialized subalgorithms were needed. Many of these subalgorithms were based on preexisting algorithms, though most needed some adaptation for our purposes.
-
-% TODO ^ expand introduction to conclusion ^
 
 We saw that each of the interestingness measures have advantages and disadvantages. The implementation of the fixed-window frequency for parallel episodes performed the best, since it requires less bookkeeping in a database pass than the other approaches. Furthermore, computing the fixed-window confidence of an association rule is trivial, where the minimal-windows-based confidence measures require some more work. The fixed-window frequency values are counterintuitive, and depend highly on the chosen window width. Therefore the values themselves should always be interpreted within the context of the chosen window width.
 

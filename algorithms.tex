@@ -34,8 +34,6 @@ Output: The collection of episodes that are frequent in the sequence in terms of
 \label{alg:episodes-top-level}
 \end{algorithm}
 
-% TODO Read this future me, probably needs improvement.
-
 Algorithm~\ref{alg:episodes-top-level} (adapted from~\citep{mannila1997discovery}) describes the high-level procedure to find all frequent episodes of a given class of episodes --- parallel or serial --- that are frequent in an event sequence $ \boldsymbol{s} $, given window width $ \rho $ and frequency threshold \emph{min\_fr}. It is a breadth-first algorithm, that is, all frequent episodes of size $ l $ are computed before those of size $ l + 1 $. The algorithm finds either parallel or serial episodes, not both at the same time, since some of the subalgorithms are tailored specifically to a class of episodes.
 
 The construction of the first set of candidates is a special case. $ \mathcal{C}_1 $ consists of simply all possible episodes with one node. That's one episode per event type, and so $ | C_1 | = | \Sigma | $. After constructing $ \mathcal{C}_1 $ a loop is entered where ever-bigger episodes are constructed and then filtered by frequency in the sequence.
@@ -617,7 +615,7 @@ The \emph{contains} data structure requires some sort of key-value storage. Typi
 
 Algorithm~\ref{alg:rec-ser-fwi} determines the fixed-window frequency of serial episodes in a sequence. By definition serial episodes impose a total order on the nodes, and consequently on the events in the sequence in order to satisfy an occurrence of an episode. Serial episodes are therefore recognized using simple automata, instances of which advance state as events are encountered. Just like the algorithm for recognizing parallel episodes, Algorithm~\ref{alg:rec-ser-fwi} (adapted from~\cite{mannila1997discovery}) iterates over the sequence once.
 
-Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. For an episode $ (\{ v_1, \ldots, v_n \}, \{ (v_i, v_j) \mid i < j \}, lab) $, state $ j $ refers to node $ v_j $. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j < n $ and upon encountering an event $ (A, t) $ such that $ A = lab(v_{j + 1}) $, the instance will transition to state $ j + 1 $.
+Each episode has its own automaton, which consists of $ | \alpha | $ states: each state corresponds to a node in the episode. For an episode $ (\{ v_1, \ldots, v_n \}, \{ (v_p, v_q) \mid p < q \}, lab) $, state $ j $ refers to node $ v_j $. Then an instance of the automaton for $ \alpha $ being in a state $ j $ denotes that the episode has been recognized up to (and including) the $ j $-th node. When in state $ j < n $ and upon encountering an event $ (A, t) $ such that $ A = lab(v_{j + 1}) $, the instance will transition to state $ j + 1 $.
 
 When an automaton instance of $ \alpha $ reaches state $ | \alpha | $, the episode has been successfully recognized, and from that point on, the episode will occur in a number of windows as the sliding window slides over the sequence. Once recognized, determining the occurrence's contribution to the frequency count happens in much the same way as it does in Algorithm~\ref{alg:rec-par-fwi} --- store the point in time at which the episode first occurred within the sliding window, and when the occurrence leaves the sliding window, determine the displacement of the sliding window since the stored timestamp.
 
@@ -965,7 +963,7 @@ Output: All episodes in $ \mathcal{C} $, along with all minimal windows of each 
 \EndFor
 
 \LineComment{Recognition}
-\For{$ \text{start} \gets T_s - \rho + 1 $ to $ T_e - 1 $} % TODO check if starting at correct position
+\For{$ \text{start} \gets T_s - \rho + 1 $ to $ T_e - 1 $}
     \LineComment{Drop out old events from the window}
     \ForAll{events $ (A, t) $ in $ s $ such that $ t = \text{start} - 1 $}
         \State $ Q(A) \text{.pop}() $
@@ -1017,9 +1015,7 @@ So, given the previous minimal window $ [a, b) $, all of the events that cannot 
 
 Algorithm~\ref{alg:rec-par-mwi} keeps a queue for each event type $ A $, which contains the timestamps of the events of type $ A $ currently in the sliding window. The queues are referred to by $ Q $ in the pseudocode. When a new event $ (A, t) $ comes in, $ t $ is pushed onto $ Q(A) $ (line~\ref{alglin:rec-par-mwi:push-timestamp}). Then, for each episode $ \alpha $ containing $ A $, it is determined whether we have a new minimal window, by testing for each event type $ A $ in $ \alpha $ whether $ Q(A) $ contains enough events, excluding the events at the start of the most recently found minimal window (line~\ref{alglin:rec-par-mwi:check-min-window-satisfied}). The exclusion of these events is realized by \textbf{consider\_max}.
 
-If we have determined that there are enough events in consideration to form a new minimal window, then the queues allow us to find the start of the window (line~\ref{alglin:rec-par-mwi:find-window-start}). If $ \alpha $ contains $ n $ nodes of type $ A $, then we look at the $ n $-th most recently added timestamp to $ Q(A) $. The earliest such timestamp for all event types in $ \alpha $ is the start of the minimal window.
-
-% TODO explain the preceding a bit better maybe
+If we have determined that there are enough events in consideration to form a new minimal window, then the queues allow us to find the start of the window (line~\ref{alglin:rec-par-mwi:find-window-start}). If $ \alpha $ contains $ n $ nodes of type $ A $, then we look at the $ n $-th most recently added timestamp to $ Q(A) $. The earliest such timestamp, for all event types in $ \alpha $, is the start of the minimal window.
 
 Figure~\ref{fig:parallel-minimal-recognition} shows how the algorithm finds the minimal windows of an episode $ \{ a, a, b \} $ in an example sequence.
 
@@ -1444,11 +1440,3 @@ This is what happens in the second \emph{while}-loop in Algorithm~\ref{alg:weigh
 \subsection{Adapting the algorithm presented in~\citep{cule2014marbles}}
 
 Algorithm 3 from~\citep{cule2014marbles} --- which Algorithm~\ref{alg:weighted-window-confidence} was based on --- does not account for the possibility that there is no minimal window of $ \beta $ that contains the current minimal window of $ \alpha $. To that end, we update $ c $ only if at least one such window exists.
-
-\iffalse
-\section{Finding all subepisodes of a parallel episode}
-
-While generating association rules in Algorithm~\ref{alg:association-rules-top-level}, we need to consider all subepisodes $ \alpha $ of each frequent episode $ \beta $. For serial episodes, we take all possible combinations of leaving out nodes from the episode graph. Using this approach, the number of subepisodes to be considered is exponential This will sometimes produce equivalent episodes, namely when the same event type occurs multiple times. Take, for instance the episode $ a \to a $.
-\fi
-
-% TODO consider dropping this...

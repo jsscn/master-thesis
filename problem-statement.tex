@@ -24,7 +24,7 @@ With $ \boldsymbol{s}_i $ we refer to the pair $ (A_i, t_i) $ in $ s $.
 
 $ T_s $ and $ T_e $ are timestamps such that $ T_s \leq t_1 $ and $ t_n < T_e $. They mark the beginning and the end of the sequence, respectively.
 
-If a sequence event $ (A, t) $ is in $ s $, we say that event $ A $ \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
+If a sequence event $ (A, t) $ is in $ s $, we say that event $ (A, t) $ \emph{occurs} in $ \boldsymbol{s} $ at timestamp $ t $.
 \end{definition}
 
 Figure~\ref{fig:event-sequence} shows a visualization of a possible event sequence.
@@ -141,8 +141,6 @@ Figure~\ref{fig:windows} illustrates a window on the sequence of Figure~\ref{fig
 \section{Episodes}
 
 Given a pattern and a sequence, we would like to quantify how interesting the pattern is. One way to define \emph{interesting} is how often it occurs in the sequence. While other interpretations of interestingness exist, we will mainly focus on \emph{frequency measures}, some of which we'll discuss in section~\ref{sec:interestingness-measures-episodes}. First we formally define patterns.
-
-% TODO ^ cite Geoff Webb maybe? ^
 
 \begin{definition}
 An \emph{episode} $ \alpha $ is a directed acyclic graph with labelled nodes, that is, $ \alpha = (V, E, lab) $, where $ V = (v_1, \ldots, v_k) $ is the set of nodes, $ E $ is the set of directed edges, and \emph{lab} is a function $ lab \colon V \rightarrow \Sigma $, mapping each node $ v_i $ to an event type. If $ lab(v) = A $, then we say that node $ v $ is of (event) type $ A $, and that $ \alpha $ contains $ A $, or $ A $ is in $ \alpha $.
@@ -375,7 +373,7 @@ When discussing the algorithms we will mostly consider their array representatio
 Given two episodes $ \alpha $ and $ \beta $, we say that $ \alpha $ is a \emph{subepisode} of $ \beta $, denoted $ \alpha \subseteq \beta $, if the set of all sequences that cover $ \beta $ is a subset of the set of all sequences that cover $ \alpha $. $ \alpha $ is a \emph{proper subepisode} of $ \beta $, denoted $ \alpha \subset \beta $, if $ \alpha \subseteq \beta $ and $ \alpha $ and $ \beta $ are not equivalent.
 \end{definition}
 
-Of course, considering all event sequences that cover an episode is an impossible task, so the above definition does not give rise to a practical way of determining whether one episode is a subepisode of another. Instead we must look at the episodes themselves, and reason about all of the ways in which they might occur in a sequence. For parallel and serial episodes, it is quite straightforward to do so, as described below. More general cases have been reasoned about~\cite{tatti2012mining}, but are beyond the scope of this thesis.
+Of course, considering all event sequences that cover an episode is an impossible task, so the above definition does not give rise to a practical way of determining whether one episode is a subepisode of another. Instead we must look at the episodes themselves, and reason about all of the ways in which they might occur in a sequence. For parallel and serial episodes, it is quite straightforward to do so, as described below. More general cases have been reasoned about by \citeauthor{tatti2012mining}~\cite{tatti2012mining}, but are beyond the scope of this thesis.
 
 \begin{itemize}
 \item A parallel episode $ \alpha $ is a subepisode of a parallel episode $ \beta $ if:
@@ -412,7 +410,7 @@ Given such a frequency measure, if we find an episode to be infrequent, then we 
 \subsection{Fixed-window frequency}
 \label{sec:fixed-window-frequency}
 
-The first frequency measure we discuss was originally proposed in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
+The first frequency measure we discuss was originally proposed by \citeauthor{mannila1997discovery} in~\cite{mannila1997discovery}, and is based on windows of a fixed length.
 
 \begin{definition}
 Given a window width $ \rho $ and a sequence $ \boldsymbol{s} $, we define the \emph{fixed-window frequency} of an episode $ \alpha $ in $ \boldsymbol{s} $, denoted $ fr_f(\alpha, \boldsymbol{s}) $, to be the number of windows of width $ \rho $ in $ \boldsymbol{s} $ covering the episode:
@@ -522,7 +520,7 @@ Another consideration is that a lot of information about the contents of the win
 
 \subsection{Disjoint-window frequency}
 
-Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was already put forward in~\citep{mannila1997discovery}, and was expanded upon in~\cite{laxman2005discovering} and \citep{laxman2007fast}.
+Another approach towards defining the frequency of an episode in a sequence is to use minimal windows. The idea was already put forward by \citeauthor{mannila1997discovery} in~\citep{mannila1997discovery}, and was expanded upon by \citeauthor{laxman2005discovering} in~\cite{laxman2005discovering} and \citep{laxman2007fast}.
 
 \begin{definition} \label{def:minimal-window}
 Given a sequence $ s $, an episode $ \alpha $, and a positive integer $ \rho $, a window $ \boldsymbol{s}[t_s, t_e) $ is called a \emph{minimal window} of $ \alpha $ in $ \boldsymbol{s} $, if:
@@ -645,7 +643,7 @@ The disjoint-window frequency does have a disadvantage compared to the fixed-win
 \subsection{Weighted-window frequency}
 \label{sec:weighted-window-frequency}
 
-In the preceding sections we studied some of the characteristics of the fixed-window frequency and the disjoint-window frequency. We liked that the fixed-window frequency rates closely-packed occurrences higher than ones which are spread out a lot; but we also liked the way the disjoint-window frequency considers specific occurrences more attentively. The weighted-window frequency is based on minimal windows, but considers the value of a minimal window to be inversely proportional to its width.
+In the preceding sections we studied some of the characteristics of the fixed-window frequency and the disjoint-window frequency. We liked that the fixed-window frequency rates closely-packed occurrences higher than ones which are spread out a lot; but we also liked the way the disjoint-window frequency considers specific occurrences more attentively. The weighted-window frequency, introduced by \citeauthor{cule2014marbles} in \cite{cule2014marbles}, is based on minimal windows, but considers the value of a minimal window to be inversely proportional to its width.
 
 \begin{definition}
 We define the \emph{weight} of a minimal window $ [a, b) $ to be the inverse of its width:
@@ -657,7 +655,7 @@ Given a set of windows $ W $, the \emph{total weight} of $ W $ is the sum of all
 \begin{align*}
 \sum_{[a,b) \in W} \frac1{b - a}
 \end{align*}
-The \emph{weighted-window frequency} \cite{cule2014marbles} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
+The \emph{weighted-window frequency} of an episode $ \alpha $ in a sequence $ \boldsymbol{s} $, denoted $ fr_w(\alpha) $, is defined as
 \begin{align*}
 fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right \}
 \end{align*}
