@@ -2,7 +2,7 @@
 
 In data mining, the goal is generally to extract useful information from datasets that are too large for a person to draw conclusions from without studying the data extensively, without any kind of summarization or other means of processing. Data mining encompasses the analysis of different kinds of data using a variety of methods.
 
-One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions --- each transaction consisting of a (relatively small) set of items --- is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur within transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is an item that a customer bought during a visit to the store.
+One of the subdomains in data mining is frequent pattern mining. In frequent pattern mining, a large database of transactions --- each transaction consisting of a (relatively small) set of items --- is mined for frequent \emph{itemsets}, that is, sets of items that often co-occur within transactions. A commonly cited use case are supermarket transactions, where each item in a transaction is a product that a customer bought during a visit to the store. In that case, frequent itemsets contain products that are frequently bought together.
 
 A well-known algorithm for mining itemsets in such a transactional database is Apriori, introduced by \citeauthor{agrawal1994fast} \citep{agrawal1994fast}, which relies on the fact that an itemset cannot be more frequent than any of its subsets, allowing the search space to be pruned heavily. It uses a breadth-first approach --- first finding all 1-sized itemsets, then all 2-sized itemsets, and so on --- generating larger candidates from smaller itemsets that are known to be frequent.
 
@@ -11,7 +11,7 @@ From itemsets that have been found frequent (or otherwise interesting), \emph{as
 A first exploration into mining patterns in data of a sequential nature still presumed a database of transactions, with (relatively short) sequences as transactions instead of sets \citep{agrawal1995mining}.
 Since the data format is similar to that of typical frequent pattern mining, mining algorithms are often similar to those in frequent pattern mining as well.
 
-Later, \citeauthor{mannila1997discovery} introduced a new kind of setting for mining patterns in single, long \emph{sequences} \citep{mannila1997discovery}, where \emph{events} occur at certain points in time.
+Later, \citeauthor{mannila1997discovery} introduced a new kind of setting for mining patterns in single, long \emph{events sequences} \citep{mannila1997discovery}, in which \emph{events} occur at certain points in time.
 
 Such sequences may represent different kinds of data. A few examples:
 \begin{itemize}
@@ -26,12 +26,12 @@ Though the main goal of finding patterns remains equivalent, the mining techniqu
 
 Whereas patterns consist of itemsets in frequent pattern mining, in sequential pattern mining we speak of \emph{episodes}. If one wants to assess the interestingness of an episode by how frequently it appears in the sequence, then the search space can be pruned in much the same way that Apriori does in frequent pattern mining.
 
-In chapter~\ref{sec:problem-statement} we begin by formally defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
+In Chapter~\ref{sec:problem-statement} we begin by formally defining the structure of the datasets we'll operate on: \emph{event sequences}. Then we will move on to \emph{patterns}: how do we define a pattern on an event sequence?
 And how do we quantify how interesting a pattern is in regard to an event sequence?
 
-Then, in chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
+Then, in Chapter~\ref{sec:algorithms} we will present and implement algorithms which mine patterns according to the interestingness measures we defined.
 
-In chapter~\ref{sec:experiments} we experiment to make an assessment of the implementation, in terms of:
+In Chapter~\ref{sec:experiments} we experiment to make an assessment of the implementation, in terms of:
 
 \begin{enumerate}
 \item the performance: how efficient is the implementation with a variety of datasets and parameters?
