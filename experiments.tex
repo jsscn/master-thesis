@@ -49,7 +49,7 @@ We will conduct experiments using a number of datasets:
 
 \begin{itemize}
 \item \emph{abstract}: a dataset consisting of the first 739 NSF award abstracts from 1990, merged into one long sequence\footnote{\url{http://kdd.ics.uci.edu/databases/nsfabs/nsfawards.html}}.
-\item \emph{tolstoy}: Leo Tolstoy's novel Anna Karenina, part of the public domain, and available at Project Gutenberg\footnote{\url{https://www.gutenberg.org/ebooks/1399}}.
+\item \emph{tolstoy}: Leo Tolstoy's novel \emph{Anna Karenina}, part of the public domain, and available at Project Gutenberg\footnote{\url{https://www.gutenberg.org/ebooks/1399}}.
 \item \emph{trains}: a dataset consisting of departure times of delayed trains in a Belgian railway station, for trains with a delay of at least three minutes. This data is anonymized, so we won't be able derive any meaning from the patterns, but it it an interesting dataset nonetheless, because contrary to the textual datasets, \emph{trains} contains sparse, real-time data. The time interval between two subsequent timestamps represents one second. Its timespan of over 2.66~million seconds converts to over 730~hours.
 \end{itemize}
 
@@ -60,6 +60,8 @@ Table~\ref{table:datasets-numbers} shows some statistics about each dataset, whe
 We see that all of the datasets have quite large alphabets. Figure~\ref{fig:alphabet-frequencies} shows the number of occurrences of the most frequent event types, ordered by frequency, for each of the datasets. We observe a long tail for \emph{abstract} and \emph{tolstoy}, with a small number of the event types occurring a significant number of times, and the vast majority of event types occurring very rarely. This is common for natural-language texts. For \emph{trains} the event types aren't uniformly distributed either, but the tail is not very long. Note that the graphs for the textual datasets don't even show all event types, although for \emph{abstract} the rightmost event types occur only once, and those for \emph{tolstoy} occur fewer than 10~times.
 
 Figure~\ref{fig:trains-cumulative} shows the cumulative distribution of event types in the \emph{trains} dataset. We see that some periods of time are noticeably more active than others, so some windows will contain more information than others. With some imagination, in Figure~\ref{fig:trains-cumulative-part} one might be able to discern rush hour from quieter periods, and day from night --- perhaps even weekdays from the weekend.
+
+While we experiment on both dense and sparse datasets, datasets with different event type distributions, or sparse datasets with events distributed differently through time, may show different results. Our experiments will not generalize, or be applicable, to all imaginable kinds of sequential data.
 
 \begin{table}[t]
 \centering
@@ -1278,29 +1280,21 @@ We ran FCI\textsubscript{SEQ} with a minimum support of 5, a maximal pattern siz
 \label{table:cohesive-patterns}
 \end{table}
 
-Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two different definitions of cohesion. The implementation of the quantile-based cohesion sorts episodes according to a linear combination of the cohesion and the support, which is defined as the sum of supports of the constituent event types. Since QCSP doesn't rank purely on cohesion.
+Table~\ref{table:cohesive-patterns} shows the 15 most interesting episodes by the two different definitions of cohesion. The implementation of the quantile-based cohesion sorts episodes according to a linear combination of the cohesion and the support, which is defined as the sum of supports of the constituent event types; therefore we also show the support for QCSP results.
 
-Some of these patterns are both frequent and cohesive --- we see some of the characters' names reappear. But we also see many patterns that we haven't seen before.
+Some of these patterns are both frequent and cohesive --- we see some of the characters' names reappear. But we also see many patterns that we haven't seen before, including the names of some characters which feature less prominently in the book, such as Lizaveta Petrovna.
 
 The algorithms find some maximally cohesive patterns consisting of multiple-word nouns, for which the constituent words don't appear on their own anywhere else, such as \emph{char-à-banc} (7 occurrences), \emph{pince-nez} (6 occurrences), and \emph{belle-soeur} (5 occurrences).
 
-These are all quite infrequent. For the disjoint-window frequency, $ \{ \text{char},\allowbreak \text{banc} \} $ appears at position $ 30\,203 $ in the rankings --- which is far down, and rightly so, for it is a frequency measure.
+These are all quite infrequent, and we expect that the frequency-based measures do not value them highly. Indeed: for the disjoint-window frequency, $ \{ \text{char},\allowbreak \text{banc} \} $ appears at position $ 30\,203 $ in the rankings.
 
-For the weighted-window frequency, $ \{ \text{nativ}, \text{tribe} \} $ appears at position $ 3658 $.
-
-Interestingly, there are no 3-episodes in the top 15, despite the efforts not to disadvantage larger episodes. However, the first 3-episode appears at position 17, and the first 4-episode at position 21. Further down the rankings, many larger episodes start to appear.
+Interestingly, there are no 3-episodes in the top 15, despite the efforts not to disadvantage larger episodes. However, for the mean-based cohesion, the first 3-episode appears at position 17, and the first 4-episode at position 21. Further down the rankings, many larger episodes start to appear.
 
 The mean-based cohesion values start to decrease very quickly. The phrase \emph{Native Tribes} occurs 14 times in the book, and the word \emph{tribe} occurs on its own only once. Intuitively, given that one lone occurrence, we would still consider the episode to be quite cohesive --- if that occurrence wasn't there, the cohesion of $ \{ \text{nativ}, \text{tribe} \} $ would equal 1. Yet, $ \{ \text{nativ}, \text{tribe} \} $ has a mean-based cohesion of 0.523. It seems like the mean-based cohesion punishes any unrelated occurrences quite harshly; likely because of the instability to outliers that the mean suffers, as we mentioned earlier. For the quantile-based cohesion, episode $ \{ \text{nativ}, \text{tribe} \} $ is valued 0.966, which is closer to what we would intuitively expect.
 
 One more thing we noticed for the mean-based cohesion, is that beyond the 30 or so most cohesive episodes, we see the same words appearing over and over again, all with similarly low cohesion values; among others: \emph{time} (present in 56\% of episodes), \emph{hand} (49\%), \emph{eye} (46\%), \emph{feel} (39\%). To illustrate our point, Table~\ref{table:mean-cohesion-selection} shows ten consecutive episodes, which are quite representative of the following 100 episodes.
 
-% Many of these are patterns that we wouldn't have found at the top of the output of any frequency-based measures, for they are quite infrequent. Nevertheless, they are valid patterns, since we can recognize nouns and phrases.
-
-% TODO ^ place this somewhere else?
-
-For the mean-based cohesion we chose ten consecutive patterns which are quite representative of the top 150 beyond the first 30 patterns. The quantile-based cohesion contained much more varied results the top 150. So, at least for this dataset, we think the quantile-based cohesion measure is the better option.
-
-While QCSP found few greater-than-2-episodes, in our opinion the 2-episodes it did find were more interesting overall. In Table~\ref{table:quantile-cohesion-selection} we give a selection of patterns from the top 150 in which we recognize nouns, expressions, or otherwise related words.
+While QCSP found fewer large episodes than FCI\textsubscript{SEQ}, in our opinion the episodes it did find were more varied and interesting throughout the top 150. In Table~\ref{table:quantile-cohesion-selection} we give a selection of patterns from the top 150 in which we recognize nouns, expressions, or otherwise related words. At least for this dataset, we think the quantile-based cohesion measure is the better option.
 
 \begin{table}\mytablesize
 \centering
@@ -1333,20 +1327,17 @@ While QCSP found few greater-than-2-episodes, in our opinion the 2-episodes it d
 62 & $ \text{lightn} \to \text{thunder} $ (0.364, 11) \\
 67 & $ \text{hall} \to \text{porter} $ (0.344, 128) \\
 91 & $ \text{hawk} \to \text{hover} $ (0.308, 13) \\
-84 & $ \text{district} \to \text{council} $ (0.325, 77)
+84 & $ \text{district} \to \text{council} $ (0.325, 77) \\
 110 & $ \text{butter} \to \text{salt} $ (0.294, 17) \\
 116 & $ \text{lime} \to \text{tree} $ (0.282, 71) \\
 122 & $ \text{summer} \to \text{villa} $ (0.281, 64) \\
 131 & $ \text{carpent} \to \text{harrow} \to \text{repair} $ (0.25, 32) \\
 \end{tabulary}
-\caption{A selection of patterns from the top 150 patterns by QCSP (quantile-based cohesion).}
+\caption{A selection of patterns from the top 150 by QCSP (quantile-based cohesion).}
 \label{table:quantile-cohesion-selection}
 \end{table}
 
-At the beginning of this section, we saw that all of the frequency-based measures we discussed had some notion of cohesion. And the cohesion-based measures had some notion of frequency as well. So it seems that, whichever interestingness criterion a measure emphasizes, a bit of both is useful.
 
-In conclusion, we can say that the cohesion-based frequency measures certainly have their merit. Using the algorithms we were able to find some interesting patterns that weren't ranked anywhere near the top of the frequency-based rankings.
+Many of the patterns we find here we wouldn't have found at the top of the output of any frequency-based measures, for they are quite infrequent. Nevertheless, they are valid patterns --- because they appear close together, they are highly likely to be semantically related. Indeed, we often recognize nouns and phrases.
 
-That isn't to say that either one is superior to the other --- each has their strengths.
-
-[TODO make more coherent, conclude]
+In conclusion, we can say that the cohesion-based frequency measures certainly have their merit. Using the algorithms we were able to find some interesting patterns that weren't ranked anywhere near the top of the frequency-based rankings. Therefore we think that the cohesion-based methods are a valuable complement to the more traditional, frequency-based measures.

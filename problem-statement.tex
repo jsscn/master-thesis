@@ -666,7 +666,7 @@ In words, the weighted-window frequency is the sum of weights of a set of disjoi
 
 The frequency values that the weighted-window frequency produces aren't as easily interpretable as those for the disjoint-window frequency, where the frequency simply expresses the number of minimal occurrences. But the fact that not all minimal windows are equally valuable, can be very useful. For instance, with both of the previous frequency measures, the window width had to be carefully chosen in order to have meaningful results. With the weighted-window frequency, on the other hand, the window width can be as large as computationally feasible, because any minimal windows greater than $ \rho $ will contribute at most $ 1 / (\rho + 1) $ to the frequency of an episode --- which is to say, not very much for large $ \rho $.
 
-A drawback of the disjoint-window frequency, similarly to the fixed-window frequecy, is that it will disadvantage large episodes more so than the disjoint-window frequency, because generally, larger episodes naturally require larger --- less-weighted --- windows.
+A drawback of the disjoint-window frequency is that it will disadvantage large episodes more so than the disjoint-window frequency, because generally, larger episodes naturally require larger --- less-weighted --- windows. So, compared to the weighted-window frequency, the disjoint-window frequency is more likely to find false positives, but less likely to miss true positives.
 
 
 
@@ -706,9 +706,7 @@ c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
 
 Intuitively, this measure of confidence expresses the amount of windows that contain $ \beta $, relative to the windows that contain $ \alpha $. In probabilistic terms, it answers the following: \emph{if we pick a random window in which $ \alpha $ occurs, how likely are we to find $ \beta $ as well?}
 
-At first sight, this seems like a sensible approach. However, in section~\ref{sec:fixed-window-frequency} we established that the frequency values produced by the fixed-window frequency, are unintuitive, in part because they heavily depend on the chosen window width. That being so, and given that the fixed-window confidence is based directly on the fixed-window frequency, the fixed-window confidence cannot be expected to produce very meaningful results either.
-
-% TODO definitely expand
+In section~\ref{sec:fixed-window-frequency} we established that the frequency values produced by the fixed-window frequency heavily depend on the chosen window width. So again, in order for the results to be meaningful, the window width should not be chosen too large.
 
 
 \iffalse
@@ -852,6 +850,9 @@ c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \
 \end{align*}
 \end{definition}
 
+Coming back to the example: using this definition, $ \{ a \} \Rightarrow \{ a, a \} $ can obtain confidence values of up to 1, in case $ a $ never appears alone --- more precisely, if for each event of type $ a $ there is another $ a $ within a timespan of $ \rho $.
+
+
 \subsection{Weighted-window confidence}
 
 In order to calculate the confidence of association rules based on weighted windows \citep{cule2014marbles}, we first define the weighted-extensibility.
@@ -874,3 +875,5 @@ Given episodes $ \alpha $ and $ \beta $, such that $ \alpha \subset \beta $, we 
 c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
 \end{align*}
 \end{definition}
+
+As with the respective frequency measures, the weighted-window confidence is more conservative in rating the confidence of an association rule $ \alpha \Rightarrow \beta $ than the minimal-window confidence. The minimal-window confidence values all minimal windows of $ \alpha $ contained within a minimal window of $ \beta $ equally. The weighted-window nuances in the sense that if a minimal window of $ \alpha $ needs to be extended a lot before finding a minimal occurrence of $ \beta $, then the small occurrence of $ \alpha $ by itself is unlikely to have played a big role in the existence of the large occurrence of $ \beta $.
