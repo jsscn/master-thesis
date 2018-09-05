@@ -1,8 +1,9 @@
 \documentclass[dvipsnames]{beamer}
 
-\usetheme{Dresden}
+\usetheme{Frankfurt}
 \usecolortheme{dove}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
 \usefonttheme{professionalfonts}
 
 \usepackage[utf8]{inputenc}
@@ -14,9 +15,11 @@
 \usepackage{amsfonts}
 \usepackage{bm}
 \usepackage{float}
+\usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{tabulary}
 \usepackage{longtable}
+\usepackage{siunitx}
 
 % \usepackage[]{xcolor}
 \usepackage{tikz}
@@ -109,6 +112,15 @@
 \frame{\titlepage}
 
 \begin{frame}
+\frametitle{Goal}
+
+\begin{itemize}
+\item Can we find interesting patterns in event sequences?
+\item Can we do so efficiently?
+\end{itemize}
+
+\end{frame}
+\begin{frame}
 \frametitle{Event sequences}
 
 \begin{align*}
@@ -182,7 +194,7 @@ labelled directed acyclic graph
 
 \end{frame}
 \begin{frame}
-
+\large
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
 \node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
@@ -198,12 +210,12 @@ labelled directed acyclic graph
 
 \begin{itemize}
 \item all episodes $ (V, E, lab) $ for which $ E $ defines total order on $ V $
-\item notation: \begin{align*} A_1 \to A_2 \to \cdots \to A_n \end{align*} with $ A_i $ event type corresponding to $ i $-th node
+\item notation: \begin{align*} A_1 \to A_2 \to \cdots \to A_n \end{align*} with $ A_i $ event types
 \end{itemize}
 
 \end{frame}
 \begin{frame}
-
+\large
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
 \node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
@@ -254,6 +266,8 @@ labelled directed acyclic graph
 \end{center}
 
 \end{frame}
+% TODO include this?
+\iffalse
 \begin{frame}
 \frametitle{Parallel episodes: array representation}
 
@@ -281,6 +295,7 @@ labelled directed acyclic graph
 
 \end{frame}
 \begin{frame}
+\frametitle{Serial episodes: array representation}
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -308,12 +323,25 @@ labelled directed acyclic graph
 \end{center}
 
 \end{frame}
+\fi
 \begin{frame}
 \frametitle{Subepisode relationship}
 
 \begin{align*}
 \alpha \subseteq \beta \iff \text{ all sequences that cover } \beta \text{ also cover } \alpha
 \end{align*}
+
+\end{frame}
+\begin{frame}
+\frametitle{Interestingness measures for episodes}
+% TODO introduce interestingness measures, frequency measures in particular, monotonicity and why necessary
+
+Two main interpretations:
+
+\begin{itemize}
+\item \textbf{frequency}: how often does an episode occur?
+\item \textbf{cohesion}: how close together are events that constitute occurrences?
+\end{itemize}
 
 \end{frame}
 \begin{frame}
@@ -376,7 +404,47 @@ labelled directed acyclic graph
 \end{center}
 
 \end{frame}
-% TODO introduce interestingness measures, frequency measures in particular, monotonicity and why necessary
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}
+
+\node at (2,1) {potential 4-candidate};
+\node at (6,2.65) {3-subepisodes};
+
+\node [arraycell,enoughdamnvspace] at (0.5,0) {$ a $};
+\node [arraycell,enoughdamnvspace] at (1.5,0) {$ b $};
+\node [arraycell,enoughdamnvspace] at (2.5,0) {$ c $};
+\node [arraycell,enoughdamnvspace] at (3.5,0) {$ d $};
+
+\node [arraycell,enoughdamnvspace] at (5,1.65) {$ b $};
+\node [arraycell,enoughdamnvspace] at (6,1.65) {$ c $};
+\node (r0) [arraycell,enoughdamnvspace] at (7,1.65) {$ d $};
+\node [right=10pt of r0] {drop $ a $};
+\draw [OrangeRed,very thick] (4.5,2.15) -- ++(0,-1);
+
+\node [arraycell,enoughdamnvspace] at (5,0.55) {$ a $};
+\node [arraycell,enoughdamnvspace] at (6,0.55) {$ c $};
+\node (r1) [arraycell,enoughdamnvspace] at (7,0.55) {$ d $};
+\node [right=10pt of r1] {drop $ b $};
+\draw [OrangeRed,very thick] (5.5,1.05) -- ++(0,-1);
+
+\node [arraycell,enoughdamnvspace] at (5,-0.55) {$ a $};
+\node [arraycell,enoughdamnvspace] at (6,-0.55) {$ b $};
+\node (r2) [arraycell,enoughdamnvspace] at (7,-0.55) {$ d $};
+\node (dropC) [right=10pt of r2] {drop $ c $};
+\draw [OrangeRed,very thick] (6.5,-0.05) -- ++(0,-1);
+
+\node [arraycell,enoughdamnvspace] at (5,-1.65) {$ a $};
+\node [arraycell,enoughdamnvspace] at (6,-1.65) {$ b $};
+\node (r3) [arraycell,enoughdamnvspace] at (7,-1.65) {$ c $};
+\node (dropD) [right=10pt of r3] {drop $ d $};
+\draw [OrangeRed,very thick] (7.5,-1.15) -- ++(0,-1);
+
+% \draw [accolade] ([xshift=-2pt]dropC.east |- r2.north) -- node [midway,right,align=left,xshift=12pt] {last two are frequent\\since candidate was\\built upon them} ([xshift=-2pt]dropD.east |- r3.south);
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
 \begin{frame}
 \frametitle{Fixed-window frequency}
 
@@ -560,9 +628,32 @@ episode $ b \to a \to c $
 \end{center}
 \end{frame}
 \begin{frame}
+
+episode $ \{ a, b \} $
+
+\begin{center}
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\end{tikzpicture}
+
+\par\bigskip
+
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/b,5/a,6/b,7/a,8/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+\begin{frame}
 \frametitle{Minimal windows}
 
-$ [a, b) $ minimal window of $ \alpha $ if
+$ \boldsymbol{s}[a, b) $ minimal window of $ \alpha $ if
 \begin{itemize}
 \item $ b - a \leq \rho $ for some $ \rho $
 \item $ \boldsymbol{s}[a, b) \text{ covers } \alpha $
@@ -773,6 +864,38 @@ fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
 
 \end{frame}
 \begin{frame}
+
+episode $ \{ a, b \} $
+
+\begin{center}
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\windowthingy{(0,-10pt)}{2}
+\windowthingy{(4,-10pt)}{2}
+
+\end{tikzpicture}
+
+\par\bigskip
+
+\begin{tikzpicture}
+
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/b,5/a,6/b,7/a,8/b,9/a,10/b}
+\sequencetickmarks{10}{0}{0}
+
+\windowthingy{(0,-10pt)}{2}
+\windowthingy{(1,-10pt)}{2}
+\windowthingy{(2,-10pt)}{2}
+\windowthingy{(3,-10pt)}{2}
+\windowthingy{(4,-10pt)}{2}
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+\begin{frame}
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
 
@@ -891,13 +1014,15 @@ c_m(\alpha \Rightarrow \beta) = \frac{| fr_m(\beta) |}{| fr_m(\alpha) |}
 \end{align*}
 \pause
 \par\bigskip
-But then\begin{align*}c_m(\{ a \} \Rightarrow \{ a, a \}) \leq \frac12 \end{align*}
+But then\begin{align*}c_m(\{ a \} \Rightarrow \{ a, a \}) \leq \frac12 \end{align*} in sequence $ \cdots\;a\;a\;\cdots\;a\;a\cdots\;a\,a\cdots $
+
+
 
 \end{frame}
 \begin{frame}
 \frametitle{Minimal-window confidence}
 
-The minimal-window confidence is defined as the percentage of minimal windows that are contained within a minimal window of $ \beta $.
+The minimal-window confidence is defined as the percentage of minimal windows of $ \alpha $ that are contained within a minimal window of $ \beta $.
 
 \begin{align*}
 ext_m(\boldsymbol{s}[a, b), \alpha, \beta) =
@@ -914,15 +1039,559 @@ c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \
 \begin{frame}
 \frametitle{Weighted-window confidence}
 
-Assume $ \exists \boldsymbol{s}[c, d) \in mw(\beta) \mid [a, b) \subset [c, d) $, and that $ [c, d) $ is the smallest window that contains $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+Inverse of weighted-extensibility expresses how far $ [a, b) $ needs to be extended in order to find occurrence of $ \beta $.
 \begin{align*}
 ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
 \end{align*}
-If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = 0 $.
 
 \begin{align*}
 c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
 \end{align*}
+
+\end{frame}
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+
+\examplesequence
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\begin{tabulary}{\textwidth}{L|S|S|S}
+& $ c_f $ & $ c_m $ & $ c_w $ \\
+\hline
+$ \{ b \}    \Rightarrow \{ b, c, e, e \} $ & 0.18 & 0.33 & 0.056 \\
+$ \{ c \}    \Rightarrow \{ b, c, e, e \} $ & 0.14 & 0.33 & 0.056 \\
+$ \{ b, c \} \Rightarrow \{ b, c, e, e \} $ & 0.21 & 0.25 & 0.25 \\
+$ \{ e \}    \Rightarrow \{ b, c, e, e \} $ & 0.3  & 1    & 0.17 \\
+$ \{ c, e \} \Rightarrow \{ b, c, e, e \} $ & 0.43 & 1    & 0.33 \\
+$ \{ e, e \} \Rightarrow \{ b, c, e, e \} $ & 0.5  & 1    & 0.5 \\
+$ \{ b, e \} \Rightarrow \{ b, c, e, e \} $ & 0.5  & 1    & 0.5 \\
+\end{tabulary}
+\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Experiments}
+
+\begin{center}
+\begin{tabulary}{\textwidth}{ L|RRRC }
+dataset & \multicolumn{1}{c}{$ | \Sigma | $} & \multicolumn{1}{c}{$ | s | $} & \multicolumn{1}{c}{$ T_e - T_s $} & type \\
+\hline
+\emph{abstract} & \num{51.3d3} & \num{67.8d3} & \num{67.8d3} & dense \\
+\emph{tolstoy} & \num{95.6d3} & \num{124d3} & \num{124d3} & dense \\
+\emph{trains} & \num{1.28d3} & \num{10.1d3} & \num{2.67d6} & sparse \\
+\end{tabulary}
+\par\bigskip
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[
+    xlabel={event types ordered by frequency},
+    ylabel={number of occurrences},
+    xmin=-100,
+    ymin=-50,
+    % ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/tolstoy-alphabet-frequency-2200.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[
+    xlabel={event types ordered by frequency},
+    ylabel={number of occurrences},
+    xmin=-50,
+    ymin=-1,
+    % ymode=log
+]
+
+\addplot table [x=rank,y=count,mark=none] {experiments/trains-alphabet-frequency.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+\begin{frame}
+\frametitle{Cumulative distribution \emph{trains}}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[
+    xlabel={timestamp},
+    ylabel={cumulative events},
+    % xmin=-10,
+    % ymin=-50,
+    % ymode=log
+]
+
+\addplot table [x=time,y=count,mark=none] {experiments/trains-cumulative.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[
+    xlabel={timestamp},
+    ylabel={cumulative events},
+    % xmin=-10,
+    % ymin=-50,
+    % ymode=log
+]
+
+\addplot table [x=time,y=count,mark=none] {experiments/trains-cumulative-part.dat};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{center}
+\end{frame}
+\begin{frame}
+\begingroup\footnotesize
+\begin{tabulary}{\textwidth}{R|L|L|L}%
+\# & fixed-window fr. & disjoint-window fr. & weighted-window fr. \\
+\hline
+1 & $ \{ \text{levin} \} $ (20913) & $ \{ \text{levin} \} $ (1629) & $ \{ \text{levin} \} $ (1629) \\
+2 & $ \{ \text{vronski} \} $ (11165) & $ \{ \text{vronski} \} $ (865) & $ \{ \text{vronski} \} $ (865) \\
+3 & $ \{ \text{anna} \} $ (10699) & $ \{ \text{anna} \} $ (823) & $ \{ \text{anna} \} $ (823) \\
+4 & $ \{ \text{thought} \} $ (8994) & $ \{ \text{kitti} \} $ (672) & $ \{ \text{kitti} \} $ (672) \\
+5 & $ \{ \text{time} \} $ (8948) & $ \{ \text{thought} \} $ (663) & $ \{ \text{thought} \} $ (663) \\
+6 & $ \{ \text{kitti} \} $ (8826) & $ \{ \text{time} \} $ (651) & $ \{ \text{time} \} $ (651) \\
+7 & $ \{ \text{hand} \} $ (8645) & $ \{ \text{hand} \} $ (651) & $ \{ \text{hand} \} $ (651) \\
+8 & $ \{ \text{alexei} \} $ (8619) & $ \{ \text{smile} \} $ (632) & $ \{ \text{smile} \} $ (632) \\
+9 & $ \{ \text{smile} \} $ (8549) & $ \{ \text{alexei} \} $ (632) & $ \{ \text{alexei} \} $ (632) \\
+10 & $ \{ \text{face} \} $ (8315) & $ \{ \text{face} \} $ (598) & $ \{ \text{face} \} $ (598) \\
+11 & $ \{ \text{ey} \} $ (8062) & $ \{ \text{love} \} $ (595) & $ \{ \text{love} \} $ (595) \\
+12 & $ \{ \text{alexandrovitch} \} $ (7842) & $ \{ \text{alexandrovitch} \} $ (571) & $ \{ \text{alexandrovitch} \} $ (571) \\
+13 & $ \{ \text{felt} \} $ (7753) & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) & $ \{ \text{ey} \} $ (570) \\
+14 & $ \{ \text{man} \} $ (7751) & $ \{ \text{ey} \} $ (570) & $ \{ \text{man} \} $ (565) \\
+15 & $ \{ \text{feel} \} $ (7596) & $ \{ \text{man} \} $ (565) & $ \{ \text{feel} \} $ (561) \\
+\end{tabulary}%
+\endgroup
+
+\end{frame}
+\begin{frame}
+
+\begin{center}
+\begingroup\footnotesize
+\begin{tabulary}{\textwidth}{R|L}
+\# & fixed-window fr. \\
+\hline
+1 & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (7416) \\
+2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (7117) \\
+3 & $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (3763) \\
+4 & $ \{ \text{levin},\allowbreak\text{levin} \} $ (3348) \\
+5 & $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (2739) \\
+6 & $ \{ \text{levin},\allowbreak\text{kitti} \} $ (2039) \\
+7 & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (1942) \\
+8 & $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (1896) \\
+9 & $ \{ \text{stepan},\allowbreak\text{levin} \} $ (1887) \\
+10 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{levin} \} $ (1784) \\
+11 & $ \{ \text{smile},\allowbreak\text{levin} \} $ (1778) \\
+12 & $ \{ \text{vronski},\allowbreak\text{vronski} \} $ (1722) \\
+13 & $ \{ \text{time},\allowbreak\text{levin} \} $ (1597) \\
+14 & $ \{ \text{brother},\allowbreak\text{levin} \} $ (1558) \\
+15 & $ \{ \text{anna},\allowbreak\text{anna} \} $ (1531) \\
+\end{tabulary}%
+\endgroup
+\end{center}
+
+\end{frame}
+\begin{frame}
+
+\begin{center}
+\begingroup\footnotesize
+\begin{tabulary}{\textwidth}{R|L}
+\# & disjoint-window fr. \\
+\hline
+1 &  $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (571) \\
+2 &  $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (547) \\
+3 &  $ \{ \text{levin},\allowbreak\text{levin} \} $ (395) \\
+4 &  $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (291) \\
+5 &  $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (205) \\
+6 &  $ \{ \text{levin},\allowbreak\text{kitti} \} $ (202) \\
+7 &  $ \{ \text{stepan},\allowbreak\text{levin} \} $ (199) \\
+8 &  $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (197) \\
+9 &  $ \{ \text{stepan},\allowbreak\text{arkadyevitch},\allowbreak\text{levin} \} $ (195) \\
+10 & $ \{ \text{vronski},\allowbreak\text{vronski} \} $ (191) \\
+11 & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (180) \\
+12 & $ \{ \text{smile},\allowbreak\text{levin} \} $ (171) \\
+13 & $ \{ \text{anna},\allowbreak\text{anna} \} $ (170) \\
+14 & $ \{ \text{time},\allowbreak\text{levin} \} $ (159) \\
+15 & $ \{ \text{good},\allowbreak\text{levin} \} $ (153) \\
+\end{tabulary}%
+\endgroup
+\end{center}
+
+\end{frame}
+\begin{frame}
+
+\begin{center}
+\begingroup\footnotesize
+\begin{tabulary}{\textwidth}{R|L}
+\# & weighted-window fr. \\
+\hline
+1 & $ \{ \text{alexei},\allowbreak\text{alexandrovitch} \} $ (286) \\
+2 & $ \{ \text{stepan},\allowbreak\text{arkadyevitch} \} $ (274) \\
+3 & $ \{ \text{sergei},\allowbreak\text{ivanovitch} \} $ (146) \\
+4 & $ \{ \text{darya},\allowbreak\text{alexandrovna} \} $ (102) \\
+5 & $ \{ \text{levin},\allowbreak\text{levin} \} $ (61.6) \\
+6 & $ \{ \text{lidia},\allowbreak\text{ivanovna} \} $ (54) \\
+7 & $ \{ \text{anna},\allowbreak\text{vronski} \} $ (45.1) \\
+8 & $ \{ \text{smile},\allowbreak\text{levin} \} $ (41.3) \\
+9 & $ \{ \text{levin},\allowbreak\text{kitti} \} $ (41.1) \\
+10& $ \{ \text{room},\allowbreak\text{draw} \} $ (40.6) \\
+11& $ \{ \text{countess},\allowbreak\text{lidia} \} $ (39.4) \\
+12& $ \{ \text{thought},\allowbreak\text{levin} \} $ (39.3) \\
+13& $ \{ \text{love},\allowbreak\text{love} \} $ (38.2) \\
+14& $ \{ \text{arkadyevitch},\allowbreak\text{levin} \} $ (37.2) \\
+15& $ \{ \text{agafea},\allowbreak\text{mihalovna} \} $ (37) \\
+\end{tabulary}%
+\endgroup
+\end{center}
+
+\end{frame}
+\begin{frame}
+\frametitle{Cohesion-based measures}
+
+Mean-based cohesion:
+\begin{align*}
+C(\alpha) = \frac{| \alpha |}{\overline{W}(\alpha)}
+\end{align*}
+\par\bigskip
+Quantile-based cohesion:
+\begin{align*}
+C_q(\alpha) = \frac{| \{ t \mid t \in \text{cover}(\alpha) \wedge W_t(\alpha) < \rho \cdot | \alpha | \} |}{\text{support}(\alpha)}
+\end{align*}
+
+\end{frame}
+\begin{frame}
+\footnotesize
+\begin{center}
+\begin{tabulary}{\textwidth}{R|L|L}
+
+\# & mean-based cohesion & quantile-based cohesion \\
+\hline
+1 & $ \{ \text{agafea}, \text{mihalovna} \} $ (1) & $ \text{stepan} \to \text{arkadyevitch} $ (0.998) \\
+2 & $ \{ \text{char}, \text{banc} \} $ (1) & $ \text{alexei} \to \text{alexandrovitch} $ (0.95) \\
+3 & $ \{ \text{pinc}, \text{nez} \} $ (1) & $ \text{sergei} \to \text{ivanovitch} $ (0.965) \\
+4 & $ \{ \text{bell}, \text{soeur} \} $ (1) & $ \text{agafea} \to \text{mihalovna} $ (1, 148) \\
+5 & $ \{ \text{stepan}, \text{arkadyevitch} \} $ (0.915) & $ \text{darya} \to \text{alexandrovna} $ (0.967) \\
+6 & $ \{ \text{nativ}, \text{tribe} \} $ (0.523) & $ \text{char} \to \text{banc} $ (1) \\
+7 & $ \{ \text{lizaveta}, \text{petrovna} \} $ (0.408) & $ \text{pinc} \to \text{nez} $ (1) \\
+8 & $ \{ \text{ivanovna}, \text{lidia} \} $ (0.137) & $ \text{bell} \to \text{soeur} $ (1) \\
+9 & $ \{ \text{alexandrovitch}, \text{alexei} \} $ (0.05) & $ \text{lidia} \to \text{ivanovna} $ (0.977) \\
+10 & $ \{ \text{sergei}, \text{ivanovitch} \} $ (0.0428) & $ \text{lizaveta} \to \text{petrovna} $ (0.98) \\
+11 & $ \{ \text{darya}, \text{alexandrovna} \} $ (0.0363) & $ \text{nativ} \to \text{tribe} $ (0.966) \\
+12 & $ \{ \text{bezzubov}, \text{landau} \} $ (0.0351) & $ \text{mashkin} \to \text{upland} $ (0.833) \\
+13 & $ \{ \text{gladiat}, \text{frou} \} $ (0.0326) & $ \text{grand} \to \text{duchess} $ (0.714) \\
+14 & $ \{ \text{partnership}, \text{ryezunov} \} $ (0.0303) & $ \text{liza} \to \text{merkalova} $ (0.706) \\
+15 & $ \{ \text{bridal}, \text{lectern} \} $ (0.0281) & $ \text{marya} \to \text{nikolaevna} $ (0.673) \\
+\end{tabulary}
+\end{center}
+
+\end{frame}
+\begin{frame}
+\footnotesize
+\begin{center}
+\begin{tabulary}{\textwidth}{R|L}
+\# & mean-based cohesion (cohesion) \\
+\hline
+40 & $ \{ \text{ey},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0164) \\
+41 & $ \{ \text{feel},\allowbreak \text{ey},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0164) \\
+42 & $ \{ \text{feel},\allowbreak \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0161) \\
+43 & $ \{ \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand},\allowbreak \text{thought} \} $ (0.0161) \\
+44 & $ \{ \text{chapter},\allowbreak \text{ey},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.0161) \\
+45 & $ \{ \text{chapter},\allowbreak \text{felt},\allowbreak \text{feel},\allowbreak \text{time},\allowbreak \text{thought} \} $ (0.0161) \\
+46 & $ \{ \text{chapter},\allowbreak \text{face},\allowbreak \text{smile},\allowbreak \text{time},\allowbreak \text{hand} \} $ (0.016) \\
+47 & $ \{ \text{troth},\allowbreak \text{bridal} \} $ (0.016) \\
+48 & $ \{ \text{ey},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.016) \\
+49 & $ \{ \text{face},\allowbreak \text{smile},\allowbreak \text{hand} \} $ (0.0159) \\
+\end{tabulary}
+\end{center}
+
+\end{frame}
+\begin{frame}
+\footnotesize
+\begin{center}
+\begin{tabulary}{\textwidth}{R|L}
+\# & quantile-based cohesion (cohesion, support) \\
+\hline
+27 & $ \text{bridal} \to \text{pair} $ (0.5, 20) \\
+45 & $ \text{wag} \to \text{tail} $ (0.4, 20) \\
+46 & $ \text{unbutton} \to \text{waistcoat} $ (0.3, 20) \\
+62 & $ \text{lightn} \to \text{thunder} $ (0.364, 11) \\
+67 & $ \text{hall} \to \text{porter} $ (0.344, 128) \\
+91 & $ \text{hawk} \to \text{hover} $ (0.308, 13) \\
+84 & $ \text{district} \to \text{council} $ (0.325, 77) \\
+110 & $ \text{butter} \to \text{salt} $ (0.294, 17) \\
+116 & $ \text{lime} \to \text{tree} $ (0.282, 71) \\
+122 & $ \text{summer} \to \text{villa} $ (0.281, 64) \\
+131 & $ \text{carpent} \to \text{harrow} \to \text{repair} $ (0.25, 32) \\
+\end{tabulary}
+\end{center}
+
+\end{frame}
+\begin{frame}
+\frametitle{Performance: runtimes \emph{abstract}}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-parallel-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}%
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/nsf/nsf-serial-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\label{fig:runtimes-nsf-15}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+\frametitle{Performance: runtimes \emph{tolstoy}}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-parallel-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\end{subfigure}%
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=north west},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-fixed-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-minimal-windows-15.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/tolstoy/tolstoy-serial-weighted-windows-15.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\end{subfigure}
+
+\label{fig:runtimes-tolstoy-15}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+\frametitle{Performance: runtimes \emph{trains}}
+
+\begin{figure}
+
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{parallel episodes}
+\label{fig:runtimes-trains-900-parallel}
+\end{subfigure}%
+\begin{subfigure}[b]{0.5\textwidth}
+\centering
+
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={fixed windows,minimal windows,weighted windows},
+    legend style={legend pos=south east},
+    xlabel={number of frequent episodes},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-fixed-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-minimal-windows-900.tsv};
+\addplot table [x=num-frequent-episodes,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\caption{serial episodes}
+\label{fig:runtimes-trains-900-serial}
+\end{subfigure}
+
+\label{fig:runtimes-trains-900}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+
+\begin{figure}
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={parallel episodes,serial episodes},
+    legend style={legend pos=south west},
+    xlabel={frequency threshold},
+    ylabel={runtime (s)},
+    xmode=log,
+    ymode=log,
+    % x dir=reverse,
+]
+
+\addplot table [x=frequency-threshold,y=duration-s] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=frequency-threshold,y=duration-s] {experiments/trains/trains-serial-weighted-windows-900.tsv};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{Runtime as a function of the frequency threshold.}
+\label{fig:investigate-trains-runtimes-runtimes}
+\end{subfigure}%
+\hfill%
+\begin{subfigure}[t]{0.48\textwidth}
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
+    legend entries={1-episodes,2-episodes,3-episodes,4-episodes,5-episodes,6-episodes,7-episodes,8-episodes,9-episodes,10-episodes,11-episodes,12-episodes,13-episodes,14-episodes,15-episodes},
+    legend style={legend pos=north east,legend style={nodes={scale=0.75}}},
+    xlabel={frequency threshold},
+    ylabel={number of frequent $ l $-episodes},
+    xmode=log,
+    ymode=log,
+]
+
+\addplot table [x=frequency-threshold,y=num-frequent-1-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-2-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-3-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-4-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+\addplot table [x=frequency-threshold,y=num-frequent-5-episodes] {experiments/trains/trains-parallel-weighted-windows-900.tsv};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Number of frequent parallel $ l $-episodes as a function of the frequency threshold.}
+\label{fig:investigate-trains-runtimes-frequencies}
+\end{subfigure}
+\label{fig:investigate-trains-runtimes}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+\frametitle{Conclusion}
+
+\begin{itemize}
+\item<1-> Were able to find interesting patterns.
+\item<2-> All interestingness measures have advantages and disadvantages.
+\item<3-> Both frequency-based and cohesion-based frequency measures have their merit.
+\item<4-> More redundancy elimination would be welcome.
+\end{itemize}
 
 \end{frame}
 
