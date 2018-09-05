@@ -51,6 +51,8 @@
 \renewcommand{\rmdefault}{bch}
 \def\mytablesize{\small}
 
+\algnewcommand{\LineComment}[1]{\State \(/*\) #1 \(*/\)}
+
 \frenchspacing
 
 
@@ -315,24 +317,261 @@ labelled directed acyclic graph
 
 \end{frame}
 \begin{frame}
+\frametitle{High-level episode mining procedure}
+
+\begin{algorithmic}[1]
+
+\State $ \mathcal{C}_1 \gets \{ \langle A \rangle \mid A \in \Sigma \} $
+\State $ l \gets 1 $
+\While{$ \mathcal{C}_l \neq \emptyset $}
+    \LineComment{Database pass}
+    \State $ \mathcal{F}_l \gets \{ \alpha \in \mathcal{C}_l \mid fr_\Psi(\alpha, \boldsymbol{s}, \rho) \geq \text{min\_fr} \} $
+    \State $ l \gets l + 1 $
+    \LineComment{Candidate generation}
+    \State $ \mathcal{C}_l \gets \{ \alpha \mid | \alpha | = l \wedge \forall \beta \mid \beta \subset \alpha : fr_\Psi(\beta, \boldsymbol{s}, \rho) \geq \text{min\_fr} \} $
+\EndWhile
+\ForAll{$ i \mid | \mathcal{F}_i | > 0 $}
+    \State output $ \mathcal{F}_i $
+\EndFor
+
+\end{algorithmic}
+
+\end{frame}
+\begin{frame}
+% candidate generation figure
+
+\begin{center}
+\begin{tikzpicture}
+
+\newcommand{\sharedprefix}[1]{\ifcase####1 a\or a\or b\fi}
+
+\foreach \arrayindex [evaluate=\arrayindex as \leftx using int(\arrayindex-4),
+                      evaluate=\arrayindex as \rightx using (int(\arrayindex+1))] in {0,...,2}
+{
+    \node (n\arrayindex0) [arraycell,enoughdamnvspace] at (\leftx,0.75) {$ \sharedprefix{\arrayindex} $};
+    \node (n\arrayindex1) [arraycell,enoughdamnvspace] at (\leftx,-0.75) {$ \sharedprefix{\arrayindex} $};
+    \node (n\arrayindex2) [arraycell,enoughdamnvspace] at (\rightx,0) {$ \sharedprefix{\arrayindex} $};
+}
+
+\node (n30) [arraycell,enoughdamnvspace,color=OrangeRed] at (-1,0.75) {$ b $};
+\node (n31) [arraycell,enoughdamnvspace,color=MidnightBlue] at (-1,-0.75) {$ c $};
+
+\node (n32) [arraycell,enoughdamnvspace,color=OrangeRed] at (4,0) {$ b $};
+\node (n42) [arraycell,enoughdamnvspace,color=MidnightBlue] at (5,0) {$ c $};
+
+\draw [->] (n30.north) to [bend left=45] (n32.north);
+\draw [->] (n31.south) to [bend right=45] (n42.south);
+
+\draw [accolade] (n21.south east) -- node (acc1tip) [inner sep=0,midway,yshift=-10pt] {} (n01.south west);
+\draw [accolade] (n22.south east) -- node (acc2tip) [inner sep=0,midway,below,yshift=-10pt] {} (n02.south west);
+
+\draw [->] (acc1tip) to [bend right=45] (acc2tip);
+
+% \node [above=of n00] {first episode};
+% \node [below=of n01] {second episode};
+
+% \node [right=5pt of n42] {potential candidate};
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+% TODO introduce interestingness measures, frequency measures in particular, monotonicity and why necessary
+\begin{frame}
 \frametitle{Fixed-window frequency}
 
-Given window width $ \rho $, sequence $ \boldsymbol{s} $:
+The fixed-window frequency is defined as the number of fixed-width windows that cover $ \alpha $.
 \begin{align*}
-fr_f(\alpha, \boldsymbol{s}) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol{s}[t, t + \rho) \text{ covers } \alpha \} |
+fr_f(\alpha) = | \{ \boldsymbol{s}[t, t + \rho) \mid \boldsymbol{s}[t, t + \rho) \text{ covers } \alpha \} |
 \end{align*}
 
+for a given window width $ \rho $, sequence $ \boldsymbol{s} $.
+
+\end{frame}
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+
+\examplesequence
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+% windows
+
+\windowthingy{(-7,-5pt)}{8}
+\windowthingy{(-6.5,-10pt)}{8}
+\windowthingy{(-6,-15pt)}{8}
+\windowthingy{(-5.5,-20pt)}{8}
+\windowthingy{(-5,-25pt)}{8}
+\windowthingy{(-4.5,-30pt)}{8}
+
+\windowthingy{(0.5,-5pt)}{8}
+\windowthingy{(1,-10pt)}{8}
+\windowthingy{(1.5,-15pt)}{8}
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}
+episode $ \{a, a, b \} $
+\begin{center}
+\footnotesize
+\begin{tikzpicture}[scale=0.6]
+
+\def\slidingwindowheight{0.5}
+\def\interdotdistance{0.6}
+
+\newcommand\letteratposition[1]
+{\ifnum####1=1a\else\ifnum####1=3b\else\ifnum####1=6a\else\ifnum####1=7a\else0\fi\fi\fi\fi}
+
+\newcommand\slidingwindowthingy[2]
+{
+    \foreach \i [evaluate=\i as \x using \i * \interdotdistance] in {0,...,8}
+    {
+        \ifnum\pdfstrcmp{\letteratposition{\i}}{0}=0
+            \fill (\x,####1) circle [color=black,radius=2pt] node (n####2-\i) {};
+        \else
+            \draw (\x,####1) node [enoughdamnvspace] (n####2-\i) {$ \letteratposition{\i} $};
+        \fi
+    }
+
+    \node (dr####2) [right=10pt of n####2-8] {$ \cdots $};
+    \node (dl####2) [left=10pt of n####2-0] {$ \cdots $};
+}
+
+\slidingwindowthingy{0}{0}
+\draw (-0.5*\interdotdistance,-0.5*\slidingwindowheight) -- ++(2*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-2*\interdotdistance,0);
+\node (Acount) [right=1em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ a \text{.count} $};
+\node (Bcount) [right=2.5em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ b \text{.count} $};
+\node (alphaeventcount) [right=4em of dr0,rotate=90,anchor=west,xshift=0.6cm] {$ \alpha \text{.event\_count} $};
+
+\node at (Acount |- dr0) {1};
+\node at (Bcount |- dr0) {0};
+\node at (alphaeventcount |- dr0) {0};
+
+\slidingwindowthingy{-1}{1}
+\draw (-0.5*\interdotdistance,-1-0.5*\slidingwindowheight) -- ++(4*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-4*\interdotdistance,0);
+\node at (Acount |- dr1) {1};
+\node at (Bcount |- dr1) {1};
+\node at (alphaeventcount |- dr1) {1};
+
+\slidingwindowthingy{-3}{2}
+\draw (-0.5*\interdotdistance,-3-0.5*\slidingwindowheight) rectangle ++(7*\interdotdistance,\slidingwindowheight);
+\node at (Acount |- dr2) {2};
+\node at (Bcount |- dr2) {1};
+\node at (alphaeventcount |- dr2) {3};
+% \node [right=5.5em of dr2,align=left] {$ \alpha \text{.event\_count} = | \alpha | $\\$ \Rightarrow \alpha $ recognized};
+\node (inwindowtxt) [above=0.4cm of n2-0,align=center] {save location};
+\draw [->] (inwindowtxt) -- (n2-0);
+
+\slidingwindowthingy{-4}{3}
+\draw (0.5*\interdotdistance,-4-0.5*\slidingwindowheight) rectangle ++(7*\interdotdistance,\slidingwindowheight);
+\node at (Acount |- dr3) {3};
+\node at (Bcount |- dr3) {1};
+\node at (alphaeventcount |- dr3) {3};
+
+\slidingwindowthingy{-5}{5};
+\draw (8.5*\interdotdistance,-5-0.5*\slidingwindowheight) -- ++(-5*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(5*\interdotdistance,0);
+\node at (Acount |- dr5) {2};
+\node at (Bcount |- dr5) {0};
+\node at (alphaeventcount |- dr5) {2};
+% \node [right=5.5em of dr5,align=left] {$ \alpha \text{.event\_count} < | \alpha | $\\$ \Rightarrow \alpha $ not in window,\\determine no. windows};
+
+\draw (n5-0.south) -- ++(0,-6pt) -- node (numwindowsindicator) [midway,below,align=center] {displacement} ++(4*\interdotdistance,0) -- ++(n5-4);
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+\begin{frame}
+episode $ b \to a \to c $
+\begin{center}
+\footnotesize
+\begin{tikzpicture}[scale=0.6]
+
+\def\slidingwindowheight{0.5}
+\def\interdotdistance{0.6}
+
+\newcommand\letteratposition[1]
+{\ifnum####1=2b\else\ifnum####1=5a\else\ifnum####1=7c\else0\fi\fi\fi}
+
+\newcommand\slidingwindowthingy[2]
+{
+    \foreach \i [evaluate=\i as \x using \i * \interdotdistance] in {0,...,9}
+    {
+        \ifnum\pdfstrcmp{\letteratposition{\i}}{0}=0
+            \fill (\x,####1) circle [color=black,radius=2pt] node (n####2-\i) {};
+        \else
+            \draw (\x,####1) node [enoughdamnvspace] (n####2-\i) {$ \letteratposition{\i} $};
+        \fi
+    }
+
+    \node (dr####2) [right=10pt of n####2-9] {$ \cdots $};
+    \node (dl####2) [left=10pt of n####2-0] {$ \cdots $};
+}
+
+\slidingwindowthingy{0}{0}
+\draw (-0.5*\interdotdistance,-0.5*\slidingwindowheight) -- ++(3*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-3*\interdotdistance,0);
+% \node [right=10pt of dr0,align=left] {encountered $ b $;\\initialize new automaton,\\wait for a};
+\node (initializedtxt) [below=0.35cm of n0-2,align=center] {first event of possible occurrence};
+\draw [->] (initializedtxt) -- (n0-2);
+
+\slidingwindowthingy{-2.5}{1}
+\draw (-0.5*\interdotdistance,-2.5-0.5*\slidingwindowheight) -- ++(6*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-6*\interdotdistance,0);
+% \node [right=10pt of dr1,align=left] {encountered $ a $;\\advance automaton to state 2,\\wait for c};
+
+\slidingwindowthingy{-5}{2}
+\draw (-0.5*\interdotdistance,-5-0.5*\slidingwindowheight) rectangle ++(8*\interdotdistance,\slidingwindowheight);
+% \node [right=10pt of dr2,align=left] {encountered $ c $;\\advance automaton to state 3,\\episode successfully recognized};
+\node (marktxt) [above=0.35cm of n2-0,align=center,xshift=6pt] {save location};
+\draw [->] (n2-0 |- marktxt.south) -- (n2-0);
+
+\slidingwindowthingy{-7}{3}
+\draw ({(9.5)*\interdotdistance},-7-0.5*\slidingwindowheight) -- ++(-7*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(7*\interdotdistance,0);
+% \node [right=10pt of dr3,align=left] {occurrence no longer in window;\\determine number of windows\\which contained occurrence};
+
+\draw (n3-0.south) -- ++(0,-6pt) -- node (numwindowsindicator) [midway,below,align=center] {displacement} ++(3*\interdotdistance,0) -- (n3-3.south);
+
+\end{tikzpicture}
+\end{center}
 \end{frame}
 \begin{frame}
 \frametitle{Minimal windows}
 
-$ [a, b) $ minnimal window of $ \alpha $ if
+$ [a, b) $ minimal window of $ \alpha $ if
 \begin{itemize}
 \item $ b - a \leq \rho $ for some $ \rho $
+\item $ \boldsymbol{s}[a, b) \text{ covers } \alpha $
 \item $ \nexists [c, d) \subset [a, b) : \boldsymbol{s} \text{ covers } \alpha $
 \end{itemize}
 
 \end{frame}
+% TODO include this? maybe better show that minimal windows can overlap
+\iffalse
 \begin{frame}
 
 \begin{center}
@@ -340,12 +579,6 @@ $ [a, b) $ minnimal window of $ \alpha $ if
 
 \sequencetickmarks{8}{-5.5}{0}
 \sequenceeventtypes{-5.5}{1em}{30}{32/c,33/f,34/b,35/b}
-
-% \foreach \x [evaluate=\x as \timestamp using int((\x*2)+41)] in {-5.5,-5,...,-1.5}
-%     \node (t\timestamp) [inner sep=0] at (\x,1.8em) {};
-
-%% draw occurrence proofs again
-% serial episode
 
 \node (serC) at (-4.75,2.5) [smallnode,label={$ c $}] {};
 \node (serF) at (-3.75,2.5) [smallnode,label={$ f $}] {};
@@ -389,6 +622,307 @@ $ [a, b) $ minnimal window of $ \alpha $ if
 
 \end{tikzpicture}
 \end{center}
+
+\end{frame}
+\fi
+\begin{frame}
+episode $ \{ a, a, b \} $
+\begin{center}
+\footnotesize
+\begin{tikzpicture}[scale=0.6]
+
+\def\slidingwindowheight{0.5}
+\def\interdotdistance{0.6}
+
+\newcommand\letteratposition[1]
+{\ifnum####1=2a\else\ifnum####1=3b\else\ifnum####1=5a\else\ifnum####1=7a\else0\fi\fi\fi\fi}
+
+\newcommand\slidingwindowthingy[2]
+{
+    \foreach \i [evaluate=\i as \x using \i * \interdotdistance] in {0,...,7}
+    {
+        \ifnum\pdfstrcmp{\letteratposition{\i}}{0}=0
+            \fill (\x,####1) circle [color=black,radius=2pt] node (n####2-\i) {};
+        \else
+            \draw (\x,####1) node [enoughdamnvspace, inner sep=1pt] (n####2-\i) {$ \letteratposition{\i} $};
+        \fi
+    }
+
+    \node (dr####2) [right=7pt of n####2-7] {$ \cdots $};
+}
+
+\slidingwindowthingy{0}{0}
+\draw (-0.5*\interdotdistance,-0.5*\slidingwindowheight) -- ++(2*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-2*\interdotdistance,0);
+\node (Qa) [right=1.5em of dr0,rotate=90,anchor=west,xshift=0.2cm] {$ Q(a) $};
+\node (Qb) [right=4em of dr0,rotate=90,anchor=west,xshift=0.2cm] {$ Q(b) $};
+\node (maxconsidera) [right=6em of dr0,rotate=90,anchor=west,xshift=0.2cm] {$ \text{maxcder}(\alpha, a) $};
+\node (maxconsiderb) [right=7.5em of dr0,rotate=90,anchor=west,xshift=0.2cm] {$ \text{maxcder}(\alpha, b) $};
+
+\node at (Qa |- dr0) {$ \langle \; \rangle $};
+\node at (Qb |- dr0) {$ \langle \; \rangle $};
+\node at (maxconsidera |- dr0) {$ 0 $};
+\node at (maxconsiderb |- dr0) {$ 0 $};
+
+\node at (n0-0 |- {(0,0.75)}) {\footnotesize $ 1 $};
+\node at (n0-2 |- {(0,0.75)}) {\footnotesize $ 3 $};
+\node at (n0-4 |- {(0,0.75)}) {\footnotesize $ 5 $};
+\node at (n0-6 |- {(0,0.75)}) {\footnotesize $ 7 $};
+
+\slidingwindowthingy{-1}{1}
+\draw (-0.5*\interdotdistance,-1-0.5*\slidingwindowheight) -- ++(3*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-3*\interdotdistance,0);
+
+\node at (Qa |- dr1) {$ \langle 3 \rangle $};
+\node at (Qb |- dr1) {$ \langle \; \rangle $};
+\node at (maxconsidera |- dr1) {$ 1 $};
+\node at (maxconsiderb |- dr1) {$ 0 $};
+
+\slidingwindowthingy{-2}{2}
+\draw (-0.5*\interdotdistance,-2-0.5*\slidingwindowheight) -- ++(4*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(-4*\interdotdistance,0);
+
+\node at (Qa |- dr2) {$ \langle 3 \rangle $};
+\node at (Qb |- dr2) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr2) {$ 1 $};
+\node at (maxconsiderb |- dr2) {$ 1 $};
+
+\slidingwindowthingy{-3}{3}
+\draw (-0.5*\interdotdistance,-3-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr3) {$ \langle 3, 6 \rangle $};
+\node at (Qb |- dr3) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr3) {$ 2 $};
+\node at (maxconsiderb |- dr3) {$ 1 $};
+
+% \node [right=9em of dr3,align=left] {enough events in window\\and in consideration;\\minimal window found};
+
+\draw ({(1.5*\interdotdistance,0)} |- n3-2.south) -- ++(0,-6pt) -- node (numwindowsindicator) [near start,below right,align=left] {determine minimal window} ++(4*\interdotdistance,0) -- ++(0,6pt);
+
+\slidingwindowthingy{-5}{4}
+\draw (0.5*\interdotdistance,-5-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr4) {$ \langle 3, 6 \rangle $};
+\node at (Qb |- dr4) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr4) {$ 1 $};
+\node at (maxconsiderb |- dr4) {$ 1 $};
+
+% \node [right=9em of dr4,align=left] {previous occurrence still in\\window, but first $ a $ out of \\ consideration};
+
+\slidingwindowthingy{-6}{5}
+\draw (1.5*\interdotdistance,-6-0.5*\slidingwindowheight) rectangle ++(6*\interdotdistance,\slidingwindowheight);
+
+\node at (Qa |- dr5) {$ \langle 3, 6, 8 \rangle $};
+\node at (Qb |- dr5) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr5) {$ 2 $};
+\node at (maxconsiderb |- dr5) {$ 1 $};
+
+% \node [right=9em of dr5,align=left] {new $ a $ entered; \\ another minimal window \\ found};
+
+\draw ({(2.5*\interdotdistance,0)} |- n5-3.south) -- ++(0,-6pt) -- ++(5*\interdotdistance,0) -- ++(0,6pt);
+
+\slidingwindowthingy{-7}{6}
+\draw (7.5*\interdotdistance,-7-0.5*\slidingwindowheight) -- ++(-5*\interdotdistance,0) -- ++(0,\slidingwindowheight) -- ++(5*\interdotdistance,0);
+
+\node at (Qa |- dr6) {$ \langle 6, 8 \rangle $};
+\node at (Qb |- dr6) {$ \langle 4 \rangle $};
+\node at (maxconsidera |- dr6) {$ 2 $};
+\node at (maxconsiderb |- dr6) {$ 0 $};
+
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+\begin{frame}
+\frametitle{Minimal-window frequency?}
+
+$ fr_m(\alpha) = | mw(\alpha) | $ ?
+\pause
+\par\bigskip
+Not monotonic!
+
+\begin{center}
+\begin{tikzpicture}
+\sequencetickmarks{6}{0}{0}
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/c,5/b,6/c}
+\node at (-1,0.5em) [anchor=east] {$ a \to b \to c $};
+\windowthingy{(0,-10pt)}{4}
+\windowthingy{(1,-15pt)}{4}
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\begin{tikzpicture}
+\sequencetickmarks{6}{0}{0}
+\sequenceeventtypes{0}{1em}{1}{1/a,2/b,3/a,4/c,5/b,6/c}
+\node at (-1,0.5em) [anchor=east] {$ a \to c $};
+\windowthingy{(1,-10pt)}{2}
+\end{tikzpicture}
+\end{center}
+% TODO maybe fix horizontal alignment of both pics (combine into one?)
+
+\end{frame}
+\begin{frame}
+\frametitle{Disjoint-window frequency}
+
+% Given window width $ \rho $, sequence $ \boldsymbol{s} $:
+% \begin{align*}
+% fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge \forall ([a, b), [c, d)) \in W \times W \mid [a, b) \neq [c, d) : [a, b) \cup [c, d) = \emptyset \}
+% \end{align*}
+The disjoint-window frequency is defined as the maximal number of non-overlapping minimal windows.
+
+\begin{align*}
+fr_m(\alpha) = \max\{ | W | \mid W \subseteq mw(\alpha) \wedge dis(W) \}
+\end{align*}
+
+\end{frame}
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+
+\examplesequence
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+% windows
+
+\windowthingy{(-4.5,-10pt)}{3}
+
+\windowthingy{(1.5,-10pt)}{6}
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Weighted-window frequency}
+
+The weighted-window frequency is defined as the sum of weights of the set of windows that maximizes this sum.
+
+\begin{align*}
+fr_w(\alpha) = \max \left\{ \sum_{[a, b) \in W}{\frac{1}{b - a}} \,\middle\vert\, W \subseteq mw(\alpha) \wedge dis(W) \right \}
+\end{align*}
+
+\end{frame}
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+
+\examplesequence
+
+%% draw occurrence proofs again
+% serial episode
+
+\node (serC) at (-5,2.5) [smallnode,label={$ c $}] {};
+\node (serF) at (-4,2.5) [smallnode,label={$ f $}] {};
+\node (serB) at (-3,2.5) [smallnode,label={$ b $}] {};
+
+\draw [->,very thick] (serC) -- (serF);
+\draw [->,very thick] (serF) -- (serB);
+
+\draw [->] ([yshift=-3pt]serC.south) .. controls +(0,-1) and +(0,1) .. (t32);
+\draw [->] ([yshift=-3pt]serF.south) .. controls +(0,-1) and +(0,1) .. (t33);
+\draw [->] ([yshift=-3pt]serB.south) .. controls +(0,-1) and +(0,1) .. (t34);
+
+% parallel episode
+
+\node (parB) at (3,2.6) [smallnode,label={$ b $}] {};
+\node (parE1) at (2,1.8) [smallnode,label={$ e $}] {};
+\node (parE2) at (4.5,2.4) [smallnode,label={$ e $}] {};
+\node (parC) at (3.5,2) [smallnode,label={$ c $}] {};
+
+\draw [->] ([yshift=-3pt]parB.south) .. controls +(0,-1) and +(0,1) .. (t44);
+\draw [->] ([yshift=-3pt]parE1.south) .. controls +(0,-0.5) and +(0,0.5) .. (t46);
+\draw [->] ([yshift=-3pt]parE2.south) .. controls +(0,-1) and +(0,1) .. (t48);
+\draw [->] ([yshift=-3pt]parC.south) .. controls +(0,-0.5) and +(0,0.5) .. (t49);
+
+% windows
+
+\draw [thick] (-4.5,-7pt) -- ++(0,-3pt) -- ++(1.5,0) node [midway,below] {$ \dfrac13 $} -- ++(0,3pt);
+
+\draw [thick] (1.5,-7pt) -- ++(0,-3pt) -- ++(3,0) node [midway,below] {$ \dfrac16 $} -- ++(0,3pt);
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Association rules}
+
+Given episodes $ \alpha \subset \beta $, we can express association rule $ \alpha \Rightarrow \beta $.
+\par\bigskip
+Confidence $ c(\alpha \Rightarrow \beta) $ expresses likelihood of finding $ \beta $, given occurrence of $ \alpha $.
+
+\end{frame}
+\begin{frame}
+\frametitle{Fixed-window confidence}
+
+\begin{align*}
+c_f(\alpha \Rightarrow \beta) = \frac{ fr_f(\beta) }{ fr_f(\alpha) }
+\end{align*}
+
+Expresses the probability of $ \beta $ occurring in a window which covers $ \alpha $.
+
+\end{frame}
+\begin{frame}
+\frametitle{Minimal-window confidence?}
+
+Naive approach, analogous to fixed-window confidence:
+\begin{align*}
+c_m(\alpha \Rightarrow \beta) = \frac{| fr_m(\beta) |}{| fr_m(\alpha) |}
+\end{align*}
+\pause
+\par\bigskip
+But then\begin{align*}c_m(\{ a \} \Rightarrow \{ a, a \}) \leq \frac12 \end{align*}
+
+\end{frame}
+\begin{frame}
+\frametitle{Minimal-window confidence}
+
+The minimal-window confidence is defined as the percentage of minimal windows that are contained within a minimal window of $ \beta $.
+
+\begin{align*}
+ext_m(\boldsymbol{s}[a, b), \alpha, \beta) =
+\begin{cases}
+    1 & \text{ if } \exists [c, d) \in mw(\beta) \mid [a, b) \subset [c, d) \\
+    0 & \text{ otherwise}
+\end{cases}
+\end{align*}
+\begin{align*}
+c_m(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_m(w, \alpha, \beta)}{| mw(\alpha) |}
+\end{align*}
+
+\end{frame}
+\begin{frame}
+\frametitle{Weighted-window confidence}
+
+Assume $ \exists \boldsymbol{s}[c, d) \in mw(\beta) \mid [a, b) \subset [c, d) $, and that $ [c, d) $ is the smallest window that contains $ s[a, b) $, then we define the \emph{weighted-extensibility} of occurrence $ \boldsymbol{s}[a, b) $ of $ \alpha $ into an occurrence of $ \beta $ as
+\begin{align*}
+ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = \frac{b - a}{d - c}
+\end{align*}
+If there exists no such minimal window of $ \beta $, we define $ ext_w(\boldsymbol{s}[a, b), \alpha, \beta) = 0 $.
+
+\begin{align*}
+c_w(\alpha \Rightarrow \beta) = \frac{\sum_{w \in mw(\alpha)} ext_w(w, \alpha, \beta)}{| mw(\alpha) |}
+\end{align*}
 
 \end{frame}
 
